@@ -4,7 +4,7 @@
 	<groupId>org.walkmod</groupId>
 	<artifactId>javalang</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<description>Java 7 parser library of walkmod</description>
+	<description>Java 7 parser library</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
@@ -61,4 +61,21 @@
 			</dependencies>
 		</profile>
 	</profiles>
+	<name>javalang</name>
+	<scm>
+		<url>https://github.com/rpau/javalang</url>
+		<connection>https://github.com/rpau/javalang.git</connection>
+	</scm>
+	<developers>
+		<developer>
+			<id>rpau</id>
+			<name>rpau</name>
+			<email>raquelpau@gmail.com</email>
+		</developer>
+		<developer>
+			<id>acoroleu</id>
+			<name>acoroleu</name>
+			<email>acoroleu@gmail.com</email>
+		</developer>
+	</developers>
 </project>
