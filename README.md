@@ -1,4 +1,4 @@
-javalang (build 4 walkmod)
+javalang (built 4 walkmod)
 ==========================
 
 Java 7 parser and Abstract Syntax Tree.
@@ -23,5 +23,5 @@ This parser is based on Sreenivasa Viswanadha's Java 1.5 parser.
 
 The project was originally hosted at http://code.google.com/p/javaparser/ but 
 seemed dead. This repository adds powerful parsing functionalities for http://www.walkmod.com/ such 
-as AST merging support or Javadoc parsing.
+as AST merge support or Javadoc parsing.
 
