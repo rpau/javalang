@@ -53,7 +53,6 @@ import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
-import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.QualifiedNameExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
@@ -63,10 +62,10 @@ import org.walkmod.javalang.ast.stmt.ExpressionStmt;
 import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
+import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.ast.type.ReferenceType;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.ast.type.VoidType;
-import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.comparators.AnnotationExprComparator;
 import org.walkmod.javalang.comparators.AnnotationMemberDeclarationComparator;
 import org.walkmod.javalang.comparators.EnumConstantComparator;
@@ -74,12 +73,10 @@ import org.walkmod.javalang.comparators.FieldDeclarationComparator;
 import org.walkmod.javalang.comparators.MethodDeclarationComparator;
 import org.walkmod.javalang.comparators.TypeDeclarationComparator;
 import org.walkmod.javalang.tags.TagsParser;
-
 import org.walkmod.merger.CollectionUtil;
 
 public class ASTManager {
 
-	private static NormalAnnotationExpr generatedAnnotation;
 
 	public static final PrimitiveType BYTE_TYPE = new PrimitiveType(
 			Primitive.Byte);
@@ -115,8 +112,6 @@ public class ASTManager {
 				"org.walkmod")));
 		pairs.add(new MemberValuePair("date", new StringLiteralExpr(DateFormat
 				.getDateTimeInstance().format(new Date()))));
-		generatedAnnotation = new NormalAnnotationExpr(
-				createNameExpr("javax.annotation.Generated"), pairs);
 	}
 
 	public static Expression parse(String expression) throws ParseException {
@@ -153,6 +148,19 @@ public class ASTManager {
 			throws ParseException, IOException {
 		Reader reader = new InputStreamReader(new FileInputStream(file),
 				encoding);
+		ASTParser astParser = new ASTParser(reader);
+		astParser.jj_input_stream.setTabSize(1);
+		CompilationUnit cu = null;
+		try {
+			cu = (CompilationUnit) astParser.CompilationUnit();
+		} finally {
+			reader.close();
+		}
+		return cu;
+	}
+	
+	public static CompilationUnit parse(Reader reader)
+			throws ParseException, IOException {	
 		ASTParser astParser = new ASTParser(reader);
 		astParser.jj_input_stream.setTabSize(1);
 		CompilationUnit cu = null;
@@ -267,9 +275,7 @@ public class ASTManager {
 		return md;
 	}
 
-	public static NormalAnnotationExpr getGeneratedAnnotation() {
-		return generatedAnnotation;
-	}
+	
 
 	public static ConstructorDeclaration createConstructorWithFields(
 			EnumDeclaration enumeration) {
@@ -338,12 +344,6 @@ public class ASTManager {
 			MethodDeclaration md = it.next();
 			MethodDeclaration md2 = getCurrentMethodDeclaration(td, md);
 			if (md2 == null) {
-				List<AnnotationExpr> ann = md.getAnnotations();
-				if (ann == null) {
-					ann = new LinkedList<AnnotationExpr>();
-				}
-				ann.add(generatedAnnotation);
-				md.setAnnotations(ann);
 				result.add(md);
 			}
 		}
@@ -358,13 +358,7 @@ public class ASTManager {
 		while (it.hasNext()) {
 			FieldDeclaration fd = it.next();
 			FieldDeclaration fd2 = getCurrentFieldDeclaration(td, fd);
-			if (fd2 == null) {
-				List<AnnotationExpr> ann = fd.getAnnotations();
-				if (ann == null) {
-					ann = new LinkedList<AnnotationExpr>();
-				}
-				ann.add(generatedAnnotation);
-				fd.setAnnotations(ann);
+			if (fd2 == null) {				
 				result.add(fd);
 			}
 		}
@@ -455,22 +449,7 @@ public class ASTManager {
 				constant, cmp);
 	}
 
-	public static Collection<AnnotationMemberDeclaration> getModifiedAnnotationMembers(
-			AnnotationDeclaration ad,
-			Collection<AnnotationMemberDeclaration> members) {
-		Collection<AnnotationMemberDeclaration> result = new LinkedList<AnnotationMemberDeclaration>();
-		Collection<AnnotationMemberDeclaration> annotatedMembers = getAnnotatedAnnotationMembers(
-				generatedAnnotation, ad);
-		Iterator<AnnotationMemberDeclaration> it = annotatedMembers.iterator();
-		AnnotationMemberDeclarationComparator amc = new AnnotationMemberDeclarationComparator();
-		while (it.hasNext()) {
-			AnnotationMemberDeclaration current = it.next();
-			if (CollectionUtil.findObject(members, current, amc) != null) {
-				result.add(current);
-			}
-		}
-		return result;
-	}
+	
 
 	public static void addAllMethodDeclarations(TypeDeclaration td,
 			Collection<MethodDeclaration> methods) {
@@ -485,12 +464,6 @@ public class ASTManager {
 			MethodDeclaration method) {
 		MethodDeclaration md = getCurrentMethodDeclaration(td, method);
 		if (md == null) {
-			List<AnnotationExpr> ann = method.getAnnotations();
-			if (ann == null) {
-				ann = new LinkedList<AnnotationExpr>();
-			}
-			ann.add(generatedAnnotation);
-			method.setAnnotations(ann);
 			addMember(td, method);
 		}
 	}
@@ -498,13 +471,7 @@ public class ASTManager {
 	public static boolean addFieldDeclaration(TypeDeclaration td,
 			FieldDeclaration field) {
 		FieldDeclaration fd = getCurrentFieldDeclaration(td, field);
-		if (fd == null) {
-			List<AnnotationExpr> ann = field.getAnnotations();
-			if (ann == null) {
-				ann = new LinkedList<AnnotationExpr>();
-			}
-			ann.add(generatedAnnotation);
-			field.setAnnotations(ann);
+		if (fd == null) {			
 			addMember(td, field);
 			return true;
 		}
@@ -539,39 +506,7 @@ public class ASTManager {
 		addMethodDeclaration(td, mtd);
 	}
 
-	public static Collection<FieldDeclaration> getModifiedFields(
-			TypeDeclaration td, Collection<FieldDeclaration> fields) {
-		Collection<FieldDeclaration> result = new LinkedList<FieldDeclaration>();
-		Collection<FieldDeclaration> annotatedFields = getAnnotatedFields(
-				generatedAnnotation, td);
-		Iterator<FieldDeclaration> it = annotatedFields.iterator();
-		FieldDeclarationComparator fdc = new FieldDeclarationComparator();
-		while (it.hasNext()) {
-			FieldDeclaration current = it.next();
-			if (CollectionUtil.findObject(fields, current, fdc) != null) {
-				result.add(current);
-			}
-		}
-		return result;
-	}
 
-	public static Collection<EnumConstantDeclaration> getModifiedEnumConstants(
-			EnumDeclaration enumeration,
-			Collection<EnumConstantDeclaration> enumConstants) {
-		Collection<EnumConstantDeclaration> result = new LinkedList<EnumConstantDeclaration>();
-		Collection<EnumConstantDeclaration> annotatedEnumConstants = getAnnotatedEnumConstants(
-				generatedAnnotation, enumeration);
-		Iterator<EnumConstantDeclaration> it = annotatedEnumConstants
-				.iterator();
-		EnumConstantComparator cmp = new EnumConstantComparator();
-		while (it.hasNext()) {
-			EnumConstantDeclaration current = it.next();
-			if (CollectionUtil.findObject(enumConstants, current, cmp) != null) {
-				result.add(current);
-			}
-		}
-		return result;
-	}
 
 	public static Collection<EnumConstantDeclaration> getAnnotatedEnumConstants(
 			AnnotationExpr annotation, EnumDeclaration enumeration) {
@@ -611,21 +546,6 @@ public class ASTManager {
 		return result;
 	}
 
-	public static Collection<MethodDeclaration> getModifiedMethods(
-			TypeDeclaration td, Collection<MethodDeclaration> methods) {
-		Collection<MethodDeclaration> result = new LinkedList<MethodDeclaration>();
-		Collection<MethodDeclaration> annotatedMethods = getAnnotatedMethods(
-				generatedAnnotation, td);
-		Iterator<MethodDeclaration> it = annotatedMethods.iterator();
-		MethodDeclarationComparator cmp = new MethodDeclarationComparator();
-		while (it.hasNext()) {
-			MethodDeclaration current = it.next();
-			if (CollectionUtil.findObject(methods, current, cmp) != null) {
-				result.add(current);
-			}
-		}
-		return result;
-	}
 
 	public static Collection<MethodDeclaration> getAnnotatedMethods(
 			AnnotationExpr annotation, TypeDeclaration td) {

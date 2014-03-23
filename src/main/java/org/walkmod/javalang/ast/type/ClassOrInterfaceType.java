@@ -15,15 +15,19 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.Comparator;
 import java.util.List;
 
+import org.walkmod.javalang.comparators.ClassOrInterfaceTypeComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
+import org.walkmod.merger.IdentificableNode;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public final class ClassOrInterfaceType extends Type {
+public final class ClassOrInterfaceType extends Type implements
+IdentificableNode{
 
 	private ClassOrInterfaceType scope;
 
@@ -85,4 +89,11 @@ public final class ClassOrInterfaceType extends Type {
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
 	}
+
+	@Override
+	public Comparator<?> getIdentityComparator() {
+		return new ClassOrInterfaceTypeComparator();
+	}
+
+	
 }
