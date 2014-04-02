@@ -46,33 +46,42 @@ public class FieldDeclarationPolicy extends AppendMergePolicy<FieldDeclaration> 
 
 	private List<FieldDeclaration> split(FieldDeclaration fieldDeclaration) {
 		List<FieldDeclaration> res = new LinkedList<FieldDeclaration>();
-		for (VariableDeclarator vd : fieldDeclaration.getVariables()) {
-			FieldDeclaration fd = new FieldDeclaration();
-			fd.setAnnotations(fieldDeclaration.getAnnotations());
-			fd.setJavaDoc(fieldDeclaration.getJavaDoc());
-			fd.setModifiers(fieldDeclaration.getModifiers());
-			fd.setType(fieldDeclaration.getType());
-			List<VariableDeclarator> vdList = new LinkedList<VariableDeclarator>();
-			vdList.add(vd);
-			fd.setVariables(vdList);
-			res.add(fd);
+		if (fieldDeclaration.getVariables().size() > 1) {
+			for (VariableDeclarator vd : fieldDeclaration.getVariables()) {
+				FieldDeclaration fd = new FieldDeclaration();
+				fd.setAnnotations(fieldDeclaration.getAnnotations());
+				fd.setJavaDoc(fieldDeclaration.getJavaDoc());
+				fd.setModifiers(fieldDeclaration.getModifiers());
+				fd.setType(fieldDeclaration.getType());
+				fd.setBeginLine(fieldDeclaration.getBeginLine());
+				fd.setBeginColumn(fieldDeclaration.getBeginColumn());
+				fd.setEndColumn(vd.getEndColumn());
+				fd.setEndLine(vd.getEndLine());
+				List<VariableDeclarator> vdList = new LinkedList<VariableDeclarator>();
+				vdList.add(vd);
+				fd.setVariables(vdList);
+				res.add(fd);
+			}
+		} else {
+			res.add(fieldDeclaration);
 		}
 		return res;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public void apply(List<FieldDeclaration> localList, List<FieldDeclaration> remoteList,
-		
-			@SuppressWarnings("rawtypes") List resultList){
-	
+	public void apply(List<FieldDeclaration> localList,
+			List<FieldDeclaration> remoteList,
+
+			@SuppressWarnings("rawtypes") List resultList) {
+
 		List<FieldDeclaration> localFields = new LinkedList<FieldDeclaration>();
 		if (localList != null) {
 			for (FieldDeclaration localField : localList) {
 				localFields.addAll(split(localField));
 			}
 		}
-		
+
 		List<FieldDeclaration> remoteFields = new LinkedList<FieldDeclaration>();
 		if (remoteList != null) {
 			for (FieldDeclaration remoteField : remoteList) {
