@@ -16,9 +16,10 @@
 package org.walkmod.javalang.ast;
 
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.walkmod.javalang.ASTManager;
+import org.walkmod.javalang.JavadocManager;
 import org.walkmod.javalang.ast.body.JavadocTag;
 
 public class JavadocTest {
@@ -26,14 +27,14 @@ public class JavadocTest {
 	@Test
 	public void testSingleTag() throws Exception {
 		String javadoc = "@author walkmod";
-		List<JavadocTag> tags = ASTManager.getTags(javadoc);
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
 		Assert.assertTrue(!tags.isEmpty());
 	}
 
 	@Test
 	public void testMultipleTag() throws Exception {
 		String javadoc = "@author <a href=\"mailto:benito@mail.com\">walkmod</a> \n @version 1.5 ";
-		List<JavadocTag> tags = ASTManager.getTags(javadoc);
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
 		Assert.assertTrue(tags.size() == 2);
 		JavadocTag jt = tags.get(0);
 		Assert.assertEquals("@author", jt.getName());
@@ -51,7 +52,7 @@ public class JavadocTest {
 	@Test
 	public void testSpecificBlockTags() throws Exception {
 		String javadoc = "@param  fooParam  my param description";
-		List<JavadocTag> tags = ASTManager.getTags(javadoc);
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
 		Assert.assertTrue(tags.size() == 1);
 		JavadocTag jt = tags.get(0);
 		Assert.assertEquals("@param", jt.getName());
@@ -60,7 +61,7 @@ public class JavadocTest {
 		Assert.assertEquals("fooParam", jt.getValues().get(0));
 		Assert.assertEquals("my param description", jt.getValues().get(1));
 		javadoc = "@param  fooParam";
-		tags = ASTManager.getTags(javadoc);
+		tags = JavadocManager.parse(javadoc);
 		Assert.assertTrue(tags.size() == 1);
 		jt = tags.get(0);
 		Assert.assertEquals("@param", jt.getName());
@@ -72,7 +73,7 @@ public class JavadocTest {
 	@Test
 	public void testInlineTags() throws Exception {
 		String javadoc = "Use the {@link #getComponentAt(int, int) getComponentAt} method.";
-		List<JavadocTag> tags = ASTManager.getTags(javadoc);
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
 		Assert.assertTrue(tags.size() == 1);
 		JavadocTag jt = tags.get(0);
 		Assert.assertEquals("@link", jt.getName());

@@ -190,4 +190,72 @@ public abstract class Node implements Serializable {
 	public boolean equals(Object obj) {
 		return EqualsVisitor.equals(this, (Node) obj);
 	}
+
+	/**
+	 * Return if the node has not been retrieved from any input because its end
+	 * column and begin line is 0.
+	 * 
+	 * @return if it is a new node.
+	 */
+	public boolean isNewNode() {
+		return (0 == getEndColumn()) && (getBeginLine() == 0);
+	}
+
+	/**
+	 * Return if this node contains another node according their line numbers
+	 * and columns
+	 * 
+	 * @param node2
+	 *            the probably contained node
+	 * @return if this node contains the argument as a child node by its
+	 *         position.
+	 */
+	public boolean contains(Node node2) {
+		if ((getBeginLine() < node2.getBeginLine())
+				|| ((getBeginLine() == node2.getBeginLine()) && getBeginColumn() <= node2
+						.getBeginColumn())) {
+			if (getEndLine() > node2.getEndLine()) {
+				return true;
+			} else if ((getEndLine() == node2.getEndLine())
+					&& getEndColumn() >= node2.getEndColumn()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Return if this node has the same columns and lines than another one.
+	 * 
+	 * @param node2
+	 *            the node to compare
+	 * @return if this node has the same columns and lines than another one.
+	 */
+	public boolean isInEqualLocation(Node node2) {
+		if (!isNewNode() && !node2.isNewNode()) {
+			return getBeginLine() == node2.getBeginLine()
+					&& getBeginColumn() == node2.getBeginColumn()
+					&& getEndLine() == node2.getEndLine()
+					&& getEndColumn() == node2.getEndColumn();
+		}
+		return false;
+	}
+
+	/**
+	 * Return if this node is previous than another one according their line and
+	 * column numbers
+	 * 
+	 * @param node to compare
+	 * @return if this node is previous than another one according their line and
+	 */
+	public boolean isPreviousThan(Node node) {
+		if (getEndLine() < node.getBeginLine()) {
+			return true;
+		} else if ((getEndLine() == node.getBeginLine())
+				&& (getEndColumn() <= node.getBeginColumn())) {
+			return true;
+		}
+		return false;
+	}
+
 }

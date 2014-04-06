@@ -289,8 +289,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			Iterator<Comment> it = comments.iterator();
 			while (it.hasNext()) {
 				Comment c = it.next();				
-				if (!ASTManager.isNewNode(n) && !ASTManager.isNewNode(c)
-						&& ASTManager.isPrevious(n, c)) {
+				if (!n.isNewNode() && !c.isNewNode()
+						&& c.isPreviousThan(n)) {
 					c.accept(this, arg);
 					if (c.getEndLine() < n.getBeginLine()
 							&& !(c instanceof LineComment)) {
@@ -308,8 +308,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			while (it.hasNext()) {
 				Comment c = it.next();
 				
-				if (!ASTManager.isNewNode(n) && !ASTManager.isNewNode(c)
-						&& ASTManager.contains(n, c)) {
+				if (!n.isNewNode() && !c.isNewNode()
+						&& n.contains(c)) {
 					c.accept(this, arg);
 					it.remove();
 				}
