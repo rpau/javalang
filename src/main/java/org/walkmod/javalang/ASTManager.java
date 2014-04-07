@@ -29,6 +29,7 @@ import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.ast.type.Type;
@@ -241,6 +242,8 @@ public class ASTManager {
 			result = astParser.Type();
 		} else if (clazz.equals(NameExpr.class)) {
 			result = astParser.Name();
+		}else if(clazz.equals(BlockStmt.class)){
+			result = astParser.Block();
 		} else {
 			Method method = null;
 			try {

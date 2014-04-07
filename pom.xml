@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.walkmod</groupId>
 	<artifactId>javalang</artifactId>
-	<version>2.0</version>
+	<version>2.0.1</version>
 	<description>Java 7 parser library</description>
 	<url>https://github.com/rpau/javalang</url>
 	<licenses>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.walkmod</groupId>
 			<artifactId>merger</artifactId>
-			<version>1.0</version>
+			<version>[1.0.1, 2.0)</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
