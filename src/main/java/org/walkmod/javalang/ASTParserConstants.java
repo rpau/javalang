@@ -257,11 +257,13 @@ public interface ASTParserConstants {
   /** RegularExpression Id. */
   int ELLIPSIS = 125;
   /** RegularExpression Id. */
-  int RUNSIGNEDSHIFT = 126;
+  int ARROW = 126;
   /** RegularExpression Id. */
-  int RSIGNEDSHIFT = 127;
+  int RUNSIGNEDSHIFT = 127;
   /** RegularExpression Id. */
-  int GT = 128;
+  int RSIGNEDSHIFT = 128;
+  /** RegularExpression Id. */
+  int GT = 129;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -398,6 +400,7 @@ public interface ASTParserConstants {
     "\">>=\"",
     "\">>>=\"",
     "\"...\"",
+    "\"->\"",
     "\">>>\"",
     "\">>\"",
     "\">\"",

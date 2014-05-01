@@ -53,6 +53,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -260,4 +261,6 @@ public interface GenericVisitor<R, A> {
 	public R visit(CatchClause n, A arg);
 	
 	public R visit(MultiTypeParameter n, A arg);
+	
+	public R visit(LambdaExpr n, A arg);
 }

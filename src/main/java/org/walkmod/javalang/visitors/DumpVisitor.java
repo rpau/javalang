@@ -65,6 +65,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -288,9 +289,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (comments != null) {
 			Iterator<Comment> it = comments.iterator();
 			while (it.hasNext()) {
-				Comment c = it.next();				
-				if (!n.isNewNode() && !c.isNewNode()
-						&& c.isPreviousThan(n)) {
+				Comment c = it.next();
+				if (!n.isNewNode() && !c.isNewNode() && c.isPreviousThan(n)) {
 					c.accept(this, arg);
 					if (c.getEndLine() < n.getBeginLine()
 							&& !(c instanceof LineComment)) {
@@ -307,9 +307,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			Iterator<Comment> it = comments.iterator();
 			while (it.hasNext()) {
 				Comment c = it.next();
-				
-				if (!n.isNewNode() && !c.isNewNode()
-						&& n.contains(c)) {
+
+				if (!n.isNewNode() && !c.isNewNode() && n.contains(c)) {
 					c.accept(this, arg);
 					it.remove();
 				}
@@ -329,8 +328,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 				if (c.getBeginLine() == 0 && c.getBeginColumn() == 0) {
 					c.accept(this, arg);
 				}
-			}
-			else{
+			} else {
 				it.remove();
 			}
 		}
@@ -1301,13 +1299,14 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		n.getBlock().accept(this, arg);
 	}
 
-
-	@Override public void visit(final TryStmt n, final Object arg) {
+	@Override
+	public void visit(final TryStmt n, final Object arg) {
 		printPreviousComments(n, arg);
 		printer.print("try ");
 		if (!n.getResources().isEmpty()) {
 			printer.print("(");
-			Iterator<VariableDeclarationExpr> resources = n.getResources().iterator();
+			Iterator<VariableDeclarationExpr> resources = n.getResources()
+					.iterator();
 			boolean first = true;
 			while (resources.hasNext()) {
 				visit(resources.next(), arg);
@@ -1430,20 +1429,47 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printer.print(n.getContent());
 		printer.printLn("*/");
 	}
-	
-    public void visit(MultiTypeParameter n, Object arg) {
-    	printPreviousComments(n, arg);
-        printAnnotations(n.getAnnotations(), arg);
-        printModifiers(n.getModifiers());
 
-        Iterator<Type> types = n.getTypes().iterator();
-        types.next().accept(this, arg);
-        while (types.hasNext()) {
-        	printer.print(" | ");
-        	types.next().accept(this, arg);
-        }
-        
-        printer.print(" ");
-        n.getId().accept(this, arg);
-    }
+	public void visit(MultiTypeParameter n, Object arg) {
+		printPreviousComments(n, arg);
+		printAnnotations(n.getAnnotations(), arg);
+		printModifiers(n.getModifiers());
+
+		Iterator<Type> types = n.getTypes().iterator();
+		types.next().accept(this, arg);
+		while (types.hasNext()) {
+			printer.print(" | ");
+			types.next().accept(this, arg);
+		}
+
+		printer.print(" ");
+		n.getId().accept(this, arg);
+	}
+
+	@Override
+	public void visit(LambdaExpr n, Object arg) {
+		printPreviousComments(n, arg);
+
+		printer.print("(");
+		if (n.getParameters() != null) {
+			for (Iterator<Parameter> i = n.getParameters().iterator(); i
+					.hasNext();) {
+				Parameter p = i.next();
+				p.accept(this, arg);
+				if (i.hasNext()) {
+					printer.print(", ");
+				}
+			}
+		}
+		printer.print(")");
+
+		printer.print(" -> ");
+		n.getBody().accept(this, arg);
+
+	}
+
+	private void printLambdaParameters(Expression lambdaParameters) {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -58,6 +58,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -1104,6 +1105,18 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 			return Boolean.FALSE;
 		}
 		if (!nodeEquals(n1.getCatchBlock(), n2.getCatchBlock())) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean visit(LambdaExpr n1, Node arg) {
+		LambdaExpr n2 = (LambdaExpr) arg;
+		if (!nodesEquals(n1.getParameters(), n2.getParameters())) {
+			return Boolean.FALSE;
+		}
+		if (!nodeEquals(n1.getBody(), n2.getBody())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;

@@ -1142,6 +1142,7 @@ TOKEN :
 | < RSIGNEDSHIFTASSIGN: ">>=" >
 | < RUNSIGNEDSHIFTASSIGN: ">>>=" >
 | < ELLIPSIS: "..." >
+| < ARROW: "->" >
 }
 
 /* >'s need special attention due to generics syntax. */
@@ -1578,6 +1579,27 @@ List FormalParameters():
   { return ret; }
 }
 
+List FormalLambdaParameters():{
+  List ret = null;
+  Parameter par;}{
+   ","
+  	par = FormalParameter() {  ret = add(ret, par);  } ( "," par = FormalParameter() { ret = add(ret, par); } )* 
+  { return ret;  }}
+
+List InferredLambdaParameters():
+{
+  List ret = null;  
+  VariableDeclaratorId id;
+}
+{
+   ","
+  	id = VariableDeclaratorId() 	{ ret = add(ret, new Parameter(id.getBeginLine(), id.getBeginColumn(), id.getEndLine(), id.getEndColumn(), 0, null, null, false, id));}
+  (
+    "," id = VariableDeclaratorId()  { ret = add(ret, new Parameter(id.getBeginLine(), id.getBeginColumn(), id.getEndLine(), id.getEndColumn(), 0, null, null, false, id)); }
+  )*
+  { return ret;  }
+}
+
 Parameter FormalParameter():
 {
 	Modifier modifier;
@@ -1595,6 +1617,7 @@ Parameter FormalParameter():
     return new Parameter(line, column, token.endLine, token.endColumn, modifier.modifiers, modifier.annotations, type, isVarArg, id);
   }
 }
+
 
 ConstructorDeclaration ConstructorDeclaration(Modifier modifier):
 {
@@ -1863,7 +1886,9 @@ Expression Expression():
   ret = ConditionalExpression()
   [
     LOOKAHEAD(2)
-    op = AssignmentOperator() value = Expression() { ret = new AssignExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, value, op); }
+    (      
+    op = AssignmentOperator() value = Expression() { ret = new AssignExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, value, op); } 
+   )
   ]
   { return ret; }
 }
@@ -2180,14 +2205,18 @@ Expression PrimaryExpressionWithoutSuperSuffix():
 
 Expression PrimaryPrefix():
 {
-	Expression ret;
+	Expression ret = null;
 	String name;
 	List typeArgs = null;
 	List args = null;
 	boolean hasArgs = false;
+	boolean isLambda = false;
 	Type type;
 	int line;
 	int column;
+	Statement lambdaBody;
+	VariableDeclaratorId id;
+	Parameter p = null;
 }
 {
   (
@@ -2206,7 +2235,23 @@ Expression PrimaryPrefix():
 	  			: new FieldAccessExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, null, name);
 	  	}
 	|
-	  "(" {line=token.beginLine; column=token.beginColumn;} ret = Expression() ")" { ret = new EnclosedExpr(line, column, token.endLine, token.endColumn,ret); }
+	  "(" {line=token.beginLine; column=token.beginColumn;}
+	  
+	  	[(LOOKAHEAD(2) ret = Expression() [args = InferredLambdaParameters() ] | p = FormalParameter() [args = FormalLambdaParameters()] { isLambda = true;})]
+
+	  	")"
+	  		[ "->" lambdaBody = Statement() {
+	  		  		isLambda = true;
+	  		  		if(ret != null){
+	  		  		  if(ret instanceof NameExpr)	  		  		  {
+	  		  		    id = new VariableDeclaratorId(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), ((NameExpr)ret).getName(), 0);
+	  		  		    p = new Parameter(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), 0, null, null, false, id);	  		  		  }
+	  		  		  	  		  		}
+	  		  		args = add(0, args, p);
+	  		  		ret = new LambdaExpr(p.getBeginLine(), p.getBeginColumn(), token.endLine, token.endColumn, args, lambdaBody); }
+	  		 ]
+	  		 { if(!isLambda) { ret = new EnclosedExpr(line, column, token.endLine, token.endColumn,ret);} }	  	
+	  		  
 	|
 	  ret = AllocationExpression(null)
 	|
@@ -2214,11 +2259,17 @@ Expression PrimaryPrefix():
 	  type = ResultType() "." "class" { ret = new ClassExpr(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, type); }
 	|
 	  	<IDENTIFIER> { name = token.image; line=token.beginLine; column=token.beginColumn; }
-	  	[ args = Arguments() {hasArgs=true;} ]
+	  	[ (args = Arguments() {ret = new MethodCallExpr(line, column, token.endLine, token.endColumn, null, null, name, args); }
+
+	  	| "->" lambdaBody = Statement()	  		{
+	  		  id = new VariableDeclaratorId(line, column,  token.endLine, token.endColumn, name, 0);
+	  		  p = new Parameter(line, column,  token.endLine, token.endColumn, 0, null, null, false, id);
+	  		  args = add(args, p);
+	  		  ret = new LambdaExpr(p.getBeginLine(), p.getBeginColumn(), token.endLine, token.endColumn, args, lambdaBody); 	  		}
+	  	)]
 	  	{
-	  		ret = hasArgs
-	  			? new MethodCallExpr(line, column, token.endLine, token.endColumn, null, null, name, args)
-	  			: new NameExpr(line, column, token.endLine, token.endColumn, name);
+	  	  if(ret == null)	  	  {	  	    ret = new NameExpr(line, column, token.endLine, token.endColumn, name);
+	  	  }
 	  	}
   )
   { return ret; }

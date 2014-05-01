@@ -62,6 +62,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -895,5 +896,18 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		if (r == null)
 			return null;
 		return (T) r;
+	}
+
+	@Override
+	public Node visit(LambdaExpr _n, Object _arg) {
+		
+		List<Parameter> lambdaParameters = visit(_n.getParameters(), _arg);
+		
+		Statement body = cloneNodes(_n.getBody(), _arg);
+		
+		LambdaExpr r = new LambdaExpr(_n.getBeginLine(), _n.getBeginColumn(),
+				_n.getEndLine(), _n.getEndColumn(), lambdaParameters, body);
+		
+		return r;
 	}
 }

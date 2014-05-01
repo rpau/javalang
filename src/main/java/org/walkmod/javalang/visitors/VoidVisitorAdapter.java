@@ -57,6 +57,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -746,5 +747,17 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 			type.accept(this, arg);
 		}
 		n.getId().accept(this, arg);
+	}
+
+	@Override
+	public void visit(LambdaExpr n, final A arg) {
+		if (n.getParameters() != null) {
+			for (final Parameter a : n.getParameters()) {
+				a.accept(this, arg);
+			}
+		}
+		if (n.getBody() != null) {
+			n.getBody().accept(this, arg);
+		}
 	}
 }

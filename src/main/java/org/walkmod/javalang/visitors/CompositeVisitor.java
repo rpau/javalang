@@ -53,6 +53,7 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
@@ -922,5 +923,16 @@ public class CompositeVisitor<VisitorContext>
 
 	public void setPostVisitor(VoidVisitor<VisitorContext> postVisitor) {
 		this.postVisitor = postVisitor;
+	}
+
+	@Override
+	public void visit(LambdaExpr n, VisitorContext arg) {
+		if (preVisitor != null) {
+			preVisitor.visit(n, arg);
+		}
+		super.visit(n, arg);
+		if (postVisitor != null) {
+			postVisitor.visit(n, arg);
+		}
 	}
 }
