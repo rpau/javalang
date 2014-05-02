@@ -63,6 +63,7 @@ import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.NullLiteralExpr;
@@ -72,6 +73,7 @@ import org.walkmod.javalang.ast.expr.SingleMemberAnnotationExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.SuperExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.expr.TypeExpr;
 import org.walkmod.javalang.ast.expr.UnaryExpr;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.ast.stmt.AssertStmt;
@@ -758,6 +760,23 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 		}
 		if (n.getBody() != null) {
 			n.getBody().accept(this, arg);
+		}
+	}
+	
+	public void visit(MethodReferenceExpr n, final A arg){
+		if (n.getTypeParameters() != null) {
+			for (final TypeParameter a : n.getTypeParameters()) {
+				a.accept(this, arg);
+			}
+		}
+		if(n.getScope() != null){
+			n.getScope().accept(this, arg);
+		}
+	}
+	
+	public void visit(TypeExpr n, final A arg) {
+		if(n.getType() != null){
+			n.getType().accept(this, arg);
 		}
 	}
 }

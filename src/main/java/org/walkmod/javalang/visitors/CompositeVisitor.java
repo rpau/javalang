@@ -59,6 +59,7 @@ import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.NullLiteralExpr;
@@ -68,6 +69,7 @@ import org.walkmod.javalang.ast.expr.SingleMemberAnnotationExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.SuperExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.expr.TypeExpr;
 import org.walkmod.javalang.ast.expr.UnaryExpr;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.ast.stmt.AssertStmt;
@@ -934,5 +936,28 @@ public class CompositeVisitor<VisitorContext>
 		if (postVisitor != null) {
 			postVisitor.visit(n, arg);
 		}
+	}
+
+	@Override
+	public void visit(MethodReferenceExpr n, VisitorContext arg) {
+		if (preVisitor != null) {
+			preVisitor.visit(n, arg);
+		}
+		super.visit(n, arg);
+		if (postVisitor != null) {
+			postVisitor.visit(n, arg);
+		}
+	}
+
+	@Override
+	public void visit(TypeExpr n, VisitorContext arg) {
+		if (preVisitor != null) {
+			preVisitor.visit(n, arg);
+		}
+		super.visit(n, arg);
+		if (postVisitor != null) {
+			postVisitor.visit(n, arg);
+		}
+		
 	}
 }

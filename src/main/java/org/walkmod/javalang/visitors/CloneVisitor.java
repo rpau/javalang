@@ -68,6 +68,7 @@ import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.NullLiteralExpr;
@@ -77,6 +78,7 @@ import org.walkmod.javalang.ast.expr.SingleMemberAnnotationExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.SuperExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.expr.TypeExpr;
 import org.walkmod.javalang.ast.expr.UnaryExpr;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.ast.stmt.AssertStmt;
@@ -411,7 +413,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_,
 				dimensions, _n.getArrayCount());
 		if (_n.getInitializer() != null) // ArrayCreationExpr has two mutually
-		// exclusive constructors
+			// exclusive constructors
 			r.setInitializer(cloneNodes(_n.getInitializer(), _arg));
 		return r;
 	}
@@ -900,14 +902,38 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 
 	@Override
 	public Node visit(LambdaExpr _n, Object _arg) {
-		
+
 		List<Parameter> lambdaParameters = visit(_n.getParameters(), _arg);
-		
+
 		Statement body = cloneNodes(_n.getBody(), _arg);
-		
+
 		LambdaExpr r = new LambdaExpr(_n.getBeginLine(), _n.getBeginColumn(),
-				_n.getEndLine(), _n.getEndColumn(), lambdaParameters, body);
-		
+				_n.getEndLine(), _n.getEndColumn(), lambdaParameters, body,
+				_n.isParametersEnclosed());
+
+		return r;
+	}
+
+	@Override
+	public Node visit(MethodReferenceExpr _n, Object arg) {
+
+		List<TypeParameter> typeParams = visit(_n.getTypeParameters(), arg);
+		Expression scope = cloneNodes(_n.getScope(), arg);
+
+		MethodReferenceExpr r = new MethodReferenceExpr(_n.getBeginLine(),
+				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), scope,
+				typeParams, _n.getIdentifier());
+		return r;
+	}
+
+	@Override
+	public Node visit(TypeExpr n, Object arg) {
+
+		Type t = cloneNodes(n.getType(), arg);
+
+		TypeExpr r = new TypeExpr(n.getBeginLine(), n.getBeginColumn(),
+				n.getEndLine(), n.getEndColumn(), t);
+
 		return r;
 	}
 }

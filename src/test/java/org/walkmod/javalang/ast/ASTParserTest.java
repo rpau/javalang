@@ -25,8 +25,9 @@ public class ASTParserTest {
 
 	@Test
 	public void testParsing() throws Exception {
-		File f = new File("src/test/resources/source1.7.txt");
+		File f = new File("src/test/resources/Java8Test.java");
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
 	}
 }

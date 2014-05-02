@@ -64,6 +64,7 @@ import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.NullLiteralExpr;
@@ -73,6 +74,7 @@ import org.walkmod.javalang.ast.expr.SingleMemberAnnotationExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.SuperExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.expr.TypeExpr;
 import org.walkmod.javalang.ast.expr.UnaryExpr;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.ast.stmt.AssertStmt;
@@ -440,16 +442,17 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		return Boolean.TRUE;
 	}
 
-
-	@Override public Boolean visit(final Parameter n1, final Node arg) {
+	@Override
+	public Boolean visit(final Parameter n1, final Node arg) {
 		final Parameter n2 = (Parameter) arg;
 		if (!nodeEquals(n1.getType(), n2.getType())) {
 			return Boolean.FALSE;
 		}
 		return visit((BaseParameter) n1, arg);
 	}
-	
-	@Override public Boolean visit(MultiTypeParameter n1, Node arg) {
+
+	@Override
+	public Boolean visit(MultiTypeParameter n1, Node arg) {
 		MultiTypeParameter n2 = (MultiTypeParameter) arg;
 		if (n1.getTypes().size() != n2.getTypes().size()) {
 			return Boolean.FALSE;
@@ -1116,7 +1119,34 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		if (!nodesEquals(n1.getParameters(), n2.getParameters())) {
 			return Boolean.FALSE;
 		}
+		if(n1.isParametersEnclosed() != n2.isParametersEnclosed()){
+			return Boolean.FALSE;
+		}
 		if (!nodeEquals(n1.getBody(), n2.getBody())) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean visit(MethodReferenceExpr n1, Node arg) {
+		MethodReferenceExpr n2 = (MethodReferenceExpr) arg;
+		if (!nodeEquals(n1.getScope(), n2.getScope())) {
+			return Boolean.FALSE;
+		}
+		if (!nodesEquals(n1.getTypeParameters(), n2.getTypeParameters())) {
+			return Boolean.FALSE;
+		}
+		if (!objEquals(n1.getIdentifier(), n2.getIdentifier())) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean visit(TypeExpr n, Node arg) {
+		TypeExpr n2 = (TypeExpr) arg;
+		if (!nodeEquals(n.getType(), n2.getType())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
