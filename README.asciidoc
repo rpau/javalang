@@ -1,0 +1,49 @@
+javalang: Java 8 parser customized for walkmod
+==============================================
+
+Java 8 parser and Abstract Syntax Tree (AST). Therefore, lambda expressions, reference expressions and default methods are supported.
+
+The AST contains the source code structure, javadoc and comments.
+
+This parser is based on Sreenivasa Viswanadha's Java 1.5 parser.
+
+The project was originally hosted at http://code.google.com/p/javaparser/ but 
+seemed dead. This repository adds powerful parsing functionalities for http://www.walkmod.com/ such 
+as AST merge support or Javadoc parsing.
+
+----
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+----
+== Usage
+
+The available version on Maven, just support Java 7 now. If you are interested in 
+creating a new http://www.walkmod.com[walkmod] plugin for Java code, you must add 
+the following dependency in your project.
+----
+<dependency>
+    <groupId>org.walkmod</groupId>
+    <artifactId>javalang</artifactId>
+    <version>2.0.1</version>
+</dependency>
+----
+
+The Java 8 support is now just in master, but it will be uploaded to maven soon. However, you can built the jar using maven.
+
+$ maven install 
+
+== Contributing
+
+If you want to hack on this, fork it, improve it and send me a pull request.
+
+To get started using it, just clone it and call mvn install. 
