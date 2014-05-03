@@ -3,7 +3,7 @@ javalang: Java 8 parser customized for walkmod
 
 Java 8 parser and Abstract Syntax Tree (AST). Therefore, *lambda expressions*, *reference expressions* and *default* methods are supported.
 
-The AST contains the source code structure, javadoc and comments. It also allows to parse Javadoc tags.
+The AST contains the source code structure, javadoc and comments. It also allows to parse Javadoc tags. 
 
 This parser is based on Sreenivasa Viswanadha's Java 1.5 parser.
 
