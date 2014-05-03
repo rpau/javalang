@@ -45,6 +45,7 @@ public final class ModifierSet {
 	public static final int ABSTRACT = Modifier.ABSTRACT;
 
 	public static final int STRICTFP = Modifier.STRICT;
+	
 
 	/**
 	 * Adds the given modifier.

@@ -53,6 +53,8 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	private BlockStmt body;
 
+	private boolean isDefault = false;
+
 	public MethodDeclaration() {
 	}
 
@@ -86,6 +88,16 @@ public final class MethodDeclaration extends BodyDeclaration implements
 		this.body = block;
 	}
 
+	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
+			List<AnnotationExpr> annotations,
+			List<TypeParameter> typeParameters, Type type, String name,
+			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			BlockStmt block, boolean isDefault) {
+		this(javaDoc, modifiers, annotations, typeParameters, type, name,
+				parameters, arrayCount, throws_, block);
+		this.isDefault = isDefault;
+	}
+
 	public MethodDeclaration(int beginLine, int beginColumn, int endLine,
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
@@ -101,6 +113,19 @@ public final class MethodDeclaration extends BodyDeclaration implements
 		this.arrayCount = arrayCount;
 		this.throws_ = throws_;
 		this.body = block;
+	}
+
+	public MethodDeclaration(int beginLine, int beginColumn, int endLine,
+			int endColumn, JavadocComment javaDoc, int modifiers,
+			List<AnnotationExpr> annotations,
+			List<TypeParameter> typeParameters, Type type, String name,
+			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			BlockStmt block, boolean isDefault) {
+
+		this(beginLine, beginColumn, endLine, endColumn, javaDoc, modifiers,
+				annotations, typeParameters, type, name, parameters,
+				arrayCount, throws_, block);
+		this.isDefault = isDefault;
 	}
 
 	@Override
@@ -201,8 +226,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 				resultParams, Parameter.class);
 		if (!resultParams.isEmpty()) {
 			setParameters(resultParams);
-		}
-		else{
+		} else {
 			setParameters(null);
 		}
 
@@ -211,8 +235,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 				resultTypeParams, TypeParameter.class);
 		if (!resultTypeParams.isEmpty()) {
 			setTypeParameters(resultTypeParams);
-		}
-		else{
+		} else {
 			setTypeParameters(null);
 		}
 
@@ -221,10 +244,18 @@ public final class MethodDeclaration extends BodyDeclaration implements
 				NameExpr.class);
 		if (!resultThrows.isEmpty()) {
 			setThrows(resultThrows);
-		}
-		else{
+		} else {
 			setThrows(null);
 		}
 
 	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
 }

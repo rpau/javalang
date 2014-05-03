@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.walkmod.javalang.ASTManager;
 import org.walkmod.javalang.ast.BlockComment;
 import org.walkmod.javalang.ast.Comment;
 import org.walkmod.javalang.ast.CompilationUnit;
@@ -941,6 +940,9 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printJavadoc(n.getJavaDoc(), arg);
 		printMemberAnnotations(n.getAnnotations(), arg);
 		printModifiers(n.getModifiers());
+		if(n.isDefault()){
+			printer.print("default ");
+		}
 		printTypeParameters(n.getTypeParameters(), arg);
 		if (n.getTypeParameters() != null) {
 			printer.print(" ");
@@ -1495,6 +1497,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (scope != null) {
 			n.getScope().accept(this, arg);
 		}
+
+		printer.print("::");
 		if (n.getTypeParameters() != null) {
 			printer.print("<");
 			for (Iterator<TypeParameter> i = n.getTypeParameters().iterator(); i
@@ -1507,8 +1511,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			}
 			printer.print(">");
 		}
-
-		printer.print("::");
 		if (identifier != null) {
 			printer.print(identifier);
 		}

@@ -298,7 +298,8 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		MethodDeclaration r = new MethodDeclaration(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
 				javaDoc, _n.getModifiers(), annotations, typeParameters, type_,
-				_n.getName(), parameters, _n.getArrayCount(), throws_, block);
+				_n.getName(), parameters, _n.getArrayCount(), throws_, block,
+				_n.isDefault());
 		return r;
 	}
 
