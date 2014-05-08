@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
 
 import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.body.BodyDeclaration;
+import org.walkmod.javalang.ast.body.InitializerDeclaration;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
@@ -194,7 +196,7 @@ public class ASTManager {
 	 * {@link org.walkmod.javalang.ast.Node} defined. For example, if you need
 	 * to parse a single method, the class must be
 	 * {@link org.walkmod.javalang.ast.body.MethodDeclaration}. The result
-	 * contains the location of all AST nodes.
+	 * does NOT contain the location of the AST nodes.
 	 * 
 	 * @param clazz
 	 *            the subclass of {@link org.walkmod.javalang.ast.Node}. The
@@ -206,7 +208,7 @@ public class ASTManager {
 	 *             when the code contains an invalid syntax.
 	 */
 	public static Node parse(Class<?> clazz, String text) throws ParseException {
-		return parse(clazz, text, false);
+		return parse(clazz, text, true);
 	}
 
 	/**
@@ -221,7 +223,8 @@ public class ASTManager {
 	 *            result will be instance of that class.
 	 * @param text
 	 *            the fragment of code to parse.
-	 * @param withoutLocation true does not fulfill the location information inside the AST.
+	 * @param withoutLocation
+	 *            true does not fulfill the location information inside the AST.
 	 *            Otherwise, it is defined.
 	 * @return the partial abstract syntax tree (AST) produced.
 	 * @throws ParseException
@@ -233,8 +236,17 @@ public class ASTManager {
 			return null;
 		}
 
+		ASTParser astParser = null;
 		StringReader sr = new StringReader(text);
-		ASTParser astParser = new ASTParser(sr);
+
+		if (!withoutLocation) {
+			astParser = new ASTParser(sr);
+		} else {
+			JavaCharStream stream = new JavaCharStream(sr, 1, 1);
+			CleanerTokenManager ctm = new CleanerTokenManager(stream);
+			astParser = new ASTParser(ctm);
+		}
+
 		astParser.jj_input_stream.setTabSize(1);
 		Node result = null;
 		if (clazz.equals(Type.class)) {
@@ -242,8 +254,14 @@ public class ASTManager {
 			result = astParser.Type();
 		} else if (clazz.equals(NameExpr.class)) {
 			result = astParser.Name();
-		}else if(clazz.equals(BlockStmt.class)){
+		} else if (clazz.equals(BlockStmt.class)) {
 			result = astParser.Block();
+		} else if (BodyDeclaration.class.isAssignableFrom(clazz)) {
+			if (InitializerDeclaration.class.isAssignableFrom(clazz)) {
+				result = astParser.ClassOrInterfaceBodyDeclaration(false);
+			} else {
+				result = astParser.ClassOrInterfaceBodyDeclaration(true);
+			}
 		} else {
 			Method method = null;
 			try {
