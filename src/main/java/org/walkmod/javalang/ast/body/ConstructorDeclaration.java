@@ -23,6 +23,7 @@ import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
+import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.comparators.ConstructorDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -42,7 +43,7 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 
 	private List<Parameter> parameters;
 
-	private List<NameExpr> throws_;
+	private List<ClassOrInterfaceType> throws_;
 
 	private BlockStmt block;
 
@@ -57,7 +58,7 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 	public ConstructorDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<NameExpr> throws_, BlockStmt block) {
+			List<Parameter> parameters, List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -71,7 +72,7 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<NameExpr> throws_, BlockStmt block) {
+			List<Parameter> parameters, List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -113,7 +114,7 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 		return parameters;
 	}
 
-	public List<NameExpr> getThrows() {
+	public List<ClassOrInterfaceType> getThrows() {
 		return throws_;
 	}
 
@@ -137,7 +138,7 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 		this.parameters = parameters;
 	}
 
-	public void setThrows(List<NameExpr> throws_) {
+	public void setThrows(List<ClassOrInterfaceType> throws_) {
 		this.throws_ = throws_;
 	}
 
@@ -176,8 +177,8 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 			setTypeParameters(null);
 		}
 		
-		List<NameExpr> resultThrows = new LinkedList<NameExpr>();
-		configuration.apply(getThrows(), remote.getThrows(), resultThrows, NameExpr.class);
+		List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
+		configuration.apply(getThrows(), remote.getThrows(), resultThrows, ClassOrInterfaceType.class);
 		
 		if(!resultThrows.isEmpty()){
 			setThrows(resultThrows);

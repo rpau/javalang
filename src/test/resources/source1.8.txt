@@ -482,3 +482,24 @@ public class Java8Test{
 
 interface XXX extends Serializable, Cloneable {
 }
+
+class Folder<F extends @Existing File> {}
+class UnmodifiableList<T> implements @Readonly List<@Readonly T> {}
+
+class MyForecast<@Immutable T> implements @NonEmpty List< @ReadOnly T>{
+	Forecast currentForecast = new @Interned Forecast();
+	@ReadOnly int [] nums; 
+	int @ReadOnly [][] nums;
+	int [] @ReadOnly [] nums;
+ 	String myString = (@NonNull String) str;
+ 	Map<@NonNull String, @NonEmpty List<@Readonly Document>> files; 
+ 	Collection<? super @Existing File> files;
+ 	Map . @NonNull Entry keyAndValue;
+	void monitorTemperature() throws @Critical TemperatureException { @NonNull String str; 
+	new @Interned MyObject();
+	new @NonEmpty @Readonly List<String>(myNonEmptyStringSet);
+	o.<@NonNull String>m();
+	new  MyObject < @Interned String>();
+	new <String> @Interned MyObject();
+	}
+}

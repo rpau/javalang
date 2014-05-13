@@ -188,6 +188,22 @@ public abstract class ModifierVisitorAdapter<A> implements
 			n.setInitializer((ArrayInitializerExpr) n.getInitializer().accept(
 					this, arg));
 		}
+		List<List<AnnotationExpr>> arrayAnnotations = n.getArraysAnnotations();
+		if (arrayAnnotations != null) {
+			for (int i = 0; i < arrayAnnotations.size(); i++) {
+				final List<AnnotationExpr> annotationsA = (List<AnnotationExpr>) arrayAnnotations
+						.get(i);
+				if (annotationsA != null) {
+					for (int j = 0; j < annotationsA.size(); j++) {
+						annotationsA.set(i, (AnnotationExpr) annotationsA
+								.get(j).accept(this, arg));
+					}
+					removeNulls(annotationsA);
+				}
+				arrayAnnotations.set(i, annotationsA);
+			}
+			removeNulls(arrayAnnotations);
+		}
 		return n;
 	}
 
@@ -324,6 +340,14 @@ public abstract class ModifierVisitorAdapter<A> implements
 			}
 			removeNulls(typeArgs);
 		}
+		final List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
+		}
 		return n;
 	}
 
@@ -384,10 +408,11 @@ public abstract class ModifierVisitorAdapter<A> implements
 			}
 			removeNulls(parameters);
 		}
-		List<NameExpr> throwz = n.getThrows();
+		List<ClassOrInterfaceType> throwz = n.getThrows();
 		if (throwz != null) {
 			for (int i = 0; i < throwz.size(); i++) {
-				throwz.set(i, (NameExpr) throwz.get(i).accept(this, arg));
+				throwz.set(i,
+						(ClassOrInterfaceType) throwz.get(i).accept(this, arg));
 			}
 			removeNulls(throwz);
 		}
@@ -701,10 +726,11 @@ public abstract class ModifierVisitorAdapter<A> implements
 			}
 			removeNulls(parameters);
 		}
-		List<NameExpr> throwz = n.getThrows();
+		List<ClassOrInterfaceType> throwz = n.getThrows();
 		if (throwz != null) {
 			for (int i = 0; i < throwz.size(); i++) {
-				throwz.set(i, (NameExpr) throwz.get(i).accept(this, arg));
+				throwz.set(i,
+						(ClassOrInterfaceType) throwz.get(i).accept(this, arg));
 			}
 			removeNulls(throwz);
 		}
@@ -790,21 +816,30 @@ public abstract class ModifierVisitorAdapter<A> implements
 		n.setId((VariableDeclaratorId) n.getId().accept(this, arg));
 		return n;
 	}
-	
+
 	protected Node visit(final BaseParameter n, final A arg) {
 		final List<AnnotationExpr> annotations = n.getAnnotations();
 		if (annotations != null) {
 			for (int i = 0; i < annotations.size(); i++) {
-				annotations.set(i, (AnnotationExpr) annotations.get(i).accept(this, arg));
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
 			}
 			removeNulls(annotations);
 		}
-		
+
 		n.setId((VariableDeclaratorId) n.getId().accept(this, arg));
 		return n;
 	}
 
 	public Node visit(PrimitiveType n, A arg) {
+		final List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
+		}
 		return n;
 	}
 
@@ -815,6 +850,30 @@ public abstract class ModifierVisitorAdapter<A> implements
 
 	public Node visit(ReferenceType n, A arg) {
 		n.setType((Type) n.getType().accept(this, arg));
+		final List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
+		}
+		List<List<AnnotationExpr>> arrayAnnotations = n.getArraysAnnotations();
+		if (arrayAnnotations != null) {
+			for (int i = 0; i < arrayAnnotations.size(); i++) {
+				final List<AnnotationExpr> annotationsA = (List<AnnotationExpr>) arrayAnnotations
+						.get(i);
+				if (annotationsA != null) {
+					for (int j = 0; j < annotationsA.size(); j++) {
+						annotationsA.set(i, (AnnotationExpr) annotationsA
+								.get(j).accept(this, arg));
+					}
+					removeNulls(annotationsA);
+				}
+				arrayAnnotations.set(i, annotationsA);
+			}
+			removeNulls(arrayAnnotations);
+		}
 		return n;
 	}
 
@@ -917,6 +976,14 @@ public abstract class ModifierVisitorAdapter<A> implements
 			}
 			removeNulls(typeBound);
 		}
+		List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
+		}
 		return n;
 	}
 
@@ -956,6 +1023,14 @@ public abstract class ModifierVisitorAdapter<A> implements
 	}
 
 	public Node visit(VoidType n, A arg) {
+		final List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
+		}
 		return n;
 	}
 
@@ -971,6 +1046,14 @@ public abstract class ModifierVisitorAdapter<A> implements
 		}
 		if (n.getSuper() != null) {
 			n.setSuper((ReferenceType) n.getSuper().accept(this, arg));
+		}
+		final List<AnnotationExpr> annotations = n.getAnnotations();
+		if (annotations != null) {
+			for (int i = 0; i < annotations.size(); i++) {
+				annotations.set(i,
+						(AnnotationExpr) annotations.get(i).accept(this, arg));
+			}
+			removeNulls(annotations);
 		}
 		return n;
 	}

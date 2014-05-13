@@ -34,6 +34,8 @@ public final class ArrayCreationExpr extends Expression {
 
 	private List<Expression> dimensions;
 
+	private List<List<AnnotationExpr>> arraysAnnotations;
+
 	public ArrayCreationExpr() {
 	}
 
@@ -43,6 +45,16 @@ public final class ArrayCreationExpr extends Expression {
 		this.arrayCount = arrayCount;
 		this.initializer = initializer;
 		this.dimensions = null;
+	}
+
+	public ArrayCreationExpr(Type type, int arrayCount,
+			ArrayInitializerExpr initializer,
+			List<List<AnnotationExpr>> arraysAnnotations) {
+		this.type = type;
+		this.arrayCount = arrayCount;
+		this.initializer = initializer;
+		this.dimensions = null;
+		this.arraysAnnotations = arraysAnnotations;
 	}
 
 	public ArrayCreationExpr(int beginLine, int beginColumn, int endLine,
@@ -63,6 +75,15 @@ public final class ArrayCreationExpr extends Expression {
 		this.initializer = null;
 	}
 
+	public ArrayCreationExpr(Type type, List<Expression> dimensions,
+			int arrayCount, List<List<AnnotationExpr>> arraysAnnotations) {
+		this.type = type;
+		this.arrayCount = arrayCount;
+		this.dimensions = dimensions;
+		this.initializer = null;
+		this.arraysAnnotations = arraysAnnotations;
+	}
+
 	public ArrayCreationExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Type type, List<Expression> dimensions,
 			int arrayCount) {
@@ -71,6 +92,17 @@ public final class ArrayCreationExpr extends Expression {
 		this.arrayCount = arrayCount;
 		this.dimensions = dimensions;
 		this.initializer = null;
+	}
+
+	public ArrayCreationExpr(int beginLine, int beginColumn, int endLine,
+			int endColumn, Type type, List<Expression> dimensions,
+			int arrayCount, List<List<AnnotationExpr>> arraysAnnotations) {
+		super(beginLine, beginColumn, endLine, endColumn);
+		this.type = type;
+		this.arrayCount = arrayCount;
+		this.dimensions = dimensions;
+		this.initializer = null;
+		this.arraysAnnotations = arraysAnnotations;
 	}
 
 	@Override
@@ -114,4 +146,14 @@ public final class ArrayCreationExpr extends Expression {
 	public void setType(Type type) {
 		this.type = type;
 	}
+
+	public List<List<AnnotationExpr>> getArraysAnnotations() {
+		return arraysAnnotations;
+	}
+
+	public void setArraysAnnotations(
+			List<List<AnnotationExpr>> arraysAnnotations) {
+		this.arraysAnnotations = arraysAnnotations;
+	}
+
 }

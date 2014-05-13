@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.visitors;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.BlockComment;
 import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.ImportDeclaration;
@@ -155,6 +157,15 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 		} else {
 			n.getInitializer().accept(this, arg);
 		}
+		if(n.getArraysAnnotations() != null){
+			for(List<AnnotationExpr> annList : n.getArraysAnnotations()){
+				if(annList != null){
+					for(AnnotationExpr ae: annList){
+						ae.accept(this, arg);
+					}
+				}
+			}
+		}
 	}
 
 	public void visit(ArrayInitializerExpr n, A arg) {
@@ -256,6 +267,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 				t.accept(this, arg);
 			}
 		}
+		if(n.getAnnotations() != null){
+			for (AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
 	}
 
 	public void visit(CompilationUnit n, A arg) {
@@ -300,7 +316,7 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 			}
 		}
 		if (n.getThrows() != null) {
-			for (NameExpr name : n.getThrows()) {
+			for (ClassOrInterfaceType name : n.getThrows()) {
 				name.accept(this, arg);
 			}
 		}
@@ -539,7 +555,7 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 			}
 		}
 		if (n.getThrows() != null) {
-			for (NameExpr name : n.getThrows()) {
+			for (ClassOrInterfaceType name : n.getThrows()) {
 				name.accept(this, arg);
 			}
 		}
@@ -605,6 +621,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 	}
 
 	public void visit(PrimitiveType n, A arg) {
+		if(n.getAnnotations() != null){
+			for (AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
 	}
 
 	public void visit(QualifiedNameExpr n, A arg) {
@@ -613,6 +634,20 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 
 	public void visit(ReferenceType n, A arg) {
 		n.getType().accept(this, arg);
+		if(n.getAnnotations() != null){
+			for (AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
+		if(n.getArraysAnnotations() != null){
+			for(List<AnnotationExpr> annList : n.getArraysAnnotations()){
+				if(annList != null){
+					for(AnnotationExpr ae: annList){
+						ae.accept(this, arg);
+					}
+				}
+			}
+		}
 	}
 
 	public void visit(ReturnStmt n, A arg) {
@@ -692,6 +727,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 				c.accept(this, arg);
 			}
 		}
+		if(n.getAnnotations() != null){
+			for(AnnotationExpr ann: n.getAnnotations()){
+				ann.accept(this, arg);
+			}
+		}
 	}
 
 	public void visit(UnaryExpr n, A arg) {
@@ -721,6 +761,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 	}
 
 	public void visit(VoidType n, A arg) {
+		if(n.getAnnotations() != null){
+			for (AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
 	}
 
 	public void visit(WhileStmt n, A arg) {
@@ -734,6 +779,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 		}
 		if (n.getSuper() != null) {
 			n.getSuper().accept(this, arg);
+		}
+		if(n.getAnnotations() != null){
+			for (AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
 		}
 	}
 

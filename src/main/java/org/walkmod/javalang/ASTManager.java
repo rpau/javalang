@@ -241,13 +241,13 @@ public class ASTManager {
 
 		if (!withoutLocation) {
 			astParser = new ASTParser(sr);
+			astParser.jj_input_stream.setTabSize(1);
 		} else {
 			JavaCharStream stream = new JavaCharStream(sr, 1, 1);
 			CleanerTokenManager ctm = new CleanerTokenManager(stream);
 			astParser = new ASTParser(ctm);
 		}
 
-		astParser.jj_input_stream.setTabSize(1);
 		Node result = null;
 		if (clazz.equals(Type.class)) {
 			text = text.replace("$", ".");

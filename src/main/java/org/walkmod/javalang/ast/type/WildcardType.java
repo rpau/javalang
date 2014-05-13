@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.List;
+
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -44,6 +47,15 @@ public final class WildcardType extends Type {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.ext = ext;
 		this.sup = sup;
+	}
+
+	public WildcardType(int beginLine, int beginColumn, int endLine,
+			int endColumn, ReferenceType ext, ReferenceType sup,
+			List<AnnotationExpr> annotations) {
+		super(beginLine, beginColumn, endLine, endColumn, annotations);
+		this.ext = ext;
+		this.sup = sup;
+
 	}
 
 	@Override

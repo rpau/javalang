@@ -42,6 +42,7 @@ import org.walkmod.javalang.ast.body.MultiTypeParameter;
 import org.walkmod.javalang.ast.body.Parameter;
 import org.walkmod.javalang.ast.body.VariableDeclarator;
 import org.walkmod.javalang.ast.body.VariableDeclaratorId;
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.ArrayAccessExpr;
 import org.walkmod.javalang.ast.expr.ArrayCreationExpr;
 import org.walkmod.javalang.ast.expr.ArrayInitializerExpr;
@@ -214,6 +215,9 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 			return Boolean.FALSE;
 		}
 		if (!nodesEquals(n1.getTypeBound(), n2.getTypeBound())) {
+			return Boolean.FALSE;
+		}
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -522,12 +526,18 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		if (!nodesEquals(n1.getTypeArgs(), n2.getTypeArgs())) {
 			return Boolean.FALSE;
 		}
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
+			return Boolean.FALSE;
+		}
 		return Boolean.TRUE;
 	}
 
 	public Boolean visit(PrimitiveType n1, Node arg) {
 		PrimitiveType n2 = (PrimitiveType) arg;
 		if (n1.getType() != n2.getType()) {
+			return Boolean.FALSE;
+		}
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -541,10 +551,37 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		if (!nodeEquals(n1.getType(), n2.getType())) {
 			return Boolean.FALSE;
 		}
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
+			return Boolean.FALSE;
+		}
+		List<List<AnnotationExpr>> n1a = n1.getArraysAnnotations();
+		List<List<AnnotationExpr>> n2a = n2.getArraysAnnotations();
+		
+		if (n1a !=null && n2a!= null) {
+			if(n1a.size() != n2a.size()){
+				return Boolean.FALSE;
+			}
+			else{
+				int i = 0;
+				for(List<AnnotationExpr> aux: n1a){
+					if(!nodesEquals(aux, n2a.get(i))){
+						return Boolean.FALSE;
+					}
+					i++;
+				}
+			}
+		}
+		else if (n1a != n2a){
+			return Boolean.FALSE;
+		}
 		return Boolean.TRUE;
 	}
 
 	public Boolean visit(VoidType n1, Node arg) {
+		VoidType n2 = (VoidType) arg;
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
+			return Boolean.FALSE;
+		}
 		return Boolean.TRUE;
 	}
 
@@ -554,6 +591,9 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 			return Boolean.FALSE;
 		}
 		if (!nodeEquals(n1.getSuper(), n2.getSuper())) {
+			return Boolean.FALSE;
+		}
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -582,6 +622,26 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 			return Boolean.FALSE;
 		}
 		if (!nodesEquals(n1.getDimensions(), n2.getDimensions())) {
+			return Boolean.FALSE;
+		}
+		List<List<AnnotationExpr>> n1a = n1.getArraysAnnotations();
+		List<List<AnnotationExpr>> n2a = n2.getArraysAnnotations();
+		
+		if (n1a !=null && n2a!= null) {
+			if(n1a.size() != n2a.size()){
+				return Boolean.FALSE;
+			}
+			else{
+				int i = 0;
+				for(List<AnnotationExpr> aux: n1a){
+					if(!nodesEquals(aux, n2a.get(i))){
+						return Boolean.FALSE;
+					}
+					i++;
+				}
+			}
+		}
+		else if (n1a != n2a){
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;

@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -43,6 +44,8 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 public final class TypeParameter extends Node {
 
 	private String name;
+	
+	private List<AnnotationExpr> annotations;
 
 	private List<ClassOrInterfaceType> typeBound;
 
@@ -53,12 +56,23 @@ public final class TypeParameter extends Node {
 		this.name = name;
 		this.typeBound = typeBound;
 	}
+	
+	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+		this(name, typeBound);
+		this.annotations = annotations;
+	}
 
 	public TypeParameter(int beginLine, int beginColumn, int endLine,
 			int endColumn, String name, List<ClassOrInterfaceType> typeBound) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.name = name;
 		this.typeBound = typeBound;
+	}
+	
+	public TypeParameter(int beginLine, int beginColumn, int endLine,
+			int endColumn, String name, List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+		this(beginLine, beginColumn, endLine, endColumn, name, typeBound);
+		this.annotations = annotations;
 	}
 
 	@Override
@@ -109,4 +123,14 @@ public final class TypeParameter extends Node {
 	public void setTypeBound(List<ClassOrInterfaceType> typeBound) {
 		this.typeBound = typeBound;
 	}
+
+	public List<AnnotationExpr> getAnnotations() {
+		return annotations;
+	}
+
+	public void setAnnotations(List<AnnotationExpr> annotations) {
+		this.annotations = annotations;
+	}
+	
+	
 }

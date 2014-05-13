@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.List;
+
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -26,6 +29,8 @@ public final class ReferenceType extends Type {
 	private Type type;
 
 	private int arrayCount;
+	
+	private List<List<AnnotationExpr>> arraysAnnotations;
 
 	public ReferenceType() {
 	}
@@ -39,11 +44,28 @@ public final class ReferenceType extends Type {
 		this.arrayCount = arrayCount;
 	}
 
+	public ReferenceType(Type type, int arrayCount,
+			List<AnnotationExpr> annotations) {
+		super(annotations);
+		this.type = type;
+		this.arrayCount = arrayCount;
+	}
+
 	public ReferenceType(int beginLine, int beginColumn, int endLine,
 			int endColumn, Type type, int arrayCount) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.type = type;
 		this.arrayCount = arrayCount;
+	}
+
+	public ReferenceType(int beginLine, int beginColumn, int endLine,
+			int endColumn, Type type, int arrayCount,
+			List<AnnotationExpr> annotations,
+			List<List<AnnotationExpr>> arraysAnnotations) {
+		super(beginLine, beginColumn, endLine, endColumn, annotations);
+		this.type = type;
+		this.arrayCount = arrayCount;
+		this.arraysAnnotations = arraysAnnotations;
 	}
 
 	@Override
@@ -71,4 +93,14 @@ public final class ReferenceType extends Type {
 	public void setType(Type type) {
 		this.type = type;
 	}
+
+	public List<List<AnnotationExpr>> getArraysAnnotations() {
+		return arraysAnnotations;
+	}
+
+	public void setArraysAnnotations(List<List<AnnotationExpr>> arraysAnnotations) {
+		this.arraysAnnotations = arraysAnnotations;
+	}
+	
+	
 }

@@ -24,6 +24,7 @@ import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
+import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.comparators.MethodDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -49,7 +50,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	private int arrayCount;
 
-	private List<NameExpr> throws_;
+	private List<ClassOrInterfaceType> throws_;
 
 	private BlockStmt body;
 
@@ -75,7 +76,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
 			BlockStmt block) {
 		super(annotations, javaDoc);
 		this.modifiers = modifiers;
@@ -91,7 +92,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
 			BlockStmt block, boolean isDefault) {
 		this(javaDoc, modifiers, annotations, typeParameters, type, name,
 				parameters, arrayCount, throws_, block);
@@ -102,7 +103,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
 			BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
@@ -119,7 +120,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<NameExpr> throws_,
+			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
 			BlockStmt block, boolean isDefault) {
 
 		this(beginLine, beginColumn, endLine, endColumn, javaDoc, modifiers,
@@ -164,7 +165,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 		return parameters;
 	}
 
-	public List<NameExpr> getThrows() {
+	public List<ClassOrInterfaceType> getThrows() {
 		return throws_;
 	}
 
@@ -196,7 +197,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 		this.parameters = parameters;
 	}
 
-	public void setThrows(List<NameExpr> throws_) {
+	public void setThrows(List<ClassOrInterfaceType> throws_) {
 		this.throws_ = throws_;
 	}
 
@@ -239,9 +240,9 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			setTypeParameters(null);
 		}
 
-		List<NameExpr> resultThrows = new LinkedList<NameExpr>();
+		List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
 		configuration.apply(getThrows(), remote.getThrows(), resultThrows,
-				NameExpr.class);
+				ClassOrInterfaceType.class);
 		if (!resultThrows.isEmpty()) {
 			setThrows(resultThrows);
 		} else {

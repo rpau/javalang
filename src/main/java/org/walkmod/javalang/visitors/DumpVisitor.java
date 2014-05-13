@@ -447,6 +447,14 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 	public void visit(ClassOrInterfaceType n, Object arg) {
 		printPreviousComments(n, arg);
+
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+				printer.print(" ");
+			}
+		}
+
 		if (n.getScope() != null) {
 			n.getScope().accept(this, arg);
 			printer.print(".");
@@ -457,6 +465,12 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 	public void visit(TypeParameter n, Object arg) {
 		printPreviousComments(n, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ann : n.getAnnotations()) {
+				ann.accept(this, arg);
+				printer.print(" ");
+			}
+		}
 		printer.print(n.getName());
 		if (n.getTypeBound() != null) {
 			printer.print(" extends ");
@@ -473,6 +487,12 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 	public void visit(PrimitiveType n, Object arg) {
 		printPreviousComments(n, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+				printer.print(" ");
+			}
+		}
 		switch (n.getType()) {
 		case Boolean:
 			printer.print("boolean");
@@ -503,14 +523,37 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 	public void visit(ReferenceType n, Object arg) {
 		printPreviousComments(n, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+				printer.print(" ");
+			}
+		}
 		n.getType().accept(this, arg);
+		List<List<AnnotationExpr>> arraysAnnotations = n.getArraysAnnotations();
 		for (int i = 0; i < n.getArrayCount(); i++) {
+			if (arraysAnnotations != null && i < arraysAnnotations.size()) {
+				List<AnnotationExpr> annotations = arraysAnnotations.get(i);
+				if (annotations != null) {
+					for (AnnotationExpr ae : annotations) {
+						printer.print(" ");
+						ae.accept(this, arg);
+
+					}
+				}
+			}
 			printer.print("[]");
 		}
 	}
 
 	public void visit(WildcardType n, Object arg) {
 		printPreviousComments(n, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				printer.print(" ");
+				ae.accept(this, arg);
+			}
+		}
 		printer.print("?");
 		if (n.getExtends() != null) {
 			printer.print(" extends ");
@@ -592,17 +635,51 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printPreviousComments(n, arg);
 		printer.print("new ");
 		n.getType().accept(this, arg);
+		List<List<AnnotationExpr>> arraysAnnotations = n.getArraysAnnotations();
 		if (n.getDimensions() != null) {
+			int j = 0;
 			for (Expression dim : n.getDimensions()) {
+
+				if (arraysAnnotations != null && j < arraysAnnotations.size()) {
+					List<AnnotationExpr> annotations = arraysAnnotations.get(j);
+					if (annotations != null) {
+						for (AnnotationExpr ae : annotations) {
+							printer.print(" ");
+							ae.accept(this, arg);
+						}
+					}
+				}
 				printer.print("[");
 				dim.accept(this, arg);
 				printer.print("]");
+				j++;
 			}
 			for (int i = 0; i < n.getArrayCount(); i++) {
+				if (arraysAnnotations != null && i < arraysAnnotations.size()) {
+
+					List<AnnotationExpr> annotations = arraysAnnotations.get(i);
+					if (annotations != null) {
+						for (AnnotationExpr ae : annotations) {
+							printer.print(" ");
+							ae.accept(this, arg);
+
+						}
+					}
+				}
 				printer.print("[]");
 			}
+
 		} else {
 			for (int i = 0; i < n.getArrayCount(); i++) {
+				if (arraysAnnotations != null && i < arraysAnnotations.size()) {
+					List<AnnotationExpr> annotations = arraysAnnotations.get(i);
+					if (annotations != null) {
+						for (AnnotationExpr ae : annotations) {
+							ae.accept(this, arg);
+							printer.print(" ");
+						}
+					}
+				}
 				printer.print("[]");
 			}
 			printer.print(" ");
@@ -854,7 +931,10 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			printer.print(".");
 		}
 		printer.print("new ");
-		printTypeArgs(n.getTypeArgs(), arg);
+		if (n.getTypeArgs() != null) {
+			printTypeArgs(n.getTypeArgs(), arg);
+			printer.print(" ");
+		}
 		n.getType().accept(this, arg);
 		printArguments(n.getArgs(), arg);
 		if (n.getAnonymousClassBody() != null) {
@@ -923,8 +1003,9 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printer.print(")");
 		if (n.getThrows() != null) {
 			printer.print(" throws ");
-			for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
-				NameExpr name = i.next();
+			for (Iterator<ClassOrInterfaceType> i = n.getThrows().iterator(); i
+					.hasNext();) {
+				ClassOrInterfaceType name = i.next();
 				name.accept(this, arg);
 				if (i.hasNext()) {
 					printer.print(", ");
@@ -940,7 +1021,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printJavadoc(n.getJavaDoc(), arg);
 		printMemberAnnotations(n.getAnnotations(), arg);
 		printModifiers(n.getModifiers());
-		if(n.isDefault()){
+		if (n.isDefault()) {
 			printer.print("default ");
 		}
 		printTypeParameters(n.getTypeParameters(), arg);
@@ -967,8 +1048,9 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		}
 		if (n.getThrows() != null) {
 			printer.print(" throws ");
-			for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
-				NameExpr name = i.next();
+			for (Iterator<ClassOrInterfaceType> i = n.getThrows().iterator(); i
+					.hasNext();) {
+				ClassOrInterfaceType name = i.next();
 				name.accept(this, arg);
 				if (i.hasNext()) {
 					printer.print(", ");

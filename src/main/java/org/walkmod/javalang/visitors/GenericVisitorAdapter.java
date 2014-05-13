@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.visitors;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.BlockComment;
 import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.ImportDeclaration;
@@ -104,9 +106,8 @@ import org.walkmod.javalang.ast.type.WildcardType;
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class GenericVisitorAdapter<R, A>
-		implements
-			GenericVisitor<R, A> {
+public abstract class GenericVisitorAdapter<R, A> implements
+		GenericVisitor<R, A> {
 
 	public R visit(AnnotationDeclaration n, A arg) {
 		if (n.getJavaDoc() != null) {
@@ -155,6 +156,15 @@ public abstract class GenericVisitorAdapter<R, A>
 			}
 		} else {
 			n.getInitializer().accept(this, arg);
+		}
+		if (n.getArraysAnnotations() != null) {
+			for (List<AnnotationExpr> list : n.getArraysAnnotations()) {
+				if (list != null) {
+					for (AnnotationExpr ae : list) {
+						ae.accept(this, arg);
+					}
+				}
+			}
 		}
 		return null;
 	}
@@ -267,6 +277,11 @@ public abstract class GenericVisitorAdapter<R, A>
 				t.accept(this, arg);
 			}
 		}
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+			}
+		}
 		return null;
 	}
 
@@ -314,7 +329,7 @@ public abstract class GenericVisitorAdapter<R, A>
 			}
 		}
 		if (n.getThrows() != null) {
-			for (NameExpr name : n.getThrows()) {
+			for (ClassOrInterfaceType name : n.getThrows()) {
 				name.accept(this, arg);
 			}
 		}
@@ -579,7 +594,7 @@ public abstract class GenericVisitorAdapter<R, A>
 			}
 		}
 		if (n.getThrows() != null) {
-			for (NameExpr name : n.getThrows()) {
+			for (ClassOrInterfaceType name : n.getThrows()) {
 				name.accept(this, arg);
 			}
 		}
@@ -652,6 +667,11 @@ public abstract class GenericVisitorAdapter<R, A>
 	}
 
 	public R visit(PrimitiveType n, A arg) {
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+			}
+		}
 		return null;
 	}
 
@@ -662,6 +682,20 @@ public abstract class GenericVisitorAdapter<R, A>
 
 	public R visit(ReferenceType n, A arg) {
 		n.getType().accept(this, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+			}
+		}
+		if (n.getArraysAnnotations() != null) {
+			for (List<AnnotationExpr> list : n.getArraysAnnotations()) {
+				if (list != null) {
+					for (AnnotationExpr ae : list) {
+						ae.accept(this, arg);
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -753,6 +787,11 @@ public abstract class GenericVisitorAdapter<R, A>
 				c.accept(this, arg);
 			}
 		}
+		if(n.getAnnotations() != null){
+			for(AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
 		return null;
 	}
 
@@ -787,6 +826,11 @@ public abstract class GenericVisitorAdapter<R, A>
 	}
 
 	public R visit(VoidType n, A arg) {
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+			}
+		}
 		return null;
 	}
 
@@ -802,6 +846,11 @@ public abstract class GenericVisitorAdapter<R, A>
 		}
 		if (n.getSuper() != null) {
 			n.getSuper().accept(this, arg);
+		}
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				ae.accept(this, arg);
+			}
 		}
 		return null;
 	}

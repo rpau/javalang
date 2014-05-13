@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.List;
+
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -40,6 +43,12 @@ public final class PrimitiveType extends Type {
 	public PrimitiveType(int beginLine, int beginColumn, int endLine,
 			int endColumn, Primitive type) {
 		super(beginLine, beginColumn, endLine, endColumn);
+		this.type = type;
+	}
+	
+	public PrimitiveType(int beginLine, int beginColumn, int endLine,
+			int endColumn, Primitive type, List<AnnotationExpr> annotations) {
+		super(beginLine, beginColumn, endLine, endColumn, annotations);
 		this.type = type;
 	}
 

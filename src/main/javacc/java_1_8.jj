@@ -1321,9 +1321,11 @@ List ExtendsList(boolean isInterface):
    boolean extendsMoreThanOne = false;
    List ret = new LinkedList();
    ClassOrInterfaceType cit;
+    AnnotationExpr ann;
+   List annotations = null;
 }
 {
-   "extends" cit = ClassOrInterfaceType() { ret.add(cit); }
+   "extends" (ann = Annotation()   { annotations = add(annotations, ann);})* cit = ClassOrInterfaceType() { cit.setAnnotations(annotations); ret.add(cit); }
    ( "," cit = ClassOrInterfaceType() { ret.add(cit); extendsMoreThanOne = true; } )*
    {
       if (extendsMoreThanOne && !isInterface)
@@ -1336,9 +1338,11 @@ List ImplementsList(boolean isInterface):
 {
    List ret = new LinkedList();
    ClassOrInterfaceType cit;
+   AnnotationExpr ann;
+   List annotations = null;
 }
 {
-   "implements" cit = ClassOrInterfaceType() { ret.add(cit); }
+   "implements" (ann = Annotation()   { annotations = add(annotations, ann);})* cit = ClassOrInterfaceType() { cit.setAnnotations(annotations); ret.add(cit); }
    ( "," cit = ClassOrInterfaceType() { ret.add(cit); } )*
    {
       if (isInterface)
@@ -1399,11 +1403,15 @@ List TypeParameters():
 {
 	List ret = new LinkedList();
 	TypeParameter tp;
+	List annotations = null;
+	AnnotationExpr ann;
 }
 {
    "<" { ret.add(new int[]{token.beginLine, token.beginColumn}); }
-   tp = TypeParameter() { ret.add(tp); }
-   ( "," tp = TypeParameter() { ret.add(tp); } )* 
+   (ann = Annotation()   { annotations = add(annotations, ann);})*
+   
+   tp = TypeParameter() { ret.add(tp); tp.setAnnotations(annotations); annotations = null; }
+   ( "," (ann = Annotation()   { annotations = add(annotations, ann);})* tp = TypeParameter() { ret.add(tp); tp.setAnnotations(annotations); annotations = null; } )* 
    ">"
    { return ret; }
 }
@@ -1424,10 +1432,12 @@ List TypeBound():
 {
 	List ret = new LinkedList();
 	ClassOrInterfaceType cit;
+	AnnotationExpr ann;
+	List annotations = null;
 }
 {
-   "extends" cit = ClassOrInterfaceType() { ret.add(cit); }
-   ( "&"     cit = ClassOrInterfaceType() { ret.add(cit); } )*
+   "extends" (ann = Annotation()   { annotations = add(annotations, ann);})* cit = ClassOrInterfaceType() { cit.setAnnotations(annotations); ret.add(cit); annotations=null;}
+   ( "&"   (ann = Annotation()   { annotations = add(annotations, ann);})*  cit = ClassOrInterfaceType() { cit.setAnnotations(annotations); ret.add(cit); annotations=null;} )*
    { return ret; }
 }
 
@@ -1580,7 +1590,7 @@ MethodDeclaration MethodDeclaration(Modifier modifier):
   [ typeParameters = TypeParameters() { int[] lineCol=(int[])typeParameters.remove(0); if(line==-1){ line=lineCol[0]; column=lineCol[1];} } ]
   type = ResultType() { if(line==-1){line=type.getBeginLine(); column=type.getBeginColumn();}}
   <IDENTIFIER> { name = token.image; } parameters = FormalParameters() ( "[" "]" { arrayCount++; } )*
-  [ "throws" throws_ = NameList() ]
+  [ "throws" throws_ = ClassOrInterfaceTypeList() ]
   ( block = Block() | ";" )
 
   { return new MethodDeclaration(line, column, token.endLine, token.endColumn,popJavadoc(), modifier.modifiers, modifier.annotations, typeParameters, type, name, parameters, arrayCount, throws_, block); }
@@ -1655,7 +1665,7 @@ ConstructorDeclaration ConstructorDeclaration(Modifier modifier):
 {
   [ typeParameters = TypeParameters() { int[] lineCol=(int[])typeParameters.remove(0); if(line==-1){ line=lineCol[0]; column=lineCol[1];} } ]
   // Modifiers matched in the caller
-  <IDENTIFIER> { name = token.image; if(line==-1){line=token.beginLine; column=token.beginColumn;}} parameters = FormalParameters() [ "throws" throws_ = NameList() ]
+  <IDENTIFIER> { name = token.image; if(line==-1){line=token.beginLine; column=token.beginColumn;}} parameters = FormalParameters() [ "throws" throws_ = ClassOrInterfaceTypeList() ]
   "{" { bbLine=token.beginLine; bbColumn=token.beginColumn; }
     [ LOOKAHEAD(ExplicitConstructorInvocation()) exConsInv = ExplicitConstructorInvocation() ]
     stmts = Statements()
@@ -1724,6 +1734,7 @@ InitializerDeclaration InitializerDeclaration():
  * Type, name and expression syntax follows.
  */
 
+
 Type Type():
 {
 	Type ret;
@@ -1741,14 +1752,17 @@ ReferenceType ReferenceType():
 {
 	Type type;
 	int arrayCount = 0;
+	List annotations = null;
+	List accum= null;
+	AnnotationExpr ann;
 }
 {
   (
-   type = PrimitiveType() ( LOOKAHEAD(2) "[" "]" { arrayCount++; } )+
+   type = PrimitiveType() ( LOOKAHEAD(2)  (ann = Annotation()   { annotations = add(annotations, ann);  })* "[" "]" { arrayCount++; accum = add(accum, annotations); annotations= null;} )+
   |
-   type = ClassOrInterfaceType() ( LOOKAHEAD(2) "[" "]" { arrayCount++; } )*
+   type = ClassOrInterfaceType()  ( LOOKAHEAD(2) (ann = Annotation()   { annotations = add(annotations, ann);  })* "[" "]" { arrayCount++; accum = add(accum, annotations); annotations= null;} )*
   )
-  { return new ReferenceType(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, type, arrayCount); }
+  { return new ReferenceType(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, type, arrayCount, null, accum); }
 }
 
 ClassOrInterfaceType ClassOrInterfaceType():
@@ -1758,14 +1772,16 @@ ClassOrInterfaceType ClassOrInterfaceType():
 	List typeArgs = null;
 	int line;
 	int column;
+	List annotations = null;
+	AnnotationExpr ann;
 }
 {
   <IDENTIFIER> {line=token.beginLine; column=token.beginColumn;} { name = token.image; }
   [ LOOKAHEAD(2) typeArgs = TypeArguments() {typeArgs.remove(0);} ]
   { ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,null, name, typeArgs); }
   (
-	  LOOKAHEAD(2) "." <IDENTIFIER> { name = token.image; }
-	  [ LOOKAHEAD(2) typeArgs = TypeArguments() {typeArgs.remove(0);} ] { ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,ret, name, typeArgs); }
+	  LOOKAHEAD(2) "." (ann = Annotation()   { annotations = add(annotations, ann);})*  <IDENTIFIER> { name = token.image; }
+	  [ LOOKAHEAD(2) typeArgs = TypeArguments() {typeArgs.remove(0);} ] { ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,ret, name, typeArgs); ret.setAnnotations(annotations); annotations = null; }
   )*
   { return ret; }
 }
@@ -1773,11 +1789,11 @@ ClassOrInterfaceType ClassOrInterfaceType():
 List TypeArguments():
 {
 	List ret = new LinkedList();
-	Type type;
+	Type type;	
 }
 {
    (
-     "<" { ret.add(new int[]{token.beginLine, token.beginColumn}); }
+     "<" { ret.add(new int[]{token.beginLine, token.beginColumn}); }      
      type = TypeArgument() { ret.add(type); } ( "," type = TypeArgument() { ret.add(type); } )*
      ">"
    )
@@ -1789,15 +1805,18 @@ List TypeArguments():
 
 Type TypeArgument():
 {
-	Type ret;
+	Type ret;	
+	List annotations = null;
+	AnnotationExpr ann;
 }
 {
+  (ann = Annotation()   { annotations = add(annotations, ann);})*
  (
-   ret = ReferenceType()
+   ret = ReferenceType() 
  |
    ret = Wildcard()
  )
- { return ret; }
+ { ret.setAnnotations(annotations); return ret; }
 }
 
 WildcardType Wildcard():
@@ -1806,15 +1825,21 @@ WildcardType Wildcard():
 	ReferenceType sup = null;
 	int line;
 	int column;
+	AnnotationExpr ann;
+	List annotations = null;
 }
 {
    "?" {line=token.beginLine; column=token.beginColumn;}
    [
-		"extends" ext = ReferenceType()
+		"extends" (ann = Annotation()   { annotations = add(annotations, ann);})* ext = ReferenceType()		{
+		  ext.setAnnotations(annotations);		}
 	|
-		"super" sup = ReferenceType()
+		"super" (ann = Annotation()   { annotations = add(annotations, ann);})* sup = ReferenceType()		{
+		  sup.setAnnotations(annotations);		}
    ]
-   { return new WildcardType(line, column, token.endLine, token.endColumn,ext, sup); }
+   { 
+     return new WildcardType(line, column, token.endLine, token.endColumn,ext, sup);
+   }
 }
 
 PrimitiveType PrimitiveType():
@@ -1869,13 +1894,15 @@ NameExpr Name():
   { return ret; }
 }
 
-List NameList():
+List ClassOrInterfaceTypeList():
 {
 	List ret = new LinkedList();
-	NameExpr name;
+	ClassOrInterfaceType type;
+	List annotations= null;
+	AnnotationExpr ann;
 }
 {
-  name = Name() { ret.add(name); }  ( "," name = Name() { ret.add(name); } )*
+  (ann = Annotation()   { annotations = add(annotations, ann);  })* type = ClassOrInterfaceType() { type.setAnnotations(annotations); ret.add(type); annotations=null;}  ( "," (ann = Annotation()   { annotations = add(annotations, ann);  })* type = ClassOrInterfaceType() { type.setAnnotations(annotations); ret.add(type); annotations=null;} )*
 
   { return ret; }
 }
@@ -2224,14 +2251,17 @@ Expression CastExpression():
 	Type type;
 	int line;
 	int column;
+	AnnotationExpr ann;
+	List annotations = null;
 }
 {
-  "(" {line=token.beginLine; column=token.beginColumn;} 
+  "(" {line=token.beginLine; column=token.beginColumn;}
+   (ann = Annotation()   { annotations = add(annotations, ann);})*
   (
   	  LOOKAHEAD(2)
-  	  type = PrimitiveType() ")" ret = UnaryExpression() { ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
+  	  type = PrimitiveType() ")" ret = UnaryExpression() { type.setAnnotations(annotations); ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
   	|
-  	  type = ReferenceType() ")" ret = UnaryExpressionNotPlusMinus() { ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
+  	  type = ReferenceType() ")" ret = UnaryExpressionNotPlusMinus() { type.setAnnotations(annotations); ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
   )
   { return ret; }
 }
@@ -2459,6 +2489,7 @@ List ArgumentList():
 Expression AllocationExpression(Expression scope):
 {
 	Expression ret;
+	ArrayCreationExpr arrayExpr;
 	Type type;
 	Object[] arr = null;
 	List typeArgs = null;
@@ -2466,35 +2497,47 @@ Expression AllocationExpression(Expression scope):
 	List args;
 	int line;
 	int column;
+	List annotations = null;
+	AnnotationExpr ann;
 }
 {
   "new" { if(scope==null) {line=token.beginLine; column=token.beginColumn;} else {line=scope.getBeginLine(); column=scope.getBeginColumn();} }
+
+  (ann = Annotation()   { annotations = add(annotations, ann);})*
   (
-	  type = PrimitiveType()
+	  type = PrimitiveType() {type.setAnnotations(annotations); arrayExpr = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, null, 0);	  }	  
 	  arr = ArrayDimsAndInits()
 	  {
+	    arrayExpr.setArraysAnnotations((List)arr[2]);
 	  	if (arr[0] instanceof Integer) {
-		  	ret = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, ((Integer)arr[0]).intValue(), (ArrayInitializerExpr)arr[1]);
+	  	    arrayExpr.setArrayCount(((Integer)arr[0]).intValue());
+	  	    arrayExpr.setInitializer((ArrayInitializerExpr)arr[1]);		  	
 	  	} else {
-		  	ret = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, (List)arr[0], ((Integer)arr[1]).intValue());
+	  	    arrayExpr.setArrayCount(((Integer)arr[1]).intValue());
+	  	    arrayExpr.setDimensions((List)arr[0]);
 	  	}
+	  	ret = arrayExpr;
 	  }
 	|
   	  LOOKAHEAD(ClassOrInterfaceType() ArrayDimsAndInits())
-	  type = ClassOrInterfaceType()
+	  type = ClassOrInterfaceType() {type.setAnnotations(annotations); arrayExpr = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, null, 0);	  }
       arr = ArrayDimsAndInits()
 	  {
+	    arrayExpr.setArraysAnnotations((List)arr[2]);
 	  	if (arr[0] instanceof Integer) {
-		  	ret = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, ((Integer)arr[0]).intValue(), (ArrayInitializerExpr)arr[1]);
+		  	arrayExpr.setArrayCount(((Integer)arr[0]).intValue());
+	  	    arrayExpr.setInitializer((ArrayInitializerExpr)arr[1]);	
 	  	} else {
-		  	ret = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, (List)arr[0], ((Integer)arr[1]).intValue());
+		  	arrayExpr.setArrayCount(((Integer)arr[1]).intValue());
+	  	    arrayExpr.setDimensions((List)arr[0]);
 	  	}
+	  	ret = arrayExpr;
 	  }
     |
-  	  [ typeArgs = TypeArguments() {typeArgs.remove(0);} ]
+  	  [ typeArgs = TypeArguments()  (ann = Annotation()   { annotations = add(annotations, ann);})* {typeArgs.remove(0);} ]
   	  type = ClassOrInterfaceType()
       args = Arguments() [ LOOKAHEAD(2) anonymousBody = ClassOrInterfaceBody(false) ]
-      { ret = new ObjectCreationExpr(line, column, token.endLine, token.endColumn, scope, (ClassOrInterfaceType) type, typeArgs, args, anonymousBody); }
+      { type.setAnnotations(annotations); ret = new ObjectCreationExpr(line, column, token.endLine, token.endColumn, scope, (ClassOrInterfaceType) type, typeArgs, args, anonymousBody); }
   )
   { return ret; }
 }
@@ -2505,19 +2548,23 @@ Expression AllocationExpression(Expression scope):
  */
 Object[] ArrayDimsAndInits():
 {
-	Object[] ret = new Object[2];
+	Object[] ret = new Object[3];
 	Expression expr;
 	List inits = null;
 	int i = 0;
+	List accum = null;
+	List annotations = null;
+	AnnotationExpr ann;
 }
 {
+  (ann = Annotation()   { annotations = add(annotations, ann);  })*
   (
 	  LOOKAHEAD(2)
-	  ( LOOKAHEAD(2) "[" expr = Expression() { inits = add(inits, expr); } "]" )+ ( LOOKAHEAD(2) "[" "]" { i++; } )* { ret[0] = inits; ret[1] = new Integer(i); }
+	  ( LOOKAHEAD(2) "[" expr = Expression() { accum = add(accum, annotations); annotations=null; inits = add(inits, expr); } "]" )+ ( LOOKAHEAD(2) (ann = Annotation()   { annotations = add(annotations, ann);  })* "[" "]" { i++; } )* {  accum = add(accum, annotations); annotations=null; ret[0] = inits; ret[1] = new Integer(i); }
 	|
-	  ( "[" "]" { i++; } )+ expr = ArrayInitializer() { ret[0] = new Integer(i); ret[1] = expr; }
+	  ( "[" "]" { i++; } )+ expr = ArrayInitializer() { accum = add(accum, annotations);annotations=null;  ret[0] = new Integer(i); ret[1] = expr; }
   )
-  { return ret; }
+  { ret[2]=accum; return ret; }
 }
 
 

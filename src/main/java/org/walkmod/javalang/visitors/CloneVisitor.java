@@ -16,6 +16,7 @@
 package org.walkmod.javalang.visitors;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.BlockComment;
@@ -145,9 +146,11 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 	@Override
 	public Node visit(TypeParameter _n, Object _arg) {
 		List<ClassOrInterfaceType> typeBound = visit(_n.getTypeBound(), _arg);
+		List<AnnotationExpr> annotations = visit(_n.getAnnotations(), _arg);
+		
 		TypeParameter r = new TypeParameter(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
-				_n.getName(), typeBound);
+				_n.getName(), typeBound, annotations);
 		return r;
 	}
 
@@ -277,7 +280,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		List<AnnotationExpr> annotations = visit(_n.getAnnotations(), _arg);
 		List<TypeParameter> typeParameters = visit(_n.getTypeParameters(), _arg);
 		List<Parameter> parameters = visit(_n.getParameters(), _arg);
-		List<NameExpr> throws_ = visit(_n.getThrows(), _arg);
+		List<ClassOrInterfaceType> throws_ = visit(_n.getThrows(), _arg);
 		BlockStmt block = cloneNodes(_n.getBlock(), _arg);
 		ConstructorDeclaration r = new ConstructorDeclaration(
 				_n.getBeginLine(), _n.getBeginColumn(), _n.getEndLine(),
@@ -293,7 +296,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		List<TypeParameter> typeParameters = visit(_n.getTypeParameters(), _arg);
 		Type type_ = cloneNodes(_n.getType(), _arg);
 		List<Parameter> parameters = visit(_n.getParameters(), _arg);
-		List<NameExpr> throws_ = visit(_n.getThrows(), _arg);
+		List<ClassOrInterfaceType> throws_ = visit(_n.getThrows(), _arg);
 		BlockStmt block = cloneNodes(_n.getBody(), _arg);
 		MethodDeclaration r = new MethodDeclaration(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
@@ -356,33 +359,47 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 	public Node visit(ClassOrInterfaceType _n, Object _arg) {
 		ClassOrInterfaceType scope = cloneNodes(_n.getScope(), _arg);
 		List<Type> typeArgs = visit(_n.getTypeArgs(), _arg);
+		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
+		
 		ClassOrInterfaceType r = new ClassOrInterfaceType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), scope,
-				_n.getName(), typeArgs);
+				_n.getName(), typeArgs, ann);
 		return r;
 	}
 
 	@Override
 	public Node visit(PrimitiveType _n, Object _arg) {
+		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
 		PrimitiveType r = new PrimitiveType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
-				_n.getType());
+				_n.getType(), ann);
 		return r;
 	}
 
 	@Override
 	public Node visit(ReferenceType _n, Object _arg) {
+		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
 		Type type_ = cloneNodes(_n.getType(), _arg);
+		List<List<AnnotationExpr>> arraysAnnotations = _n.getArraysAnnotations();
+		List<List<AnnotationExpr>> _arraysAnnotations = null;
+		if(arraysAnnotations != null){
+			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();			
+			for(List<AnnotationExpr> aux: arraysAnnotations){
+				_arraysAnnotations.add(visit(aux, _arg));
+			}
+		}
+		
 		ReferenceType r = new ReferenceType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_,
-				_n.getArrayCount());
+				_n.getArrayCount(), ann, _arraysAnnotations);
 		return r;
 	}
 
 	@Override
 	public Node visit(VoidType _n, Object _arg) {
+		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
 		VoidType r = new VoidType(_n.getBeginLine(), _n.getBeginColumn(),
-				_n.getEndLine(), _n.getEndColumn());
+				_n.getEndLine(), _n.getEndColumn(), ann);
 		return r;
 	}
 
@@ -390,9 +407,10 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 	public Node visit(WildcardType _n, Object _arg) {
 		ReferenceType ext = cloneNodes(_n.getExtends(), _arg);
 		ReferenceType sup = cloneNodes(_n.getSuper(), _arg);
+		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
 		WildcardType r = new WildcardType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), ext,
-				sup);
+				sup, ann);
 		return r;
 	}
 
@@ -413,9 +431,19 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		ArrayCreationExpr r = new ArrayCreationExpr(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_,
 				dimensions, _n.getArrayCount());
-		if (_n.getInitializer() != null) // ArrayCreationExpr has two mutually
+		if (_n.getInitializer() != null) {// ArrayCreationExpr has two mutually
 			// exclusive constructors
 			r.setInitializer(cloneNodes(_n.getInitializer(), _arg));
+		}
+		List<List<AnnotationExpr>> arraysAnnotations = _n.getArraysAnnotations();
+		List<List<AnnotationExpr>> _arraysAnnotations = null;
+		if(arraysAnnotations != null){
+			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();			
+			for(List<AnnotationExpr> aux: arraysAnnotations){
+				_arraysAnnotations.add(visit(aux, _arg));
+			}
+		}
+		r.setArraysAnnotations(_arraysAnnotations);
 		return r;
 	}
 

@@ -28,5 +28,6 @@ public class ASTParserTest {
 		File f = new File("src/test/resources/source1.8.txt");
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
 	}
 }

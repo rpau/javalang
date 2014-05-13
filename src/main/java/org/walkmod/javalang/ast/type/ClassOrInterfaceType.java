@@ -18,6 +18,7 @@ package org.walkmod.javalang.ast.type;
 import java.util.Comparator;
 import java.util.List;
 
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.comparators.ClassOrInterfaceTypeComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -51,6 +52,15 @@ IdentificableNode{
 			int endColumn, ClassOrInterfaceType scope, String name,
 			List<Type> typeArgs) {
 		super(beginLine, beginColumn, endLine, endColumn);
+		this.scope = scope;
+		this.name = name;
+		this.typeArgs = typeArgs;
+	}
+	
+	public ClassOrInterfaceType(int beginLine, int beginColumn, int endLine,
+			int endColumn, ClassOrInterfaceType scope, String name,
+			List<Type> typeArgs, List<AnnotationExpr> annotations) {
+		super(beginLine, beginColumn, endLine, endColumn, annotations);
 		this.scope = scope;
 		this.name = name;
 		this.typeArgs = typeArgs;
