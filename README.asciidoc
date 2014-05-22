@@ -29,20 +29,15 @@ as AST merge support or Javadoc parsing.
 ----
 == Usage
 
-The available version on Maven, just support *Java 7* now. If you are interested in 
-creating a new http://www.walkmod.com[walkmod] plugin for Java code, you must add 
+ If you are interested in creating a new http://www.walkmod.com[walkmod] plugin for Java code, you must add 
 the following dependency in your project.
 ----
 <dependency>
     <groupId>org.walkmod</groupId>
     <artifactId>javalang</artifactId>
-    <version>2.0.1</version>
+    <version>3.0.0</version>
 </dependency>
 ----
-
-The *Java 8* support is now just in master, but it will be uploaded to maven soon. However, you can built the jar using maven.
-
-  $ mvn install
 
 == Contributing
 
