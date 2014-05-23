@@ -29,8 +29,8 @@ as AST merge support or Javadoc parsing.
 ----
 == Usage
 
- If you are interested in creating a new http://www.walkmod.com[walkmod] plugin for Java code, you must add 
-the following dependency in your project.
+If you are interested in creating a new http://www.walkmod.com[walkmod] plugin for Java code, you must add the following dependency in your project.
+
 ----
 <dependency>
     <groupId>org.walkmod</groupId>
