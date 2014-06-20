@@ -24,6 +24,7 @@ options {
   //SUPPORT_CLASS_VISIBILITY_PUBLIC=false;
   JDK_VERSION = "1.5";
   TOKEN_FACTORY = "ASTParser.GTToken";
+ // DEBUG_LOOKAHEAD = true;
 }
 
 PARSER_BEGIN(ASTParser)
@@ -1690,9 +1691,9 @@ ExplicitConstructorInvocationStmt ExplicitConstructorInvocation():
 }
 {
   (
-	  LOOKAHEAD([ TypeArguments() ] "this" "(")
+	  LOOKAHEAD([ TypeArguments() ] <THIS> "(")
 	  [ typeArgs = TypeArguments() { int[] lineCol=(int[])typeArgs.remove(0); line=lineCol[0]; column=lineCol[1]; } ]
-	  "this" { if (line == -1) {line=token.beginLine; column=token.beginColumn;} isThis = true; }
+	  <THIS> { if (line == -1) {line=token.beginLine; column=token.beginColumn;} isThis = true; }
 	  args = Arguments() ";"
 	|
 	  [
@@ -1701,7 +1702,7 @@ ExplicitConstructorInvocationStmt ExplicitConstructorInvocation():
 	  	{ line=expr.getBeginLine(); column=expr.getBeginColumn(); }
 	  ]
 	  [ typeArgs = TypeArguments() {int[] lineCol=(int[])typeArgs.remove(0); if (line == -1) {line=lineCol[0]; column=lineCol[1];}} ]
-	  "super" {if (line == -1) {line=token.beginLine; column=token.beginColumn;}}
+	  <SUPER> {if (line == -1) {line=token.beginLine; column=token.beginColumn;}}
 	  args = Arguments() ";"
   )
   { return new ExplicitConstructorInvocationStmt(line, column, token.endLine, token.endColumn,typeArgs, isThis, expr, args); }
@@ -2351,9 +2352,12 @@ Expression PrimaryPrefix():
 	  LOOKAHEAD( ResultType() "." "class" )
 	  type = ResultType()  "." "class" { ret = new ClassExpr(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, type); }
 
-	| LOOKAHEAD (ResultType() "::")
-	  type = ResultType() 
-	  { ret = new TypeExpr(type.getBeginLine(), type.getBeginColumn(), type.getEndLine(), type.getEndColumn(), type); }	  				      
+	| LOOKAHEAD (ResultType() "::" )
+	  type = ResultType() "::" [typeArgs = TypeParameters() { typeArgs.remove(0); }] (<IDENTIFIER> | "new")
+		{
+		  ret = new TypeExpr(type.getBeginLine(), type.getBeginColumn(), type.getEndLine(), type.getEndColumn(), type);
+		  ret = new MethodReferenceExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, typeArgs, token.image);
+		}	 	  				      
 	|
 	  	<IDENTIFIER> { name = token.image; line=token.beginLine; column=token.beginColumn; }
 	  	[ args = Arguments() {
@@ -2521,25 +2525,25 @@ Expression AllocationExpression(Expression scope):
 	  	ret = arrayExpr;
 	  }
 	|
-  	  LOOKAHEAD(ClassOrInterfaceType() ArrayDimsAndInits())
-	  type = ClassOrInterfaceType() {type.setAnnotations(annotations); arrayExpr = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, null, 0);	  }
-      arr = ArrayDimsAndInits()
-	  {
-	    arrayExpr.setArraysAnnotations((List)arr[2]);
-	  	if (arr[0] instanceof Integer) {
-		  	arrayExpr.setArrayCount(((Integer)arr[0]).intValue());
-	  	    arrayExpr.setInitializer((ArrayInitializerExpr)arr[1]);	
-	  	} else {
-		  	arrayExpr.setArrayCount(((Integer)arr[1]).intValue());
-	  	    arrayExpr.setDimensions((List)arr[0]);
-	  	}
-	  	ret = arrayExpr;
-	  }
-    |
-  	  [ typeArgs = TypeArguments()  (ann = Annotation()   { annotations = add(annotations, ann);})* {typeArgs.remove(0);} ]
-  	  type = ClassOrInterfaceType()
-      args = Arguments() [ LOOKAHEAD(2) anonymousBody = ClassOrInterfaceBody(false) ]
-      { type.setAnnotations(annotations); ret = new ObjectCreationExpr(line, column, token.endLine, token.endColumn, scope, (ClassOrInterfaceType) type, typeArgs, args, anonymousBody); }
+	 [ typeArgs = TypeArguments()  (ann = Annotation()   { annotations = add(annotations, ann);})* {typeArgs.remove(0);} ]  	
+	  type = ClassOrInterfaceType() 
+
+      (	      arr = ArrayDimsAndInits() {type.setAnnotations(annotations); arrayExpr = new ArrayCreationExpr(line, column, token.endLine, token.endColumn, type, null, 0);	  }
+		  {
+		    arrayExpr.setArraysAnnotations((List)arr[2]);
+		  	if (arr[0] instanceof Integer) {
+			  	arrayExpr.setArrayCount(((Integer)arr[0]).intValue());
+		  	    arrayExpr.setInitializer((ArrayInitializerExpr)arr[1]);	
+		  	} else {
+			  	arrayExpr.setArrayCount(((Integer)arr[1]).intValue());
+		  	    arrayExpr.setDimensions((List)arr[0]);
+		  	}
+		  	ret = arrayExpr;
+		  }
+	  |
+	      args = Arguments() [ LOOKAHEAD(2) anonymousBody = ClassOrInterfaceBody(false) ]
+	      { type.setAnnotations(annotations); ret = new ObjectCreationExpr(line, column, token.endLine, token.endColumn, scope, (ClassOrInterfaceType) type, typeArgs, args, anonymousBody); }
+      )
   )
   { return ret; }
 }
