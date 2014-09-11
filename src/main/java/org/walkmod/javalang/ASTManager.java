@@ -29,13 +29,16 @@ import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.InitializerDeclaration;
+import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
+import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.ast.type.VoidType;
+
 
 /**
  * <p>
@@ -262,7 +265,14 @@ public class ASTManager {
 			} else {
 				result = astParser.ClassOrInterfaceBodyDeclaration(true);
 			}
-		} else {
+		}
+		else if (Expression.class.isAssignableFrom(clazz)){
+			result = astParser.Expression(); 
+		}
+		else if (Statement.class.isAssignableFrom(clazz)){
+			result = astParser.BlockStatement();
+		}
+		else {
 			Method method = null;
 			try {
 				method = astParser.getClass().getMethod(clazz.getSimpleName());

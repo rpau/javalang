@@ -408,7 +408,9 @@ public class Java8Test{
 	* but parseable (like 1 = 1;) extracted from the jsr335-final.  
 	*/
 	public static void main(String[] args) throws Exception{
-		
+
+		optimizedInstructions.forEach(instr -> instr.accept(this));
+				
 		Object o = s -> String::length;		
 		
 		() -> {};                   // No parameters; result is void

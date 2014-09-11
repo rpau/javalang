@@ -812,7 +812,9 @@ public abstract class ModifierVisitorAdapter<A> implements
 			}
 			removeNulls(annotations);
 		}
-		n.setType((Type) n.getType().accept(this, arg));
+		if (n.getType() != null) {
+			n.setType((Type) n.getType().accept(this, arg));
+		}
 		n.setId((VariableDeclaratorId) n.getId().accept(this, arg));
 		return n;
 	}

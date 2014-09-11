@@ -661,7 +661,9 @@ public abstract class GenericVisitorAdapter<R, A> implements
 				a.accept(this, arg);
 			}
 		}
-		n.getType().accept(this, arg);
+		if (n.getType() != null) {
+			n.getType().accept(this, arg);
+		}
 		n.getId().accept(this, arg);
 		return null;
 	}
@@ -787,8 +789,8 @@ public abstract class GenericVisitorAdapter<R, A> implements
 				c.accept(this, arg);
 			}
 		}
-		if(n.getAnnotations() != null){
-			for(AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}

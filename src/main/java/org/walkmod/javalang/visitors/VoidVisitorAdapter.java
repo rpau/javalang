@@ -157,10 +157,10 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 		} else {
 			n.getInitializer().accept(this, arg);
 		}
-		if(n.getArraysAnnotations() != null){
-			for(List<AnnotationExpr> annList : n.getArraysAnnotations()){
-				if(annList != null){
-					for(AnnotationExpr ae: annList){
+		if (n.getArraysAnnotations() != null) {
+			for (List<AnnotationExpr> annList : n.getArraysAnnotations()) {
+				if (annList != null) {
+					for (AnnotationExpr ae : annList) {
 						ae.accept(this, arg);
 					}
 				}
@@ -267,8 +267,8 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 				t.accept(this, arg);
 			}
 		}
-		if(n.getAnnotations() != null){
-			for (AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}
@@ -616,13 +616,15 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 				a.accept(this, arg);
 			}
 		}
-		n.getType().accept(this, arg);
+		if (n.getType() != null) {
+			n.getType().accept(this, arg);
+		}
 		n.getId().accept(this, arg);
 	}
 
 	public void visit(PrimitiveType n, A arg) {
-		if(n.getAnnotations() != null){
-			for (AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}
@@ -634,15 +636,15 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 
 	public void visit(ReferenceType n, A arg) {
 		n.getType().accept(this, arg);
-		if(n.getAnnotations() != null){
-			for (AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}
-		if(n.getArraysAnnotations() != null){
-			for(List<AnnotationExpr> annList : n.getArraysAnnotations()){
-				if(annList != null){
-					for(AnnotationExpr ae: annList){
+		if (n.getArraysAnnotations() != null) {
+			for (List<AnnotationExpr> annList : n.getArraysAnnotations()) {
+				if (annList != null) {
+					for (AnnotationExpr ae : annList) {
 						ae.accept(this, arg);
 					}
 				}
@@ -727,8 +729,8 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 				c.accept(this, arg);
 			}
 		}
-		if(n.getAnnotations() != null){
-			for(AnnotationExpr ann: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ann : n.getAnnotations()) {
 				ann.accept(this, arg);
 			}
 		}
@@ -761,8 +763,8 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 	}
 
 	public void visit(VoidType n, A arg) {
-		if(n.getAnnotations() != null){
-			for (AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}
@@ -780,8 +782,8 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 		if (n.getSuper() != null) {
 			n.getSuper().accept(this, arg);
 		}
-		if(n.getAnnotations() != null){
-			for (AnnotationExpr ae: n.getAnnotations()){
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
 				ae.accept(this, arg);
 			}
 		}
@@ -812,20 +814,20 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 			n.getBody().accept(this, arg);
 		}
 	}
-	
-	public void visit(MethodReferenceExpr n, final A arg){
+
+	public void visit(MethodReferenceExpr n, final A arg) {
 		if (n.getTypeParameters() != null) {
 			for (final TypeParameter a : n.getTypeParameters()) {
 				a.accept(this, arg);
 			}
 		}
-		if(n.getScope() != null){
+		if (n.getScope() != null) {
 			n.getScope().accept(this, arg);
 		}
 	}
-	
+
 	public void visit(TypeExpr n, final A arg) {
-		if(n.getType() != null){
+		if (n.getType() != null) {
 			n.getType().accept(this, arg);
 		}
 	}
