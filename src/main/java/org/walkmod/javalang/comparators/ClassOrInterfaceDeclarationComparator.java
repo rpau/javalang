@@ -13,19 +13,16 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.comparators;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.ast.body.ClassOrInterfaceDeclaration;
 
-public class ClassOrInterfaceDeclarationComparator
-		implements
-			Comparator<ClassOrInterfaceDeclaration> {
+public class ClassOrInterfaceDeclarationComparator implements Comparator<ClassOrInterfaceDeclaration> {
 
-	@Override
-	public int compare(ClassOrInterfaceDeclaration o1,
-			ClassOrInterfaceDeclaration o2) {
-		return o1.getName().compareTo(o2.getName());
-	}
+    @Override
+    public int compare(ClassOrInterfaceDeclaration o1, ClassOrInterfaceDeclaration o2) {
+        return o1.getName().compareTo(o2.getName());
+    }
 }

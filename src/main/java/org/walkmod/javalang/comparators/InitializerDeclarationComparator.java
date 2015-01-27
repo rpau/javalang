@@ -13,18 +13,16 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.comparators;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.ast.body.InitializerDeclaration;
 
-public class InitializerDeclarationComparator
-		implements
-			Comparator<InitializerDeclaration> {
+public class InitializerDeclarationComparator implements Comparator<InitializerDeclaration> {
 
-	@Override
-	public int compare(InitializerDeclaration o1, InitializerDeclaration o2) {
-		return -1;
-	}
+    @Override
+    public int compare(InitializerDeclaration o1, InitializerDeclaration o2) {
+        return -1;
+    }
 }

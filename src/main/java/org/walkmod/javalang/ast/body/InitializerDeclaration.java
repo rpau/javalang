@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.comparators.InitializerDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -27,70 +27,66 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class InitializerDeclaration extends BodyDeclaration implements Mergeable<InitializerDeclaration>{
+public final class InitializerDeclaration extends BodyDeclaration implements Mergeable<InitializerDeclaration> {
 
-	private boolean isStatic;
+    private boolean isStatic;
 
-	private BlockStmt block;
+    private BlockStmt block;
 
-	public InitializerDeclaration() {
-	}
+    public InitializerDeclaration() {
+    }
 
-	public InitializerDeclaration(boolean isStatic, BlockStmt block) {
-		this.isStatic = isStatic;
-		this.block = block;
-	}
+    public InitializerDeclaration(boolean isStatic, BlockStmt block) {
+        this.isStatic = isStatic;
+        this.block = block;
+    }
 
-	public InitializerDeclaration(JavadocComment javaDoc, boolean isStatic,
-			BlockStmt block) {
-		super(null, javaDoc);
-		this.isStatic = isStatic;
-		this.block = block;
-	}
+    public InitializerDeclaration(JavadocComment javaDoc, boolean isStatic, BlockStmt block) {
+        super(null, javaDoc);
+        this.isStatic = isStatic;
+        this.block = block;
+    }
 
-	public InitializerDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, JavadocComment javaDoc, boolean isStatic,
-			BlockStmt block) {
-		super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
-		this.isStatic = isStatic;
-		this.block = block;
-	}
+    public InitializerDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, boolean isStatic, BlockStmt block) {
+        super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
+        this.isStatic = isStatic;
+        this.block = block;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public BlockStmt getBlock() {
-		return block;
-	}
+    public BlockStmt getBlock() {
+        return block;
+    }
 
-	public boolean isStatic() {
-		return isStatic;
-	}
+    public boolean isStatic() {
+        return isStatic;
+    }
 
-	public void setBlock(BlockStmt block) {
-		this.block = block;
-	}
+    public void setBlock(BlockStmt block) {
+        this.block = block;
+    }
 
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
-	}
+    public void setStatic(boolean isStatic) {
+        this.isStatic = isStatic;
+    }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new InitializerDeclarationComparator();
-	}
+    @Override
+    public Comparator<?> getIdentityComparator() {
+        return new InitializerDeclarationComparator();
+    }
 
-	@Override
-	public void merge(InitializerDeclaration remote, MergeEngine configuration) {
-		super.merge(remote, configuration);
-		setBlock((BlockStmt)configuration.apply(getBlock(), remote.getBlock(), BlockStmt.class));
-		
-	}
+    @Override
+    public void merge(InitializerDeclaration remote, MergeEngine configuration) {
+        super.merge(remote, configuration);
+        setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(), BlockStmt.class));
+    }
 }

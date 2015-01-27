@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
-
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -26,48 +26,47 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class SwitchStmt extends Statement {
 
-	private Expression selector;
+    private Expression selector;
 
-	private List<SwitchEntryStmt> entries;
+    private List<SwitchEntryStmt> entries;
 
-	public SwitchStmt() {
-	}
+    public SwitchStmt() {
+    }
 
-	public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
-		this.selector = selector;
-		this.entries = entries;
-	}
+    public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
+        this.selector = selector;
+        this.entries = entries;
+    }
 
-	public SwitchStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression selector, List<SwitchEntryStmt> entries) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.selector = selector;
-		this.entries = entries;
-	}
+    public SwitchStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression selector, List<SwitchEntryStmt> entries) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.selector = selector;
+        this.entries = entries;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public List<SwitchEntryStmt> getEntries() {
-		return entries;
-	}
+    public List<SwitchEntryStmt> getEntries() {
+        return entries;
+    }
 
-	public Expression getSelector() {
-		return selector;
-	}
+    public Expression getSelector() {
+        return selector;
+    }
 
-	public void setEntries(List<SwitchEntryStmt> entries) {
-		this.entries = entries;
-	}
+    public void setEntries(List<SwitchEntryStmt> entries) {
+        this.entries = entries;
+    }
 
-	public void setSelector(Expression selector) {
-		this.selector = selector;
-	}
+    public void setSelector(Expression selector) {
+        this.selector = selector;
+    }
 }

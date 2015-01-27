@@ -13,11 +13,11 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.expr;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 import org.walkmod.merger.MergeEngine;
@@ -27,52 +27,48 @@ import org.walkmod.merger.MergeEngine;
  */
 public final class NormalAnnotationExpr extends AnnotationExpr {
 
-	private List<MemberValuePair> pairs;
+    private List<MemberValuePair> pairs;
 
-	public NormalAnnotationExpr() {
-	}
+    public NormalAnnotationExpr() {
+    }
 
-	public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
-		this.name = name;
-		this.pairs = pairs;
-	}
+    public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
+        this.name = name;
+        this.pairs = pairs;
+    }
 
-	public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, NameExpr name, List<MemberValuePair> pairs) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
-		this.pairs = pairs;
-	}
+    public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name, List<MemberValuePair> pairs) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.name = name;
+        this.pairs = pairs;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public List<MemberValuePair> getPairs() {
-		return pairs;
-	}
+    public List<MemberValuePair> getPairs() {
+        return pairs;
+    }
 
-	public void setPairs(List<MemberValuePair> pairs) {
-		this.pairs = pairs;
-	}
+    public void setPairs(List<MemberValuePair> pairs) {
+        this.pairs = pairs;
+    }
 
-	@Override
-	public void merge(AnnotationExpr t1, MergeEngine configuration) {
-
-		List<MemberValuePair> pairsList = new LinkedList<MemberValuePair>();
-		configuration.apply(getPairs(), ((NormalAnnotationExpr) t1).getPairs(),
-				pairsList, MemberValuePair.class);
-		if (!pairsList.isEmpty()) {
-			setPairs(pairsList);
-		} else {
-			setPairs(null);
-		}
-
-	}
+    @Override
+    public void merge(AnnotationExpr t1, MergeEngine configuration) {
+        List<MemberValuePair> pairsList = new LinkedList<MemberValuePair>();
+        configuration.apply(getPairs(), ((NormalAnnotationExpr) t1).getPairs(), pairsList, MemberValuePair.class);
+        if (!pairsList.isEmpty()) {
+            setPairs(pairsList);
+        } else {
+            setPairs(null);
+        }
+    }
 }

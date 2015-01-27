@@ -13,18 +13,16 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.comparators;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.ast.body.EmptyMemberDeclaration;
 
-public class EmptyMemberDeclarationComparator
-		implements
-			Comparator<EmptyMemberDeclaration> {
+public class EmptyMemberDeclarationComparator implements Comparator<EmptyMemberDeclaration> {
 
-	@Override
-	public int compare(EmptyMemberDeclaration o1, EmptyMemberDeclaration o2) {
-		return 0;
-	}
+    @Override
+    public int compare(EmptyMemberDeclaration o1, EmptyMemberDeclaration o2) {
+        return 0;
+    }
 }

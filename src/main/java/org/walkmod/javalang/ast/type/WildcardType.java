@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.type;
 
 import java.util.List;
-
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -26,61 +26,57 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class WildcardType extends Type {
 
-	private ReferenceType ext;
+    private ReferenceType ext;
 
-	private ReferenceType sup;
+    private ReferenceType sup;
 
-	public WildcardType() {
-	}
+    public WildcardType() {
+    }
 
-	public WildcardType(ReferenceType ext) {
-		this.ext = ext;
-	}
+    public WildcardType(ReferenceType ext) {
+        this.ext = ext;
+    }
 
-	public WildcardType(ReferenceType ext, ReferenceType sup) {
-		this.ext = ext;
-		this.sup = sup;
-	}
+    public WildcardType(ReferenceType ext, ReferenceType sup) {
+        this.ext = ext;
+        this.sup = sup;
+    }
 
-	public WildcardType(int beginLine, int beginColumn, int endLine,
-			int endColumn, ReferenceType ext, ReferenceType sup) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.ext = ext;
-		this.sup = sup;
-	}
+    public WildcardType(int beginLine, int beginColumn, int endLine, int endColumn, ReferenceType ext, ReferenceType sup) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.ext = ext;
+        this.sup = sup;
+    }
 
-	public WildcardType(int beginLine, int beginColumn, int endLine,
-			int endColumn, ReferenceType ext, ReferenceType sup,
-			List<AnnotationExpr> annotations) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		this.ext = ext;
-		this.sup = sup;
+    public WildcardType(int beginLine, int beginColumn, int endLine, int endColumn, ReferenceType ext, ReferenceType sup, List<AnnotationExpr> annotations) {
+        super(beginLine, beginColumn, endLine, endColumn, annotations);
+        this.ext = ext;
+        this.sup = sup;
+    }
 
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    public ReferenceType getExtends() {
+        return ext;
+    }
 
-	public ReferenceType getExtends() {
-		return ext;
-	}
+    public ReferenceType getSuper() {
+        return sup;
+    }
 
-	public ReferenceType getSuper() {
-		return sup;
-	}
+    public void setExtends(ReferenceType ext) {
+        this.ext = ext;
+    }
 
-	public void setExtends(ReferenceType ext) {
-		this.ext = ext;
-	}
-
-	public void setSuper(ReferenceType sup) {
-		this.sup = sup;
-	}
+    public void setSuper(ReferenceType sup) {
+        this.sup = sup;
+    }
 }

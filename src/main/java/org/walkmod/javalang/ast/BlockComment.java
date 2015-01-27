@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast;
 
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -29,25 +30,24 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class BlockComment extends Comment {
 
-	public BlockComment() {
-	}
+    public BlockComment() {
+    }
 
-	public BlockComment(String content) {
-		super(content);
-	}
+    public BlockComment(String content) {
+        super(content);
+    }
 
-	public BlockComment(int beginLine, int beginColumn, int endLine,
-			int endColumn, String content) {
-		super(beginLine, beginColumn, endLine, endColumn, content);
-	}
+    public BlockComment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
+        super(beginLine, beginColumn, endLine, endColumn, content);
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 }

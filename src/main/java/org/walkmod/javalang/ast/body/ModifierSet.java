@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.body;
 
 import java.lang.reflect.Modifier;
@@ -45,7 +46,6 @@ public final class ModifierSet {
 	public static final int ABSTRACT = Modifier.ABSTRACT;
 
 	public static final int STRICTFP = Modifier.STRICT;
-	
 
 	/**
 	 * Adds the given modifier.

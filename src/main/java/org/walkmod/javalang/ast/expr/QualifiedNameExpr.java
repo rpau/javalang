@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.expr;
 
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -23,37 +24,36 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class QualifiedNameExpr extends NameExpr {
 
-	private NameExpr qualifier;
+    private NameExpr qualifier;
 
-	public QualifiedNameExpr() {
-	}
+    public QualifiedNameExpr() {
+    }
 
-	public QualifiedNameExpr(NameExpr scope, String name) {
-		super(name);
-		this.qualifier = scope;
-	}
+    public QualifiedNameExpr(NameExpr scope, String name) {
+        super(name);
+        this.qualifier = scope;
+    }
 
-	public QualifiedNameExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, NameExpr scope, String name) {
-		super(beginLine, beginColumn, endLine, endColumn, name);
-		this.qualifier = scope;
-	}
+    public QualifiedNameExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr scope, String name) {
+        super(beginLine, beginColumn, endLine, endColumn, name);
+        this.qualifier = scope;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public NameExpr getQualifier() {
-		return qualifier;
-	}
+    public NameExpr getQualifier() {
+        return qualifier;
+    }
 
-	public void setQualifier(NameExpr qualifier) {
-		this.qualifier = qualifier;
-	}
+    public void setQualifier(NameExpr qualifier) {
+        this.qualifier = qualifier;
+    }
 }
