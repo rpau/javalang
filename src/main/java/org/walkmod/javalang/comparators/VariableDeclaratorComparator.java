@@ -13,25 +13,23 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.comparators;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.ast.body.VariableDeclarator;
 
-public class VariableDeclaratorComparator
-		implements
-			Comparator<VariableDeclarator> {
+public class VariableDeclaratorComparator implements Comparator<VariableDeclarator> {
 
-	@Override
-	public int compare(VariableDeclarator local, VariableDeclarator remote) {
-		if (local == null && remote == null) {
-			return 0;
-		}
-		if (local == null || remote == null) {
-			return -1;
-		} else {
-			return local.getId().getName().compareTo(remote.getId().getName());
-		}
-	}
+    @Override
+    public int compare(VariableDeclarator local, VariableDeclarator remote) {
+        if (local == null && remote == null) {
+            return 0;
+        }
+        if (local == null || remote == null) {
+            return -1;
+        } else {
+            return local.getId().getName().compareTo(remote.getId().getName());
+        }
+    }
 }

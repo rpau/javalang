@@ -17,37 +17,33 @@
 package org.walkmod.javalang.ast.expr;
 
 import java.util.Comparator;
-
 import org.walkmod.javalang.comparators.AnnotationExprComparator;
 import org.walkmod.merger.Mergeable;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class AnnotationExpr extends Expression
-		implements
-			Mergeable<AnnotationExpr> {
+public abstract class AnnotationExpr extends Expression implements Mergeable<AnnotationExpr> {
 
-	protected NameExpr name;
+    protected NameExpr name;
 
-	public AnnotationExpr() {
-	}
+    public AnnotationExpr() {
+    }
 
-	public AnnotationExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
+    public AnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn) {
+        super(beginLine, beginColumn, endLine, endColumn);
+    }
 
-	public NameExpr getName() {
-		return name;
-	}
+    public NameExpr getName() {
+        return name;
+    }
 
-	public void setName(NameExpr name) {
-		this.name = name;
-	}
+    public void setName(NameExpr name) {
+        this.name = name;
+    }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new AnnotationExprComparator();
-	}
+    @Override
+    public Comparator<?> getIdentityComparator() {
+        return new AnnotationExprComparator();
+    }
 }

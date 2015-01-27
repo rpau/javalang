@@ -13,11 +13,11 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.body;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.merger.MergeEngine;
@@ -27,49 +27,44 @@ import org.walkmod.merger.MergeEngine;
  */
 public abstract class BodyDeclaration extends Node {
 
-	private JavadocComment javaDoc;
+    private JavadocComment javaDoc;
 
-	private List<AnnotationExpr> annotations;
+    private List<AnnotationExpr> annotations;
 
-	public BodyDeclaration() {
-	}
+    public BodyDeclaration() {
+    }
 
-	public BodyDeclaration(List<AnnotationExpr> annotations,
-			JavadocComment javaDoc) {
-		this.javaDoc = javaDoc;
-		this.annotations = annotations;
-	}
+    public BodyDeclaration(List<AnnotationExpr> annotations, JavadocComment javaDoc) {
+        this.javaDoc = javaDoc;
+        this.annotations = annotations;
+    }
 
-	public BodyDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, List<AnnotationExpr> annotations,
-			JavadocComment javaDoc) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.javaDoc = javaDoc;
-		this.annotations = annotations;
-	}
+    public BodyDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations, JavadocComment javaDoc) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.javaDoc = javaDoc;
+        this.annotations = annotations;
+    }
 
-	public final JavadocComment getJavaDoc() {
-		return javaDoc;
-	}
+    public final JavadocComment getJavaDoc() {
+        return javaDoc;
+    }
 
-	public final List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+    public final List<AnnotationExpr> getAnnotations() {
+        return annotations;
+    }
 
-	public final void setJavaDoc(JavadocComment javaDoc) {
-		this.javaDoc = javaDoc;
-	}
+    public final void setJavaDoc(JavadocComment javaDoc) {
+        this.javaDoc = javaDoc;
+    }
 
-	public final void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-	}
+    public final void setAnnotations(List<AnnotationExpr> annotations) {
+        this.annotations = annotations;
+    }
 
-	public void merge(BodyDeclaration remoteBodyDeclaration,
-			MergeEngine configuration) {
-		List<AnnotationExpr> resultAnnotations = new LinkedList<AnnotationExpr>();
-		configuration.apply(getAnnotations(), remoteBodyDeclaration.getAnnotations(), resultAnnotations, AnnotationExpr.class);
-		setAnnotations(resultAnnotations);
-		
-		setJavaDoc((JavadocComment)(configuration.apply(getJavaDoc(), remoteBodyDeclaration.getJavaDoc(), JavadocComment.class)));
-	}
+    public void merge(BodyDeclaration remoteBodyDeclaration, MergeEngine configuration) {
+        List<AnnotationExpr> resultAnnotations = new LinkedList<AnnotationExpr>();
+        configuration.apply(getAnnotations(), remoteBodyDeclaration.getAnnotations(), resultAnnotations, AnnotationExpr.class);
+        setAnnotations(resultAnnotations);
+        setJavaDoc((JavadocComment) (configuration.apply(getJavaDoc(), remoteBodyDeclaration.getJavaDoc(), JavadocComment.class)));
+    }
 }

@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast;
 
 import java.io.File;
@@ -23,11 +24,11 @@ import org.walkmod.javalang.ast.CompilationUnit;
 
 public class ASTParserTest {
 
-	@Test
-	public void testParsing() throws Exception {
-		File f = new File("src/test/resources/source1.8.txt");
-		CompilationUnit cu = ASTManager.parse(f);
-		Assert.assertNotNull(cu);
-		System.out.println(cu.toString());
-	}
+    @Test
+    public void testParsing() throws Exception {
+        File f = new File("src/test/resources/source1.8.txt");
+        CompilationUnit cu = ASTManager.parse(f);
+        Assert.assertNotNull(cu);
+        System.out.println(cu.toString());
+    }
 }

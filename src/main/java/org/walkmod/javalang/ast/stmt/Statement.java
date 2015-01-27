@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.stmt;
 
 import org.walkmod.javalang.ast.Node;

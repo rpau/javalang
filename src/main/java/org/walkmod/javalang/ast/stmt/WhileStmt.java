@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.stmt;
 
 import org.walkmod.javalang.ast.expr.Expression;
@@ -24,48 +25,47 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class WhileStmt extends Statement {
 
-	private Expression condition;
+    private Expression condition;
 
-	private Statement body;
+    private Statement body;
 
-	public WhileStmt() {
-	}
+    public WhileStmt() {
+    }
 
-	public WhileStmt(Expression condition, Statement body) {
-		this.condition = condition;
-		this.body = body;
-	}
+    public WhileStmt(Expression condition, Statement body) {
+        this.condition = condition;
+        this.body = body;
+    }
 
-	public WhileStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression condition, Statement body) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.condition = condition;
-		this.body = body;
-	}
+    public WhileStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression condition, Statement body) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.condition = condition;
+        this.body = body;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public Statement getBody() {
-		return body;
-	}
+    public Statement getBody() {
+        return body;
+    }
 
-	public Expression getCondition() {
-		return condition;
-	}
+    public Expression getCondition() {
+        return condition;
+    }
 
-	public void setBody(Statement body) {
-		this.body = body;
-	}
+    public void setBody(Statement body) {
+        this.body = body;
+    }
 
-	public void setCondition(Expression condition) {
-		this.condition = condition;
-	}
+    public void setCondition(Expression condition) {
+        this.condition = condition;
+    }
 }

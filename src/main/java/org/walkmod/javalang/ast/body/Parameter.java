@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.body;
 
 import java.util.List;
-
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -27,7 +27,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class Parameter extends BaseParameter {
 
-	private Type type;
+    private Type type;
 
     private boolean isVarArgs;
 
@@ -35,12 +35,12 @@ public final class Parameter extends BaseParameter {
     }
 
     public Parameter(Type type, VariableDeclaratorId id) {
-    	super(id);
+        super(id);
         setType(type);
     }
 
     public Parameter(int modifiers, Type type, VariableDeclaratorId id) {
-    	super(modifiers, id);
+        super(modifiers, id);
         setType(type);
     }
 

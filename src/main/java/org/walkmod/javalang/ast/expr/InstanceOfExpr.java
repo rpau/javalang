@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.expr;
 
 import org.walkmod.javalang.ast.type.Type;
@@ -24,48 +25,47 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class InstanceOfExpr extends Expression {
 
-	private Expression expr;
+    private Expression expr;
 
-	private Type type;
+    private Type type;
 
-	public InstanceOfExpr() {
-	}
+    public InstanceOfExpr() {
+    }
 
-	public InstanceOfExpr(Expression expr, Type type) {
-		this.expr = expr;
-		this.type = type;
-	}
+    public InstanceOfExpr(Expression expr, Type type) {
+        this.expr = expr;
+        this.type = type;
+    }
 
-	public InstanceOfExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression expr, Type type) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
-		this.type = type;
-	}
+    public InstanceOfExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Type type) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.expr = expr;
+        this.type = type;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public Expression getExpr() {
-		return expr;
-	}
+    public Expression getExpr() {
+        return expr;
+    }
 
-	public Type getType() {
-		return type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public void setExpr(Expression expr) {
-		this.expr = expr;
-	}
+    public void setExpr(Expression expr) {
+        this.expr = expr;
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 }

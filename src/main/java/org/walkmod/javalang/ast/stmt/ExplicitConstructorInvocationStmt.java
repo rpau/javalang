@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
-
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -27,73 +27,70 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ExplicitConstructorInvocationStmt extends Statement {
 
-	private List<Type> typeArgs;
+    private List<Type> typeArgs;
 
-	private boolean isThis;
+    private boolean isThis;
 
-	private Expression expr;
+    private Expression expr;
 
-	private List<Expression> args;
+    private List<Expression> args;
 
-	public ExplicitConstructorInvocationStmt() {
-	}
+    public ExplicitConstructorInvocationStmt() {
+    }
 
-	public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr,
-			List<Expression> args) {
-		this.isThis = isThis;
-		this.expr = expr;
-		this.args = args;
-	}
+    public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr, List<Expression> args) {
+        this.isThis = isThis;
+        this.expr = expr;
+        this.args = args;
+    }
 
-	public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn,
-			int endLine, int endColumn, List<Type> typeArgs, boolean isThis,
-			Expression expr, List<Expression> args) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.typeArgs = typeArgs;
-		this.isThis = isThis;
-		this.expr = expr;
-		this.args = args;
-	}
+    public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Type> typeArgs, boolean isThis, Expression expr, List<Expression> args) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.typeArgs = typeArgs;
+        this.isThis = isThis;
+        this.expr = expr;
+        this.args = args;
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 
-	public List<Expression> getArgs() {
-		return args;
-	}
+    public List<Expression> getArgs() {
+        return args;
+    }
 
-	public Expression getExpr() {
-		return expr;
-	}
+    public Expression getExpr() {
+        return expr;
+    }
 
-	public List<Type> getTypeArgs() {
-		return typeArgs;
-	}
+    public List<Type> getTypeArgs() {
+        return typeArgs;
+    }
 
-	public boolean isThis() {
-		return isThis;
-	}
+    public boolean isThis() {
+        return isThis;
+    }
 
-	public void setArgs(List<Expression> args) {
-		this.args = args;
-	}
+    public void setArgs(List<Expression> args) {
+        this.args = args;
+    }
 
-	public void setExpr(Expression expr) {
-		this.expr = expr;
-	}
+    public void setExpr(Expression expr) {
+        this.expr = expr;
+    }
 
-	public void setThis(boolean isThis) {
-		this.isThis = isThis;
-	}
+    public void setThis(boolean isThis) {
+        this.isThis = isThis;
+    }
 
-	public void setTypeArgs(List<Type> typeArgs) {
-		this.typeArgs = typeArgs;
-	}
+    public void setTypeArgs(List<Type> typeArgs) {
+        this.typeArgs = typeArgs;
+    }
 }

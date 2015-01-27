@@ -13,10 +13,10 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.type;
 
 import java.util.List;
-
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
@@ -24,32 +24,30 @@ import org.walkmod.javalang.ast.expr.AnnotationExpr;
  * @author Julio Vilmar Gesser
  */
 public abstract class Type extends Node {
-	
-	private List<AnnotationExpr> annotations;
 
-	public Type() {
-	}
-	
-	public Type(List<AnnotationExpr> annotation){
-		this.annotations = annotation;
-	}
+    private List<AnnotationExpr> annotations;
 
-	public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
-	
-	public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.annotations = annotations;
-	}
+    public Type() {
+    }
 
-	public List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+    public Type(List<AnnotationExpr> annotation) {
+        this.annotations = annotation;
+    }
 
-	public void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-	}
-	
-	
+    public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
+        super(beginLine, beginColumn, endLine, endColumn);
+    }
+
+    public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.annotations = annotations;
+    }
+
+    public List<AnnotationExpr> getAnnotations() {
+        return annotations;
+    }
+
+    public void setAnnotations(List<AnnotationExpr> annotations) {
+        this.annotations = annotations;
+    }
 }

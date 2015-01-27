@@ -13,6 +13,7 @@
  
  You should have received a copy of the GNU Lesser General Public License
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package org.walkmod.javalang.ast.stmt;
 
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -23,20 +24,20 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class EmptyStmt extends Statement {
 
-	public EmptyStmt() {
-	}
+    public EmptyStmt() {
+    }
 
-	public EmptyStmt(int beginLine, int beginColumn, int endLine, int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
+    public EmptyStmt(int beginLine, int beginColumn, int endLine, int endColumn) {
+        super(beginLine, beginColumn, endLine, endColumn);
+    }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        return v.visit(this, arg);
+    }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        v.visit(this, arg);
+    }
 }
