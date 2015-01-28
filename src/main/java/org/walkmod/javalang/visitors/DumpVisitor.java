@@ -1132,11 +1132,44 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 	public void visit(BlockStmt n, Object arg) {
 		printPreviousComments(n, arg);
 		printer.printLn("{");
-		if (n.getStmts() != null) {
+		List<Statement> stmts = n.getStmts();
+		if (stmts != null && !stmts.isEmpty()) {
+			Statement stmt = n.getStmts().get(0);
+			if (!n.isNewNode() && !stmt.isNewNode()) {
+				int beginLine = n.getBeginLine();
+				int endLine = stmt.getBeginLine();
+				for (int i = beginLine + 1; i < endLine; i++) {
+					printer.printLn();
+				}
+			}
+
 			printer.indent();
+			Statement previousStmt = null;
+
 			for (Statement s : n.getStmts()) {
-				s.accept(this, arg);
-				printer.printLn();
+				if (previousStmt == null) {
+					s.accept(this, arg);
+					printer.printLn();
+					previousStmt = s;
+				} else {
+
+					if (!previousStmt.isNewNode() && !s.isNewNode()) {
+
+						int firstLine = previousStmt.getBeginLine();
+						int lastLine = s.getBeginLine();
+
+						for (int i = firstLine + 1; i < lastLine; i++) {
+							printer.printLn();
+						}
+						s.accept(this, arg);
+						printer.printLn();
+					} else {
+
+						s.accept(this, arg);
+						printer.printLn();
+					}
+					previousStmt = s;
+				}
 			}
 			printer.unindent();
 		}
