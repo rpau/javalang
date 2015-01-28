@@ -470,6 +470,7 @@ public class Java8Test{
 		()-> Bar<String>::<Integer>new; // generic class, generic constructor
 		()-> Outer.Inner::new;          // inner class constructor
 		()-> int[]::new;                // array creation*/
+		//Stream<CharSequence> stream = Stream.generate((Supplier<CharSequence>) () -> "Fail");
 	}
 	
 	public interface B{

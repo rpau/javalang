@@ -30,4 +30,12 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
+	@Test
+	public void testLicense() throws Exception{
+		File f = new File("src/test/resources/licensed-sources.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		cu.toString();
+		//System.out.println(cu.toString());
+	}
 }

@@ -294,7 +294,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 				if (!n.isNewNode() && !c.isNewNode() && c.isPreviousThan(n)) {
 					c.accept(this, arg);
 					if (c.getEndLine() < n.getBeginLine()
-							&& !(c instanceof LineComment)) {
+							&& !(c instanceof LineComment)
+							&& !(c instanceof BlockComment)) {
 						printer.printLn();
 					}
 					it.remove();
