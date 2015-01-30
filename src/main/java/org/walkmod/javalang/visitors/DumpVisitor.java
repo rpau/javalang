@@ -338,9 +338,25 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			n.getPackage().accept(this, arg);
 		}
 		if (n.getImports() != null) {
+			ImportDeclaration previous = null;
 			for (ImportDeclaration i : n.getImports()) {
+				if(previous != null){
+					if(previous.isNewNode() || i.isNewNode()){
+						printer.printLn();		
+					}
+					else{
+						int beginLine = previous.getBeginLine();
+						int lastLine = i.getBeginLine();
+						for(int j = beginLine; j < lastLine; j++){
+							printer.printLn();
+						}
+					}
+				}
 				i.accept(this, arg);
+				
+				previous = i;
 			}
+			printer.printLn();
 			printer.printLn();
 		}
 		if (n.getTypes() != null) {
@@ -387,7 +403,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			printer.print(".*");
 		}
 		printer.print(";");
-		printer.printLn();
+		
 	}
 
 	public void visit(ClassOrInterfaceDeclaration n, Object arg) {

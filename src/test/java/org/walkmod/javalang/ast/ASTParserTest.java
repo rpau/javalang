@@ -30,22 +30,30 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
+
 	@Test
-	public void testLicense() throws Exception{
+	public void testLicense() throws Exception {
 		File f = new File("src/test/resources/licensed-sources.txt");
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
 		cu.toString();
-		//System.out.println(cu.toString());
+		// System.out.println(cu.toString());
 	}
-	
+
 	@Test
-	public void testLinesBetweenStmts() throws Exception{
+	public void testLinesBetweenStmts() throws Exception {
 		File f = new File("src/test/resources/multipleLinesBetweenStmt.txt");
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
-	
-	
+
+	@Test
+	public void testLinesBetweenImports() throws Exception {
+		File f = new File("src/test/resources/multipleLinesBetweenImports.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+
 }
