@@ -1,4 +1,53 @@
+/* 
+  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ 
+ Walkmod is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ Walkmod is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License
+ along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+
+
+package b;
+
 public class A{
+	AbstractFileWriter writer = new AbstractFileWriter() {
+
+		@Override
+		public File createOutputDirectory(Object o) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getContent(Object n, VisitorContext vc) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
+
+	private List<String> templates;
+
+	private List<File> templateFiles;
+	private List<String> missingTemplates = new LinkedList<String>();
+	private File propertiesFile = null;
+
+	private TemplateEngine templateEngine;
+	private String rootLabel = null;
+	private String output;
+	private Parser<?> parser;
+	private static Logger log = Logger.getLogger(DefaultTemplateVisitor.class);
+	private File currentTemplate;
+
+	private String suffix = ".result";
+
 
 	public static void main(String[] args) throws Exception{
 	
@@ -10,5 +59,89 @@ public class A{
 		
 		
 		i++;
+	}
+	
+	public boolean addChainConfig(ChainConfig architecture) {
+		boolean result = chainConfigs.containsKey(architecture.getName());
+		if (!result) {
+			architecture.setConfiguration(this);
+			chainConfigs.put(architecture.getName(), architecture);
+
+		}
+		return result;
+	}
+	
+	public ClassLoader getClassLoader() {
+		// for unitary test proposal
+		if (getArchitectureConfig() == null) {
+			return Thread.currentThread().getContextClassLoader();
+		}
+		return getArchitectureConfig().getConfiguration().getClassLoader();
+	}
+	
+	public void initIvy() throws ParseException, IOException,
+			ConfigurationException {
+		// creates clear ivy settings
+		IvySettings ivySettings = new IvySettings();
+		File settingsFile = new File(IVY_SETTINGS_FILE);
+		if (settingsFile.exists()) {
+			ivySettings.load(settingsFile);
+		} else {
+			URL settingsURL = ClassLoader.getSystemResource(IVY_SETTINGS_FILE);
+			if (settingsURL == null) {
+				// file not found in System classloader, we try the current one
+				settingsURL = this.getClass().getClassLoader()
+						.getResource(IVY_SETTINGS_FILE);
+				// extra validation to avoid uncontrolled NullPointerException
+				// when invoking toURI()
+				if (settingsURL == null)
+					throw new ConfigurationException("Ivy settings file ("
+							+ IVY_SETTINGS_FILE
+							+ ") could not be found in classpath");
+			}
+			ivySettings.load(settingsURL);
+		}
+		// creates an Ivy instance with settings
+		ivy = Ivy.newInstance(ivySettings);
+
+		ivyfile = File.createTempFile("ivy", ".xml");
+		ivyfile.deleteOnExit();
+
+		String[] confs = new String[] { "default" };
+		resolveOptions = new ResolveOptions().setConfs(confs);
+		if (isOffLine) {
+			resolveOptions = resolveOptions.setUseCacheOnly(true);
+		} else {
+			Map<String, Object> params = configuration.getParameters();
+			if (params != null) {
+				Object value = params.get("offline");
+				if (value != null) {
+					String offlineOpt = value.toString();
+					if (offlineOpt != null) {
+						boolean offline = Boolean.parseBoolean(offlineOpt);
+						if (offline) {
+							resolveOptions = resolveOptions
+									.setUseCacheOnly(true);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void setChainConfigs(Collection<ChainConfig> chainConfigs) {
+
+		this.chainConfigs.clear();
+		Iterator<ChainConfig> it = chainConfigs.iterator();
+		while (it.hasNext()) {
+			ChainConfig current = it.next();
+			current.setConfiguration(this);
+			this.chainConfigs.put(current.getName(), current);
+		}
+	}
+	
+	@Override
+	public void setPath(String path) {
+
 	}
 }

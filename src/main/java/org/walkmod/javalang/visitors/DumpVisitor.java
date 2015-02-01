@@ -120,7 +120,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 	private List<Comment> comments = new LinkedList<Comment>();
 
 	private static class SourcePrinter {
-
+		
 		private int level = 0;
 
 		private boolean indented = false;
@@ -212,11 +212,25 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 	}
 
 	private void printMembers(List<BodyDeclaration> members, Object arg) {
+		BodyDeclaration previous = null;
+		
 		for (BodyDeclaration member : members) {
-			printer.printLn();
+
+			if (previous != null) {
+				if (!previous.isNewNode() && !member.isNewNode()) {
+					int start = previous.getEndLine();
+					int end = member.getBeginLine();
+					for (int i = start; i < end; i++) {
+						printer.printLn();
+					}
+				} else {
+					printer.printLn();
+				}
+			}
 			member.accept(this, arg);
-			printer.printLn();
+			previous = member;
 		}
+		printer.printLn();
 	}
 
 	private void printMemberAnnotations(List<AnnotationExpr> annotations,
@@ -289,22 +303,41 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 	private void printPreviousComments(Node n, Object arg) {
 		if (comments != null) {
 			Iterator<Comment> it = comments.iterator();
+			Node previous = null;
 			while (it.hasNext()) {
 				Comment c = it.next();
 				if (!n.isNewNode() && !c.isNewNode() && c.isPreviousThan(n)) {
+
 					c.accept(this, arg);
-					if (c.getEndLine() < n.getBeginLine()
-							&& !(c instanceof LineComment)
-							&& !(c instanceof BlockComment)) {
-						printer.printLn();
+					if (previous != null) {
+						addEntersBetween(previous, c);
 					}
+					previous = c;
+
 					it.remove();
 				}
+			}
+			if (previous != null) {
+				addEntersBetween(previous, n);
 			}
 		}
 	}
 
-	private void printContainingComments(Node n, Object arg) {
+	private void addEntersBetween(Node n1, Node n2) {
+		if (n1.getEndLine() < n2.getBeginLine()) {
+			int start = n1.getEndLine();
+			if (n1 instanceof LineComment || n1 instanceof BlockComment) {
+				start = start + 1;
+			}
+			int end = n2.getBeginLine();
+			for (int i = start; i < end; i++) {
+				printer.printLn();
+			}
+		}
+	}
+
+	private Node printContainingComments(Node n, Object arg) {
+		Node lastNode = null;
 		if (comments != null) {
 			Iterator<Comment> it = comments.iterator();
 			while (it.hasNext()) {
@@ -312,10 +345,16 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 				if (!n.isNewNode() && !c.isNewNode() && n.contains(c)) {
 					c.accept(this, arg);
+					if (lastNode != null) {
+						addEntersBetween(lastNode, c);
+					}
 					it.remove();
+					lastNode = c;
 				}
 			}
 		}
+
+		return lastNode;
 	}
 
 	public void visit(CompilationUnit n, Object arg) {
@@ -323,6 +362,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (n.getComments() != null) {
 			comments = n.getComments();
 		}
+
 		Iterator<Comment> it = comments.iterator();
 		while (it.hasNext()) {
 			Comment c = it.next();
@@ -340,20 +380,19 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (n.getImports() != null) {
 			ImportDeclaration previous = null;
 			for (ImportDeclaration i : n.getImports()) {
-				if(previous != null){
-					if(previous.isNewNode() || i.isNewNode()){
-						printer.printLn();		
-					}
-					else{
-						int beginLine = previous.getBeginLine();
+				if (previous != null) {
+					if (previous.isNewNode() || i.isNewNode()) {
+						printer.printLn();
+					} else {
+						int beginLine = previous.getEndLine();
 						int lastLine = i.getBeginLine();
-						for(int j = beginLine; j < lastLine; j++){
+						for (int j = beginLine; j < lastLine; j++) {
 							printer.printLn();
 						}
 					}
 				}
 				i.accept(this, arg);
-				
+
 				previous = i;
 			}
 			printer.printLn();
@@ -403,7 +442,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			printer.print(".*");
 		}
 		printer.print(";");
-		
+
 	}
 
 	public void visit(ClassOrInterfaceDeclaration n, Object arg) {
@@ -442,10 +481,39 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		}
 		printer.printLn(" {");
 		printer.indent();
-		if (n.getMembers() != null) {
-			printMembers(n.getMembers(), arg);
+		BodyDeclaration lastMember = null;
+		List<BodyDeclaration> members = n.getMembers();
+		if (members != null) {
+			if(!members.isEmpty()){
+				BodyDeclaration firstMember = members.get(0);
+				if(!n.isNewNode() && !firstMember.isNewNode()){
+					int start = n.getBeginLine()+1;
+					int end = firstMember.getBeginLine();
+					for(int i = start; i < end; i++){
+						printer.printLn();
+					}
+				}
+			}
+			printMembers(members, arg);
+			if (!members.isEmpty()) {
+				lastMember = members.get(members.size() - 1);
+			}
 		}
-		printContainingComments(n, arg);
+		Node lastNode = printContainingComments(n, arg);
+		if (lastNode == null) {
+			lastNode = lastMember;
+		}
+		if (!n.isNewNode()) {
+			if (lastNode != null && !lastNode.isNewNode()) {
+				int startLine = lastNode.getEndLine();
+				int endLine = n.getEndLine();
+				for (int i = startLine + 1; i < endLine; i++) {
+					printer.printLn();
+				}
+
+			}
+		}
+
 		printer.unindent();
 		printer.print("}");
 	}
@@ -957,7 +1025,20 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (n.getAnonymousClassBody() != null) {
 			printer.printLn(" {");
 			printer.indent();
-			printMembers(n.getAnonymousClassBody(), arg);
+			List<BodyDeclaration> members = n.getAnonymousClassBody();
+			if (members != null) {
+				if(!members.isEmpty()){
+					BodyDeclaration firstMember = members.get(0);
+					if(!n.isNewNode() && !firstMember.isNewNode()){
+						int start = n.getBeginLine()+1;
+						int end = firstMember.getBeginLine();
+						for(int i = start; i < end; i++){
+							printer.printLn();
+						}
+					}
+				}
+				printMembers(members, arg);
+			}			
 			printer.unindent();
 			printer.print("}");
 		}
@@ -1145,25 +1226,44 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printer.print(";");
 	}
 
+	private int getFirstWritenLine(int startLine, Node n2) {
+		int line = n2.getBeginLine();
+
+		if (comments != null) {
+			Iterator<Comment> it = comments.iterator();
+			while (it.hasNext()) {
+				Comment c = it.next();
+				if (!c.isNewNode() && startLine <= c.getBeginLine()) {
+
+					if (c.isPreviousThan(n2) && c.getBeginLine() < line) {
+						line = c.getBeginLine();
+					}
+				}
+			}
+		}
+
+		return line;
+	}
+
 	public void visit(BlockStmt n, Object arg) {
 		printPreviousComments(n, arg);
 		printer.printLn("{");
+		Statement previousStmt = null;
 		List<Statement> stmts = n.getStmts();
 		if (stmts != null && !stmts.isEmpty()) {
 			Statement stmt = n.getStmts().get(0);
 			if (!n.isNewNode() && !stmt.isNewNode()) {
-				int beginLine = n.getBeginLine();
-				int endLine = stmt.getBeginLine();
-				for (int i = beginLine + 1; i < endLine; i++) {
+				int beginLine = n.getBeginLine() + 1;
+				int endLine = getFirstWritenLine(beginLine, stmt);
+				for (int i = beginLine; i < endLine; i++) {
 					printer.printLn();
 				}
 			}
 
-			printer.indent();
-			Statement previousStmt = null;
-
 			for (Statement s : n.getStmts()) {
+
 				if (previousStmt == null) {
+					printer.indent();
 					s.accept(this, arg);
 					printer.printLn();
 					previousStmt = s;
@@ -1171,25 +1271,50 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 					if (!previousStmt.isNewNode() && !s.isNewNode()) {
 
-						int firstLine = previousStmt.getBeginLine();
-						int lastLine = s.getBeginLine();
+						int firstLine = previousStmt.getEndLine();
+						int lastLine = getFirstWritenLine(firstLine, s);
 
 						for (int i = firstLine + 1; i < lastLine; i++) {
 							printer.printLn();
 						}
+						printer.indent();
 						s.accept(this, arg);
 						printer.printLn();
 					} else {
-
+						printer.indent();
 						s.accept(this, arg);
 						printer.printLn();
 					}
 					previousStmt = s;
 				}
+				printer.unindent();
 			}
-			printer.unindent();
+
 		}
-		printContainingComments(n, arg);
+		Node lastNode = printContainingComments(n, arg);
+		if (lastNode == null) {
+			lastNode = previousStmt;
+		}
+		if (!n.isNewNode()) {
+			if (lastNode != null && !lastNode.isNewNode()) {
+				int startLine = lastNode.getEndLine();
+				int endLine = n.getEndLine();
+				for (int i = startLine + 1; i < endLine; i++) {
+					printer.printLn();
+				}
+
+			}
+			else{
+				if(!n.isNewNode()){
+					int beginLine = n.getBeginLine()+1;
+					int endLine = n.getEndLine();
+					for (int i = beginLine; i < endLine; i++){
+						printer.printLn();
+					}
+				}
+			}
+		}
+		
 		printer.print("}");
 	}
 
@@ -1558,10 +1683,12 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 	public void visit(LineComment n, Object arg) {
 		printer.print("//");
-		printer.print(n.getContent());
-		if (!n.getContent().endsWith("\n")) {
-			printer.printLn();
+		String content = n.getContent();
+		if (content.endsWith("\n")) {
+			content = content.substring(0, content.length() - 1);
 		}
+		printer.printLn(content);
+
 	}
 
 	public void visit(BlockComment n, Object arg) {
