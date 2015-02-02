@@ -19,9 +19,8 @@ import java.util.Comparator;
 
 import org.walkmod.javalang.ast.body.VariableDeclarator;
 
-public class VariableDeclaratorComparator
-		implements
-			Comparator<VariableDeclarator> {
+public class VariableDeclaratorComparator implements
+		Comparator<VariableDeclarator> {
 
 	@Override
 	public int compare(VariableDeclarator local, VariableDeclarator remote) {

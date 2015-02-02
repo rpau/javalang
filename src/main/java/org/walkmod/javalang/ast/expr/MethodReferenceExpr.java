@@ -22,12 +22,13 @@ import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
 /**
- * Method reference expressions introduced in Java 8 specifically designed to simplify lambda Expressions.
- * These are some examples:
+ * Method reference expressions introduced in Java 8 specifically designed to
+ * simplify lambda Expressions. These are some examples:
  * 
- * System.out::println; 
+ * System.out::println;
  * 
- * (test ? stream.map(String::trim) : stream)::toArray; 
+ * (test ? stream.map(String::trim) : stream)::toArray;
+ * 
  * @author Raquel Pau
  *
  */

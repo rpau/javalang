@@ -20,22 +20,26 @@ import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
 /**
- * This class is just instantiated as scopes for MethodReferenceExpr nodes to encapsulate Types.
+ * This class is just instantiated as scopes for MethodReferenceExpr nodes to
+ * encapsulate Types.
+ * 
  * @author Raquel Pau
  *
  */
-public class TypeExpr extends Expression{
+public class TypeExpr extends Expression {
 
 	private Type type;
-	
-	public TypeExpr(){}
-	
-	public TypeExpr(int beginLine, int beginColumn, int endLine, int endColumn, Type type){
+
+	public TypeExpr() {
+	}
+
+	public TypeExpr(int beginLine, int beginColumn, int endLine, int endColumn,
+			Type type) {
 		this.type = type;
 	}
-	
+
 	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {		
+	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
 		return v.visit(this, arg);
 	}
 
@@ -51,7 +55,5 @@ public class TypeExpr extends Expression{
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
-	
 
 }

@@ -28,7 +28,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class VariableDeclarator extends Node implements Mergeable<VariableDeclarator> {
+public final class VariableDeclarator extends Node implements
+		Mergeable<VariableDeclarator> {
 
 	private VariableDeclaratorId id;
 
@@ -81,14 +82,16 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
 
 	@Override
 	public Comparator<?> getIdentityComparator() {
-		//TODO pensar si es un singleton o un atributo estatico de la clase
+		// TODO pensar si es un singleton o un atributo estatico de la clase
 		return new VariableDeclaratorComparator();
 	}
 
 	@Override
 	public void merge(VariableDeclarator remote, MergeEngine configuration) {
-		setInit((Expression)configuration.apply(getInit(), remote.getInit(), Expression.class));		
-		setId((VariableDeclaratorId)configuration.apply(getId(), remote.getId(), VariableDeclaratorId.class));
-	
+		setInit((Expression) configuration.apply(getInit(), remote.getInit(),
+				Expression.class));
+		setId((VariableDeclaratorId) configuration.apply(getId(),
+				remote.getId(), VariableDeclaratorId.class));
+
 	}
 }

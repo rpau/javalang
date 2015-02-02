@@ -45,8 +45,9 @@ public final class TryStmt extends Statement {
 	}
 
 	public TryStmt(final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn, List<VariableDeclarationExpr> resources,
-			final BlockStmt tryBlock, final List<CatchClause> catchs, final BlockStmt finallyBlock) {
+			final int endLine, final int endColumn,
+			List<VariableDeclarationExpr> resources, final BlockStmt tryBlock,
+			final List<CatchClause> catchs, final BlockStmt finallyBlock) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.resources = resources;
 		setTryBlock(tryBlock);
@@ -75,26 +76,26 @@ public final class TryStmt extends Statement {
 	public BlockStmt getTryBlock() {
 		return tryBlock;
 	}
-	
+
 	public List<VariableDeclarationExpr> getResources() {
 		return resources;
 	}
 
 	public void setCatchs(final List<CatchClause> catchs) {
 		this.catchs = catchs;
-		
+
 	}
 
 	public void setFinallyBlock(final BlockStmt finallyBlock) {
 		this.finallyBlock = finallyBlock;
-		
+
 	}
 
 	public void setTryBlock(final BlockStmt tryBlock) {
 		this.tryBlock = tryBlock;
-		
+
 	}
-	
+
 	public void setResources(List<VariableDeclarationExpr> resources) {
 		this.resources = resources;
 	}

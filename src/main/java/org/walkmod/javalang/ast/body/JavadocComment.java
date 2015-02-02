@@ -23,7 +23,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * @author Julio Vilmar Gesser
  */
 public final class JavadocComment extends Comment {
-	
+
 	public JavadocComment() {
 	}
 

@@ -343,7 +343,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 				if (!nextNode.isNewNode() && !c.isNewNode()
 						&& c.isPreviousThan(nextNode)) {
 
-					
 					if (previous != null) {
 						addEntersBetween(previous, c);
 					} else {

@@ -33,7 +33,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class ConstructorDeclaration extends BodyDeclaration implements Mergeable<ConstructorDeclaration>{
+public final class ConstructorDeclaration extends BodyDeclaration implements
+		Mergeable<ConstructorDeclaration> {
 
 	private int modifiers;
 
@@ -58,7 +59,8 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 	public ConstructorDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<ClassOrInterfaceType> throws_, BlockStmt block) {
+			List<Parameter> parameters, List<ClassOrInterfaceType> throws_,
+			BlockStmt block) {
 		super(annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -72,7 +74,8 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<ClassOrInterfaceType> throws_, BlockStmt block) {
+			List<Parameter> parameters, List<ClassOrInterfaceType> throws_,
+			BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -153,39 +156,40 @@ public final class ConstructorDeclaration extends BodyDeclaration implements Mer
 
 	@Override
 	public void merge(ConstructorDeclaration remote, MergeEngine configuration) {
-		
+
 		super.merge(remote, configuration);
-		setBlock((BlockStmt)configuration.apply(getBlock(), remote.getBlock(), BlockStmt.class));
-		
+		setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(),
+				BlockStmt.class));
+
 		List<Parameter> resultParams = new LinkedList<Parameter>();
-		configuration.apply(getParameters(), remote.getParameters(), resultParams, Parameter.class);
-		
-		if(!resultParams.isEmpty()){
+		configuration.apply(getParameters(), remote.getParameters(),
+				resultParams, Parameter.class);
+
+		if (!resultParams.isEmpty()) {
 			setParameters(resultParams);
-		}
-		else{
+		} else {
 			setParameters(null);
 		}
-		
+
 		List<TypeParameter> resultTypeParams = new LinkedList<TypeParameter>();
-		configuration.apply(getTypeParameters(), remote.getTypeParameters(), resultTypeParams, TypeParameter.class);
-		
-		if(!resultTypeParams.isEmpty()){
+		configuration.apply(getTypeParameters(), remote.getTypeParameters(),
+				resultTypeParams, TypeParameter.class);
+
+		if (!resultTypeParams.isEmpty()) {
 			setTypeParameters(resultTypeParams);
-		}
-		else{
+		} else {
 			setTypeParameters(null);
 		}
-		
+
 		List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
-		configuration.apply(getThrows(), remote.getThrows(), resultThrows, ClassOrInterfaceType.class);
-		
-		if(!resultThrows.isEmpty()){
+		configuration.apply(getThrows(), remote.getThrows(), resultThrows,
+				ClassOrInterfaceType.class);
+
+		if (!resultThrows.isEmpty()) {
 			setThrows(resultThrows);
-		}
-		else{
+		} else {
 			setThrows(null);
 		}
-		
+
 	}
 }

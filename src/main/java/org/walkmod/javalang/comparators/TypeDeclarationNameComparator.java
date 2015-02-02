@@ -19,9 +19,8 @@ import java.util.Comparator;
 
 import org.walkmod.javalang.ast.body.TypeDeclaration;
 
-public class TypeDeclarationNameComparator
-		implements
-			Comparator<TypeDeclaration> {
+public class TypeDeclarationNameComparator implements
+		Comparator<TypeDeclaration> {
 
 	@Override
 	public int compare(TypeDeclaration o1, TypeDeclaration o2) {

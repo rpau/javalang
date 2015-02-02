@@ -22,9 +22,8 @@ import java.util.List;
 import org.walkmod.javalang.ast.body.ConstructorDeclaration;
 import org.walkmod.javalang.ast.body.Parameter;
 
-public class ConstructorDeclarationComparator
-		implements
-			Comparator<ConstructorDeclaration> {
+public class ConstructorDeclarationComparator implements
+		Comparator<ConstructorDeclaration> {
 
 	@Override
 	public int compare(ConstructorDeclaration o1, ConstructorDeclaration o2) {

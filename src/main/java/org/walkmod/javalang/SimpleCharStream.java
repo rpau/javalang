@@ -183,18 +183,18 @@ public class SimpleCharStream {
 				line += (column = 1);
 		}
 		switch (c) {
-			case '\r' :
-				prevCharIsCR = true;
-				break;
-			case '\n' :
-				prevCharIsLF = true;
-				break;
-			case '\t' :
-				column--;
-				column += (tabSize - (column % tabSize));
-				break;
-			default :
-				break;
+		case '\r':
+			prevCharIsCR = true;
+			break;
+		case '\n':
+			prevCharIsLF = true;
+			break;
+		case '\t':
+			column--;
+			column += (tabSize - (column % tabSize));
+			break;
+		default:
+			break;
 		}
 		bufline[bufpos] = line;
 		bufcolumn[bufpos] = column;
@@ -306,8 +306,7 @@ public class SimpleCharStream {
 	public SimpleCharStream(java.io.InputStream dstream, String encoding,
 			int startline, int startcolumn, int buffersize)
 			throws java.io.UnsupportedEncodingException {
-		this(encoding == null
-				? new java.io.InputStreamReader(dstream)
+		this(encoding == null ? new java.io.InputStreamReader(dstream)
 				: new java.io.InputStreamReader(dstream, encoding), startline,
 				startcolumn, buffersize);
 	}
@@ -347,8 +346,7 @@ public class SimpleCharStream {
 	public void ReInit(java.io.InputStream dstream, String encoding,
 			int startline, int startcolumn, int buffersize)
 			throws java.io.UnsupportedEncodingException {
-		ReInit(encoding == null
-				? new java.io.InputStreamReader(dstream)
+		ReInit(encoding == null ? new java.io.InputStreamReader(dstream)
 				: new java.io.InputStreamReader(dstream, encoding), startline,
 				startcolumn, buffersize);
 	}

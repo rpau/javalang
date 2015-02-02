@@ -28,9 +28,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class TypeDeclaration extends BodyDeclaration
-		implements
-			Mergeable<TypeDeclaration> {
+public abstract class TypeDeclaration extends BodyDeclaration implements
+		Mergeable<TypeDeclaration> {
 
 	private String name;
 
@@ -102,11 +101,10 @@ public abstract class TypeDeclaration extends BodyDeclaration
 		List<BodyDeclaration> resultList = new LinkedList<BodyDeclaration>();
 		configuration.apply(getMembers(), remoteTypeDeclaration.getMembers(),
 				resultList, BodyDeclaration.class);
-		if(!resultList.isEmpty()){
+		if (!resultList.isEmpty()) {
 			setMembers(resultList);
-		}
-		else{
-			setMembers(null);                                                              
+		} else {
+			setMembers(null);
 		}
 	}
 

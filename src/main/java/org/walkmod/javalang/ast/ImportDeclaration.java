@@ -44,7 +44,8 @@ import org.walkmod.merger.Mergeable;
  * 
  * @author Julio Vilmar Gesser
  */
-public final class ImportDeclaration extends Node implements Mergeable<ImportDeclaration>{
+public final class ImportDeclaration extends Node implements
+		Mergeable<ImportDeclaration> {
 
 	private NameExpr name;
 
@@ -145,10 +146,10 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
 
 	@Override
 	public void merge(ImportDeclaration t1, MergeEngine configuration) {
-		if(t1.isStatic()){
+		if (t1.isStatic()) {
 			setStatic(t1.isAsterisk());
 		}
-		if(t1.isAsterisk()){
+		if (t1.isAsterisk()) {
 			setAsterisk(t1.isAsterisk());
 		}
 	}

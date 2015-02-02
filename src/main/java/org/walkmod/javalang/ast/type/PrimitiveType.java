@@ -45,7 +45,7 @@ public final class PrimitiveType extends Type {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.type = type;
 	}
-	
+
 	public PrimitiveType(int beginLine, int beginColumn, int endLine,
 			int endColumn, Primitive type, List<AnnotationExpr> annotations) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations);

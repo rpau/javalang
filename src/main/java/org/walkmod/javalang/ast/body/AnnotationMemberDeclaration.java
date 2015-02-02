@@ -30,7 +30,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class AnnotationMemberDeclaration extends BodyDeclaration implements Mergeable<AnnotationMemberDeclaration>{
+public final class AnnotationMemberDeclaration extends BodyDeclaration
+		implements Mergeable<AnnotationMemberDeclaration> {
 
 	private int modifiers;
 
@@ -126,10 +127,13 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration implement
 	}
 
 	@Override
-	public void merge(AnnotationMemberDeclaration remote, MergeEngine configuration) {
+	public void merge(AnnotationMemberDeclaration remote,
+			MergeEngine configuration) {
 		super.merge(remote, configuration);
-		setType((Type)configuration.apply(getType(), remote.getType(), Type.class));
-		setDefaultValue((Expression)configuration.apply(getDefaultValue(), remote.getDefaultValue(), Expression.class));
-		
+		setType((Type) configuration.apply(getType(), remote.getType(),
+				Type.class));
+		setDefaultValue((Expression) configuration.apply(getDefaultValue(),
+				remote.getDefaultValue(), Expression.class));
+
 	}
 }

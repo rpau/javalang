@@ -19,9 +19,8 @@ import java.util.Comparator;
 
 import org.walkmod.javalang.ast.body.EmptyMemberDeclaration;
 
-public class EmptyMemberDeclarationComparator
-		implements
-			Comparator<EmptyMemberDeclaration> {
+public class EmptyMemberDeclarationComparator implements
+		Comparator<EmptyMemberDeclaration> {
 
 	@Override
 	public int compare(EmptyMemberDeclaration o1, EmptyMemberDeclaration o2) {

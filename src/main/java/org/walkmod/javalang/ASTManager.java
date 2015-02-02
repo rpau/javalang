@@ -39,7 +39,6 @@ import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.ast.type.VoidType;
 
-
 /**
  * <p>
  * Facade class to parse Java source files.
@@ -198,8 +197,8 @@ public class ASTManager {
 	 * Parses any fragment of code and store the result into the subclass of
 	 * {@link org.walkmod.javalang.ast.Node} defined. For example, if you need
 	 * to parse a single method, the class must be
-	 * {@link org.walkmod.javalang.ast.body.MethodDeclaration}. The result
-	 * does NOT contain the location of the AST nodes.
+	 * {@link org.walkmod.javalang.ast.body.MethodDeclaration}. The result does
+	 * NOT contain the location of the AST nodes.
 	 * 
 	 * @param clazz
 	 *            the subclass of {@link org.walkmod.javalang.ast.Node}. The
@@ -265,14 +264,11 @@ public class ASTManager {
 			} else {
 				result = astParser.ClassOrInterfaceBodyDeclaration(true);
 			}
-		}
-		else if (Expression.class.isAssignableFrom(clazz)){
-			result = astParser.Expression(); 
-		}
-		else if (Statement.class.isAssignableFrom(clazz)){
+		} else if (Expression.class.isAssignableFrom(clazz)) {
+			result = astParser.Expression();
+		} else if (Statement.class.isAssignableFrom(clazz)) {
 			result = astParser.BlockStatement();
-		}
-		else {
+		} else {
 			Method method = null;
 			try {
 				method = astParser.getClass().getMethod(clazz.getSimpleName());

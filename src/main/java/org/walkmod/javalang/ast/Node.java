@@ -245,8 +245,10 @@ public abstract class Node implements Serializable {
 	 * Return if this node is previous than another one according their line and
 	 * column numbers
 	 * 
-	 * @param node to compare
-	 * @return if this node is previous than another one according their line and
+	 * @param node
+	 *            to compare
+	 * @return if this node is previous than another one according their line
+	 *         and
 	 */
 	public boolean isPreviousThan(Node node) {
 		if (getEndLine() < node.getBeginLine()) {
