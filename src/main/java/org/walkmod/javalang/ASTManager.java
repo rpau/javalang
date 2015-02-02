@@ -39,7 +39,6 @@ import org.walkmod.javalang.ast.type.PrimitiveType.Primitive;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.ast.type.VoidType;
 
-
 /**
  * <p>
  * Facade class to parse Java source files.
@@ -265,14 +264,11 @@ public class ASTManager {
 			} else {
 				result = astParser.ClassOrInterfaceBodyDeclaration(true);
 			}
-		}
-		else if (Expression.class.isAssignableFrom(clazz)){
-			result = astParser.Expression(); 
-		}
-		else if (Statement.class.isAssignableFrom(clazz)){
+		} else if (Expression.class.isAssignableFrom(clazz)) {
+			result = astParser.Expression();
+		} else if (Statement.class.isAssignableFrom(clazz)) {
 			result = astParser.BlockStatement();
-		}
-		else {
+		} else {
 			Method method = null;
 			try {
 				method = astParser.getClass().getMethod(clazz.getSimpleName());

@@ -48,7 +48,8 @@ import org.walkmod.merger.Mergeable;
  * 
  * @author Julio Vilmar Gesser
  */
-public final class CompilationUnit extends Node implements Mergeable<CompilationUnit> {
+public final class CompilationUnit extends Node implements
+		Mergeable<CompilationUnit> {
 
 	private PackageDeclaration pakage;
 
@@ -185,23 +186,26 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
 	}
 
 	@Override
-	public Comparator<?> getIdentityComparator() {		
+	public Comparator<?> getIdentityComparator() {
 		return new CompilationUnitComparator();
 	}
 
 	@Override
 	public void merge(CompilationUnit remoteCU, MergeEngine configuration) {
 		List<ImportDeclaration> resultImports = new LinkedList<ImportDeclaration>();
-		configuration.apply(getImports(), remoteCU.getImports(), resultImports, ImportDeclaration.class);
+		configuration.apply(getImports(), remoteCU.getImports(), resultImports,
+				ImportDeclaration.class);
 		setImports(resultImports);
-		
+
 		List<TypeDeclaration> resultTypes = new LinkedList<TypeDeclaration>();
-		configuration.apply(getTypes(), remoteCU.getTypes(), resultTypes, TypeDeclaration.class);
+		configuration.apply(getTypes(), remoteCU.getTypes(), resultTypes,
+				TypeDeclaration.class);
 		setTypes(resultTypes);
-		
+
 		List<Comment> resultComments = new LinkedList<Comment>();
-		configuration.apply(getComments(), remoteCU.getComments(), resultComments, Comment.class);
+		configuration.apply(getComments(), remoteCU.getComments(),
+				resultComments, Comment.class);
 		setComments(resultComments);
-		
+
 	}
 }

@@ -147,7 +147,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 	public Node visit(TypeParameter _n, Object _arg) {
 		List<ClassOrInterfaceType> typeBound = visit(_n.getTypeBound(), _arg);
 		List<AnnotationExpr> annotations = visit(_n.getAnnotations(), _arg);
-		
+
 		TypeParameter r = new TypeParameter(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
 				_n.getName(), typeBound, annotations);
@@ -360,7 +360,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		ClassOrInterfaceType scope = cloneNodes(_n.getScope(), _arg);
 		List<Type> typeArgs = visit(_n.getTypeArgs(), _arg);
 		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
-		
+
 		ClassOrInterfaceType r = new ClassOrInterfaceType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), scope,
 				_n.getName(), typeArgs, ann);
@@ -380,15 +380,16 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 	public Node visit(ReferenceType _n, Object _arg) {
 		List<AnnotationExpr> ann = visit(_n.getAnnotations(), _arg);
 		Type type_ = cloneNodes(_n.getType(), _arg);
-		List<List<AnnotationExpr>> arraysAnnotations = _n.getArraysAnnotations();
+		List<List<AnnotationExpr>> arraysAnnotations = _n
+				.getArraysAnnotations();
 		List<List<AnnotationExpr>> _arraysAnnotations = null;
-		if(arraysAnnotations != null){
-			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();			
-			for(List<AnnotationExpr> aux: arraysAnnotations){
+		if (arraysAnnotations != null) {
+			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();
+			for (List<AnnotationExpr> aux : arraysAnnotations) {
 				_arraysAnnotations.add(visit(aux, _arg));
 			}
 		}
-		
+
 		ReferenceType r = new ReferenceType(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_,
 				_n.getArrayCount(), ann, _arraysAnnotations);
@@ -431,15 +432,17 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		ArrayCreationExpr r = new ArrayCreationExpr(_n.getBeginLine(),
 				_n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_,
 				dimensions, _n.getArrayCount());
-		if (_n.getInitializer() != null) {// ArrayCreationExpr has two mutually
+		if (_n.getInitializer() != null) {
+			// ArrayCreationExpr has two mutually
 			// exclusive constructors
 			r.setInitializer(cloneNodes(_n.getInitializer(), _arg));
 		}
-		List<List<AnnotationExpr>> arraysAnnotations = _n.getArraysAnnotations();
+		List<List<AnnotationExpr>> arraysAnnotations = _n
+				.getArraysAnnotations();
 		List<List<AnnotationExpr>> _arraysAnnotations = null;
-		if(arraysAnnotations != null){
-			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();			
-			for(List<AnnotationExpr> aux: arraysAnnotations){
+		if (arraysAnnotations != null) {
+			_arraysAnnotations = new LinkedList<List<AnnotationExpr>>();
+			for (List<AnnotationExpr> aux : arraysAnnotations) {
 				_arraysAnnotations.add(visit(aux, _arg));
 			}
 		}

@@ -72,7 +72,6 @@ public class FieldDeclarationPolicy extends AppendMergePolicy<FieldDeclaration> 
 	@Override
 	public void apply(List<FieldDeclaration> localList,
 			List<FieldDeclaration> remoteList,
-
 			@SuppressWarnings("rawtypes") List resultList) {
 
 		List<FieldDeclaration> localFields = new LinkedList<FieldDeclaration>();

@@ -19,9 +19,8 @@ import java.util.Comparator;
 
 import org.walkmod.javalang.ast.body.ClassOrInterfaceDeclaration;
 
-public class ClassOrInterfaceDeclarationComparator
-		implements
-			Comparator<ClassOrInterfaceDeclaration> {
+public class ClassOrInterfaceDeclarationComparator implements
+		Comparator<ClassOrInterfaceDeclaration> {
 
 	@Override
 	public int compare(ClassOrInterfaceDeclaration o1,

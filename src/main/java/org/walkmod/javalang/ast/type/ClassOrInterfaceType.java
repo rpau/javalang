@@ -28,7 +28,7 @@ import org.walkmod.merger.IdentificableNode;
  * @author Julio Vilmar Gesser
  */
 public final class ClassOrInterfaceType extends Type implements
-IdentificableNode{
+		IdentificableNode {
 
 	private ClassOrInterfaceType scope;
 
@@ -56,7 +56,7 @@ IdentificableNode{
 		this.name = name;
 		this.typeArgs = typeArgs;
 	}
-	
+
 	public ClassOrInterfaceType(int beginLine, int beginColumn, int endLine,
 			int endColumn, ClassOrInterfaceType scope, String name,
 			List<Type> typeArgs, List<AnnotationExpr> annotations) {
@@ -105,5 +105,4 @@ IdentificableNode{
 		return new ClassOrInterfaceTypeComparator();
 	}
 
-	
 }

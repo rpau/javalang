@@ -44,7 +44,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 public final class TypeParameter extends Node {
 
 	private String name;
-	
+
 	private List<AnnotationExpr> annotations;
 
 	private List<ClassOrInterfaceType> typeBound;
@@ -56,8 +56,9 @@ public final class TypeParameter extends Node {
 		this.name = name;
 		this.typeBound = typeBound;
 	}
-	
-	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+
+	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound,
+			List<AnnotationExpr> annotations) {
 		this(name, typeBound);
 		this.annotations = annotations;
 	}
@@ -68,9 +69,10 @@ public final class TypeParameter extends Node {
 		this.name = name;
 		this.typeBound = typeBound;
 	}
-	
+
 	public TypeParameter(int beginLine, int beginColumn, int endLine,
-			int endColumn, String name, List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+			int endColumn, String name, List<ClassOrInterfaceType> typeBound,
+			List<AnnotationExpr> annotations) {
 		this(beginLine, beginColumn, endLine, endColumn, name, typeBound);
 		this.annotations = annotations;
 	}
@@ -131,6 +133,5 @@ public final class TypeParameter extends Node {
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
 	}
-	
-	
+
 }

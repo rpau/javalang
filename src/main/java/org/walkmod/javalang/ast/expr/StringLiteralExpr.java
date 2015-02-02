@@ -76,20 +76,20 @@ public class StringLiteralExpr extends LiteralExpr {
 				out.append("\\u00" + hex(ch));
 			} else if (ch < 32) {
 				switch (ch) {
-					case '\b' :
-					case '\n' :
-					case '\t' :
-					case '\f' :
-					case '\r' :
-						out.append(ch);
-						break;
-					default :
-						if (ch > 0xf) {
-							out.append("\\u00" + hex(ch));
-						} else {
-							out.append("\\u000" + hex(ch));
-						}
-						break;
+				case '\b':
+				case '\n':
+				case '\t':
+				case '\f':
+				case '\r':
+					out.append(ch);
+					break;
+				default:
+					if (ch > 0xf) {
+						out.append("\\u00" + hex(ch));
+					} else {
+						out.append("\\u000" + hex(ch));
+					}
+					break;
 				}
 			} else {
 				out.append(ch);

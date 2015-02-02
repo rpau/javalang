@@ -17,12 +17,13 @@
 
 package org.walkmod.javalang.tags;
 
-
 /** Token Manager. */
 public class TagsParserTokenManager implements TagsParserConstants {
 
+
     /** Debug output. */
     public java.io.PrintStream debugStream = System.out;
+
 
     /** Set debug output. */
     public void setDebugStream(java.io.PrintStream ds) {
@@ -1075,8 +1076,10 @@ public class TagsParserTokenManager implements TagsParserConstants {
         }
     }
 
+
     /** Token literal values. */
     public static final String[] jjstrLiteralImages = { "", "\100\154\151\156\153\160\154\141\151\156", "\100\154\151\156\153", "\100\166\141\154\165\145", "\100\160\141\162\141\155", "\100\162\145\164\165\162\156", "\100\164\150\162\157\167\163", "\100\145\170\143\145\160\164\151\157\156", "\100\163\145\145", "\100\163\145\162\151\141\154\106\151\145\154\144", "\100\163\145\162\151\141\154\104\141\164\141", "\100\163\145\162\151\141\154", "\100\151\156\150\145\162\151\164\104\157\143", "\100\144\157\143\122\157\157\164", "\100\143\157\144\145", "\100\144\145\160\162\145\143\141\164\145\144", "\100\141\165\164\150\157\162", "\100\154\151\164\145\162\141\154", "\100\163\151\156\143\145", "\100\166\145\162\163\151\157\156", "\173", "\175", "\52", null, null, null, null, null, null, null };
+
 
     /** Lexer state names. */
     public static final String[] lexStateNames = { "DEFAULT" };
@@ -1093,17 +1096,20 @@ public class TagsParserTokenManager implements TagsParserConstants {
 
     protected char curChar;
 
+
     /** Constructor. */
     public TagsParserTokenManager(JavaCharStream stream) {
         if (JavaCharStream.staticFlag) throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
         input_stream = stream;
     }
 
+
     /** Constructor. */
     public TagsParserTokenManager(JavaCharStream stream, int lexState) {
         this(stream);
         SwitchTo(lexState);
     }
+
 
     /** Reinitialise parser. */
     public void ReInit(JavaCharStream stream) {
@@ -1119,11 +1125,13 @@ public class TagsParserTokenManager implements TagsParserConstants {
         for (i = 24; i-- > 0; ) jjrounds[i] = 0x80000000;
     }
 
+
     /** Reinitialise parser. */
     public void ReInit(JavaCharStream stream, int lexState) {
         ReInit(stream);
         SwitchTo(lexState);
     }
+
 
     /** Switch to specified lex state. */
     public void SwitchTo(int lexState) {
@@ -1162,6 +1170,7 @@ public class TagsParserTokenManager implements TagsParserConstants {
     int jjmatchedPos;
 
     int jjmatchedKind;
+
 
     /** Get the next Token. */
     public Token getNextToken() {

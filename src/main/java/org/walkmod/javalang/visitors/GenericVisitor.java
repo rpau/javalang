@@ -261,12 +261,12 @@ public interface GenericVisitor<R, A> {
 	public R visit(TryStmt n, A arg);
 
 	public R visit(CatchClause n, A arg);
-	
+
 	public R visit(MultiTypeParameter n, A arg);
-	
+
 	public R visit(LambdaExpr n, A arg);
-	
+
 	public R visit(MethodReferenceExpr n, A arg);
-	
+
 	public R visit(TypeExpr n, A arg);
 }

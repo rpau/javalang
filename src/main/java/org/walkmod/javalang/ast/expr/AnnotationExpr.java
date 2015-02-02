@@ -24,9 +24,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class AnnotationExpr extends Expression
-		implements
-			Mergeable<AnnotationExpr> {
+public abstract class AnnotationExpr extends Expression implements
+		Mergeable<AnnotationExpr> {
 
 	protected NameExpr name;
 

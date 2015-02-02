@@ -27,7 +27,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class InitializerDeclaration extends BodyDeclaration implements Mergeable<InitializerDeclaration>{
+public final class InitializerDeclaration extends BodyDeclaration implements
+		Mergeable<InitializerDeclaration> {
 
 	private boolean isStatic;
 
@@ -90,7 +91,8 @@ public final class InitializerDeclaration extends BodyDeclaration implements Mer
 	@Override
 	public void merge(InitializerDeclaration remote, MergeEngine configuration) {
 		super.merge(remote, configuration);
-		setBlock((BlockStmt)configuration.apply(getBlock(), remote.getBlock(), BlockStmt.class));
-		
+		setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(),
+				BlockStmt.class));
+
 	}
 }

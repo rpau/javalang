@@ -9,7 +9,9 @@ import org.walkmod.javalang.visitors.VoidVisitorAdapter;
 
 public class VoidVisitorAdapterTest {
 
-	class MyVisitor extends VoidVisitorAdapter{};
+	class MyVisitor extends VoidVisitorAdapter {
+
+	};
 
 	@Test
 	public void testVisit() throws Exception {
@@ -17,9 +19,9 @@ public class VoidVisitorAdapterTest {
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
 		VoidVisitorAdapter vva = new MyVisitor();
-		
+
 		vva.visit(cu, null);
-		
+
 		Assert.assertTrue(true);
 	}
 }

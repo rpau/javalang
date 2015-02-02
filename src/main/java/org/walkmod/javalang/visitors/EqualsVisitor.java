@@ -443,7 +443,7 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		if (!nodesEquals(n1.getTypeParameters(), n2.getTypeParameters())) {
 			return Boolean.FALSE;
 		}
-		if(n1.isDefault() != n2.isDefault()){
+		if (n1.isDefault() != n2.isDefault()) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -556,22 +556,20 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		}
 		List<List<AnnotationExpr>> n1a = n1.getArraysAnnotations();
 		List<List<AnnotationExpr>> n2a = n2.getArraysAnnotations();
-		
-		if (n1a !=null && n2a!= null) {
-			if(n1a.size() != n2a.size()){
+
+		if (n1a != null && n2a != null) {
+			if (n1a.size() != n2a.size()) {
 				return Boolean.FALSE;
-			}
-			else{
+			} else {
 				int i = 0;
-				for(List<AnnotationExpr> aux: n1a){
-					if(!nodesEquals(aux, n2a.get(i))){
+				for (List<AnnotationExpr> aux : n1a) {
+					if (!nodesEquals(aux, n2a.get(i))) {
 						return Boolean.FALSE;
 					}
 					i++;
 				}
 			}
-		}
-		else if (n1a != n2a){
+		} else if (n1a != n2a) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -626,22 +624,20 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		}
 		List<List<AnnotationExpr>> n1a = n1.getArraysAnnotations();
 		List<List<AnnotationExpr>> n2a = n2.getArraysAnnotations();
-		
-		if (n1a !=null && n2a!= null) {
-			if(n1a.size() != n2a.size()){
+
+		if (n1a != null && n2a != null) {
+			if (n1a.size() != n2a.size()) {
 				return Boolean.FALSE;
-			}
-			else{
+			} else {
 				int i = 0;
-				for(List<AnnotationExpr> aux: n1a){
-					if(!nodesEquals(aux, n2a.get(i))){
+				for (List<AnnotationExpr> aux : n1a) {
+					if (!nodesEquals(aux, n2a.get(i))) {
 						return Boolean.FALSE;
 					}
 					i++;
 				}
 			}
-		}
-		else if (n1a != n2a){
+		} else if (n1a != n2a) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
@@ -1182,7 +1178,7 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 		if (!nodesEquals(n1.getParameters(), n2.getParameters())) {
 			return Boolean.FALSE;
 		}
-		if(n1.isParametersEnclosed() != n2.isParametersEnclosed()){
+		if (n1.isParametersEnclosed() != n2.isParametersEnclosed()) {
 			return Boolean.FALSE;
 		}
 		if (!nodeEquals(n1.getBody(), n2.getBody())) {

@@ -30,10 +30,10 @@ public class BodyDeclaratorComparator implements Comparator<BodyDeclaration> {
 	private Map<String, Comparator> comparator = new HashMap<String, Comparator>();
 
 	public BodyDeclaratorComparator() {
-		order = new String[]{"FieldDeclaration", "EnumConstantDeclaration",
+		order = new String[] { "FieldDeclaration", "EnumConstantDeclaration",
 				"InitializerDeclaration", "ConstructorDeclaration",
 				"AnnotationMemberDeclaration", "MethodDeclaration",
-				"TypeDeclaration", "EmptyMemberDeclaration"};
+				"TypeDeclaration", "EmptyMemberDeclaration" };
 		comparator.put("FieldDeclaration", new FieldDeclarationComparator());
 		comparator.put("MethodDeclaration", new MethodDeclarationComparator());
 		comparator.put("EnumConstantDeclaration", new EnumConstantComparator());

@@ -31,7 +31,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class FieldDeclaration extends BodyDeclaration implements Mergeable<FieldDeclaration> {
+public final class FieldDeclaration extends BodyDeclaration implements
+		Mergeable<FieldDeclaration> {
 
 	private int modifiers;
 
@@ -122,12 +123,13 @@ public final class FieldDeclaration extends BodyDeclaration implements Mergeable
 	}
 
 	@Override
-	
 	public void merge(FieldDeclaration remote, MergeEngine configuration) {
 		super.merge(remote, configuration);
-		setType((Type)configuration.apply(getType(), remote.getType(), Type.class));
+		setType((Type) configuration.apply(getType(), remote.getType(),
+				Type.class));
 		List<VariableDeclarator> resultList = new LinkedList<VariableDeclarator>();
-		configuration.apply(getVariables(), remote.getVariables(), resultList, VariableDeclarator.class);
+		configuration.apply(getVariables(), remote.getVariables(), resultList,
+				VariableDeclarator.class);
 		setVariables(resultList);
 	}
 }

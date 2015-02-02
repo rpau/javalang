@@ -114,12 +114,12 @@ public interface TagsParserConstants {
 	int DEFAULT = 0;
 
 	/** Literal token values. */
-	String[] tokenImage = {"<EOF>", "\"@linkplain\"", "\"@link\"",
+	String[] tokenImage = { "<EOF>", "\"@linkplain\"", "\"@link\"",
 			"\"@value\"", "\"@param\"", "\"@return\"", "\"@throws\"",
 			"\"@exception\"", "\"@see\"", "\"@serialField\"",
 			"\"@serialData\"", "\"@serial\"", "\"@inheritDoc\"",
 			"\"@docRoot\"", "\"@code\"", "\"@deprecated\"", "\"@author\"",
 			"\"@literal\"", "\"@since\"", "\"@version\"", "\"{\"", "\"}\"",
 			"\"*\"", "<IDENTIFIER>", "<LETTER>", "<PART_LETTER>", "<NAMECHAR>",
-			"<OPERATION>", "<WORD>", "<token of kind 29>"};
+			"<OPERATION>", "<WORD>", "<token of kind 29>" };
 }

@@ -67,9 +67,12 @@ public abstract class BodyDeclaration extends Node {
 	public void merge(BodyDeclaration remoteBodyDeclaration,
 			MergeEngine configuration) {
 		List<AnnotationExpr> resultAnnotations = new LinkedList<AnnotationExpr>();
-		configuration.apply(getAnnotations(), remoteBodyDeclaration.getAnnotations(), resultAnnotations, AnnotationExpr.class);
+		configuration.apply(getAnnotations(),
+				remoteBodyDeclaration.getAnnotations(), resultAnnotations,
+				AnnotationExpr.class);
 		setAnnotations(resultAnnotations);
-		
-		setJavaDoc((JavadocComment)(configuration.apply(getJavaDoc(), remoteBodyDeclaration.getJavaDoc(), JavadocComment.class)));
+
+		setJavaDoc((JavadocComment) (configuration.apply(getJavaDoc(),
+				remoteBodyDeclaration.getJavaDoc(), JavadocComment.class)));
 	}
 }
