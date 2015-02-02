@@ -68,6 +68,19 @@ public class ASTManager {
 
     public static final ThisExpr THIS = new ThisExpr();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
 	 * Parses a Java source file and store the AST into a
 	 * {@link org.walkmod.javalang.ast.CompilationUnit} object. The default
@@ -84,6 +97,19 @@ public class ASTManager {
     public static CompilationUnit parse(File file) throws ParseException, IOException {
         return parse(file, "UTF-8");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Parses a Java source file with a given encoding and store the AST into a
@@ -102,6 +128,18 @@ public class ASTManager {
         Reader reader = new InputStreamReader(new FileInputStream(file), encoding);
         return parse(reader);
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Parses Java code and store the AST into a
@@ -127,6 +165,17 @@ public class ASTManager {
         return cu;
     }
 
+
+
+
+
+
+
+
+
+
+
+
     /**
 	 * Parses Java code and store the AST into a
 	 * {@link org.walkmod.javalang.ast.CompilationUnit} object. All nodes has
@@ -141,6 +190,20 @@ public class ASTManager {
     public static CompilationUnit parse(String code) throws ParseException {
         return parse(code, false);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Parses Java code and store the AST into a
@@ -175,6 +238,22 @@ public class ASTManager {
         return cu;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
 	 * Parses any fragment of code and store the result into the subclass of
 	 * {@link org.walkmod.javalang.ast.Node} defined. For example, if you need
@@ -194,6 +273,24 @@ public class ASTManager {
     public static Node parse(Class<?> clazz, String text) throws ParseException {
         return parse(clazz, text, true);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Parses any fragment of code and store the result into the subclass of

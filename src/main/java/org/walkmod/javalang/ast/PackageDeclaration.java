@@ -76,6 +76,12 @@ public final class PackageDeclaration extends Node {
         v.visit(this, arg);
     }
 
+
+
+
+
+
+
     /**
 	 * Retrieves the list of annotations declared before the package
 	 * declaration. Return <code>null</code> if there are no annotations.
@@ -86,6 +92,11 @@ public final class PackageDeclaration extends Node {
         return annotations;
     }
 
+
+
+
+
+
     /**
 	 * Return the name of the package.
 	 * 
@@ -95,6 +106,10 @@ public final class PackageDeclaration extends Node {
         return name;
     }
 
+
+
+
+
     /**
 	 * @param annotations
 	 *            the annotations to set
@@ -102,6 +117,12 @@ public final class PackageDeclaration extends Node {
     public void setAnnotations(List<AnnotationExpr> annotations) {
         this.annotations = annotations;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets the name of this package declaration.

@@ -78,6 +78,11 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
         v.visit(this, arg);
     }
 
+
+
+
+
+
     /**
 	 * Retrieves the name of the import.
 	 * 
@@ -86,6 +91,12 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
     public NameExpr getName() {
         return name;
     }
+
+
+
+
+
+
 
     /**
 	 * Return if the import ends with "*".
@@ -97,6 +108,12 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
         return asterisk;
     }
 
+
+
+
+
+
+
     /**
 	 * Return if the import is static.
 	 * 
@@ -106,6 +123,12 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
     public boolean isStatic() {
         return static_;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets if this import is asterisk.
@@ -117,6 +140,12 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
         this.asterisk = asterisk;
     }
 
+
+
+
+
+
+
     /**
 	 * Sets the name this import.
 	 * 
@@ -126,6 +155,12 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
     public void setName(NameExpr name) {
         this.name = name;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets if this import is static.

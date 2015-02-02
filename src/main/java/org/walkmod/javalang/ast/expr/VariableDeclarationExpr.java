@@ -71,6 +71,12 @@ public final class VariableDeclarationExpr extends Expression {
         return annotations;
     }
 
+
+
+
+
+
+
     /**
 	 * Return the modifiers of this variable declaration.
 	 * 

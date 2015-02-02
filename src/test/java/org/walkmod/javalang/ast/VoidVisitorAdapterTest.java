@@ -9,6 +9,7 @@ import org.walkmod.javalang.visitors.VoidVisitorAdapter;
 public class VoidVisitorAdapterTest {
 
     class MyVisitor extends VoidVisitorAdapter {
+
     }
 
     ;

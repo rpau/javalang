@@ -81,7 +81,7 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
     @Override
     public Comparator<?> getIdentityComparator() {
         //TODO pensar si es un singleton o un atributo estatico de la clase
-return new VariableDeclaratorComparator();
+        return new VariableDeclaratorComparator();
     }
 
     @Override

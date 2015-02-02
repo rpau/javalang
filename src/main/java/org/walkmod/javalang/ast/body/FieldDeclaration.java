@@ -79,6 +79,12 @@ public final class FieldDeclaration extends BodyDeclaration implements Mergeable
         v.visit(this, arg);
     }
 
+
+
+
+
+
+
     /**
 	 * Return the modifiers of this member declaration.
 	 * 

@@ -37,6 +37,9 @@ public abstract class Node implements Serializable {
 
     private int endColumn;
 
+
+
+
     /**
 	 * This attribute can store additional information from semantic analysis.
 	 */
@@ -51,6 +54,19 @@ public abstract class Node implements Serializable {
         this.endLine = endLine;
         this.endColumn = endColumn;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Accept method for visitor support.
@@ -67,6 +83,16 @@ public abstract class Node implements Serializable {
 	 */
     public abstract <R, A> R accept(GenericVisitor<R, A> v, A arg);
 
+
+
+
+
+
+
+
+
+
+
     /**
 	 * Accept method for visitor support.
 	 * 
@@ -79,6 +105,11 @@ public abstract class Node implements Serializable {
 	 */
     public abstract <A> void accept(VoidVisitor<A> v, A arg);
 
+
+
+
+
+
     /**
 	 * Return the begin column of this node.
 	 * 
@@ -87,6 +118,11 @@ public abstract class Node implements Serializable {
     public final int getBeginColumn() {
         return beginColumn;
     }
+
+
+
+
+
 
     /**
 	 * Return the begin line of this node.
@@ -97,12 +133,20 @@ public abstract class Node implements Serializable {
         return beginLine;
     }
 
+
+
+
     /**
 	 * Use this to retrieve additional information associated to this node.
 	 */
     public final Object getData() {
         return data;
     }
+
+
+
+
+
 
     /**
 	 * Return the end column of this node.
@@ -113,6 +157,11 @@ public abstract class Node implements Serializable {
         return endColumn;
     }
 
+
+
+
+
+
     /**
 	 * Return the end line of this node.
 	 * 
@@ -121,6 +170,12 @@ public abstract class Node implements Serializable {
     public final int getEndLine() {
         return endLine;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets the begin column of this node.
@@ -132,6 +187,12 @@ public abstract class Node implements Serializable {
         this.beginColumn = beginColumn;
     }
 
+
+
+
+
+
+
     /**
 	 * Sets the begin line of this node.
 	 * 
@@ -142,12 +203,21 @@ public abstract class Node implements Serializable {
         this.beginLine = beginLine;
     }
 
+
+
+
     /**
 	 * Use this to store additional information to this node.
 	 */
     public final void setData(Object data) {
         this.data = data;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets the end column of this node.
@@ -159,6 +229,12 @@ public abstract class Node implements Serializable {
         this.endColumn = endColumn;
     }
 
+
+
+
+
+
+
     /**
 	 * Sets the end line of this node.
 	 * 
@@ -168,6 +244,11 @@ public abstract class Node implements Serializable {
     public final void setEndLine(int endLine) {
         this.endLine = endLine;
     }
+
+
+
+
+
 
     /**
 	 * Return the String representation of this node.
@@ -191,6 +272,12 @@ public abstract class Node implements Serializable {
         return EqualsVisitor.equals(this, (Node) obj);
     }
 
+
+
+
+
+
+
     /**
 	 * Return if the node has not been retrieved from any input because its end
 	 * column and begin line is 0.
@@ -200,6 +287,15 @@ public abstract class Node implements Serializable {
     public boolean isNewNode() {
         return (0 == getEndColumn()) && (getBeginLine() == 0);
     }
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Return if this node contains another node according their line numbers
@@ -221,6 +317,13 @@ public abstract class Node implements Serializable {
         return false;
     }
 
+
+
+
+
+
+
+
     /**
 	 * Return if this node has the same columns and lines than another one.
 	 * 
@@ -234,6 +337,13 @@ public abstract class Node implements Serializable {
         }
         return false;
     }
+
+
+
+
+
+
+
 
     /**
 	 * Return if this node is previous than another one according their line and

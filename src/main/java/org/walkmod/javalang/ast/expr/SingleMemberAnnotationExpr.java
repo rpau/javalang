@@ -61,6 +61,6 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
 
     @Override
     public void merge(AnnotationExpr t1, MergeEngine configuration) {
-    // nothing
-}
+        // nothing
+    }
 }

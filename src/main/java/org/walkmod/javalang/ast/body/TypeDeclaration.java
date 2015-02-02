@@ -61,6 +61,12 @@ public abstract class TypeDeclaration extends BodyDeclaration implements Mergeab
         return members;
     }
 
+
+
+
+
+
+
     /**
 	 * Return the modifiers of this type declaration.
 	 * 

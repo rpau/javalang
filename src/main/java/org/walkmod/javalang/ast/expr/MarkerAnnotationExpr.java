@@ -49,6 +49,6 @@ public final class MarkerAnnotationExpr extends AnnotationExpr {
 
     @Override
     public void merge(AnnotationExpr t1, MergeEngine configuration) {
-    //Nothing
-}
+        //Nothing
+    }
 }

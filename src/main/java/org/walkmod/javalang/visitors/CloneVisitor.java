@@ -365,8 +365,8 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
         ArrayCreationExpr r = new ArrayCreationExpr(_n.getBeginLine(), _n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(), type_, dimensions, _n.getArrayCount());
         if (_n.getInitializer() != null) {
             // ArrayCreationExpr has two mutually
-// exclusive constructors
-r.setInitializer(cloneNodes(_n.getInitializer(), _arg));
+            // exclusive constructors
+            r.setInitializer(cloneNodes(_n.getInitializer(), _arg));
         }
         List<List<AnnotationExpr>> arraysAnnotations = _n.getArraysAnnotations();
         List<List<AnnotationExpr>> _arraysAnnotations = null;

@@ -33,7 +33,7 @@ public class ClassOrInterfaceTypeComparator implements Comparator<ClassOrInterfa
             return -1;
         }
         // o1 != null && o2 != null
-int scope = compare(o1.getScope(), o2.getScope());
+        int scope = compare(o1.getScope(), o2.getScope());
         if (scope == 0) {
             return o1.getName().compareTo(o2.getName());
         }

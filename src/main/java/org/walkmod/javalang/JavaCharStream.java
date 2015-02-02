@@ -22,6 +22,7 @@ package org.walkmod.javalang;
  */
 public class JavaCharStream {
 
+
     /** Whether parser is static. */
     public static final boolean staticFlag = false;
 
@@ -68,6 +69,7 @@ public class JavaCharStream {
         }
         throw new java.io.IOException();
     }
+
 
     /** Position in buffer. */
     public int bufpos = -1;
@@ -170,6 +172,7 @@ public class JavaCharStream {
         return nextCharBuf[nextCharInd];
     }
 
+
     /** @return starting character for token. */
     public char BeginToken() throws java.io.IOException {
         if (inBuf > 0) {
@@ -220,6 +223,7 @@ public class JavaCharStream {
         bufline[bufpos] = line;
         bufcolumn[bufpos] = column;
     }
+
 
     /** Read a character. */
     public char readChar() throws java.io.IOException {
@@ -279,31 +283,37 @@ public class JavaCharStream {
         return bufline[bufpos];
     }
 
+
     /** Get end column. */
     public int getEndColumn() {
         return bufcolumn[bufpos];
     }
+
 
     /** Get end line. */
     public int getEndLine() {
         return bufline[bufpos];
     }
 
+
     /** @return column of token start */
     public int getBeginColumn() {
         return bufcolumn[tokenBegin];
     }
+
 
     /** @return line number of token start */
     public int getBeginLine() {
         return bufline[tokenBegin];
     }
 
+
     /** Retreat. */
     public void backup(int amount) {
         inBuf += amount;
         if ((bufpos -= amount) < 0) bufpos += bufsize;
     }
+
 
     /** Constructor. */
     public JavaCharStream(java.io.Reader dstream, int startline, int startcolumn, int buffersize) {
@@ -317,15 +327,18 @@ public class JavaCharStream {
         nextCharBuf = new char[4096];
     }
 
+
     /** Constructor. */
     public JavaCharStream(java.io.Reader dstream, int startline, int startcolumn) {
         this(dstream, startline, startcolumn, 4096);
     }
 
+
     /** Constructor. */
     public JavaCharStream(java.io.Reader dstream) {
         this(dstream, 1, 1, 4096);
     }
+
 
     /** Reinitialise. */
     public void ReInit(java.io.Reader dstream, int startline, int startcolumn, int buffersize) {
@@ -344,80 +357,96 @@ public class JavaCharStream {
         nextCharInd = bufpos = -1;
     }
 
+
     /** Reinitialise. */
     public void ReInit(java.io.Reader dstream, int startline, int startcolumn) {
         ReInit(dstream, startline, startcolumn, 4096);
     }
+
 
     /** Reinitialise. */
     public void ReInit(java.io.Reader dstream) {
         ReInit(dstream, 1, 1, 4096);
     }
 
+
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream, String encoding, int startline, int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException {
         this(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
     }
+
 
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream, int startline, int startcolumn, int buffersize) {
         this(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
     }
 
+
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream, String encoding, int startline, int startcolumn) throws java.io.UnsupportedEncodingException {
         this(dstream, encoding, startline, startcolumn, 4096);
     }
+
 
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream, int startline, int startcolumn) {
         this(dstream, startline, startcolumn, 4096);
     }
 
+
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException {
         this(dstream, encoding, 1, 1, 4096);
     }
+
 
     /** Constructor. */
     public JavaCharStream(java.io.InputStream dstream) {
         this(dstream, 1, 1, 4096);
     }
 
+
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream, String encoding, int startline, int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException {
         ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
     }
+
 
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream, int startline, int startcolumn, int buffersize) {
         ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
     }
 
+
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream, String encoding, int startline, int startcolumn) throws java.io.UnsupportedEncodingException {
         ReInit(dstream, encoding, startline, startcolumn, 4096);
     }
+
 
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream, int startline, int startcolumn) {
         ReInit(dstream, startline, startcolumn, 4096);
     }
 
+
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException {
         ReInit(dstream, encoding, 1, 1, 4096);
     }
+
 
     /** Reinitialise. */
     public void ReInit(java.io.InputStream dstream) {
         ReInit(dstream, 1, 1, 4096);
     }
 
+
     /** @return token image as String */
     public String GetImage() {
         if (bufpos >= tokenBegin) return new String(buffer, tokenBegin, bufpos - tokenBegin + 1); else return new String(buffer, tokenBegin, bufsize - tokenBegin) + new String(buffer, 0, bufpos + 1);
     }
+
 
     /** @return suffix */
     public char[] GetSuffix(int len) {
@@ -429,6 +458,7 @@ public class JavaCharStream {
         return ret;
     }
 
+
     /** Set buffers back to null when finished. */
     public void Done() {
         nextCharBuf = null;
@@ -436,6 +466,9 @@ public class JavaCharStream {
         bufline = null;
         bufcolumn = null;
     }
+
+
+
 
     /**
 	 * Method to adjust line and column numbers for the start of a token.

@@ -66,7 +66,7 @@ public class StringLiteralExpr extends LiteralExpr {
         for (int i = 0; i < sz; i++) {
             char ch = str.charAt(i);
             // handle unicode
-if (ch > 0xfff) {
+            if (ch > 0xfff) {
                 out.append("\\u" + hex(ch));
             } else if (ch > 0xff) {
                 out.append("\\u0" + hex(ch));

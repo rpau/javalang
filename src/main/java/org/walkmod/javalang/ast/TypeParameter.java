@@ -83,6 +83,11 @@ public final class TypeParameter extends Node {
         v.visit(this, arg);
     }
 
+
+
+
+
+
     /**
 	 * Return the name of the paramenter.
 	 * 
@@ -91,6 +96,12 @@ public final class TypeParameter extends Node {
     public String getName() {
         return name;
     }
+
+
+
+
+
+
 
     /**
 	 * Return the list of {@link ClassOrInterfaceType} that this parameter
@@ -102,6 +113,12 @@ public final class TypeParameter extends Node {
         return typeBound;
     }
 
+
+
+
+
+
+
     /**
 	 * Sets the name of this type parameter.
 	 * 
@@ -111,6 +128,12 @@ public final class TypeParameter extends Node {
     public void setName(String name) {
         this.name = name;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets the list o types.

@@ -41,7 +41,7 @@ public class JavadocTag extends Node {
     @Override
     public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
         // TODO Auto-generated method stub
-return null;
+        return null;
     }
 
     @Override
@@ -49,7 +49,7 @@ return null;
     }
 
     // TODO Auto-generated method stub
-public String getName() {
+    public String getName() {
         return name;
     }
 

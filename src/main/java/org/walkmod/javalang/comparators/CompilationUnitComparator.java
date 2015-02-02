@@ -40,7 +40,7 @@ public class CompilationUnitComparator implements Comparator<CompilationUnit> {
             }
             if (samePackage) {
                 // same reference
-Collection<TypeDeclaration> types1 = cu1.getTypes();
+                Collection<TypeDeclaration> types1 = cu1.getTypes();
                 TypeDeclaration mainType = null;
                 if (types1 != null) {
                     for (TypeDeclaration td : types1) {

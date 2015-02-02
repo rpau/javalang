@@ -86,6 +86,18 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
         v.visit(this, arg);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     /**
 	 * Return a list containing all comments declared in this compilation unit.
 	 * Including javadocs, line comments and block comments of all types,
@@ -102,6 +114,12 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
         return comments;
     }
 
+
+
+
+
+
+
     /**
 	 * Retrieves the list of imports declared in this compilation unit or
 	 * <code>null</code> if there is no import.
@@ -111,6 +129,13 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     public List<ImportDeclaration> getImports() {
         return imports;
     }
+
+
+
+
+
+
+
 
     /**
 	 * Retrieves the package declaration of this compilation unit.<br>
@@ -122,6 +147,16 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     public PackageDeclaration getPackage() {
         return pakage;
     }
+
+
+
+
+
+
+
+
+
+
 
     /**
 	 * Return the list of types declared in this compilation unit.<br>
@@ -137,6 +172,12 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
         return types;
     }
 
+
+
+
+
+
+
     /**
 	 * Sets the list of comments of this compilation unit.
 	 * 
@@ -146,6 +187,13 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+
+
+
+
+
+
 
     /**
 	 * Sets the list of imports of this compilation unit. The list is initially
@@ -158,6 +206,13 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
         this.imports = imports;
     }
 
+
+
+
+
+
+
+
     /**
 	 * Sets or clear the package declarations of this compilation unit.
 	 * 
@@ -168,6 +223,12 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     public void setPackage(PackageDeclaration pakage) {
         this.pakage = pakage;
     }
+
+
+
+
+
+
 
     /**
 	 * Sets the list of types declared in this compilation unit.

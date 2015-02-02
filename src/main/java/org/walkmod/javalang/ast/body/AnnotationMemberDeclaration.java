@@ -80,6 +80,12 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration implement
         return defaultValue;
     }
 
+
+
+
+
+
+
     /**
 	 * Return the modifiers of this member declaration.
 	 * 
