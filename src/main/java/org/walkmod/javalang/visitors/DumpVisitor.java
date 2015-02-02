@@ -233,7 +233,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			member.accept(this, arg);
 			previous = member;
 		}
-		if (!previous.isNewNode()) {
+		if (previous != null && previous.isNewNode()) {
 			printSameLineComments(previous, arg);
 		}
 		printer.printLn();
