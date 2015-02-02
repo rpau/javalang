@@ -55,6 +55,42 @@ import org.walkmod.javalang.ast.type.*;
  */
 final class ASTParser {
 
+    private Expression generateLambda(Expression ret, Statement lambdaBody){    	
+		List params = null;		
+		VariableDeclaratorId id = null;
+		Expression inner = null;	
+    	
+	    if(ret instanceof EnclosedExpr)
+	     {
+	       inner = ((EnclosedExpr)ret).getInner();
+	       if(inner != null && inner instanceof NameExpr)
+	       {
+	         id = new VariableDeclaratorId(inner.getBeginLine(), inner.getBeginColumn(), inner.getEndLine(), inner.getEndColumn(), ((NameExpr)inner).getName(), 0);
+	       	 params = add(params, new Parameter(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), 0, null, null, false, id));
+	         ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), params, lambdaBody, true);
+	       }
+	       else
+	       {
+	         ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), null, lambdaBody, true);
+	       }   
+	     }
+	     else if( ret instanceof NameExpr)
+	     {
+		   id = new VariableDeclaratorId(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), ((NameExpr)ret).getName(), 0);
+	       params = add(params, new Parameter(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), 0, null, null, false, id));
+	       ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), params, lambdaBody, false);
+	     }     
+	     else if( ret instanceof LambdaExpr)
+	     {
+	       ((LambdaExpr)ret).setBody(lambdaBody);
+	       ret.setEndLine(lambdaBody.getEndLine());
+	       ret.setEndColumn(lambdaBody.getEndColumn());
+	     }
+	     else{
+	     	ret = null;
+	     }
+	     return ret;
+    }
     void reset(InputStream in, String encoding) {
         ReInit(in, encoding);
         token_source.clearComments();
@@ -97,6 +133,8 @@ final class ASTParser {
         }
         return ModifierSet.addModifier(modifiers, mod);
     }
+    
+
 
     private void pushJavadoc() {
         token_source.pushJavadoc();
@@ -1940,28 +1978,13 @@ Expression Expression():
     op = AssignmentOperator() value = Expression() { ret = new AssignExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, value, op); }
   |
    "->" lambdaBody = LambdaBody()   {
-     if(ret instanceof EnclosedExpr)
-     {
-       inner = ((EnclosedExpr)ret).getInner();
-       if(inner != null && inner instanceof NameExpr)
-       {
-         id = new VariableDeclaratorId(inner.getBeginLine(), inner.getBeginColumn(), inner.getEndLine(), inner.getEndColumn(), ((NameExpr)inner).getName(), 0);
-       	 params = add(params, new Parameter(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), 0, null, null, false, id));
-         ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), params, lambdaBody, true);
-       }
-       else       {
-         ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), null, lambdaBody, true);       }   
+     
+     if (ret instanceof CastExpr){
+     	inner = generateLambda(((CastExpr)ret).getExpr(), lambdaBody);
+     	((CastExpr)ret).setExpr(inner);
      }
-     else if( ret instanceof NameExpr)     {
-	   id = new VariableDeclaratorId(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), ((NameExpr)ret).getName(), 0);
-       params = add(params, new Parameter(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), 0, null, null, false, id));
-       ret = new LambdaExpr(ret.getBeginLine(), ret.getBeginColumn(), ret.getEndLine(), ret.getEndColumn(), params, lambdaBody, false);     }     
-     else if( ret instanceof LambdaExpr)     {
-       ((LambdaExpr)ret).setBody(lambdaBody);
-       ret.setEndLine(lambdaBody.getEndLine());
-       ret.setEndColumn(lambdaBody.getEndColumn());     }
      else     {
-       ret = null;     }   }
+       ret = generateLambda(ret, lambdaBody);     }   }
  |  "::"  [typeArgs = TypeParameters() {typeArgs.remove(0);} ] (<IDENTIFIER> | "new") {
    ret = new MethodReferenceExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, typeArgs, token.image);  }
    )
@@ -2755,33 +2778,13 @@ ExpressionStmt StatementExpression():
 	 |
 	   "->" lambdaBody = LambdaBody()
 	   {
-	     if(expr instanceof EnclosedExpr)
-	     {
-	       inner = ((EnclosedExpr)expr).getInner();
-	       if(inner != null && inner instanceof NameExpr)	       {
-	         id = new VariableDeclaratorId(inner.getBeginLine(), inner.getBeginColumn(), inner.getEndLine(), inner.getEndColumn(), ((NameExpr)inner).getName(), 0);
-	       	 params = add(params, new Parameter(expr.getBeginLine(), expr.getBeginColumn(), expr.getEndLine(), expr.getEndColumn(), 0, null, null, false, id));
-	         expr = new LambdaExpr(expr.getBeginLine(), expr.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), params, lambdaBody, true);	       }
-	       else {
-         	 expr = new LambdaExpr(expr.getBeginLine(), expr.getBeginColumn(), lambdaBody.getEndLine(), lambdaBody.getEndColumn(), null, lambdaBody, true);
-
-       	   }        
-	     }
-	     else if( expr instanceof NameExpr)
-	     {
-		   id = new VariableDeclaratorId(expr.getBeginLine(), expr.getBeginColumn(), expr.getEndLine(), expr.getEndColumn(), ((NameExpr)expr).getName(), 0);
-	       params = add(params, new Parameter(expr.getBeginLine(), expr.getBeginColumn(), expr.getEndLine(), expr.getEndColumn(), 0, null, null, false, id));
-	       expr = new LambdaExpr(expr.getBeginLine(), expr.getBeginColumn(), expr.getEndLine(), expr.getEndColumn(), params, lambdaBody, false);
-	     }     
-	     else if( expr instanceof LambdaExpr)
-	     {
-	       ((LambdaExpr)expr).setBody(lambdaBody);
-	       expr.setEndLine(lambdaBody.getEndLine());
-	       expr.setEndColumn(lambdaBody.getEndColumn());
+	      if (expr instanceof CastExpr){
+	     	inner = generateLambda(((CastExpr)expr).getExpr(), lambdaBody);
+	     	((CastExpr)expr).setExpr(inner);
 	     }
 	     else
 	     {
-	       expr = null;
+	       expr = generateLambda(expr, lambdaBody);
 	     }
 	   }
 	  ]
