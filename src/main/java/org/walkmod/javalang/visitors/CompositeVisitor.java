@@ -99,9 +99,8 @@ import org.walkmod.javalang.ast.type.ReferenceType;
 import org.walkmod.javalang.ast.type.VoidType;
 import org.walkmod.javalang.ast.type.WildcardType;
 
-public class CompositeVisitor<VisitorContext>
-		extends
-			VoidVisitorAdapter<VisitorContext> {
+public class CompositeVisitor<VisitorContext> extends
+		VoidVisitorAdapter<VisitorContext> {
 
 	private VoidVisitor<VisitorContext> preVisitor = null;
 
@@ -682,7 +681,7 @@ public class CompositeVisitor<VisitorContext>
 			postVisitor.visit(n, arg);
 		}
 	}
-	
+
 	public void visit(MultiTypeParameter n, VisitorContext arg) {
 		if (preVisitor != null) {
 			preVisitor.visit(n, arg);
@@ -958,6 +957,6 @@ public class CompositeVisitor<VisitorContext>
 		if (postVisitor != null) {
 			postVisitor.visit(n, arg);
 		}
-		
+
 	}
 }

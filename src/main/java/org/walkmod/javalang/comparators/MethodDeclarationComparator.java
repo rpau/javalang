@@ -22,9 +22,8 @@ import java.util.List;
 import org.walkmod.javalang.ast.body.MethodDeclaration;
 import org.walkmod.javalang.ast.body.Parameter;
 
-public class MethodDeclarationComparator
-		implements
-			Comparator<MethodDeclaration> {
+public class MethodDeclarationComparator implements
+		Comparator<MethodDeclaration> {
 
 	@Override
 	public int compare(MethodDeclaration n1, MethodDeclaration n2) {
@@ -49,8 +48,9 @@ public class MethodDeclarationComparator
 					else
 						return new Integer(params1.size()).compareTo(params2
 								.size());
-				}else{
-					return new Integer(params1.size()).compareTo(params2.size());
+				} else {
+					return new Integer(params1.size())
+							.compareTo(params2.size());
 				}
 			}
 		}

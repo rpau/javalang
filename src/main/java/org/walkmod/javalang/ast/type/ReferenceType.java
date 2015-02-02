@@ -29,7 +29,7 @@ public final class ReferenceType extends Type {
 	private Type type;
 
 	private int arrayCount;
-	
+
 	private List<List<AnnotationExpr>> arraysAnnotations;
 
 	public ReferenceType() {
@@ -98,9 +98,9 @@ public final class ReferenceType extends Type {
 		return arraysAnnotations;
 	}
 
-	public void setArraysAnnotations(List<List<AnnotationExpr>> arraysAnnotations) {
+	public void setArraysAnnotations(
+			List<List<AnnotationExpr>> arraysAnnotations) {
 		this.arraysAnnotations = arraysAnnotations;
 	}
-	
-	
+
 }

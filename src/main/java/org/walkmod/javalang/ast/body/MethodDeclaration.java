@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
-import org.walkmod.javalang.ast.expr.NameExpr;
+
 import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -76,8 +76,8 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
-			BlockStmt block) {
+			List<Parameter> parameters, int arrayCount,
+			List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -92,8 +92,9 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
-			BlockStmt block, boolean isDefault) {
+			List<Parameter> parameters, int arrayCount,
+			List<ClassOrInterfaceType> throws_, BlockStmt block,
+			boolean isDefault) {
 		this(javaDoc, modifiers, annotations, typeParameters, type, name,
 				parameters, arrayCount, throws_, block);
 		this.isDefault = isDefault;
@@ -103,8 +104,8 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
-			BlockStmt block) {
+			List<Parameter> parameters, int arrayCount,
+			List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
 		this.typeParameters = typeParameters;
@@ -120,8 +121,9 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			int endColumn, JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations,
 			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_,
-			BlockStmt block, boolean isDefault) {
+			List<Parameter> parameters, int arrayCount,
+			List<ClassOrInterfaceType> throws_, BlockStmt block,
+			boolean isDefault) {
 
 		this(beginLine, beginColumn, endLine, endColumn, javaDoc, modifiers,
 				annotations, typeParameters, type, name, parameters,

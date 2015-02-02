@@ -261,12 +261,12 @@ public interface VoidVisitor<A> {
 	public void visit(TryStmt n, A arg);
 
 	public void visit(CatchClause n, A arg);
-	
+
 	public void visit(MultiTypeParameter n, A arg);
-	
+
 	public void visit(LambdaExpr n, A arg);
-	
+
 	public void visit(MethodReferenceExpr n, A arg);
-	
+
 	public void visit(TypeExpr n, A arg);
 }

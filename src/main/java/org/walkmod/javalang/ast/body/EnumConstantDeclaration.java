@@ -30,7 +30,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class EnumConstantDeclaration extends BodyDeclaration implements Mergeable<EnumConstantDeclaration>{
+public final class EnumConstantDeclaration extends BodyDeclaration implements
+		Mergeable<EnumConstantDeclaration> {
 
 	private String name;
 
@@ -100,32 +101,32 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements Me
 
 	@Override
 	public Comparator<?> getIdentityComparator() {
-		
+
 		return new EnumConstantDeclarationComparator();
 	}
 
 	@Override
 	public void merge(EnumConstantDeclaration remote, MergeEngine configuration) {
 		super.merge(remote, configuration);
-		
+
 		List<BodyDeclaration> resultClassBody = new LinkedList<BodyDeclaration>();
-		configuration.apply(getClassBody(), remote.getClassBody(), resultClassBody, BodyDeclaration.class);
-		
-		if(!resultClassBody.isEmpty()){
+		configuration.apply(getClassBody(), remote.getClassBody(),
+				resultClassBody, BodyDeclaration.class);
+
+		if (!resultClassBody.isEmpty()) {
 			setClassBody(resultClassBody);
-		}
-		else{
+		} else {
 			setClassBody(null);
 		}
-		
+
 		List<Expression> resultArgs = new LinkedList<Expression>();
-		configuration.apply(getArgs(), remote.getArgs(), resultArgs, Expression.class);
-		if(!resultArgs.isEmpty()){
+		configuration.apply(getArgs(), remote.getArgs(), resultArgs,
+				Expression.class);
+		if (!resultArgs.isEmpty()) {
 			setArgs(resultArgs);
-		}
-		else{
+		} else {
 			setArgs(null);
 		}
-		
+
 	}
 }

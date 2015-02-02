@@ -26,7 +26,8 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class EmptyMemberDeclaration extends BodyDeclaration implements Mergeable<EmptyMemberDeclaration>{
+public final class EmptyMemberDeclaration extends BodyDeclaration implements
+		Mergeable<EmptyMemberDeclaration> {
 
 	public EmptyMemberDeclaration() {
 	}
@@ -52,7 +53,7 @@ public final class EmptyMemberDeclaration extends BodyDeclaration implements Mer
 
 	@Override
 	public Comparator<?> getIdentityComparator() {
-		
+
 		return new EmptyMemberDeclarationComparator();
 	}
 

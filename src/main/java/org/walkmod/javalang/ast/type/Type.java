@@ -24,21 +24,22 @@ import org.walkmod.javalang.ast.expr.AnnotationExpr;
  * @author Julio Vilmar Gesser
  */
 public abstract class Type extends Node {
-	
+
 	private List<AnnotationExpr> annotations;
 
 	public Type() {
 	}
-	
-	public Type(List<AnnotationExpr> annotation){
+
+	public Type(List<AnnotationExpr> annotation) {
 		this.annotations = annotation;
 	}
 
 	public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
 		super(beginLine, beginColumn, endLine, endColumn);
 	}
-	
-	public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
+
+	public Type(int beginLine, int beginColumn, int endLine, int endColumn,
+			List<AnnotationExpr> annotations) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.annotations = annotations;
 	}
@@ -50,6 +51,5 @@ public abstract class Type extends Node {
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
 	}
-	
-	
+
 }

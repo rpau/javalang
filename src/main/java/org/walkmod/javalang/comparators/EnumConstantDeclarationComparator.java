@@ -19,9 +19,8 @@ import java.util.Comparator;
 
 import org.walkmod.javalang.ast.body.EnumConstantDeclaration;
 
-public class EnumConstantDeclarationComparator
-		implements
-			Comparator<EnumConstantDeclaration> {
+public class EnumConstantDeclarationComparator implements
+		Comparator<EnumConstantDeclaration> {
 
 	@Override
 	public int compare(EnumConstantDeclaration o1, EnumConstantDeclaration o2) {
