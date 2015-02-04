@@ -2039,7 +2039,7 @@ public class ASTParserTokenManager implements ASTParserConstants {
 			127, 2, 3, 5, 6, 7, 8, 16, 17, 19, 30, 38, 40, 54, 55, 57, 58, 59,
 			60, 63, 64, 65, 66, 69, 70, 73, 74, 75, 76, 79, 80, 84, 85, 87, 88,
 			89, 90, 100, 101, 104, 105, 111, 112, 115, 116, 120, 121, 122, 123,
-			128, 129, };
+			128, 129 };
 
 	private static final boolean jjCanMove_0(int hiByte, int i1, int i2,
 			long l1, long l2) {
@@ -2273,11 +2273,11 @@ public class ASTParserTokenManager implements ASTParserConstants {
 			"\174", "\136", "\45", "\74\74", "\53\75", "\55\75", "\52\75",
 			"\57\75", "\46\75", "\174\75", "\136\75", "\45\75", "\74\74\75",
 			"\76\76\75", "\76\76\76\75", "\56\56\56", "\55\76", "\72\72",
-			"\76\76\76", "\76\76", "\76", "\32", "\74\76", };
+			"\76\76\76", "\76\76", "\76", "\32", "\74\76" };
 
 	/** Lexer state names. */
 	public static final String[] lexStateNames = { "DEFAULT",
-			"IN_JAVA_DOC_COMMENT", "IN_MULTI_LINE_COMMENT", };
+			"IN_JAVA_DOC_COMMENT", "IN_MULTI_LINE_COMMENT" };
 
 	/** Lex State array. */
 	public static final int[] jjnewLexState = { -1, -1, -1, -1, -1, -1, -1, 1,
@@ -2288,12 +2288,12 @@ public class ASTParserTokenManager implements ASTParserConstants {
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			-1, -1, -1, -1, -1, -1, };
+			-1, -1, -1, -1, -1, -1 };
 	static final long[] jjtoToken = { 0xfffffffffffff001L, 0xfffffffffffe7087L,
-			0x1fL, };
-	static final long[] jjtoSkip = { 0x67eL, 0x0L, 0x0L, };
-	static final long[] jjtoSpecial = { 0x640L, 0x0L, 0x0L, };
-	static final long[] jjtoMore = { 0x980L, 0x0L, 0x0L, };
+			0x1fL };
+	static final long[] jjtoSkip = { 0x67eL, 0x0L, 0x0L };
+	static final long[] jjtoSpecial = { 0x640L, 0x0L, 0x0L };
+	static final long[] jjtoMore = { 0x980L, 0x0L, 0x0L };
 	protected JavaCharStream input_stream;
 	private final int[] jjrounds = new int[130];
 	private final int[] jjstateSet = new int[260];
