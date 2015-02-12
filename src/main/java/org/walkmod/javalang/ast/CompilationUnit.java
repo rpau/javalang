@@ -20,6 +20,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.body.TypeDeclaration;
+import org.walkmod.javalang.ast.body.JavadocComment;
+import org.walkmod.javalang.ast.body.AnnotationDeclaration;
+import org.walkmod.javalang.ast.body.EnumDeclaration;
+import org.walkmod.javalang.ast.body.ClassOrInterfaceDeclaration;
 import org.walkmod.javalang.comparators.CompilationUnitComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;

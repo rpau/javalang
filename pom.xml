@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.walkmod</groupId>
 	<artifactId>javalang</artifactId>
-	<version>3.0.6</version>
+	<version>3.0.7</version>
 	<description>Java 8 parser library</description>
 	<url>https://github.com/rpau/javalang</url>
 	<licenses>
@@ -39,6 +39,9 @@
 							<goal>jar</goal>
 							<goal>aggregate</goal>
 						</goals>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -54,21 +57,11 @@
 					</execution>
 				</executions>
 			</plugin>
- 
-			<!-- plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>javacc-maven-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>javacc</id>
-						<goals>
-							<goal>javacc</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin-->
-		
+
+			<!-- plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javacc-maven-plugin</artifactId> 
+				<version>2.6</version> <executions> <execution> <id>javacc</id> <goals> <goal>javacc</goal> 
+				</goals> </execution> </executions> </plugin -->
+
 		</plugins>
 	</build>
 	<dependencies>

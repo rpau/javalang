@@ -99,6 +99,7 @@ public abstract class Node implements Serializable {
 
 	/**
 	 * Use this to retrieve additional information associated to this node.
+	 * @return additional information associated to this node.
 	 */
 	public final Object getData() {
 		return data;
@@ -144,6 +145,9 @@ public abstract class Node implements Serializable {
 
 	/**
 	 * Use this to store additional information to this node.
+	 * 
+	 * @param data 
+	 * 			additional information to this node.
 	 */
 	public final void setData(Object data) {
 		this.data = data;

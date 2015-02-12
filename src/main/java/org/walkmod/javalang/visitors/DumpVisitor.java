@@ -1175,12 +1175,14 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		List<Node> comments = getContainingComments(n);
 		if (!comments.isEmpty()) {
 			Node c = comments.get(0);
-			Node last = (Node) members.get(members.size() - 1);
-			if (!last.isNewNode()) {
-				int start = last.getEndLine() + 1;
-				int end = c.getBeginLine();
-				for (int i = start; i < end; i++) {
-					printer.printLn();
+			if (members != null && !members.isEmpty()) {
+				Node last = (Node) members.get(members.size() - 1);
+				if (!last.isNewNode()) {
+					int start = last.getEndLine() + 1;
+					int end = c.getBeginLine();
+					for (int i = start; i < end; i++) {
+						printer.printLn();
+					}
 				}
 			}
 		}

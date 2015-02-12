@@ -20,7 +20,7 @@ package org.walkmod.javalang.ast;
  * 
  * @see BlockComment
  * @see LineComment
- * @see JavadocComment
+ * @see org.walkmod.javalang.ast.body.JavadocComment
  * @author Julio Vilmar Gesser
  */
 public abstract class Comment extends Node {

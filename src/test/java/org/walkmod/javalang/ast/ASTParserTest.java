@@ -55,5 +55,14 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
+	
+	@Test
+	public void testLinesBetweenParameters() throws Exception {
+		File f = new File("src/test/resources/multipleLinesBetweenParameters.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+
 
 }
