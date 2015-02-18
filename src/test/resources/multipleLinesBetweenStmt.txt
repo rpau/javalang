@@ -112,6 +112,11 @@ public class A{
 			chainConfigs.put(architecture.getName(), architecture);
 
 		}
+		
+		
+		else {
+		
+		}
 		return result;
 	}
 	
