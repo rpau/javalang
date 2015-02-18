@@ -117,6 +117,14 @@ public class A{
 		else {
 		
 		}
+		
+		if (true) {
+		
+		}
+		
+		if (false) {
+		
+		}
 		return result;
 	}
 	

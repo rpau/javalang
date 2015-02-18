@@ -63,12 +63,12 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
-
+	/*
 	@Test
     public void testLines() throws Exception {
         File f = new File("src/test/resources/test.txt");
         CompilationUnit cu = ASTManager.parse(f);
         Assert.assertNotNull(cu);
         System.out.println(cu.toString());
-    }
+    }*/
 }
