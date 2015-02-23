@@ -82,4 +82,17 @@ public class JavadocTest {
 		Assert.assertEquals("#getComponentAt(int, int)", jt.getValues().get(0));
 		Assert.assertEquals("getComponentAt", jt.getValues().get(1));
 	}
+	
+	@Test
+	public void testInlineTagsWithArray() throws Exception {
+		String javadoc = "Use the {@link #getComponentAt(int[], int[]) getComponentAt} method.";
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
+		Assert.assertTrue(tags.size() == 1);
+		JavadocTag jt = tags.get(0);
+		Assert.assertEquals("@link", jt.getName());
+		Assert.assertNotNull(jt.getValues());
+		Assert.assertEquals(2, jt.getValues().size());
+		Assert.assertEquals("#getComponentAt(int[], int[])", jt.getValues().get(0));
+		Assert.assertEquals("getComponentAt", jt.getValues().get(1));
+	}
 }

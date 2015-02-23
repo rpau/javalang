@@ -1718,7 +1718,7 @@ final class ASTParser implements ASTParserConstants {
     } else {
       ;
     }
-    ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,null, name, typeArgs);
+    ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,null, name, typeArgs); typeArgs = null;
     label_31:
     while (true) {
       if (jj_2_15(2)) {
@@ -1748,7 +1748,7 @@ final class ASTParser implements ASTParserConstants {
       } else {
         ;
       }
-                                                                              ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,ret, name, typeArgs); ret.setAnnotations(annotations); annotations = null;
+                                                                              ret = new ClassOrInterfaceType(line, column, token.endLine, token.endColumn,ret, name, typeArgs); ret.setAnnotations(annotations); annotations = null; typeArgs = null;
     }
     {if (true) return ret;}
     throw new Error("Missing return statement in function");
