@@ -820,6 +820,16 @@ String NSInlineTag():
   }
 }
 
+String anyTag():
+{
+	String result = "";
+}
+{
+	(result = inlineTag() | result = blockTag() | result = IDBlockTag() | result = NSInlineTag())
+	{
+		return result;
+	}
+}
 
 
 String description(List<JavadocTag> tags):
@@ -1130,6 +1140,31 @@ String inlineDescription():
 }
 {
  	(
+ 		( result = textDescription()
+ 		| 		
+ 		<OPENBRACE> [result = inlineDescription()] <CLOSEBRACE> { result = "{ "+result+" }";}
+ 		) 
+ 		[
+ 		(w = inlineDescription())
+ 		{ 
+ 			if(!"".equals(w)){
+ 			 result = result +" "+ w; 
+ 			}
+ 		}
+ 		]
+ 	)
+ 	{
+ 		return result;
+ 	}
+}
+
+String textDescription():
+{
+	String result ="";
+	String w="";
+}
+{
+ 	(
  		(<WORD> { result = token.image;}
  		| 
  		<NAMECHAR> { result = token.image;}
@@ -1140,16 +1175,9 @@ String inlineDescription():
  		| 
  		<OPERATION> { result = token.image;}
  		| 
- 		<OPENBRACE> { result = token.image;}
+ 		result = anyTag()
  		) 
- 		[
- 		(w = inlineDescription())
- 		{ 
- 			if(!"".equals(w)){
- 			 result = result +" "+ w; 
- 			}
- 		}
- 		]
+ 		
  	)
  	{
  		return result;

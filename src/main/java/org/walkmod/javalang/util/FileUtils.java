@@ -81,10 +81,29 @@ public class FileUtils {
 		List<String> lines = new LinkedList<String>();
 		String line = "";
 		BufferedReader in = new BufferedReader(new FileReader(filename));
-		while ((line = in.readLine()) != null) {
-			lines.add(line);
+		try {
+			while ((line = in.readLine()) != null) {
+				lines.add(line);
+			}
+		} finally {
+			in.close();
 		}
-		in.close();
 		return lines;
+	}
+
+	public static String fileToString(String fileName) throws Exception {
+		StringBuffer result = new StringBuffer();
+		BufferedReader in = new BufferedReader(new FileReader(fileName));
+		char[] buffer = new char[1000];
+		int readedChars = 0;
+		try {
+			while ((readedChars = in.read(buffer)) > 0) {
+				result.append(buffer, 0, readedChars);
+
+			}
+		} finally {
+			in.close();
+		}
+		return result.toString();
 	}
 }

@@ -144,6 +144,42 @@ public class TagsParser implements TagsParserConstants {
     throw new Error("Missing return statement in function");
   }
 
+  final public String anyTag() throws ParseException {
+        String result = "";
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case INHERITDOC:
+    case DOCROOT:
+    case CODE:
+    case LITERAL:
+      result = inlineTag();
+      break;
+    case SERIALDATA:
+    case DEPRECATED:
+    case AUTHOR:
+    case SINCE:
+    case VERSION:
+      result = blockTag();
+      break;
+    case PARAM:
+    case RETURN:
+    case THROWS:
+    case EXCEPTION:
+      result = IDBlockTag();
+      break;
+    case LINKPLAIN:
+    case LINK:
+    case VALUE:
+      result = NSInlineTag();
+      break;
+    default:
+      jj_la1[5] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                {if (true) return result;}
+    throw new Error("Missing return statement in function");
+  }
+
   final public String description(List<JavadocTag> tags) throws ParseException {
         String result = "";
         String arg1 = null;
@@ -163,7 +199,7 @@ public class TagsParser implements TagsParserConstants {
                                 arg1 = "{ "+arg1;
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[6] = jj_gen;
         ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -189,7 +225,7 @@ public class TagsParser implements TagsParserConstants {
         arg2 = description(tags);
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[7] = jj_gen;
         ;
       }
       break;
@@ -219,7 +255,7 @@ public class TagsParser implements TagsParserConstants {
         jj_consume_token(CLOSEBRACE);
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -247,7 +283,7 @@ public class TagsParser implements TagsParserConstants {
         arg2 = description(tags);
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[9] = jj_gen;
         ;
       }
       break;
@@ -266,7 +302,7 @@ public class TagsParser implements TagsParserConstants {
       blocks(tags);
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -297,6 +333,22 @@ public class TagsParser implements TagsParserConstants {
     case LITERAL:
       tag = inlineTag();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LINKPLAIN:
+      case LINK:
+      case VALUE:
+      case PARAM:
+      case RETURN:
+      case THROWS:
+      case EXCEPTION:
+      case SERIALDATA:
+      case INHERITDOC:
+      case DOCROOT:
+      case CODE:
+      case DEPRECATED:
+      case AUTHOR:
+      case LITERAL:
+      case SINCE:
+      case VERSION:
       case OPENBRACE:
       case ASTERISK:
       case IDENTIFIER:
@@ -306,7 +358,7 @@ public class TagsParser implements TagsParserConstants {
         description = inlineDescription();
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[11] = jj_gen;
         ;
       }
       break;
@@ -327,6 +379,22 @@ public class TagsParser implements TagsParserConstants {
         case OPERATION:
           ns = namespace();
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case LINKPLAIN:
+          case LINK:
+          case VALUE:
+          case PARAM:
+          case RETURN:
+          case THROWS:
+          case EXCEPTION:
+          case SERIALDATA:
+          case INHERITDOC:
+          case DOCROOT:
+          case CODE:
+          case DEPRECATED:
+          case AUTHOR:
+          case LITERAL:
+          case SINCE:
+          case VERSION:
           case OPENBRACE:
           case ASTERISK:
           case IDENTIFIER:
@@ -336,7 +404,7 @@ public class TagsParser implements TagsParserConstants {
             description = inlineDescription();
             break;
           default:
-            jj_la1[11] = jj_gen;
+            jj_la1[12] = jj_gen;
             ;
           }
           break;
@@ -346,18 +414,18 @@ public class TagsParser implements TagsParserConstants {
           words = NSInlineDescription();
           break;
         default:
-          jj_la1[12] = jj_gen;
+          jj_la1[13] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[14] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -399,7 +467,7 @@ public class TagsParser implements TagsParserConstants {
       jj_consume_token(OPERATION);
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[16] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -447,7 +515,7 @@ public class TagsParser implements TagsParserConstants {
         arg1 = description(postTags);
         break;
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[17] = jj_gen;
         ;
       }
       break;
@@ -501,7 +569,7 @@ public class TagsParser implements TagsParserConstants {
             arg2 = description(postTags);
             break;
           default:
-            jj_la1[17] = jj_gen;
+            jj_la1[18] = jj_gen;
             ;
           }
           break;
@@ -516,7 +584,7 @@ public class TagsParser implements TagsParserConstants {
                                                                                                    arg1 = token.image;
             break;
           default:
-            jj_la1[18] = jj_gen;
+            jj_la1[19] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -546,7 +614,7 @@ public class TagsParser implements TagsParserConstants {
                                                                                                                                                                                 }
             break;
           default:
-            jj_la1[19] = jj_gen;
+            jj_la1[20] = jj_gen;
             ;
           }
           break;
@@ -563,7 +631,7 @@ public class TagsParser implements TagsParserConstants {
             arg1 = inlines(postTags);
             break;
           default:
-            jj_la1[20] = jj_gen;
+            jj_la1[21] = jj_gen;
             ;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -589,7 +657,7 @@ public class TagsParser implements TagsParserConstants {
             aux = description(postTags);
             break;
           default:
-            jj_la1[21] = jj_gen;
+            jj_la1[22] = jj_gen;
             ;
           }
                                                                                                                 if(aux != null && arg1 != null){
@@ -611,13 +679,13 @@ public class TagsParser implements TagsParserConstants {
           blocks(postTags);
           break;
         default:
-          jj_la1[22] = jj_gen;
+          jj_la1[23] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[24] = jj_gen;
         ;
       }
       break;
@@ -672,7 +740,7 @@ public class TagsParser implements TagsParserConstants {
             arg2 = description(postTags);
             break;
           default:
-            jj_la1[24] = jj_gen;
+            jj_la1[25] = jj_gen;
             ;
           }
           break;
@@ -694,7 +762,7 @@ public class TagsParser implements TagsParserConstants {
             jj_consume_token(OPERATION);
             break;
           default:
-            jj_la1[25] = jj_gen;
+            jj_la1[26] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -725,7 +793,7 @@ public class TagsParser implements TagsParserConstants {
                                                 }
             break;
           default:
-            jj_la1[26] = jj_gen;
+            jj_la1[27] = jj_gen;
             ;
           }
           break;
@@ -742,7 +810,7 @@ public class TagsParser implements TagsParserConstants {
             arg1 = inlines(postTags);
             break;
           default:
-            jj_la1[27] = jj_gen;
+            jj_la1[28] = jj_gen;
             ;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -768,7 +836,7 @@ public class TagsParser implements TagsParserConstants {
             aux = description(postTags);
             break;
           default:
-            jj_la1[28] = jj_gen;
+            jj_la1[29] = jj_gen;
             ;
           }
                                         if(arg1 != null && aux != null){
@@ -793,13 +861,13 @@ public class TagsParser implements TagsParserConstants {
           blocks(postTags);
           break;
         default:
-          jj_la1[29] = jj_gen;
+          jj_la1[30] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[30] = jj_gen;
+        jj_la1[31] = jj_gen;
         ;
       }
       break;
@@ -872,7 +940,7 @@ public class TagsParser implements TagsParserConstants {
                 arg3 = description(postTags);
                 break;
               default:
-                jj_la1[31] = jj_gen;
+                jj_la1[32] = jj_gen;
                 ;
               }
               break;
@@ -894,7 +962,7 @@ public class TagsParser implements TagsParserConstants {
                 jj_consume_token(OPERATION);
                 break;
               default:
-                jj_la1[32] = jj_gen;
+                jj_la1[33] = jj_gen;
                 jj_consume_token(-1);
                 throw new ParseException();
               }
@@ -925,7 +993,7 @@ public class TagsParser implements TagsParserConstants {
                                                         }
                 break;
               default:
-                jj_la1[33] = jj_gen;
+                jj_la1[34] = jj_gen;
                 ;
               }
               break;
@@ -942,7 +1010,7 @@ public class TagsParser implements TagsParserConstants {
                 inlines(postTags);
                 break;
               default:
-                jj_la1[34] = jj_gen;
+                jj_la1[35] = jj_gen;
                 ;
               }
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -968,7 +1036,7 @@ public class TagsParser implements TagsParserConstants {
                 description(postTags);
                 break;
               default:
-                jj_la1[35] = jj_gen;
+                jj_la1[36] = jj_gen;
                 ;
               }
               break;
@@ -987,13 +1055,13 @@ public class TagsParser implements TagsParserConstants {
               blocks(postTags);
               break;
             default:
-              jj_la1[36] = jj_gen;
+              jj_la1[37] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[37] = jj_gen;
+            jj_la1[38] = jj_gen;
             ;
           }
           break;
@@ -1046,7 +1114,7 @@ public class TagsParser implements TagsParserConstants {
                 arg3 = description(postTags);
                 break;
               default:
-                jj_la1[38] = jj_gen;
+                jj_la1[39] = jj_gen;
                 ;
               }
               break;
@@ -1068,7 +1136,7 @@ public class TagsParser implements TagsParserConstants {
                 jj_consume_token(OPERATION);
                 break;
               default:
-                jj_la1[39] = jj_gen;
+                jj_la1[40] = jj_gen;
                 jj_consume_token(-1);
                 throw new ParseException();
               }
@@ -1099,7 +1167,7 @@ public class TagsParser implements TagsParserConstants {
                                                         }
                 break;
               default:
-                jj_la1[40] = jj_gen;
+                jj_la1[41] = jj_gen;
                 ;
               }
               break;
@@ -1116,7 +1184,7 @@ public class TagsParser implements TagsParserConstants {
                 arg2 = inlines(postTags);
                 break;
               default:
-                jj_la1[41] = jj_gen;
+                jj_la1[42] = jj_gen;
                 ;
               }
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1142,7 +1210,7 @@ public class TagsParser implements TagsParserConstants {
                 aux = description(postTags);
                 break;
               default:
-                jj_la1[42] = jj_gen;
+                jj_la1[43] = jj_gen;
                 ;
               }
                                         if(arg2 != null && aux != null){
@@ -1167,13 +1235,13 @@ public class TagsParser implements TagsParserConstants {
               blocks(postTags);
               break;
             default:
-              jj_la1[43] = jj_gen;
+              jj_la1[44] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
             break;
           default:
-            jj_la1[44] = jj_gen;
+            jj_la1[45] = jj_gen;
             ;
           }
           break;
@@ -1190,7 +1258,7 @@ public class TagsParser implements TagsParserConstants {
             inlines(postTags);
             break;
           default:
-            jj_la1[45] = jj_gen;
+            jj_la1[46] = jj_gen;
             ;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1216,7 +1284,7 @@ public class TagsParser implements TagsParserConstants {
             description(postTags);
             break;
           default:
-            jj_la1[46] = jj_gen;
+            jj_la1[47] = jj_gen;
             ;
           }
           break;
@@ -1235,13 +1303,13 @@ public class TagsParser implements TagsParserConstants {
           blocks(postTags);
           break;
         default:
-          jj_la1[47] = jj_gen;
+          jj_la1[48] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[48] = jj_gen;
+        jj_la1[49] = jj_gen;
         ;
       }
       break;
@@ -1296,7 +1364,7 @@ public class TagsParser implements TagsParserConstants {
             description(postTags);
             break;
           default:
-            jj_la1[49] = jj_gen;
+            jj_la1[50] = jj_gen;
             ;
           }
           break;
@@ -1314,7 +1382,7 @@ public class TagsParser implements TagsParserConstants {
             jj_consume_token(CLOSEBRACE);
             break;
           default:
-            jj_la1[50] = jj_gen;
+            jj_la1[51] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -1345,7 +1413,7 @@ public class TagsParser implements TagsParserConstants {
                                         }
             break;
           default:
-            jj_la1[51] = jj_gen;
+            jj_la1[52] = jj_gen;
             ;
           }
           break;
@@ -1368,7 +1436,7 @@ public class TagsParser implements TagsParserConstants {
                                         }
             break;
           default:
-            jj_la1[52] = jj_gen;
+            jj_la1[53] = jj_gen;
             ;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1397,7 +1465,7 @@ public class TagsParser implements TagsParserConstants {
                                         }
             break;
           default:
-            jj_la1[53] = jj_gen;
+            jj_la1[54] = jj_gen;
             ;
           }
           break;
@@ -1416,18 +1484,18 @@ public class TagsParser implements TagsParserConstants {
           blocks(postTags);
           break;
         default:
-          jj_la1[54] = jj_gen;
+          jj_la1[55] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[55] = jj_gen;
+        jj_la1[56] = jj_gen;
         ;
       }
       break;
     default:
-      jj_la1[56] = jj_gen;
+      jj_la1[57] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1456,6 +1524,108 @@ public class TagsParser implements TagsParserConstants {
         String result ="";
         String w="";
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LINKPLAIN:
+    case LINK:
+    case VALUE:
+    case PARAM:
+    case RETURN:
+    case THROWS:
+    case EXCEPTION:
+    case SERIALDATA:
+    case INHERITDOC:
+    case DOCROOT:
+    case CODE:
+    case DEPRECATED:
+    case AUTHOR:
+    case LITERAL:
+    case SINCE:
+    case VERSION:
+    case ASTERISK:
+    case IDENTIFIER:
+    case NAMECHAR:
+    case OPERATION:
+    case WORD:
+      result = textDescription();
+      break;
+    case OPENBRACE:
+      jj_consume_token(OPENBRACE);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LINKPLAIN:
+      case LINK:
+      case VALUE:
+      case PARAM:
+      case RETURN:
+      case THROWS:
+      case EXCEPTION:
+      case SERIALDATA:
+      case INHERITDOC:
+      case DOCROOT:
+      case CODE:
+      case DEPRECATED:
+      case AUTHOR:
+      case LITERAL:
+      case SINCE:
+      case VERSION:
+      case OPENBRACE:
+      case ASTERISK:
+      case IDENTIFIER:
+      case NAMECHAR:
+      case OPERATION:
+      case WORD:
+        result = inlineDescription();
+        break;
+      default:
+        jj_la1[58] = jj_gen;
+        ;
+      }
+      jj_consume_token(CLOSEBRACE);
+                                                                          result = "{ "+result+" }";
+      break;
+    default:
+      jj_la1[59] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LINKPLAIN:
+    case LINK:
+    case VALUE:
+    case PARAM:
+    case RETURN:
+    case THROWS:
+    case EXCEPTION:
+    case SERIALDATA:
+    case INHERITDOC:
+    case DOCROOT:
+    case CODE:
+    case DEPRECATED:
+    case AUTHOR:
+    case LITERAL:
+    case SINCE:
+    case VERSION:
+    case OPENBRACE:
+    case ASTERISK:
+    case IDENTIFIER:
+    case NAMECHAR:
+    case OPERATION:
+    case WORD:
+      w = inlineDescription();
+                        if(!"".equals(w)){
+                         result = result +" "+ w;
+                        }
+      break;
+    default:
+      jj_la1[60] = jj_gen;
+      ;
+    }
+                {if (true) return result;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public String textDescription() throws ParseException {
+        String result ="";
+        String w="";
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case WORD:
       jj_consume_token(WORD);
                           result = token.image;
@@ -1476,30 +1646,28 @@ public class TagsParser implements TagsParserConstants {
       jj_consume_token(OPERATION);
                               result = token.image;
       break;
-    case OPENBRACE:
-      jj_consume_token(OPENBRACE);
-                              result = token.image;
+    case LINKPLAIN:
+    case LINK:
+    case VALUE:
+    case PARAM:
+    case RETURN:
+    case THROWS:
+    case EXCEPTION:
+    case SERIALDATA:
+    case INHERITDOC:
+    case DOCROOT:
+    case CODE:
+    case DEPRECATED:
+    case AUTHOR:
+    case LITERAL:
+    case SINCE:
+    case VERSION:
+      result = anyTag();
       break;
     default:
-      jj_la1[57] = jj_gen;
+      jj_la1[61] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
-    }
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case OPENBRACE:
-    case ASTERISK:
-    case IDENTIFIER:
-    case NAMECHAR:
-    case OPERATION:
-    case WORD:
-      w = inlineDescription();
-                        if(!"".equals(w)){
-                         result = result +" "+ w;
-                        }
-      break;
-    default:
-      jj_la1[58] = jj_gen;
-      ;
     }
                 {if (true) return result;}
     throw new Error("Missing return statement in function");
@@ -1522,11 +1690,27 @@ public class TagsParser implements TagsParserConstants {
                               result = token.image;
       break;
     default:
-      jj_la1[59] = jj_gen;
+      jj_la1[62] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case LINKPLAIN:
+    case LINK:
+    case VALUE:
+    case PARAM:
+    case RETURN:
+    case THROWS:
+    case EXCEPTION:
+    case SERIALDATA:
+    case INHERITDOC:
+    case DOCROOT:
+    case CODE:
+    case DEPRECATED:
+    case AUTHOR:
+    case LITERAL:
+    case SINCE:
+    case VERSION:
     case OPENBRACE:
     case ASTERISK:
     case IDENTIFIER:
@@ -1539,7 +1723,7 @@ public class TagsParser implements TagsParserConstants {
                                 }
       break;
     default:
-      jj_la1[60] = jj_gen;
+      jj_la1[63] = jj_gen;
       ;
     }
                 {if (true) return result;}
@@ -1555,13 +1739,13 @@ public class TagsParser implements TagsParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[61];
+  final private int[] jj_la1 = new int[64];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1cfd8ff0,0x27000,0xd8400,0xf0,0xe,0x2700e,0x1cfd8ff0,0x1ce00000,0x1cfd8ff0,0x1cfd8ff0,0x1cd00000,0x1cd00000,0x1cd00000,0x1cd00000,0x2700e,0xc800000,0x1cfd8ff0,0x1cfd8ff0,0x10400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x2700e,0x1cfd8ff0,0x49d8ff0,0x49d8ff0,0x1cfd8ff0,0x10600000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cfd8ff0,0x1cfd8ff0,0xd8ff0,0x1cd00000,0x1cd00000,0x10500000,0x1cd00000,};
+      jj_la1_0 = new int[] {0x1cfd8ff0,0x27000,0xd8400,0xf0,0xe,0xff4fe,0x2700e,0x1cfd8ff0,0x1ce00000,0x1cfd8ff0,0x1cfd8ff0,0x1cdff4fe,0x1cdff4fe,0x1cd00000,0x1cd00000,0x2700e,0xc800000,0x1cfd8ff0,0x1cfd8ff0,0x10400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x1cfd8ff0,0x1c400000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cdd8ff0,0x1cdd8ff0,0x2700e,0x1cfd8ff0,0x49d8ff0,0x49d8ff0,0x1cfd8ff0,0x10600000,0x1cfd8ff0,0x2700e,0x1cfd8ff0,0x1cfd8ff0,0x1cfd8ff0,0xd8ff0,0x1cdff4fe,0x1cdff4fe,0x1cdff4fe,0x1ccff4fe,0x10500000,0x1cdff4fe,};
    }
 
   /** Constructor with InputStream. */
@@ -1575,7 +1759,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1589,7 +1773,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1599,7 +1783,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1609,7 +1793,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1618,7 +1802,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1627,7 +1811,7 @@ public class TagsParser implements TagsParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 61; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 64; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -1683,7 +1867,7 @@ public class TagsParser implements TagsParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 61; i++) {
+    for (int i = 0; i < 64; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
