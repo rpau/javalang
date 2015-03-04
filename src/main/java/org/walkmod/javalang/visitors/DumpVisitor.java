@@ -116,11 +116,33 @@ import org.walkmod.javalang.ast.type.WildcardType;
  */
 public final class DumpVisitor implements VoidVisitor<Object> {
 
+
+	
 	private List<Comment> comments = new LinkedList<Comment>();
+	
+	public void setComments(List<Comment> comments){
+		this.comments = comments;
+	}
+	
+	public void setIndentationLevel(int level){
+		printer.indent(level);
+	}
+	
+	public void setIndentationSize(int size){
+		printer.setSize(size);
+	}
+	
+	public void setIndentationChar(char indentationChar){
+		printer.setIndentationChar(indentationChar);
+	}
 
 	private static class SourcePrinter {
 
 		private int level = 0;
+		
+		private String indentationString = "    ";
+		
+		private char indentationChar = ' ';
 
 		private boolean indented = false;
 
@@ -129,6 +151,23 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		public void indent() {
 			level++;
 		}
+		
+		public void indent(int level){
+			this.level = level;
+		}
+		
+		public void setIndentationChar(char indentationChar){
+			this.indentationChar = indentationChar;
+		}
+		
+		public void setSize(int size){
+			
+			StringBuffer buffer = new StringBuffer();
+			for(int i = 0; i < size; i++){
+				buffer.append(indentationChar);
+			}
+			indentationString = buffer.toString();
+		}
 
 		public void unindent() {
 			level--;
@@ -136,7 +175,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
 		private void makeIndent() {
 			for (int i = 0; i < level; i++) {
-				buf.append("    ");
+				buf.append(indentationString);
 			}
 		}
 
@@ -418,7 +457,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 					it.remove();
 				}
 			}
-			if (previous != null) {
+			if (previous != null && !previous.isNewNode()) {
 				addEntersBetween(previous, n);
 			}
 		}
