@@ -153,8 +153,7 @@ public class ActionsApplier {
 						String code = append.getText();
 						modifiedText.append(code);
 
-						actionLine = append.getEndLine();
-						actionColumn = append.getEndColumn();
+						
 					} else if (next.getType().equals(ActionType.REPLACE)) {
 						inferIndentationChar(contents);
 

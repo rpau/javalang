@@ -178,6 +178,7 @@ public class ASTManager {
 
 		if (!withoutLocation) {
 			astParser = new ASTParser(sr);
+			astParser.jj_input_stream.setTabSize(1);
 		} else {
 			JavaCharStream stream = new JavaCharStream(sr, 1, 1);
 			CleanerTokenManager ctm = new CleanerTokenManager(stream);

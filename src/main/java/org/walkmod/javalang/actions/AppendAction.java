@@ -1,8 +1,6 @@
 package org.walkmod.javalang.actions;
 
-import org.walkmod.javalang.ast.Comment;
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.visitors.DumpVisitor;
 
 public class AppendAction extends Action {
 
@@ -11,8 +9,6 @@ public class AppendAction extends Action {
 	private int endLine = -1;
 
 	private int endColumn = -1;
-
-	private int indentations = 0;
 
 	private int indentationLevel = 0;
 
@@ -49,21 +45,15 @@ public class AppendAction extends Action {
 		return text;
 	}
 
-	private void generateText() {
-		DumpVisitor visitor = new DumpVisitor();
-		visitor.setIndentationChar(indentationChar);
-		visitor.setIndentationLevel(indentationLevel);
-		visitor.setIndentationSize(indentationSize);
-
-		node.accept(visitor, null);
-		text = visitor.getSource();
-		if(node instanceof Comment){
-			if (!text.endsWith("\n")) {
-				text += "\n";
-			}
-		}
+	public void generateText() {
+		
+		text = node.getPrettySource(indentationChar, indentationLevel, indentationSize);
+	
 		if (getBeginColumn() == 1 && getBeginLine() > 1) {
 			if (!text.endsWith("\n")) {
+				if(text.endsWith(" ")){
+					text = text.substring(0, text.length()-1);
+				}
 				text += "\n";
 			}
 		}
@@ -83,6 +73,7 @@ public class AppendAction extends Action {
 	}
 
 	public int getIndentations() {
-		return indentations;
+		return indentationSize;
 	}
+	
 }

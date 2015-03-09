@@ -116,32 +116,30 @@ import org.walkmod.javalang.ast.type.WildcardType;
  */
 public final class DumpVisitor implements VoidVisitor<Object> {
 
-
-	
 	private List<Comment> comments = new LinkedList<Comment>();
-	
-	public void setComments(List<Comment> comments){
+
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
-	public void setIndentationLevel(int level){
+
+	public void setIndentationLevel(int level) {
 		printer.indent(level);
 	}
-	
-	public void setIndentationSize(int size){
+
+	public void setIndentationSize(int size) {
 		printer.setSize(size);
 	}
-	
-	public void setIndentationChar(char indentationChar){
+
+	public void setIndentationChar(char indentationChar) {
 		printer.setIndentationChar(indentationChar);
 	}
 
 	private static class SourcePrinter {
 
 		private int level = 0;
-		
+
 		private String indentationString = "    ";
-		
+
 		private char indentationChar = ' ';
 
 		private boolean indented = false;
@@ -151,19 +149,19 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		public void indent() {
 			level++;
 		}
-		
-		public void indent(int level){
+
+		public void indent(int level) {
 			this.level = level;
 		}
-		
-		public void setIndentationChar(char indentationChar){
+
+		public void setIndentationChar(char indentationChar) {
 			this.indentationChar = indentationChar;
 		}
-		
-		public void setSize(int size){
-			
+
+		public void setSize(int size) {
+
 			StringBuffer buffer = new StringBuffer();
-			for(int i = 0; i < size; i++){
+			for (int i = 0; i < size; i++) {
 				buffer.append(indentationChar);
 			}
 			indentationString = buffer.toString();
@@ -249,8 +247,8 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		}
 	}
 
-	private <T extends Node> void printChildrenNodes(List<T> members,
-			String sepChar, Object arg) {
+	private <T extends Node, K extends Node> void printChildrenNodes(K parent,
+			List<T> members, String sepChar, Object arg) {
 		Node previous = null;
 		if (members != null) {
 			Iterator<T> it = members.iterator();
@@ -305,7 +303,13 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		}
 		if (sepChar == null) {
 			if (previous == null || !(previous instanceof SwitchEntryStmt)) {
-				printer.printLn();
+				if (!parent.isNewNode()) {
+					if(parent.getEndLine() != previous.getEndLine()){
+						printer.printLn();
+					}
+				} else {
+					printer.printLn();
+				}
 			}
 		}
 	}
@@ -871,7 +875,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			// printer.printLn();
 			printer.indent();
 			printFirstBlankLines(n, members, beginLineMembers);
-			printChildrenNodes(members, null, arg);
+			printChildrenNodes(n, members, null, arg);
 			printEntersAfterMembersAndBeforeComments(n, members);
 
 		}
@@ -1514,7 +1518,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			if (members != null) {
 				if (!members.isEmpty()) {
 					printFirstBlankLines(n, members, beginLine);
-					printChildrenNodes(members, null, arg);
+					printChildrenNodes(n, members, null, arg);
 					printEntersAfterMembersAndBeforeComments(n, members);
 				}
 
@@ -1882,7 +1886,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			List<SwitchEntryStmt> entries = n.getEntries();
 			if (entries != null && !entries.isEmpty()) {
 				printFirstBlankLines(n, entries, n.getBeginLine());
-				printChildrenNodes(entries, null, arg);
+				printChildrenNodes(n, entries, null, arg);
 				printEntersAfterMembersAndBeforeComments(n, entries);
 			}
 			printContainingCommentsAndEnters(n, entries, arg, n.getBeginLine());
@@ -1913,7 +1917,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			printEntersAfterMembersAndBeforeComments(n, stmts);
 			printContainingCommentsAndEnters(n, stmts, arg, startingLine);
 		} else {
-			
+
 			printContainingComments(n, startingLine, arg);
 		}
 
@@ -1990,7 +1994,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			}
 
 		}
-		printChildrenNodes(entries, ", ", arg);
+		printChildrenNodes(n, entries, ", ", arg);
 		List<BodyDeclaration> members = n.getMembers();
 		if (members != null && !members.isEmpty()) {
 			printer.printLn(";");
@@ -2003,7 +2007,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 				}
 			}
 
-			printChildrenNodes(members, null, arg);
+			printChildrenNodes(n, members, null, arg);
 			printEntersAfterMembersAndBeforeComments(n, members);
 			printContainingCommentsAndEnters(n, members, arg, beginLineMembers);
 		} else {
@@ -2049,7 +2053,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			printFirstBlankLines(n, classBody, beginLineMembers);
 			printer.indent();
 
-			printChildrenNodes(classBody, null, arg);
+			printChildrenNodes(n, classBody, null, arg);
 			printContainingComments(n, -1, arg);
 			printer.unindent();
 			printer.print("}");
@@ -2287,7 +2291,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		if (members != null) {
 
 			printFirstBlankLines(n, members, beginLineMembers);
-			printChildrenNodes(members, null, arg);
+			printChildrenNodes(n, members, null, arg);
 			printEntersAfterMembersAndBeforeComments(n, members);
 
 		}

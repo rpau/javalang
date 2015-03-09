@@ -16,6 +16,8 @@
 package org.walkmod.javalang.ast;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.walkmod.javalang.visitors.DumpVisitor;
 import org.walkmod.javalang.visitors.EqualsVisitor;
@@ -99,6 +101,7 @@ public abstract class Node implements Serializable {
 
 	/**
 	 * Use this to retrieve additional information associated to this node.
+	 * 
 	 * @return additional information associated to this node.
 	 */
 	public final Object getData() {
@@ -146,8 +149,8 @@ public abstract class Node implements Serializable {
 	/**
 	 * Use this to store additional information to this node.
 	 * 
-	 * @param data 
-	 * 			additional information to this node.
+	 * @param data
+	 *            additional information to this node.
 	 */
 	public final void setData(Object data) {
 		this.data = data;
@@ -264,4 +267,22 @@ public abstract class Node implements Serializable {
 		return false;
 	}
 
+	public String getPrettySource(char indentationChar, int indentationLevel,
+			int indentationSize) {
+		
+		return getPrettySource(indentationChar, indentationLevel, indentationSize, null);
+	}
+
+	public String getPrettySource(char indentationChar, int indentationLevel,
+			int indentationSize, List<Comment> comments) {
+		DumpVisitor visitor = new DumpVisitor();
+		visitor.setIndentationChar(indentationChar);
+		visitor.setIndentationLevel(indentationLevel);
+		visitor.setIndentationSize(indentationSize);
+		if (comments != null) {
+			visitor.setComments(new LinkedList<Comment>(comments));
+		}
+		accept(visitor, null);
+		return visitor.getSource();
+	}
 }

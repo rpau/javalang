@@ -49,4 +49,13 @@ public abstract class AnnotationExpr extends Expression implements
 	public Comparator<?> getIdentityComparator() {
 		return new AnnotationExprComparator();
 	}
+
+	@Override
+	public String getPrettySource(char indentationChar, int indentationLevel,
+			int indentationSize) {
+		String text = super.getPrettySource(indentationChar, 0, 0);
+		text += " ";
+
+		return text;
+	}
 }

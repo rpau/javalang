@@ -4,7 +4,7 @@ public abstract class Action {
 	private int beginLine;
 	private int beginColumn;
 	private ActionType type;
-	
+
 	public Action(int beginLine, int beginPosition, ActionType type) {
 		this.beginLine = beginLine;
 		this.beginColumn = beginPosition;
@@ -34,23 +34,39 @@ public abstract class Action {
 	public void setType(ActionType type) {
 		this.type = type;
 	}
-	
+
 	public abstract int getEndLine();
-	
+
 	public abstract int getEndColumn();
 
 	public boolean isPreviousThan(int beginLine, int beginColumn) {
-		
-		if(beginLine > getEndLine()){
+
+		if (beginLine > getEndLine()) {
 			return true;
 		}
-		if( beginLine == getEndLine() && beginColumn >= getEndColumn()){
+		if (beginLine == getEndLine() && beginColumn >= getEndColumn()) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isEmpty(){
-		return getBeginLine() == getEndLine() && getBeginColumn() == getEndColumn();
+
+	public boolean contains(Action action) {
+
+		if ((getBeginLine() < action.getBeginLine())
+				|| ((getBeginLine() == action.getBeginLine()) && getBeginColumn() <= action
+						.getBeginColumn())) {
+			if (getEndLine() > action.getEndLine()) {
+				return true;
+			} else if ((getEndLine() == action.getEndLine())
+					&& getEndColumn() >= action.getEndColumn()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isEmpty() {
+		return getBeginLine() == getEndLine()
+				&& getBeginColumn() == getEndColumn();
 	}
 }

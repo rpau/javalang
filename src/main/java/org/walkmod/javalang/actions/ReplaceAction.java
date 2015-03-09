@@ -8,7 +8,6 @@ import org.walkmod.javalang.ast.Comment;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
-import org.walkmod.javalang.visitors.DumpVisitor;
 
 public class ReplaceAction extends Action {
 
@@ -51,16 +50,10 @@ public class ReplaceAction extends Action {
 			}
 		}
 		
-		DumpVisitor visitor = new DumpVisitor();
-		visitor.setIndentationChar(indentationChar);
-		visitor.setIndentationLevel(indentationLevel);
-		visitor.setIndentationSize(indentationSize);
-		visitor.setComments(new LinkedList<Comment>(acceptedComments));
 		
 		this.oldNode = oldNode;
-		oldNode.accept(visitor, null);
-		oldCode = visitor.getSource();
 		
+		oldCode = oldNode.getPrettySource(indentationChar, indentation, indentationSize, acceptedComments);
 		oldCodeWithoutNonBlanks = oldCode.replaceAll("\\S", " ");
 
 		if (oldNode instanceof BodyDeclaration) {
@@ -94,23 +87,13 @@ public class ReplaceAction extends Action {
 	}
 
 	private void updateCode() {
-		DumpVisitor visitor = new DumpVisitor();
-		visitor.setIndentationChar(indentationChar);
-		visitor.setIndentationLevel(indentationLevel);
-		visitor.setIndentationSize(indentationSize);
-		visitor.setComments(new LinkedList<Comment>(acceptedComments));
 		
-		newNode.accept(visitor, null);
-		newCode = visitor.getSource();
+		newCode = newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
 		if (newCode.length() < oldCodeWithoutNonBlanks.length()) {
 			newCode = newCode
 					+ oldCodeWithoutNonBlanks.substring(newCode.length());
 		}
-		if (getBeginColumn() == 1 && getBeginLine() > 1) {
-			if (!newCode.endsWith("\n")) {
-				newCode += "\n";
-			}
-		}
+		
 	}
 
 	@Override
@@ -119,7 +102,7 @@ public class ReplaceAction extends Action {
 	}
 	
 	public int getOldEndLine(){
-		return oldNode.getBeginLine();
+		return oldNode.getEndLine();
 	}
 	
 	public int getOldEndColumn(){

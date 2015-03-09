@@ -58,4 +58,13 @@ public abstract class Comment extends Node {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	@Override
+	public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
+		String text = super.getPrettySource(indentationChar, indentationLevel, indentationSize);
+		if (!text.endsWith("\n")) {
+			text += "\n";
+		}
+		return text;
+	}
 }
