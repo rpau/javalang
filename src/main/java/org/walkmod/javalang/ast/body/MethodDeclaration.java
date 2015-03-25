@@ -20,9 +20,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
-
 import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -36,7 +37,7 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class MethodDeclaration extends BodyDeclaration implements
-		Mergeable<MethodDeclaration> {
+		Mergeable<MethodDeclaration>, SymbolDataAware<MethodSymbolData> {
 
 	private int modifiers;
 
@@ -55,6 +56,8 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	private BlockStmt body;
 
 	private boolean isDefault = false;
+
+	private MethodSymbolData symbolData;
 
 	public MethodDeclaration() {
 	}
@@ -259,6 +262,16 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	@Override
+	public MethodSymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(MethodSymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 
 }

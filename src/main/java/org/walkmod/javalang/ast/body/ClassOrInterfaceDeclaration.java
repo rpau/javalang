@@ -19,6 +19,8 @@ package org.walkmod.javalang.ast.body;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
@@ -38,6 +40,8 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 	private List<ClassOrInterfaceType> extendsList;
 
 	private List<ClassOrInterfaceType> implementsList;
+
+	
 
 	public ClassOrInterfaceDeclaration() {
 	}
@@ -152,4 +156,6 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 			setExtends(null);
 		}
 	}
+	
+	
 }

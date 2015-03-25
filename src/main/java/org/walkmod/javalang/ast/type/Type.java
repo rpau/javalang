@@ -18,14 +18,18 @@ package org.walkmod.javalang.ast.type;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class Type extends Node {
+public abstract class Type extends Node implements SymbolDataAware<SymbolData> {
 
 	private List<AnnotationExpr> annotations;
+
+	private SymbolData symbolData;
 
 	public Type() {
 	}
@@ -50,6 +54,16 @@ public abstract class Type extends Node {
 
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+	}
+
+	@Override
+	public SymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(SymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 
 }

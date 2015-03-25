@@ -17,6 +17,8 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -98,5 +100,10 @@ public final class MethodCallExpr extends Expression {
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+	}
+	
+	@Override
+	public MethodSymbolData getSymbolData() {
+		return (MethodSymbolData) super.getSymbolData();
 	}
 }

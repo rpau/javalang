@@ -16,16 +16,31 @@
 package org.walkmod.javalang.ast.expr;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class Expression extends Node {
+public abstract class Expression extends Node implements
+		SymbolDataAware<SymbolData> {
+
+	private SymbolData symbolData;
 
 	public Expression() {
 	}
 
 	public Expression(int beginLine, int beginColumn, int endLine, int endColumn) {
 		super(beginLine, beginColumn, endLine, endColumn);
+	}
+
+	@Override
+	public SymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(SymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 }

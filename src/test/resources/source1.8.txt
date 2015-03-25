@@ -505,5 +505,6 @@ class MyForecast<@Immutable T> implements @NonEmpty List< @ReadOnly T>{
 	o.<@NonNull String>m();
 	new  MyObject < @Interned String>();
 	new <String> @Interned MyObject();
+	Box<Integer> integerBox = new Box<>();
 	}
 }

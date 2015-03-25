@@ -31,6 +31,7 @@ public final class EnumDeclaration extends TypeDeclaration {
 
 	private List<EnumConstantDeclaration> entries;
 
+
 	public EnumDeclaration() {
 	}
 
@@ -83,4 +84,5 @@ public final class EnumDeclaration extends TypeDeclaration {
 	public void setImplements(List<ClassOrInterfaceType> implementsList) {
 		this.implementsList = implementsList;
 	}
+
 }

@@ -20,6 +20,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.comparators.TypeDeclarationComparator;
 import org.walkmod.merger.MergeEngine;
@@ -29,13 +31,15 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public abstract class TypeDeclaration extends BodyDeclaration implements
-		Mergeable<TypeDeclaration> {
+		Mergeable<TypeDeclaration>, SymbolDataAware<SymbolData> {
 
 	private String name;
 
 	private int modifiers;
 
 	private List<BodyDeclaration> members;
+
+	private SymbolData symbolData;
 
 	public TypeDeclaration() {
 	}
@@ -111,5 +115,15 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 	@Override
 	public Comparator<?> getIdentityComparator() {
 		return new TypeDeclarationComparator();
+	}
+
+	@Override
+	public SymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(SymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 }

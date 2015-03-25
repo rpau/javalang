@@ -20,6 +20,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.FieldSymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.comparators.FieldDeclarationComparator;
@@ -32,13 +34,15 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class FieldDeclaration extends BodyDeclaration implements
-		Mergeable<FieldDeclaration> {
+		Mergeable<FieldDeclaration>, SymbolDataAware<FieldSymbolData> {
 
 	private int modifiers;
 
 	private Type type;
 
 	private List<VariableDeclarator> variables;
+
+	private FieldSymbolData symbolData;
 
 	public FieldDeclaration() {
 	}
@@ -131,5 +135,15 @@ public final class FieldDeclaration extends BodyDeclaration implements
 		configuration.apply(getVariables(), remote.getVariables(), resultList,
 				VariableDeclarator.class);
 		setVariables(resultList);
+	}
+
+	@Override
+	public FieldSymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(FieldSymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 }
