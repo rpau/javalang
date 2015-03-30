@@ -18,9 +18,11 @@ package org.walkmod.javalang.ast.body;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
-public abstract class BaseParameter extends Node {
+public abstract class BaseParameter extends Node implements SymbolDataAware<SymbolData>{
 
 	private static final long serialVersionUID = -920000439540828718L;
 
@@ -29,6 +31,8 @@ public abstract class BaseParameter extends Node {
 	private List<AnnotationExpr> annotations;
 
 	private VariableDeclaratorId id;
+
+	private SymbolData symbolData;
 
 	public BaseParameter() {
 	}
@@ -86,5 +90,15 @@ public abstract class BaseParameter extends Node {
 
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
+	}
+	
+	@Override
+	public SymbolData getSymbolData(){
+		return symbolData;
+	}
+	
+	@Override
+	public void setSymbolData(SymbolData symbolData){
+		this.symbolData = symbolData;
 	}
 }

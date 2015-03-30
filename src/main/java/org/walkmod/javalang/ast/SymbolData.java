@@ -76,4 +76,14 @@ public interface SymbolData {
 	 * @return
 	 */
 	public <T extends SymbolData> List<T> getParameterizedTypes();
+	
+	
+	/**
+	 * Merges to symbol data types calculating the common type hierarchy. This 
+	 * interface has been useful to calculate the result type of a lambda expression.
+	 * 
+	 * @param other another symbol data.
+	 * @return a symbol data resulting of merging two symbol datas.
+	 */
+	public SymbolData merge(SymbolData other);
 }

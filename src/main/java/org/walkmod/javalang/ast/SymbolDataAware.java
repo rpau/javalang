@@ -19,7 +19,8 @@ public interface SymbolDataAware<T extends SymbolData> {
 
 	/**
 	 * Returns the symbol data related to a given node. It is null if the node value 
-	 * is the null literal or does not represent any valid information.
+	 * is the null literal or does not represent any valid information. In case of 
+	 * statements nodes, it corresponds to the returned value, if exists.
 	 * @return the symbol data
 	 */
 	public T getSymbolData();
