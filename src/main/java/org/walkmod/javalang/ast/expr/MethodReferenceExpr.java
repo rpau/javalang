@@ -17,6 +17,8 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -39,6 +41,10 @@ public class MethodReferenceExpr extends Expression {
 	private List<TypeParameter> typeParameters;
 
 	private String identifier;
+
+	private MethodSymbolData referencedMethodSymbolData;
+
+	private SymbolData[] referencedArgsSymbolData;
 
 	public MethodReferenceExpr() {
 	}
@@ -86,6 +92,29 @@ public class MethodReferenceExpr extends Expression {
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	public SymbolData getSymbolData() {
+		return super.getSymbolData();
+	}
+
+	public MethodSymbolData getReferencedMethodSymbolData() {
+		return referencedMethodSymbolData;
+	}
+
+	public void setReferencedMethodSymbolData(
+			MethodSymbolData referencedMethodSymbolData) {
+		this.referencedMethodSymbolData = referencedMethodSymbolData;
+	}
+
+	public SymbolData[] getReferencedArgsSymbolData() {
+		return referencedArgsSymbolData;
+	}
+
+	public void setReferencedArgsSymbolData(
+			SymbolData[] referencedArgsSymbolData) {
+		this.referencedArgsSymbolData = referencedArgsSymbolData;
 	}
 
 }
