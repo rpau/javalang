@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.ConstructorSymbolData;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -108,5 +109,10 @@ public final class ObjectCreationExpr extends Expression {
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+	}
+	
+	@Override
+	public ConstructorSymbolData getSymbolData() {
+		return (ConstructorSymbolData) super.getSymbolData();
 	}
 }

@@ -19,9 +19,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.ConstructorSymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
-
 import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.comparators.ConstructorDeclarationComparator;
@@ -34,7 +35,7 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class ConstructorDeclaration extends BodyDeclaration implements
-		Mergeable<ConstructorDeclaration> {
+		Mergeable<ConstructorDeclaration>, SymbolDataAware<ConstructorSymbolData>  {
 
 	private int modifiers;
 
@@ -47,6 +48,8 @@ public final class ConstructorDeclaration extends BodyDeclaration implements
 	private List<ClassOrInterfaceType> throws_;
 
 	private BlockStmt block;
+	
+	private ConstructorSymbolData symbolData;
 
 	public ConstructorDeclaration() {
 	}
@@ -191,5 +194,15 @@ public final class ConstructorDeclaration extends BodyDeclaration implements
 			setThrows(null);
 		}
 
+	}
+
+	@Override
+	public ConstructorSymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(ConstructorSymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 }
