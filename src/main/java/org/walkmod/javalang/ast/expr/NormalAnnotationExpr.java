@@ -33,15 +33,15 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
 	}
 
 	public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
-		this.name = name;
-		this.pairs = pairs;
+		setName(name);
+		setPairs(pairs);
 	}
 
 	public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, NameExpr name, List<MemberValuePair> pairs) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
-		this.pairs = pairs;
+		setName(name);
+		setPairs(pairs);
 	}
 
 	@Override
@@ -60,6 +60,7 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
 
 	public void setPairs(List<MemberValuePair> pairs) {
 		this.pairs = pairs;
+		setAsParentNodeOf(pairs);
 	}
 
 	@Override

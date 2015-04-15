@@ -32,15 +32,15 @@ public final class WhileStmt extends Statement {
 	}
 
 	public WhileStmt(Expression condition, Statement body) {
-		this.condition = condition;
-		this.body = body;
+		setCondition(condition);
+		setBody(body);
 	}
 
 	public WhileStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression condition, Statement body) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.condition = condition;
-		this.body = body;
+		setCondition(condition);
+		setBody(body);
 	}
 
 	@Override
@@ -63,9 +63,11 @@ public final class WhileStmt extends Statement {
 
 	public void setBody(Statement body) {
 		this.body = body;
+		setAsParentNodeOf(body);
 	}
 
 	public void setCondition(Expression condition) {
 		this.condition = condition;
+		setAsParentNodeOf(condition);
 	}
 }

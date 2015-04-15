@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.comparators.TypeDeclarationComparator;
 import org.walkmod.merger.MergeEngine;
@@ -31,7 +33,8 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public abstract class TypeDeclaration extends BodyDeclaration implements
-		Mergeable<TypeDeclaration>, SymbolDataAware<SymbolData> {
+		Mergeable<TypeDeclaration>, SymbolDataAware<SymbolData>,
+		SymbolDefinition {
 
 	private String name;
 
@@ -40,6 +43,12 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 	private List<BodyDeclaration> members;
 
 	private SymbolData symbolData;
+
+	private List<SymbolReference> usages;
+
+	private List<SymbolReference> bodyReferences;
+
+	private int scopeLevel = 0;
 
 	public TypeDeclaration() {
 	}
@@ -52,10 +61,11 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 	public TypeDeclaration(List<AnnotationExpr> annotations,
 			JavadocComment javaDoc, int modifiers, String name,
 			List<BodyDeclaration> members) {
-		super(annotations, javaDoc);
 		this.name = name;
 		this.modifiers = modifiers;
-		this.members = members;
+		setMembers(members);
+		setJavaDoc(javaDoc);
+		setAnnotations(annotations);
 	}
 
 	public TypeDeclaration(int beginLine, int beginColumn, int endLine,
@@ -65,7 +75,7 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.name = name;
 		this.modifiers = modifiers;
-		this.members = members;
+		setMembers(members);
 	}
 
 	public final List<BodyDeclaration> getMembers() {
@@ -88,6 +98,7 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 
 	public void setMembers(List<BodyDeclaration> members) {
 		this.members = members;
+		setAsParentNodeOf(members);
 	}
 
 	public final void setModifiers(int modifiers) {
@@ -125,5 +136,61 @@ public abstract class TypeDeclaration extends BodyDeclaration implements
 	@Override
 	public void setSymbolData(SymbolData symbolData) {
 		this.symbolData = symbolData;
+	}
+
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if (usages == null) {
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
 	}
 }

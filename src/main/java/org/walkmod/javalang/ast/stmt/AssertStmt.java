@@ -32,19 +32,19 @@ public final class AssertStmt extends Statement {
 	}
 
 	public AssertStmt(Expression check) {
-		this.check = check;
+		setCheck(check);
 	}
 
 	public AssertStmt(Expression check, Expression msg) {
-		this.check = check;
-		this.msg = msg;
+		setCheck(check);
+		setMessage(msg);
 	}
 
 	public AssertStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression check, Expression msg) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.check = check;
-		this.msg = msg;
+		setCheck(check);
+		setMessage(msg);
 	}
 
 	@Override
@@ -67,9 +67,11 @@ public final class AssertStmt extends Statement {
 
 	public void setCheck(Expression check) {
 		this.check = check;
+		setAsParentNodeOf(check);
 	}
 
 	public void setMessage(Expression msg) {
 		this.msg = msg;
+		setAsParentNodeOf(msg);
 	}
 }

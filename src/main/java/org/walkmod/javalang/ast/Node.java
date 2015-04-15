@@ -16,6 +16,7 @@
 package org.walkmod.javalang.ast;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,9 +41,11 @@ public abstract class Node implements Serializable {
 	private int endColumn;
 
 	/**
-	 * This attribute can store additional information from semantic analysis.
+	 * This attribute can store additional information.
 	 */
 	private Object data;
+
+	private Node parentNode;
 
 	public Node() {
 	}
@@ -269,8 +272,9 @@ public abstract class Node implements Serializable {
 
 	public String getPrettySource(char indentationChar, int indentationLevel,
 			int indentationSize) {
-		
-		return getPrettySource(indentationChar, indentationLevel, indentationSize, null);
+
+		return getPrettySource(indentationChar, indentationLevel,
+				indentationSize, null);
 	}
 
 	public String getPrettySource(char indentationChar, int indentationLevel,
@@ -285,4 +289,29 @@ public abstract class Node implements Serializable {
 		accept(visitor, null);
 		return visitor.getSource();
 	}
+
+	public Node getParentNode() {
+		return parentNode;
+	}
+
+	private void setParentNode(Node parent) {
+		this.parentNode = parent;
+	}
+
+	protected void setAsParentNodeOf(List<? extends Node> childNodes) {
+		if (childNodes != null) {
+			Iterator<? extends Node> it = childNodes.iterator();
+			while (it.hasNext()) {
+				Node current = it.next();
+				current.setParentNode(this);
+			}
+		}
+	}
+
+	protected void setAsParentNodeOf(Node childNode) {
+		if (childNode != null) {
+			childNode.setParentNode(this);
+		}
+	}
+
 }

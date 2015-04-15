@@ -36,16 +36,16 @@ public abstract class BodyDeclaration extends Node {
 
 	public BodyDeclaration(List<AnnotationExpr> annotations,
 			JavadocComment javaDoc) {
-		this.javaDoc = javaDoc;
-		this.annotations = annotations;
+		setJavaDoc(javaDoc);
+		setAnnotations(annotations);
 	}
 
 	public BodyDeclaration(int beginLine, int beginColumn, int endLine,
 			int endColumn, List<AnnotationExpr> annotations,
 			JavadocComment javaDoc) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.javaDoc = javaDoc;
-		this.annotations = annotations;
+		setJavaDoc(javaDoc);
+		setAnnotations(annotations);
 	}
 
 	public final JavadocComment getJavaDoc() {
@@ -58,10 +58,12 @@ public abstract class BodyDeclaration extends Node {
 
 	public final void setJavaDoc(JavadocComment javaDoc) {
 		this.javaDoc = javaDoc;
+		setAsParentNodeOf(javaDoc);
 	}
 
 	public final void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
 	}
 
 	public void merge(BodyDeclaration remoteBodyDeclaration,

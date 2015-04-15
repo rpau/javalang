@@ -16,8 +16,12 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.comparators.VariableDeclaratorComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -29,29 +33,35 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class VariableDeclarator extends Node implements
-		Mergeable<VariableDeclarator> {
+		Mergeable<VariableDeclarator>, SymbolDefinition {
 
 	private VariableDeclaratorId id;
 
 	private Expression init;
 
+	private List<SymbolReference> usages;
+
+	private List<SymbolReference> bodyReferences;
+
+	private int scopeLevel;
+
 	public VariableDeclarator() {
 	}
 
 	public VariableDeclarator(VariableDeclaratorId id) {
-		this.id = id;
+		setId(id);
 	}
 
 	public VariableDeclarator(VariableDeclaratorId id, Expression init) {
-		this.id = id;
-		this.init = init;
+		setId(id);
+		setInit(init);
 	}
 
 	public VariableDeclarator(int beginLine, int beginColumn, int endLine,
 			int endColumn, VariableDeclaratorId id, Expression init) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.id = id;
-		this.init = init;
+		setId(id);
+		setInit(init);
 	}
 
 	@Override
@@ -74,10 +84,12 @@ public final class VariableDeclarator extends Node implements
 
 	public void setId(VariableDeclaratorId id) {
 		this.id = id;
+		setAsParentNodeOf(id);
 	}
 
 	public void setInit(Expression init) {
 		this.init = init;
+		setAsParentNodeOf(init);
 	}
 
 	@Override
@@ -92,6 +104,66 @@ public final class VariableDeclarator extends Node implements
 				Expression.class));
 		setId((VariableDeclaratorId) configuration.apply(getId(),
 				remote.getId(), VariableDeclaratorId.class));
+
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
 
 	}
 }

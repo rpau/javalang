@@ -32,7 +32,7 @@ public class MultiTypeParameter extends BaseParameter {
 	public MultiTypeParameter(int modifiers, List<AnnotationExpr> annotations,
 			List<Type> types, VariableDeclaratorId id) {
 		super(modifiers, annotations, id);
-		this.types = types;
+		setTypes(types);
 	}
 
 	public MultiTypeParameter(int beginLine, int beginColumn, int endLine,
@@ -40,7 +40,7 @@ public class MultiTypeParameter extends BaseParameter {
 			List<Type> types, VariableDeclaratorId id) {
 		super(beginLine, beginColumn, endLine, endColumn, modifiers,
 				annotations, id);
-		this.types = types;
+		setTypes(types);
 	}
 
 	@Override
@@ -59,5 +59,6 @@ public class MultiTypeParameter extends BaseParameter {
 
 	public void setTypes(List<Type> types) {
 		this.types = types;
+		setAsParentNodeOf(types);
 	}
 }

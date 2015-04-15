@@ -30,15 +30,15 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
 	}
 
 	public SingleMemberAnnotationExpr(NameExpr name, Expression memberValue) {
-		this.name = name;
-		this.memberValue = memberValue;
+		setName(name);
+		setMemberValue(memberValue);
 	}
 
 	public SingleMemberAnnotationExpr(int beginLine, int beginColumn,
 			int endLine, int endColumn, NameExpr name, Expression memberValue) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
-		this.memberValue = memberValue;
+		setName(name);
+		setMemberValue(memberValue);
 	}
 
 	@Override
@@ -57,6 +57,7 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
 
 	public void setMemberValue(Expression memberValue) {
 		this.memberValue = memberValue;
+		setAsParentNodeOf(memberValue);
 	}
 
 	@Override

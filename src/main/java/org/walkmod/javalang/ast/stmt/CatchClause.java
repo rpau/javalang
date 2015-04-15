@@ -82,11 +82,11 @@ public final class CatchClause extends Node {
 
 	public void setCatchBlock(final BlockStmt catchBlock) {
 		this.catchBlock = catchBlock;
-
+		setAsParentNodeOf(catchBlock);
 	}
 
 	public void setExcept(final MultiTypeParameter except) {
 		this.except = except;
-
+		setAsParentNodeOf(except);
 	}
 }

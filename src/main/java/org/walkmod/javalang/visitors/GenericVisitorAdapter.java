@@ -15,12 +15,14 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.visitors;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.walkmod.javalang.ast.BlockComment;
 import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.ImportDeclaration;
 import org.walkmod.javalang.ast.LineComment;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.PackageDeclaration;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.body.AnnotationDeclaration;
@@ -36,6 +38,7 @@ import org.walkmod.javalang.ast.body.FieldDeclaration;
 import org.walkmod.javalang.ast.body.InitializerDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
 import org.walkmod.javalang.ast.body.MethodDeclaration;
+import org.walkmod.javalang.ast.body.MultiTypeParameter;
 import org.walkmod.javalang.ast.body.Parameter;
 import org.walkmod.javalang.ast.body.TypeDeclaration;
 import org.walkmod.javalang.ast.body.VariableDeclarator;
@@ -58,11 +61,13 @@ import org.walkmod.javalang.ast.expr.FieldAccessExpr;
 import org.walkmod.javalang.ast.expr.InstanceOfExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralExpr;
 import org.walkmod.javalang.ast.expr.IntegerLiteralMinValueExpr;
+import org.walkmod.javalang.ast.expr.LambdaExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralExpr;
 import org.walkmod.javalang.ast.expr.LongLiteralMinValueExpr;
 import org.walkmod.javalang.ast.expr.MarkerAnnotationExpr;
 import org.walkmod.javalang.ast.expr.MemberValuePair;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.ast.expr.NormalAnnotationExpr;
 import org.walkmod.javalang.ast.expr.NullLiteralExpr;
@@ -72,6 +77,7 @@ import org.walkmod.javalang.ast.expr.SingleMemberAnnotationExpr;
 import org.walkmod.javalang.ast.expr.StringLiteralExpr;
 import org.walkmod.javalang.ast.expr.SuperExpr;
 import org.walkmod.javalang.ast.expr.ThisExpr;
+import org.walkmod.javalang.ast.expr.TypeExpr;
 import org.walkmod.javalang.ast.expr.UnaryExpr;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.ast.stmt.AssertStmt;
@@ -862,6 +868,54 @@ public abstract class GenericVisitorAdapter<R, A> implements
 	}
 
 	public R visit(LineComment n, A arg) {
+		return null;
+	}
+	
+	@Override
+	public R visit(MultiTypeParameter n, A arg) {
+		if (n.getAnnotations() != null) {
+			for (final AnnotationExpr a : n.getAnnotations()) {
+				a.accept(this, arg);
+			}
+		}
+		for (final Type type : n.getTypes()) {
+			type.accept(this, arg);
+		}
+		n.getId().accept(this, arg);
+		return null;
+	}
+
+	@Override
+	public R visit(LambdaExpr n, A arg) {
+		if (n.getParameters() != null) {
+			for (final Parameter a : n.getParameters()) {
+				a.accept(this, arg);
+			}
+		}
+		if (n.getBody() != null) {
+			n.getBody().accept(this, arg);
+		}
+		return null;
+	}
+
+	@Override
+	public R visit(MethodReferenceExpr n, A arg) {
+		if (n.getTypeParameters() != null) {
+			for (final TypeParameter a : n.getTypeParameters()) {
+				a.accept(this, arg);
+			}
+		}
+		if (n.getScope() != null) {
+			n.getScope().accept(this, arg);
+		}
+		return null;
+	}
+
+	@Override
+	public R visit(TypeExpr n, A arg) {
+		if (n.getType() != null) {
+			n.getType().accept(this, arg);
+		}
 		return null;
 	}
 }

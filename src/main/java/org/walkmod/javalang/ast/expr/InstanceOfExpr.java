@@ -32,15 +32,15 @@ public final class InstanceOfExpr extends Expression {
 	}
 
 	public InstanceOfExpr(Expression expr, Type type) {
-		this.expr = expr;
-		this.type = type;
+		setExpr(expr);
+		setType(type);
 	}
 
 	public InstanceOfExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression expr, Type type) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
-		this.type = type;
+		setExpr(expr);
+		setType(type);
 	}
 
 	@Override
@@ -63,9 +63,11 @@ public final class InstanceOfExpr extends Expression {
 
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 }

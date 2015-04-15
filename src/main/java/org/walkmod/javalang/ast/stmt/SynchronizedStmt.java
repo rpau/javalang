@@ -32,15 +32,15 @@ public final class SynchronizedStmt extends Statement {
 	}
 
 	public SynchronizedStmt(Expression expr, BlockStmt block) {
-		this.expr = expr;
-		this.block = block;
+		setExpr(expr);
+		setBlock(block);
 	}
 
 	public SynchronizedStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression expr, BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
-		this.block = block;
+		setExpr(expr);
+		setBlock(block);
 	}
 
 	@Override
@@ -63,9 +63,11 @@ public final class SynchronizedStmt extends Statement {
 
 	public void setBlock(BlockStmt block) {
 		this.block = block;
+		setAsParentNodeOf(block);
 	}
 
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 }

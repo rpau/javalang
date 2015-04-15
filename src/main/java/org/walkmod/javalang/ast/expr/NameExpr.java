@@ -15,15 +15,19 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public class NameExpr extends Expression {
+public class NameExpr extends Expression implements SymbolReference{
 
 	private String name;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public NameExpr() {
 	}
@@ -54,5 +58,15 @@ public class NameExpr extends Expression {
 
 	public final void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 }

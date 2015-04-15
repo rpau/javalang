@@ -18,6 +18,8 @@ package org.walkmod.javalang.ast.expr;
 import java.util.List;
 
 import org.walkmod.javalang.ast.ConstructorSymbolData;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -27,7 +29,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class ObjectCreationExpr extends Expression {
+public final class ObjectCreationExpr extends Expression implements SymbolReference{
 
 	private Expression scope;
 
@@ -38,15 +40,17 @@ public final class ObjectCreationExpr extends Expression {
 	private List<Expression> args;
 
 	private List<BodyDeclaration> anonymousClassBody;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public ObjectCreationExpr() {
 	}
 
 	public ObjectCreationExpr(Expression scope, ClassOrInterfaceType type,
 			List<Expression> args) {
-		this.scope = scope;
-		this.type = type;
-		this.args = args;
+		setScope(scope);
+		setType(type);
+		setArgs(args);
 	}
 
 	public ObjectCreationExpr(int beginLine, int beginColumn, int endLine,
@@ -54,11 +58,11 @@ public final class ObjectCreationExpr extends Expression {
 			List<Type> typeArgs, List<Expression> args,
 			List<BodyDeclaration> anonymousBody) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.scope = scope;
-		this.type = type;
-		this.typeArgs = typeArgs;
-		this.args = args;
-		this.anonymousClassBody = anonymousBody;
+		setScope(scope);
+		setType(type);
+		setArgs(args);
+		setTypeArgs(typeArgs);
+		setAnonymousClassBody(anonymousBody);
 	}
 
 	@Override
@@ -93,26 +97,41 @@ public final class ObjectCreationExpr extends Expression {
 
 	public void setAnonymousClassBody(List<BodyDeclaration> anonymousClassBody) {
 		this.anonymousClassBody = anonymousClassBody;
+		setAsParentNodeOf(anonymousClassBody);
 	}
 
 	public void setArgs(List<Expression> args) {
 		this.args = args;
+		setAsParentNodeOf(args);
 	}
 
 	public void setScope(Expression scope) {
 		this.scope = scope;
+		setAsParentNodeOf(scope);
 	}
 
 	public void setType(ClassOrInterfaceType type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+		setAsParentNodeOf(typeArgs);
 	}
 	
 	@Override
 	public ConstructorSymbolData getSymbolData() {
 		return (ConstructorSymbolData) super.getSymbolData();
+	}
+
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 }

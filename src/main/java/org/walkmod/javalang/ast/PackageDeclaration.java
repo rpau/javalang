@@ -52,19 +52,19 @@ public final class PackageDeclaration extends Node {
 	}
 
 	public PackageDeclaration(NameExpr name) {
-		this.name = name;
+		setName(name);
 	}
 
 	public PackageDeclaration(List<AnnotationExpr> annotations, NameExpr name) {
-		this.annotations = annotations;
-		this.name = name;
+		setAnnotations(annotations);
+		setName(name);
 	}
 
 	public PackageDeclaration(int beginLine, int beginColumn, int endLine,
 			int endColumn, List<AnnotationExpr> annotations, NameExpr name) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.annotations = annotations;
-		this.name = name;
+		setAnnotations(annotations);
+		setName(name);
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public final class PackageDeclaration extends Node {
 	 */
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
 	}
 
 	/**
@@ -112,5 +113,6 @@ public final class PackageDeclaration extends Node {
 	 */
 	public void setName(NameExpr name) {
 		this.name = name;
+		setAsParentNodeOf(name);
 	}
 }

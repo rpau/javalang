@@ -33,14 +33,14 @@ public final class MemberValuePair extends Node {
 
 	public MemberValuePair(String name, Expression value) {
 		this.name = name;
-		this.value = value;
+		setValue(value);
 	}
 
 	public MemberValuePair(int beginLine, int beginColumn, int endLine,
 			int endColumn, String name, Expression value) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.name = name;
-		this.value = value;
+		setValue(value);
 	}
 
 	@Override
@@ -67,5 +67,6 @@ public final class MemberValuePair extends Node {
 
 	public void setValue(Expression value) {
 		this.value = value;
+		setAsParentNodeOf(value);
 	}
 }

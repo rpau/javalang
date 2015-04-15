@@ -18,16 +18,20 @@ package org.walkmod.javalang.ast.body;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
-public class JavadocTag extends Node {
+public class JavadocTag extends Node implements SymbolReference{
 
 	private String name;
 
 	private List<String> values = null;
 
 	private boolean isInline = false;
+	
+	private SymbolDefinition definition;
 
 	public JavadocTag() {
 	}
@@ -73,5 +77,15 @@ public class JavadocTag extends Node {
 
 	public void setInline(boolean isInline) {
 		this.isInline = isInline;
+	}
+
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return definition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition definition) {
+		this.definition = definition;
 	}
 }

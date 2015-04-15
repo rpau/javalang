@@ -36,25 +36,25 @@ public final class ReferenceType extends Type {
 	}
 
 	public ReferenceType(Type type) {
-		this.type = type;
+		setType(type);
 	}
 
 	public ReferenceType(Type type, int arrayCount) {
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
 	}
 
 	public ReferenceType(Type type, int arrayCount,
 			List<AnnotationExpr> annotations) {
 		super(annotations);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
 	}
 
 	public ReferenceType(int beginLine, int beginColumn, int endLine,
 			int endColumn, Type type, int arrayCount) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
 	}
 
@@ -63,9 +63,9 @@ public final class ReferenceType extends Type {
 			List<AnnotationExpr> annotations,
 			List<List<AnnotationExpr>> arraysAnnotations) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.arraysAnnotations = arraysAnnotations;
+		setArraysAnnotations(arraysAnnotations);
 	}
 
 	@Override
@@ -92,6 +92,7 @@ public final class ReferenceType extends Type {
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	public List<List<AnnotationExpr>> getArraysAnnotations() {
@@ -101,6 +102,11 @@ public final class ReferenceType extends Type {
 	public void setArraysAnnotations(
 			List<List<AnnotationExpr>> arraysAnnotations) {
 		this.arraysAnnotations = arraysAnnotations;
+		if(arraysAnnotations != null){
+			for(List<AnnotationExpr> ann: arraysAnnotations){
+				setAsParentNodeOf(ann);
+			}
+		}
 	}
 
 }

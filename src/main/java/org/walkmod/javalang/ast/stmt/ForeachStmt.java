@@ -36,18 +36,18 @@ public final class ForeachStmt extends Statement {
 
 	public ForeachStmt(VariableDeclarationExpr var, Expression iterable,
 			Statement body) {
-		this.var = var;
-		this.iterable = iterable;
-		this.body = body;
+		setVariable(var);
+		setIterable(iterable);
+		setBody(body);
 	}
 
 	public ForeachStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, VariableDeclarationExpr var, Expression iterable,
 			Statement body) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.var = var;
-		this.iterable = iterable;
-		this.body = body;
+		setVariable(var);
+		setIterable(iterable);
+		setBody(body);
 	}
 
 	@Override
@@ -74,13 +74,16 @@ public final class ForeachStmt extends Statement {
 
 	public void setBody(Statement body) {
 		this.body = body;
+		setAsParentNodeOf(body);
 	}
 
 	public void setIterable(Expression iterable) {
 		this.iterable = iterable;
+		setAsParentNodeOf(iterable);
 	}
 
 	public void setVariable(VariableDeclarationExpr var) {
 		this.var = var;
+		setAsParentNodeOf(var);
 	}
 }

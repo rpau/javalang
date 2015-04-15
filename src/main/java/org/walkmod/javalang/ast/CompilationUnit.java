@@ -69,10 +69,10 @@ public final class CompilationUnit extends Node implements
 	public CompilationUnit(PackageDeclaration pakage,
 			List<ImportDeclaration> imports, List<TypeDeclaration> types,
 			List<Comment> comments) {
-		this.pakage = pakage;
-		this.imports = imports;
-		this.types = types;
-		this.comments = comments;
+		setPackage(pakage);
+		setImports(imports);
+		setTypes(types);
+		setComments(comments);
 	}
 
 	public CompilationUnit(int beginLine, int beginColumn, int endLine,
@@ -80,10 +80,10 @@ public final class CompilationUnit extends Node implements
 			List<ImportDeclaration> imports, List<TypeDeclaration> types,
 			List<Comment> comments) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.pakage = pakage;
-		this.imports = imports;
-		this.types = types;
-		this.comments = comments;
+		setPackage(pakage);
+		setImports(imports);
+		setTypes(types);
+		setComments(comments);
 	}
 
 	@Override
@@ -166,6 +166,7 @@ public final class CompilationUnit extends Node implements
 	 */
 	public void setImports(List<ImportDeclaration> imports) {
 		this.imports = imports;
+		setAsParentNodeOf(imports);
 	}
 
 	/**
@@ -177,6 +178,7 @@ public final class CompilationUnit extends Node implements
 	 */
 	public void setPackage(PackageDeclaration pakage) {
 		this.pakage = pakage;
+		setAsParentNodeOf(pakage);
 	}
 
 	/**
@@ -187,6 +189,7 @@ public final class CompilationUnit extends Node implements
 	 */
 	public void setTypes(List<TypeDeclaration> types) {
 		this.types = types;
+		setAsParentNodeOf(types);
 	}
 
 	@Override

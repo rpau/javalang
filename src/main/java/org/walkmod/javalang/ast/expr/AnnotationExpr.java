@@ -18,6 +18,8 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.Comparator;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.comparators.AnnotationExprComparator;
 import org.walkmod.merger.Mergeable;
 
@@ -25,9 +27,11 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public abstract class AnnotationExpr extends Expression implements
-		Mergeable<AnnotationExpr> {
+		Mergeable<AnnotationExpr>, SymbolReference {
 
 	protected NameExpr name;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public AnnotationExpr() {
 	}
@@ -43,6 +47,7 @@ public abstract class AnnotationExpr extends Expression implements
 
 	public void setName(NameExpr name) {
 		this.name = name;
+		setAsParentNodeOf(name);
 	}
 
 	@Override
@@ -57,5 +62,15 @@ public abstract class AnnotationExpr extends Expression implements
 		text += " ";
 
 		return text;
+	}
+	
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 }

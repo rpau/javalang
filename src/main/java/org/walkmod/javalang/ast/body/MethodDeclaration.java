@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
@@ -37,7 +39,7 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class MethodDeclaration extends BodyDeclaration implements
-		Mergeable<MethodDeclaration>, SymbolDataAware<MethodSymbolData> {
+		Mergeable<MethodDeclaration>, SymbolDataAware<MethodSymbolData>, SymbolDefinition {
 
 	private int modifiers;
 
@@ -58,22 +60,28 @@ public final class MethodDeclaration extends BodyDeclaration implements
 	private boolean isDefault = false;
 
 	private MethodSymbolData symbolData;
+	
+	private List<SymbolReference> usages;
+	
+	private List<SymbolReference> bodyReferences;
+	
+	private int scopeLevel = 0;
 
 	public MethodDeclaration() {
 	}
 
 	public MethodDeclaration(int modifiers, Type type, String name) {
 		this.modifiers = modifiers;
-		this.type = type;
+		setType(type);
 		this.name = name;
 	}
 
 	public MethodDeclaration(int modifiers, Type type, String name,
 			List<Parameter> parameters) {
 		this.modifiers = modifiers;
-		this.type = type;
+		setType(type);
 		this.name = name;
-		this.parameters = parameters;
+		setParameters(parameters);
 	}
 
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
@@ -83,13 +91,13 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(annotations, javaDoc);
 		this.modifiers = modifiers;
-		this.typeParameters = typeParameters;
-		this.type = type;
+		setTypeParameters(typeParameters);
+		setType(type);
 		this.name = name;
-		this.parameters = parameters;
+		setParameters(parameters);
 		this.arrayCount = arrayCount;
-		this.throws_ = throws_;
-		this.body = block;
+		setThrows(throws_);
+		setBody(block);
 	}
 
 	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
@@ -111,13 +119,13 @@ public final class MethodDeclaration extends BodyDeclaration implements
 			List<ClassOrInterfaceType> throws_, BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
-		this.typeParameters = typeParameters;
-		this.type = type;
+		setTypeParameters(typeParameters);
+		setType(type);
 		this.name = name;
-		this.parameters = parameters;
+		setParameters(parameters);
 		this.arrayCount = arrayCount;
-		this.throws_ = throws_;
-		this.body = block;
+		setThrows(throws_);
+		setBody(block);
 	}
 
 	public MethodDeclaration(int beginLine, int beginColumn, int endLine,
@@ -188,6 +196,7 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	public void setBody(BlockStmt body) {
 		this.body = body;
+		setAsParentNodeOf(body);
 	}
 
 	public void setModifiers(int modifiers) {
@@ -200,18 +209,22 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	public void setParameters(List<Parameter> parameters) {
 		this.parameters = parameters;
+		setAsParentNodeOf(parameters);
 	}
 
 	public void setThrows(List<ClassOrInterfaceType> throws_) {
 		this.throws_ = throws_;
+		setAsParentNodeOf(throws_);
 	}
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	public void setTypeParameters(List<TypeParameter> typeParameters) {
 		this.typeParameters = typeParameters;
+		setAsParentNodeOf(typeParameters);
 	}
 
 	@Override
@@ -274,4 +287,67 @@ public final class MethodDeclaration extends BodyDeclaration implements
 		this.symbolData = symbolData;
 	}
 
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
+	}
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+
+	}
+	
+	@Override
+	public TypeDeclaration getParentNode(){
+		return (TypeDeclaration) super.getParentNode();
+	}
 }

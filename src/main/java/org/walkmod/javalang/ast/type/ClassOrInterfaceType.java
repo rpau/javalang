@@ -44,7 +44,7 @@ public final class ClassOrInterfaceType extends Type implements
 	}
 
 	public ClassOrInterfaceType(ClassOrInterfaceType scope, String name) {
-		this.scope = scope;
+		setScope(scope);
 		this.name = name;
 	}
 
@@ -52,18 +52,18 @@ public final class ClassOrInterfaceType extends Type implements
 			int endColumn, ClassOrInterfaceType scope, String name,
 			List<Type> typeArgs) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.scope = scope;
+		setScope(scope);
 		this.name = name;
-		this.typeArgs = typeArgs;
+		setTypeArgs(typeArgs);
 	}
 
 	public ClassOrInterfaceType(int beginLine, int beginColumn, int endLine,
 			int endColumn, ClassOrInterfaceType scope, String name,
 			List<Type> typeArgs, List<AnnotationExpr> annotations) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		this.scope = scope;
+		setScope(scope);
 		this.name = name;
-		this.typeArgs = typeArgs;
+		setTypeArgs(typeArgs);
 	}
 
 	@Override
@@ -94,10 +94,12 @@ public final class ClassOrInterfaceType extends Type implements
 
 	public void setScope(ClassOrInterfaceType scope) {
 		this.scope = scope;
+		setAsParentNodeOf(scope);
 	}
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+		setAsParentNodeOf(typeArgs);
 	}
 
 	@Override

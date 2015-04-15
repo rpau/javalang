@@ -34,27 +34,27 @@ public final class WildcardType extends Type {
 	}
 
 	public WildcardType(ReferenceType ext) {
-		this.ext = ext;
+		setExtends(ext);
 	}
 
 	public WildcardType(ReferenceType ext, ReferenceType sup) {
-		this.ext = ext;
-		this.sup = sup;
+		setExtends(ext);
+		setSuper(sup);
 	}
 
 	public WildcardType(int beginLine, int beginColumn, int endLine,
 			int endColumn, ReferenceType ext, ReferenceType sup) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.ext = ext;
-		this.sup = sup;
+		setExtends(ext);
+		setSuper(sup);
 	}
 
 	public WildcardType(int beginLine, int beginColumn, int endLine,
 			int endColumn, ReferenceType ext, ReferenceType sup,
 			List<AnnotationExpr> annotations) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		this.ext = ext;
-		this.sup = sup;
+		setExtends(ext);
+		setSuper(sup);
 
 	}
 

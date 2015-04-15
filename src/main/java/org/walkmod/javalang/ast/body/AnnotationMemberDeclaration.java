@@ -16,8 +16,11 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.type.Type;
@@ -31,7 +34,7 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class AnnotationMemberDeclaration extends BodyDeclaration
-		implements Mergeable<AnnotationMemberDeclaration> {
+		implements Mergeable<AnnotationMemberDeclaration>, SymbolDefinition {
 
 	private int modifiers;
 
@@ -41,25 +44,32 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
 
 	private Expression defaultValue;
 
+	private List<SymbolReference> usages;
+
+	private List<SymbolReference> bodyReferences;
+
+	private int scopeLevel = 0;
+
 	public AnnotationMemberDeclaration() {
 	}
 
 	public AnnotationMemberDeclaration(int modifiers, Type type, String name,
 			Expression defaultValue) {
 		this.modifiers = modifiers;
-		this.type = type;
+		setType(type);
 		this.name = name;
-		this.defaultValue = defaultValue;
+		setDefaultValue(defaultValue);
 	}
 
 	public AnnotationMemberDeclaration(JavadocComment javaDoc, int modifiers,
 			List<AnnotationExpr> annotations, Type type, String name,
 			Expression defaultValue) {
-		super(annotations, javaDoc);
+		setJavaDoc(javaDoc);
 		this.modifiers = modifiers;
-		this.type = type;
+		setType(type);
 		this.name = name;
-		this.defaultValue = defaultValue;
+		setDefaultValue(defaultValue);
+
 	}
 
 	public AnnotationMemberDeclaration(int beginLine, int beginColumn,
@@ -68,9 +78,9 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
 			Expression defaultValue) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.modifiers = modifiers;
-		this.type = type;
+		setType(type);
 		this.name = name;
-		this.defaultValue = defaultValue;
+		setDefaultValue(defaultValue);
 	}
 
 	@Override
@@ -107,6 +117,7 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
 
 	public void setDefaultValue(Expression defaultValue) {
 		this.defaultValue = defaultValue;
+		setAsParentNodeOf(defaultValue);
 	}
 
 	public void setModifiers(int modifiers) {
@@ -119,6 +130,7 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	@Override
@@ -135,5 +147,69 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
 		setDefaultValue((Expression) configuration.apply(getDefaultValue(),
 				remote.getDefaultValue(), Expression.class));
 
+	}
+
+	@Override
+	public AnnotationDeclaration getParentNode() {
+		return (AnnotationDeclaration) super.getParentNode();
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
 	}
 }

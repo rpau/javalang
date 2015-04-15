@@ -15,14 +15,18 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
-public abstract class BaseParameter extends Node implements SymbolDataAware<SymbolData>{
+public abstract class BaseParameter extends Node implements
+		SymbolDataAware<SymbolData>, SymbolDefinition {
 
 	private static final long serialVersionUID = -920000439540828718L;
 
@@ -33,6 +37,10 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
 	private VariableDeclaratorId id;
 
 	private SymbolData symbolData;
+
+	private List<SymbolReference> usages;
+
+	private int scopeLevel = 0;
 
 	public BaseParameter() {
 	}
@@ -82,23 +90,68 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
 
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
 	}
 
 	public void setId(VariableDeclaratorId id) {
 		this.id = id;
+		setAsParentNodeOf(id);
 	}
 
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
 	}
-	
+
 	@Override
-	public SymbolData getSymbolData(){
+	public SymbolData getSymbolData() {
 		return symbolData;
 	}
-	
+
 	@Override
-	public void setSymbolData(SymbolData symbolData){
+	public void setSymbolData(SymbolData symbolData) {
 		this.symbolData = symbolData;
+	}
+
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	public List<SymbolReference> getBodyReferences() {
+		return null;
+	}
+
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		return false;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if (usages == null) {
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+
 	}
 }

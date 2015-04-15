@@ -32,14 +32,14 @@ public final class LabeledStmt extends Statement {
 
 	public LabeledStmt(String label, Statement stmt) {
 		this.label = label;
-		this.stmt = stmt;
+		setStmt(stmt);
 	}
 
 	public LabeledStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, String label, Statement stmt) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.label = label;
-		this.stmt = stmt;
+		setStmt(stmt);
 	}
 
 	@Override
@@ -66,5 +66,6 @@ public final class LabeledStmt extends Statement {
 
 	public void setStmt(Statement stmt) {
 		this.stmt = stmt;
+		setAsParentNodeOf(stmt);
 	}
 }

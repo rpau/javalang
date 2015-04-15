@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.walkmod.javalang.ast.ConstructorSymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
@@ -35,7 +37,8 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class ConstructorDeclaration extends BodyDeclaration implements
-		Mergeable<ConstructorDeclaration>, SymbolDataAware<ConstructorSymbolData>  {
+		Mergeable<ConstructorDeclaration>, SymbolDataAware<ConstructorSymbolData>,
+		SymbolDefinition {
 
 	private int modifiers;
 
@@ -50,6 +53,12 @@ public final class ConstructorDeclaration extends BodyDeclaration implements
 	private BlockStmt block;
 	
 	private ConstructorSymbolData symbolData;
+	
+	private List<SymbolReference> usages;
+	
+	private List<SymbolReference> bodyReferences;
+	
+	private int scopeLevel = 0;
 
 	public ConstructorDeclaration() {
 	}
@@ -204,5 +213,69 @@ public final class ConstructorDeclaration extends BodyDeclaration implements
 	@Override
 	public void setSymbolData(ConstructorSymbolData symbolData) {
 		this.symbolData = symbolData;
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
+	}
+	
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+	}
+	
+	@Override
+	public TypeDeclaration getParentNode(){
+		return (TypeDeclaration) super.getParentNode();
 	}
 }

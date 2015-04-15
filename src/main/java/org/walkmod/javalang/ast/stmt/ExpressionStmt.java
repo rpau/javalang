@@ -30,13 +30,13 @@ public final class ExpressionStmt extends Statement {
 	}
 
 	public ExpressionStmt(Expression expr) {
-		this.expr = expr;
+		setExpression(expr);
 	}
 
 	public ExpressionStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression expr) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
+		setExpression(expr);
 	}
 
 	@Override
@@ -55,5 +55,6 @@ public final class ExpressionStmt extends Statement {
 
 	public void setExpression(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 }

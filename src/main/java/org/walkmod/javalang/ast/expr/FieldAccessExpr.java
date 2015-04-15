@@ -17,6 +17,8 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -24,27 +26,29 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class FieldAccessExpr extends Expression {
+public final class FieldAccessExpr extends Expression implements SymbolReference{
 
 	private Expression scope;
 
 	private List<Type> typeArgs;
 
 	private String field;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public FieldAccessExpr() {
 	}
 
 	public FieldAccessExpr(Expression scope, String field) {
-		this.scope = scope;
+		setScope(scope);
 		this.field = field;
 	}
 
 	public FieldAccessExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression scope, List<Type> typeArgs, String field) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.scope = scope;
-		this.typeArgs = typeArgs;
+		setScope(scope);
+		setTypeArgs(typeArgs);
 		this.field = field;
 	}
 
@@ -76,9 +80,21 @@ public final class FieldAccessExpr extends Expression {
 
 	public void setScope(Expression scope) {
 		this.scope = scope;
+		setAsParentNodeOf(scope);
 	}
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+		setAsParentNodeOf(typeArgs);
+	}
+
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 }

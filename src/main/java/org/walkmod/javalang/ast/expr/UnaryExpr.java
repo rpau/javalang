@@ -36,14 +36,14 @@ public final class UnaryExpr extends Expression {
 	}
 
 	public UnaryExpr(Expression expr, Operator op) {
-		this.expr = expr;
+		setExpr(expr);
 		this.op = op;
 	}
 
 	public UnaryExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression expr, Operator op) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
+		setExpr(expr);
 		this.op = op;
 	}
 
@@ -67,6 +67,7 @@ public final class UnaryExpr extends Expression {
 
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 
 	public void setOperator(Operator op) {

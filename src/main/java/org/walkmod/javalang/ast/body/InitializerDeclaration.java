@@ -39,14 +39,14 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 
 	public InitializerDeclaration(boolean isStatic, BlockStmt block) {
 		this.isStatic = isStatic;
-		this.block = block;
+		setBlock(block);
 	}
 
 	public InitializerDeclaration(JavadocComment javaDoc, boolean isStatic,
 			BlockStmt block) {
 		super(null, javaDoc);
 		this.isStatic = isStatic;
-		this.block = block;
+		setBlock(block);
 	}
 
 	public InitializerDeclaration(int beginLine, int beginColumn, int endLine,
@@ -54,7 +54,7 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 			BlockStmt block) {
 		super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
 		this.isStatic = isStatic;
-		this.block = block;
+		setBlock(block);
 	}
 
 	@Override
@@ -77,6 +77,7 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 
 	public void setBlock(BlockStmt block) {
 		this.block = block;
+		setAsParentNodeOf(block);
 	}
 
 	public void setStatic(boolean isStatic) {
@@ -95,4 +96,10 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 				BlockStmt.class));
 
 	}
+	
+	@Override
+	public TypeDeclaration getParentNode(){
+		return (TypeDeclaration) super.getParentNode();
+	}
+
 }

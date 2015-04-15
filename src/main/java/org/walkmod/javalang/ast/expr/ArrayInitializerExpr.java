@@ -37,7 +37,7 @@ public final class ArrayInitializerExpr extends Expression {
 	public ArrayInitializerExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, List<Expression> values) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.values = values;
+		setValues(values);
 	}
 
 	@Override
@@ -56,5 +56,6 @@ public final class ArrayInitializerExpr extends Expression {
 
 	public void setValues(List<Expression> values) {
 		this.values = values;
+		setAsParentNodeOf(values);
 	}
 }

@@ -18,6 +18,8 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.body.Parameter;
 import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -29,13 +31,15 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * @author Raquel Pau
  *
  */
-public class LambdaExpr extends Expression {
+public class LambdaExpr extends Expression implements SymbolReference{
 
 	private List<Parameter> parameters;
 
 	private boolean parametersEnclosed;
 
 	private Statement body;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public LambdaExpr() {
 	}
@@ -45,8 +49,8 @@ public class LambdaExpr extends Expression {
 			boolean parametersEnclosed) {
 
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.parameters = parameters;
-		this.body = body;
+		setParameters(parameters);
+		setBody(body);
 
 		if (this.parameters != null && this.parameters.size() == 1
 				&& this.parameters.get(0).getType() == null) {
@@ -62,6 +66,7 @@ public class LambdaExpr extends Expression {
 
 	public void setParameters(List<Parameter> parameters) {
 		this.parameters = parameters;
+		setAsParentNodeOf(parameters);
 	}
 
 	public Statement getBody() {
@@ -70,6 +75,7 @@ public class LambdaExpr extends Expression {
 
 	public void setBody(Statement body) {
 		this.body = body;
+		setAsParentNodeOf(body);
 	}
 
 	@Override
@@ -88,6 +94,16 @@ public class LambdaExpr extends Expression {
 
 	public void setParametersEnclosed(boolean parametersEnclosed) {
 		this.parametersEnclosed = parametersEnclosed;
+	}
+
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 
 }

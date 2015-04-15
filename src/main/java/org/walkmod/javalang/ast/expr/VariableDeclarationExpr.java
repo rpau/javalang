@@ -39,15 +39,15 @@ public final class VariableDeclarationExpr extends Expression {
 	}
 
 	public VariableDeclarationExpr(Type type, List<VariableDeclarator> vars) {
-		this.type = type;
-		this.vars = vars;
+		setType(type);
+		setVars(vars);
 	}
 
 	public VariableDeclarationExpr(int modifiers, Type type,
 			List<VariableDeclarator> vars) {
 		this.modifiers = modifiers;
-		this.type = type;
-		this.vars = vars;
+		setType(type);
+		setVars(vars);
 	}
 
 	public VariableDeclarationExpr(int beginLine, int beginColumn, int endLine,
@@ -55,9 +55,9 @@ public final class VariableDeclarationExpr extends Expression {
 			Type type, List<VariableDeclarator> vars) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.modifiers = modifiers;
-		this.annotations = annotations;
-		this.type = type;
-		this.vars = vars;
+		setAnnotations(annotations);
+		setType(type);
+		setVars(vars);
 	}
 
 	@Override
@@ -94,6 +94,7 @@ public final class VariableDeclarationExpr extends Expression {
 
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
 	}
 
 	public void setModifiers(int modifiers) {
@@ -102,9 +103,11 @@ public final class VariableDeclarationExpr extends Expression {
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	public void setVars(List<VariableDeclarator> vars) {
 		this.vars = vars;
+		setAsParentNodeOf(vars);
 	}
 }

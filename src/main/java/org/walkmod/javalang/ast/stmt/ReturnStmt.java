@@ -30,13 +30,13 @@ public final class ReturnStmt extends Statement {
 	}
 
 	public ReturnStmt(Expression expr) {
-		this.expr = expr;
+		setExpr(expr);
 	}
 
 	public ReturnStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression expr) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.expr = expr;
+		setExpr(expr);
 	}
 
 	@Override
@@ -55,5 +55,6 @@ public final class ReturnStmt extends Statement {
 
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 }

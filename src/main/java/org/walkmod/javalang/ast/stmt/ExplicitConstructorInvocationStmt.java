@@ -41,18 +41,18 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 	public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr,
 			List<Expression> args) {
 		this.isThis = isThis;
-		this.expr = expr;
-		this.args = args;
+		setExpr(expr);
+		setArgs(args);
 	}
 
 	public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn,
 			int endLine, int endColumn, List<Type> typeArgs, boolean isThis,
 			Expression expr, List<Expression> args) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.typeArgs = typeArgs;
+		setTypeArgs(typeArgs);
 		this.isThis = isThis;
-		this.expr = expr;
-		this.args = args;
+		setExpr(expr);
+		setArgs(args);
 	}
 
 	@Override
@@ -83,10 +83,12 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 
 	public void setArgs(List<Expression> args) {
 		this.args = args;
+		setAsParentNodeOf(args);
 	}
 
 	public void setExpr(Expression expr) {
 		this.expr = expr;
+		setAsParentNodeOf(expr);
 	}
 
 	public void setThis(boolean isThis) {
@@ -95,5 +97,6 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+		setAsParentNodeOf(typeArgs);
 	}
 }

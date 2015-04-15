@@ -73,6 +73,7 @@ public final class Parameter extends BaseParameter {
 
 	public void setType(Type type) {
 		this.type = type;
+		setAsParentNodeOf(type);
 	}
 
 	public void setVarArgs(boolean isVarArgs) {

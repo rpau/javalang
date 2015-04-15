@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
@@ -41,40 +42,47 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * 
  * @author Julio Vilmar Gesser
  */
-public final class TypeParameter extends Node {
+public final class TypeParameter extends Node implements SymbolDefinition {
 
 	private String name;
 
 	private List<AnnotationExpr> annotations;
 
 	private List<ClassOrInterfaceType> typeBound;
+	
+	private List<SymbolReference> usages;
+
+	private int scopeLevel = 0;
 
 	public TypeParameter() {
 	}
 
 	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound) {
 		this.name = name;
-		this.typeBound = typeBound;
+		setTypeBound(typeBound);
 	}
 
 	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound,
 			List<AnnotationExpr> annotations) {
-		this(name, typeBound);
-		this.annotations = annotations;
+		this.name = name;
+		setTypeBound(typeBound);
+		setAnnotations(annotations);
 	}
 
 	public TypeParameter(int beginLine, int beginColumn, int endLine,
 			int endColumn, String name, List<ClassOrInterfaceType> typeBound) {
 		super(beginLine, beginColumn, endLine, endColumn);
 		this.name = name;
-		this.typeBound = typeBound;
+		setTypeBound(typeBound);
 	}
 
 	public TypeParameter(int beginLine, int beginColumn, int endLine,
 			int endColumn, String name, List<ClassOrInterfaceType> typeBound,
 			List<AnnotationExpr> annotations) {
-		this(beginLine, beginColumn, endLine, endColumn, name, typeBound);
-		this.annotations = annotations;
+		super(beginLine, beginColumn, endLine, endColumn);
+		this.name = name;
+		setTypeBound(typeBound);
+		setAnnotations(annotations);
 	}
 
 	@Override
@@ -124,6 +132,7 @@ public final class TypeParameter extends Node {
 	 */
 	public void setTypeBound(List<ClassOrInterfaceType> typeBound) {
 		this.typeBound = typeBound;
+		setAsParentNodeOf(typeBound);
 	}
 
 	public List<AnnotationExpr> getAnnotations() {
@@ -132,6 +141,53 @@ public final class TypeParameter extends Node {
 
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return null;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		return false;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
 	}
 
 }

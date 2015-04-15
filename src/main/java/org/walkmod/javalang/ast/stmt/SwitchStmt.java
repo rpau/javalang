@@ -34,15 +34,15 @@ public final class SwitchStmt extends Statement {
 	}
 
 	public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
-		this.selector = selector;
-		this.entries = entries;
+		setSelector(selector);
+		setEntries(entries);
 	}
 
 	public SwitchStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression selector, List<SwitchEntryStmt> entries) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.selector = selector;
-		this.entries = entries;
+		setSelector(selector);
+		setEntries(entries);
 	}
 
 	@Override
@@ -65,9 +65,11 @@ public final class SwitchStmt extends Statement {
 
 	public void setEntries(List<SwitchEntryStmt> entries) {
 		this.entries = entries;
+		setAsParentNodeOf(entries);
 	}
 
 	public void setSelector(Expression selector) {
 		this.selector = selector;
+		setAsParentNodeOf(selector);
 	}
 }

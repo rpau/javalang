@@ -16,6 +16,8 @@
 package org.walkmod.javalang.ast;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.comparators.ImportDeclarationComparator;
@@ -45,7 +47,7 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class ImportDeclaration extends Node implements
-		Mergeable<ImportDeclaration> {
+		Mergeable<ImportDeclaration>, SymbolDefinition {
 
 	private NameExpr name;
 
@@ -53,11 +55,13 @@ public final class ImportDeclaration extends Node implements
 
 	private boolean asterisk;
 
+	private List<SymbolReference> usages;
+
 	public ImportDeclaration() {
 	}
 
 	public ImportDeclaration(NameExpr name, boolean isStatic, boolean isAsterisk) {
-		this.name = name;
+		setName(name);
 		this.static_ = isStatic;
 		this.asterisk = isAsterisk;
 	}
@@ -65,7 +69,7 @@ public final class ImportDeclaration extends Node implements
 	public ImportDeclaration(int beginLine, int beginColumn, int endLine,
 			int endColumn, NameExpr name, boolean isStatic, boolean isAsterisk) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
+		setName(name);
 		this.static_ = isStatic;
 		this.asterisk = isAsterisk;
 	}
@@ -127,6 +131,7 @@ public final class ImportDeclaration extends Node implements
 	 */
 	public void setName(NameExpr name) {
 		this.name = name;
+		setAsParentNodeOf(name);
 	}
 
 	/**
@@ -153,4 +158,51 @@ public final class ImportDeclaration extends Node implements
 			setAsterisk(t1.isAsterisk());
 		}
 	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return null;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return 0;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		return false;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+
+	}
+
 }

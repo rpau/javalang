@@ -34,17 +34,17 @@ public final class IfStmt extends Statement {
 	}
 
 	public IfStmt(Expression condition, Statement thenStmt, Statement elseStmt) {
-		this.condition = condition;
-		this.thenStmt = thenStmt;
-		this.elseStmt = elseStmt;
+		setCondition(condition);
+		setThenStmt(thenStmt);
+		setElseStmt(elseStmt);
 	}
 
 	public IfStmt(int beginLine, int beginColumn, int endLine, int endColumn,
 			Expression condition, Statement thenStmt, Statement elseStmt) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.condition = condition;
-		this.thenStmt = thenStmt;
-		this.elseStmt = elseStmt;
+		setCondition(condition);
+		setThenStmt(thenStmt);
+		setElseStmt(elseStmt);
 	}
 
 	@Override
@@ -71,13 +71,16 @@ public final class IfStmt extends Statement {
 
 	public void setCondition(Expression condition) {
 		this.condition = condition;
+		setAsParentNodeOf(condition);
 	}
 
 	public void setElseStmt(Statement elseStmt) {
 		this.elseStmt = elseStmt;
+		setAsParentNodeOf(elseStmt);
 	}
 
 	public void setThenStmt(Statement thenStmt) {
 		this.thenStmt = thenStmt;
+		setAsParentNodeOf(thenStmt);
 	}
 }

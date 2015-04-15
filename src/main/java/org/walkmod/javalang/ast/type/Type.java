@@ -20,22 +20,26 @@ import java.util.List;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class Type extends Node implements SymbolDataAware<SymbolData> {
+public abstract class Type extends Node implements SymbolDataAware<SymbolData>, SymbolReference {
 
 	private List<AnnotationExpr> annotations;
 
 	private SymbolData symbolData;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public Type() {
 	}
 
 	public Type(List<AnnotationExpr> annotation) {
-		this.annotations = annotation;
+		setAnnotations(annotation);
 	}
 
 	public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
@@ -45,7 +49,7 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData> {
 	public Type(int beginLine, int beginColumn, int endLine, int endColumn,
 			List<AnnotationExpr> annotations) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.annotations = annotations;
+		setAnnotations(annotations);
 	}
 
 	public List<AnnotationExpr> getAnnotations() {
@@ -54,6 +58,7 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData> {
 
 	public void setAnnotations(List<AnnotationExpr> annotations) {
 		this.annotations = annotations;
+		setAsParentNodeOf(annotations);
 	}
 
 	@Override
@@ -66,4 +71,13 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData> {
 		this.symbolData = symbolData;
 	}
 
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
+	}
 }

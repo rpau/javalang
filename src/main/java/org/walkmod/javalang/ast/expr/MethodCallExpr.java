@@ -18,7 +18,8 @@ package org.walkmod.javalang.ast.expr;
 import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
-import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -26,7 +27,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class MethodCallExpr extends Expression {
+public final class MethodCallExpr extends Expression implements SymbolReference{
 
 	private Expression scope;
 
@@ -35,29 +36,31 @@ public final class MethodCallExpr extends Expression {
 	private String name;
 
 	private List<Expression> args;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public MethodCallExpr() {
 	}
 
 	public MethodCallExpr(Expression scope, String name) {
-		this.scope = scope;
+		setScope(scope);
 		this.name = name;
 	}
 
 	public MethodCallExpr(Expression scope, String name, List<Expression> args) {
-		this.scope = scope;
+		setScope(scope);
 		this.name = name;
-		this.args = args;
+		setArgs(args);
 	}
 
 	public MethodCallExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Expression scope, List<Type> typeArgs, String name,
 			List<Expression> args) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.scope = scope;
-		this.typeArgs = typeArgs;
+		setScope(scope);
+		setTypeArgs(typeArgs);
 		this.name = name;
-		this.args = args;
+		setArgs(args);
 	}
 
 	@Override
@@ -88,6 +91,7 @@ public final class MethodCallExpr extends Expression {
 
 	public void setArgs(List<Expression> args) {
 		this.args = args;
+		setAsParentNodeOf(args);
 	}
 
 	public void setName(String name) {
@@ -96,14 +100,26 @@ public final class MethodCallExpr extends Expression {
 
 	public void setScope(Expression scope) {
 		this.scope = scope;
+		setAsParentNodeOf(scope);
 	}
 
 	public void setTypeArgs(List<Type> typeArgs) {
 		this.typeArgs = typeArgs;
+		setAsParentNodeOf(typeArgs);
 	}
 	
 	@Override
 	public MethodSymbolData getSymbolData() {
 		return (MethodSymbolData) super.getSymbolData();
+	}
+
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 }

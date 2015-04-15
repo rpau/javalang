@@ -43,9 +43,8 @@ public final class EnumDeclaration extends TypeDeclaration {
 			List<AnnotationExpr> annotations, String name,
 			List<ClassOrInterfaceType> implementsList,
 			List<EnumConstantDeclaration> entries, List<BodyDeclaration> members) {
-		super(annotations, javaDoc, modifiers, name, members);
-		this.implementsList = implementsList;
-		this.entries = entries;
+		this(0,0,0,0, javaDoc, modifiers, annotations, name, implementsList, entries, members);
+		
 	}
 
 	public EnumDeclaration(int beginLine, int beginColumn, int endLine,
@@ -55,8 +54,8 @@ public final class EnumDeclaration extends TypeDeclaration {
 			List<EnumConstantDeclaration> entries, List<BodyDeclaration> members) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc,
 				modifiers, name, members);
-		this.implementsList = implementsList;
-		this.entries = entries;
+		setImplements(implementsList);
+		setEntries(entries);
 	}
 
 	@Override
@@ -79,10 +78,12 @@ public final class EnumDeclaration extends TypeDeclaration {
 
 	public void setEntries(List<EnumConstantDeclaration> entries) {
 		this.entries = entries;
+		setAsParentNodeOf(entries);
 	}
 
 	public void setImplements(List<ClassOrInterfaceType> implementsList) {
 		this.implementsList = implementsList;
+		setAsParentNodeOf(implementsList);
 	}
 
 }

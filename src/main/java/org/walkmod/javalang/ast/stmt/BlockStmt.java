@@ -31,13 +31,13 @@ public final class BlockStmt extends Statement {
 	}
 
 	public BlockStmt(List<Statement> stmts) {
-		this.stmts = stmts;
+		setStmts(stmts);
 	}
 
 	public BlockStmt(int beginLine, int beginColumn, int endLine,
 			int endColumn, List<Statement> stmts) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.stmts = stmts;
+		setStmts(stmts);
 	}
 
 	@Override
@@ -56,5 +56,6 @@ public final class BlockStmt extends Statement {
 
 	public void setStmts(List<Statement> stmts) {
 		this.stmts = stmts;
+		setAsParentNodeOf(stmts);
 	}
 }

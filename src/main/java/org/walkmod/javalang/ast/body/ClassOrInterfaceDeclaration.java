@@ -19,8 +19,6 @@ package org.walkmod.javalang.ast.body;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.walkmod.javalang.ast.SymbolData;
-import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
@@ -41,15 +39,14 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
 	private List<ClassOrInterfaceType> implementsList;
 
-	
-
 	public ClassOrInterfaceDeclaration() {
 	}
 
 	public ClassOrInterfaceDeclaration(int modifiers, boolean isInterface,
 			String name) {
-		super(modifiers, name);
 		this.interface_ = isInterface;
+		setModifiers(modifiers);
+		setName(name);
 	}
 
 	public ClassOrInterfaceDeclaration(JavadocComment javaDoc, int modifiers,
@@ -58,11 +55,14 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 			List<ClassOrInterfaceType> extendsList,
 			List<ClassOrInterfaceType> implementsList,
 			List<BodyDeclaration> members) {
-		super(annotations, javaDoc, modifiers, name, members);
 		this.interface_ = isInterface;
-		this.typeParameters = typeParameters;
-		this.extendsList = extendsList;
-		this.implementsList = implementsList;
+		setModifiers(modifiers);
+		setName(name);
+		setTypeParameters(typeParameters);
+		setExtends(extendsList);
+		setImplements(implementsList);
+		setJavaDoc(javaDoc);
+		setMembers(members);
 	}
 
 	public ClassOrInterfaceDeclaration(int beginLine, int beginColumn,
@@ -75,9 +75,9 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc,
 				modifiers, name, members);
 		this.interface_ = isInterface;
-		this.typeParameters = typeParameters;
-		this.extendsList = extendsList;
-		this.implementsList = implementsList;
+		setTypeParameters(typeParameters);
+		setExtends(extendsList);
+		setImplements(implementsList);
 	}
 
 	@Override
@@ -108,10 +108,12 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
 	public void setExtends(List<ClassOrInterfaceType> extendsList) {
 		this.extendsList = extendsList;
+		setAsParentNodeOf(extendsList);
 	}
 
 	public void setImplements(List<ClassOrInterfaceType> implementsList) {
 		this.implementsList = implementsList;
+		setAsParentNodeOf(implementsList);
 	}
 
 	public void setInterface(boolean interface_) {
@@ -120,6 +122,7 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
 	public void setTypeParameters(List<TypeParameter> typeParameters) {
 		this.typeParameters = typeParameters;
+		setAsParentNodeOf(typeParameters);
 	}
 
 	@Override
@@ -156,6 +159,5 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 			setExtends(null);
 		}
 	}
-	
-	
+
 }

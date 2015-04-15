@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -34,7 +36,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * @author Raquel Pau
  *
  */
-public class MethodReferenceExpr extends Expression {
+public class MethodReferenceExpr extends Expression implements SymbolReference{
 
 	private Expression scope;
 
@@ -45,6 +47,8 @@ public class MethodReferenceExpr extends Expression {
 	private MethodSymbolData referencedMethodSymbolData;
 
 	private SymbolData[] referencedArgsSymbolData;
+	
+	private SymbolDefinition symbolDefinition;
 
 	public MethodReferenceExpr() {
 	}
@@ -54,8 +58,8 @@ public class MethodReferenceExpr extends Expression {
 			List<TypeParameter> typeParameters, String identifier) {
 
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.scope = scope;
-		this.typeParameters = typeParameters;
+		setScope(scope);
+		setTypeParameters(typeParameters);
 		this.identifier = identifier;
 	}
 
@@ -76,6 +80,7 @@ public class MethodReferenceExpr extends Expression {
 
 	public void setScope(Expression scope) {
 		this.scope = scope;
+		setAsParentNodeOf(scope);
 	}
 
 	public List<TypeParameter> getTypeParameters() {
@@ -84,6 +89,7 @@ public class MethodReferenceExpr extends Expression {
 
 	public void setTypeParameters(List<TypeParameter> typeParameters) {
 		this.typeParameters = typeParameters;
+		setAsParentNodeOf(typeParameters);
 	}
 
 	public String getIdentifier() {
@@ -115,6 +121,16 @@ public class MethodReferenceExpr extends Expression {
 	public void setReferencedArgsSymbolData(
 			SymbolData[] referencedArgsSymbolData) {
 		this.referencedArgsSymbolData = referencedArgsSymbolData;
+	}
+	
+	@Override
+	public SymbolDefinition getSymbolDefinition() {
+		return symbolDefinition;
+	}
+
+	@Override
+	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+		this.symbolDefinition = symbolDefinition;
 	}
 
 }

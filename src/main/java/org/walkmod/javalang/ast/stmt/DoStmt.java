@@ -32,15 +32,15 @@ public final class DoStmt extends Statement {
 	}
 
 	public DoStmt(Statement body, Expression condition) {
-		this.body = body;
-		this.condition = condition;
+		setBody(body);
+		setCondition(condition);
 	}
 
 	public DoStmt(int beginLine, int beginColumn, int endLine, int endColumn,
 			Statement body, Expression condition) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.body = body;
-		this.condition = condition;
+		setBody(body);
+		setCondition(condition);
 	}
 
 	@Override
@@ -63,9 +63,11 @@ public final class DoStmt extends Statement {
 
 	public void setBody(Statement body) {
 		this.body = body;
+		setAsParentNodeOf(body);
 	}
 
 	public void setCondition(Expression condition) {
 		this.condition = condition;
+		setAsParentNodeOf(condition);
 	}
 }

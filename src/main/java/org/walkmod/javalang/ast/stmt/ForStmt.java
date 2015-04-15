@@ -39,20 +39,20 @@ public final class ForStmt extends Statement {
 
 	public ForStmt(List<Expression> init, Expression compare,
 			List<Expression> update, Statement body) {
-		this.compare = compare;
-		this.init = init;
-		this.update = update;
-		this.body = body;
+		setCompare(compare);
+		setInit(init);
+		setUpdate(update);
+		setBody(body);
 	}
 
 	public ForStmt(int beginLine, int beginColumn, int endLine, int endColumn,
 			List<Expression> init, Expression compare, List<Expression> update,
 			Statement body) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.compare = compare;
-		this.init = init;
-		this.update = update;
-		this.body = body;
+		setCompare(compare);
+		setInit(init);
+		setUpdate(update);
+		setBody(body);
 	}
 
 	@Override
@@ -87,13 +87,16 @@ public final class ForStmt extends Statement {
 
 	public void setCompare(Expression compare) {
 		this.compare = compare;
+		setAsParentNodeOf(compare);
 	}
 
 	public void setInit(List<Expression> init) {
 		this.init = init;
+		setAsParentNodeOf(init);
 	}
 
 	public void setUpdate(List<Expression> update) {
 		this.update = update;
+		setAsParentNodeOf(update);
 	}
 }

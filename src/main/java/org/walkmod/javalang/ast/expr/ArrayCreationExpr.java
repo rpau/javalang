@@ -41,56 +41,56 @@ public final class ArrayCreationExpr extends Expression {
 
 	public ArrayCreationExpr(Type type, int arrayCount,
 			ArrayInitializerExpr initializer) {
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.initializer = initializer;
+		setInitializer(initializer);
 		this.dimensions = null;
 	}
 
 	public ArrayCreationExpr(Type type, int arrayCount,
 			ArrayInitializerExpr initializer,
 			List<List<AnnotationExpr>> arraysAnnotations) {
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.initializer = initializer;
+		setInitializer(initializer);
 		this.dimensions = null;
-		this.arraysAnnotations = arraysAnnotations;
+		setArraysAnnotations(arraysAnnotations);
 	}
 
 	public ArrayCreationExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Type type, int arrayCount,
 			ArrayInitializerExpr initializer) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.initializer = initializer;
+		setInitializer(initializer);
 		this.dimensions = null;
 	}
 
 	public ArrayCreationExpr(Type type, List<Expression> dimensions,
 			int arrayCount) {
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.dimensions = dimensions;
+		setDimensions(dimensions);
 		this.initializer = null;
 	}
 
 	public ArrayCreationExpr(Type type, List<Expression> dimensions,
 			int arrayCount, List<List<AnnotationExpr>> arraysAnnotations) {
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.dimensions = dimensions;
+		setDimensions(dimensions);
 		this.initializer = null;
-		this.arraysAnnotations = arraysAnnotations;
+		setArraysAnnotations(arraysAnnotations);
 	}
 
 	public ArrayCreationExpr(int beginLine, int beginColumn, int endLine,
 			int endColumn, Type type, List<Expression> dimensions,
 			int arrayCount) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.dimensions = dimensions;
+		setDimensions(dimensions);
 		this.initializer = null;
 	}
 
@@ -98,11 +98,11 @@ public final class ArrayCreationExpr extends Expression {
 			int endColumn, Type type, List<Expression> dimensions,
 			int arrayCount, List<List<AnnotationExpr>> arraysAnnotations) {
 		super(beginLine, beginColumn, endLine, endColumn);
-		this.type = type;
+		setType(type);
 		this.arrayCount = arrayCount;
-		this.dimensions = dimensions;
+		setDimensions(dimensions);
 		this.initializer = null;
-		this.arraysAnnotations = arraysAnnotations;
+		setArraysAnnotations(arraysAnnotations);
 	}
 
 	@Override
@@ -137,10 +137,12 @@ public final class ArrayCreationExpr extends Expression {
 
 	public void setDimensions(List<Expression> dimensions) {
 		this.dimensions = dimensions;
+		setAsParentNodeOf(dimensions);
 	}
 
 	public void setInitializer(ArrayInitializerExpr initializer) {
 		this.initializer = initializer;
+		setAsParentNodeOf(initializer);
 	}
 
 	public void setType(Type type) {
@@ -154,6 +156,10 @@ public final class ArrayCreationExpr extends Expression {
 	public void setArraysAnnotations(
 			List<List<AnnotationExpr>> arraysAnnotations) {
 		this.arraysAnnotations = arraysAnnotations;
+		if(arraysAnnotations != null){
+			for(List<AnnotationExpr> ann: arraysAnnotations){
+				setAsParentNodeOf(ann);
+			}
+		}
 	}
-
 }

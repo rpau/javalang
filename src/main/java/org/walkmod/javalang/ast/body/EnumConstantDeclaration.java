@@ -19,6 +19,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.comparators.EnumConstantDeclarationComparator;
@@ -31,13 +33,19 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class EnumConstantDeclaration extends BodyDeclaration implements
-		Mergeable<EnumConstantDeclaration> {
+		Mergeable<EnumConstantDeclaration>, SymbolDefinition {
 
 	private String name;
 
 	private List<Expression> args;
 
 	private List<BodyDeclaration> classBody;
+
+	private List<SymbolReference> usages;
+
+	private List<SymbolReference> bodyReferences;
+
+	private int scopeLevel = 0;
 
 	public EnumConstantDeclaration() {
 	}
@@ -51,8 +59,8 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 			List<Expression> args, List<BodyDeclaration> classBody) {
 		super(annotations, javaDoc);
 		this.name = name;
-		this.args = args;
-		this.classBody = classBody;
+		setArgs(args);
+		setClassBody(classBody);
 	}
 
 	public EnumConstantDeclaration(int beginLine, int beginColumn, int endLine,
@@ -61,8 +69,8 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 			List<Expression> args, List<BodyDeclaration> classBody) {
 		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
 		this.name = name;
-		this.args = args;
-		this.classBody = classBody;
+		setArgs(args);
+		setClassBody(classBody);
 	}
 
 	@Override
@@ -89,10 +97,12 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 
 	public void setArgs(List<Expression> args) {
 		this.args = args;
+		setAsParentNodeOf(args);
 	}
 
 	public void setClassBody(List<BodyDeclaration> classBody) {
 		this.classBody = classBody;
+		setAsParentNodeOf(classBody);
 	}
 
 	public void setName(String name) {
@@ -128,5 +138,69 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 			setArgs(null);
 		}
 
+	}
+
+	@Override
+	public EnumDeclaration getParentNode() {
+		return (EnumDeclaration) super.getParentNode();
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if(usages == null){
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
 	}
 }
