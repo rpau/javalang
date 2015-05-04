@@ -19,6 +19,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.SymbolData;
+import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
@@ -33,7 +35,8 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class EnumConstantDeclaration extends BodyDeclaration implements
-		Mergeable<EnumConstantDeclaration>, SymbolDefinition {
+		Mergeable<EnumConstantDeclaration>, SymbolDefinition,
+		SymbolDataAware<SymbolData> {
 
 	private String name;
 
@@ -46,6 +49,8 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 	private List<SymbolReference> bodyReferences;
 
 	private int scopeLevel = 0;
+
+	private SymbolData symbolData = null;
 
 	public EnumConstantDeclaration() {
 	}
@@ -159,7 +164,7 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 	public boolean addUsage(SymbolReference usage) {
 		if (usage != null) {
 			usage.setSymbolDefinition(this);
-			if(usages == null){
+			if (usages == null) {
 				usages = new LinkedList<SymbolReference>();
 			}
 			return usages.add(usage);
@@ -202,5 +207,15 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 	@Override
 	public void setScopeLevel(int scopeLevel) {
 		this.scopeLevel = scopeLevel;
+	}
+
+	@Override
+	public SymbolData getSymbolData() {
+		return symbolData;
+	}
+
+	@Override
+	public void setSymbolData(SymbolData symbolData) {
+		this.symbolData = symbolData;
 	}
 }

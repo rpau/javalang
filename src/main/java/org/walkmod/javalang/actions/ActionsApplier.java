@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.walkmod.javalang.util.FileUtils;
 
-
 public class ActionsApplier {
 
 	private String text;
@@ -20,12 +19,13 @@ public class ActionsApplier {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public void setText(File file) {
 		try {
 			this.text = FileUtils.fileToString(file.getAbsolutePath());
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading the file "+file.getAbsolutePath());
+			throw new RuntimeException("Error reading the file "
+					+ file.getAbsolutePath());
 		}
 	}
 
@@ -129,17 +129,19 @@ public class ActionsApplier {
 					if (next.getType().equals(ActionType.REMOVE)) {
 						RemoveAction remove = (RemoveAction) next;
 
-						for (; (actionLine != (remove.getEndLine() - 1) || actionColumn != remove
-								.getEndColumn()); index++) {
+						for (; (actionLine < (remove.getEndLine() - 1) || (actionLine == (remove
+								.getEndLine() - 1) && actionColumn < remove
+								.getEndColumn())); index++) {
 
 							if (contents[index] == '\r') {
 								modifiedText.append('\r');
 								actionColumn++;
 							} else if (contents[index] != '\n') {
-								//modifiedText.append(' ');
+								// modifiedText.append(' ');
 								actionColumn++;
 							} else {
 								actionLine++;
+								line++;
 								actionColumn = 0;
 								modifiedText.append('\n');
 							}
@@ -153,7 +155,6 @@ public class ActionsApplier {
 						String code = append.getText();
 						modifiedText.append(code);
 
-						
 					} else if (next.getType().equals(ActionType.REPLACE)) {
 						inferIndentationChar(contents);
 
@@ -176,7 +177,7 @@ public class ActionsApplier {
 								actionColumn = 0;
 							}
 						}
-
+						line = futureLine;
 						index += (replace.getOldEndColumn() - actionColumn);
 						actionColumn = replace.getOldEndColumn();
 					}

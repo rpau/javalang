@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.ConstructorSymbolData;
@@ -29,7 +30,8 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class ObjectCreationExpr extends Expression implements SymbolReference{
+public final class ObjectCreationExpr extends Expression implements
+		SymbolReference, SymbolDefinition {
 
 	private Expression scope;
 
@@ -40,8 +42,14 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
 	private List<Expression> args;
 
 	private List<BodyDeclaration> anonymousClassBody;
-	
+
 	private SymbolDefinition symbolDefinition;
+
+	private List<SymbolReference> usages;
+
+	private List<SymbolReference> bodyReferences;
+
+	private int scopeLevel = 0;
 
 	public ObjectCreationExpr() {
 	}
@@ -119,7 +127,7 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
 		this.typeArgs = typeArgs;
 		setAsParentNodeOf(typeArgs);
 	}
-	
+
 	@Override
 	public ConstructorSymbolData getSymbolData() {
 		return (ConstructorSymbolData) super.getSymbolData();
@@ -133,5 +141,61 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
 	@Override
 	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
 		this.symbolDefinition = symbolDefinition;
+	}
+
+	public List<SymbolReference> getUsages() {
+		return usages;
+	}
+
+	public List<SymbolReference> getBodyReferences() {
+		return bodyReferences;
+	}
+
+	public void setUsages(List<SymbolReference> usages) {
+		this.usages = usages;
+	}
+
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		this.bodyReferences = bodyReferences;
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		if (bodyReference != null) {
+			SymbolDefinition definition = bodyReference.getSymbolDefinition();
+			if (definition != null) {
+				int scope = definition.getScopeLevel();
+				if (scope <= scopeLevel) {
+					if (bodyReferences == null) {
+						bodyReferences = new LinkedList<SymbolReference>();
+					}
+					return bodyReferences.add(bodyReference);
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		if (usage != null) {
+			usage.setSymbolDefinition(this);
+			if (usages == null) {
+				usages = new LinkedList<SymbolReference>();
+			}
+			return usages.add(usage);
+		}
+		return false;
+
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return scopeLevel;
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		this.scopeLevel = scopeLevel;
 	}
 }
