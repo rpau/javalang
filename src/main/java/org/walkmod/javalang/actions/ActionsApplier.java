@@ -134,7 +134,7 @@ public class ActionsApplier {
 								.getEndColumn())); index++) {
 
 							if (contents[index] == '\r') {
-								modifiedText.append('\r');
+								//modifiedText.append('\r');
 								actionColumn++;
 							} else if (contents[index] != '\n') {
 								// modifiedText.append(' ');
@@ -143,7 +143,7 @@ public class ActionsApplier {
 								actionLine++;
 								line++;
 								actionColumn = 0;
-								modifiedText.append('\n');
+								//modifiedText.append('\n');
 							}
 						}
 					} else if (next.getType().equals(ActionType.APPEND)) {

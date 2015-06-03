@@ -762,7 +762,7 @@ TOKEN :
 
 SKIP :
 {
-	<	( " " | "\t" |"\n" | "\r" )+			>
+	 <SPACE: (" " | "\t")> | <BEGIN: ("\r"|"\n") ((" ")* "*")? >
 }
 
 List<JavadocTag> javadoc() :

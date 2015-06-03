@@ -86,4 +86,12 @@ public interface SymbolData {
 	 * @return a symbol data resulting of merging two symbol datas.
 	 */
 	public SymbolData merge(SymbolData other);
+	
+	
+	/**
+	 * Java Generics allows expressions like <? super A & B & C>. These lower boundary 
+	 * classes corresponds to A, B and C. 
+	 * @return the upper bound classes
+	 */
+	public List<Class<?>> getLowerBoundClasses();
 }

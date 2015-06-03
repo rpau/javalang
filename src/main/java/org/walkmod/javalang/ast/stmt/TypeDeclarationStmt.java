@@ -15,6 +15,10 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
+import org.walkmod.javalang.ast.SymbolDefinition;
+import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.body.TypeDeclaration;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -22,7 +26,8 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class TypeDeclarationStmt extends Statement {
+public final class TypeDeclarationStmt extends Statement implements
+		SymbolDefinition {
 
 	private TypeDeclaration typeDecl;
 
@@ -56,5 +61,45 @@ public final class TypeDeclarationStmt extends Statement {
 	public void setTypeDeclaration(TypeDeclaration typeDecl) {
 		this.typeDecl = typeDecl;
 		setAsParentNodeOf(typeDecl);
+	}
+
+	@Override
+	public List<SymbolReference> getUsages() {
+		return typeDecl.getUsages();
+	}
+
+	@Override
+	public void setUsages(List<SymbolReference> usages) {
+		typeDecl.setUsages(usages);
+	}
+
+	@Override
+	public boolean addUsage(SymbolReference usage) {
+		return typeDecl.addUsage(usage);
+	}
+
+	@Override
+	public List<SymbolReference> getBodyReferences() {
+		return typeDecl.getBodyReferences();
+	}
+
+	@Override
+	public void setBodyReferences(List<SymbolReference> bodyReferences) {
+		typeDecl.setBodyReferences(bodyReferences);
+	}
+
+	@Override
+	public boolean addBodyReference(SymbolReference bodyReference) {
+		return typeDecl.addBodyReference(bodyReference);
+	}
+
+	@Override
+	public int getScopeLevel() {
+		return typeDecl.getScopeLevel();
+	}
+
+	@Override
+	public void setScopeLevel(int scopeLevel) {
+		typeDecl.setScopeLevel(scopeLevel);
 	}
 }

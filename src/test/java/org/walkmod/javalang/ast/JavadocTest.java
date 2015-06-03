@@ -152,6 +152,18 @@ public class JavadocTest {
 		Assert.assertTrue(code.contains("@throws IllegalArgumentException"));
 	}
 	
+	@Test
+	public void testMultipleLineJavadocTags() throws Exception{
+		String javadoc = "Weak reference with a method which a background thread invokes after\n";
+		javadoc+="* the garbage collector reclaims the referent. This is a simpler alternative to using a {@link\n";
+		javadoc+="* ReferenceQueue }.";
+		List<JavadocTag> tags = JavadocManager.parse(javadoc);
+		Assert.assertTrue(tags.size() == 1);
+		JavadocTag jt = tags.get(0);
+		Assert.assertEquals("@link", jt.getName());
+		Assert.assertEquals("ReferenceQueue",jt.getValues().get(0));
+	}
+	
 
 	@Test
 	public void testJavadocFailure() throws Exception {

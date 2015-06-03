@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -346,8 +347,4 @@ public final class MethodDeclaration extends BodyDeclaration implements
 
 	}
 	
-	@Override
-	public TypeDeclaration getParentNode(){
-		return (TypeDeclaration) super.getParentNode();
-	}
 }

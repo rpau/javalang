@@ -66,6 +66,10 @@ public interface TagsParserConstants {
   int OPERATION = 27;
   /** RegularExpression Id. */
   int WORD = 28;
+  /** RegularExpression Id. */
+  int SPACE = 29;
+  /** RegularExpression Id. */
+  int BEGIN = 30;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -101,7 +105,8 @@ public interface TagsParserConstants {
     "<NAMECHAR>",
     "<OPERATION>",
     "<WORD>",
-    "<token of kind 29>",
+    "<SPACE>",
+    "<BEGIN>",
   };
 
 }

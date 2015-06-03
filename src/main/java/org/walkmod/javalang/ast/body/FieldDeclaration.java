@@ -216,8 +216,4 @@ public final class FieldDeclaration extends BodyDeclaration implements
 		return false;
 	}
 	
-	@Override
-	public TypeDeclaration getParentNode(){
-		return (TypeDeclaration) super.getParentNode();
-	}
 }
