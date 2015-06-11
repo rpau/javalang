@@ -32,6 +32,15 @@ public class ASTParserTest {
 	}
 
 	@Test
+	public void testLambdaParsing() throws Exception {
+		File f = new File("src/test/resources/lambda.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+
+	
+	@Test
 	public void testLicense() throws Exception {
 		File f = new File("src/test/resources/licensed-sources.txt");
 		CompilationUnit cu = ASTManager.parse(f);
@@ -55,29 +64,39 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
-	
+
 	@Test
 	public void testLinesBetweenParameters() throws Exception {
-		File f = new File("src/test/resources/multipleLinesBetweenParameters.txt");
+		File f = new File(
+				"src/test/resources/multipleLinesBetweenParameters.txt");
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
-	
+
 	@Test
-    public void testLines() throws Exception {
-        File f = new File("src/test/resources/test.txt");
-        CompilationUnit cu = ASTManager.parse(f);
-        Assert.assertNotNull(cu);
-        System.out.println(cu.toString());
-    }
-	
+	public void testLines() throws Exception {
+		File f = new File("src/test/resources/test.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+
 	@Test
-    public void testComments() throws Exception {
-        File f = new File("src/test/resources/comments.txt");
-        CompilationUnit cu = ASTManager.parse(f);
-        Assert.assertNotNull(cu);
-        System.out.println(cu.toString());
-        System.out.println(cu.toString());
-    }
+	public void testMultiplePrintsInComments() throws Exception {
+		File f = new File("src/test/resources/comments.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+		System.out.println(cu.toString());
+	}
+
+	@Test
+	public void testCommentsInsideNode() throws Exception {
+		File f = new File("src/test/resources/comments.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+
+		System.out.println(cu.getTypes().get(0).getMembers().get(0).toString());
+	}
 }
