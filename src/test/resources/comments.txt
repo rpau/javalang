@@ -1,0 +1,10 @@
+public class StepImpl {   
+    //comment
+    public void stepWithComments() {
+        // comment
+        // comment
+        /*
+        comment
+         */
+    }
+}

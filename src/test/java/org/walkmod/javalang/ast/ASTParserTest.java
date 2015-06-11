@@ -71,4 +71,13 @@ public class ASTParserTest {
         Assert.assertNotNull(cu);
         System.out.println(cu.toString());
     }
+	
+	@Test
+    public void testComments() throws Exception {
+        File f = new File("src/test/resources/comments.txt");
+        CompilationUnit cu = ASTManager.parse(f);
+        Assert.assertNotNull(cu);
+        System.out.println(cu.toString());
+        System.out.println(cu.toString());
+    }
 }

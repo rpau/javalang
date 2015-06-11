@@ -687,7 +687,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 	public void visit(CompilationUnit n, Object arg) {
 
 		if (n.getComments() != null) {
-			comments = n.getComments();
+			comments = new LinkedList<Comment>(n.getComments());
 		}
 
 		Iterator<Comment> it = comments.iterator();
