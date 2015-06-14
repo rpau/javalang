@@ -2287,7 +2287,7 @@ Expression CastExpression():
   	  LOOKAHEAD(2)
   	  type = PrimitiveType() ")" ret = UnaryExpression() { type.setAnnotations(annotations); ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
   	|
-  	  type = ReferenceType() { add(secondaryTypes, type); } ("&" st = ReferenceType() { secondaryTypes = add(secondaryTypes, st);} )* ")" 
+  	  type = ReferenceType() { secondaryTypes= add(secondaryTypes, type); } ("&" st = ReferenceType() { secondaryTypes = add(secondaryTypes, st);} )* ")" 
   	  		ret = UnaryExpressionNotPlusMinus() { 
   	  				if(st != null) {
   	  					type = new IntersectionType(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, secondaryTypes); 

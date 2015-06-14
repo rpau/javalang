@@ -2590,10 +2590,14 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 			}
 		}
 		List<ReferenceType> types = n.getBounds();
-		if(types != null){
-			for (ReferenceType ae : n.getBounds()) {
-				printer.print(" & ");
-				ae.accept(this, arg);
+		if (types != null) {
+
+			for (int i = 0; i < types.size(); i++) {
+
+				types.get(i).accept(this, arg);
+				if (i + 1 < types.size()) {
+					printer.print(" & ");
+				}
 			}
 		}
 	}

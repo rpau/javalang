@@ -2767,7 +2767,7 @@ final class ASTParser implements ASTParserConstants {
       case SHORT:
       case IDENTIFIER:
         type = ReferenceType();
-                                   add(secondaryTypes, type);
+                                   secondaryTypes= add(secondaryTypes, type);
         label_52:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2780,7 +2780,7 @@ final class ASTParser implements ASTParserConstants {
           }
           jj_consume_token(BIT_AND);
           st = ReferenceType();
-                                                                                            secondaryTypes = add(secondaryTypes, st);
+                                                                                                            secondaryTypes = add(secondaryTypes, st);
         }
         jj_consume_token(RPAREN);
         ret = UnaryExpressionNotPlusMinus();
@@ -8289,6 +8289,12 @@ List vars;
     return false;
   }
 
+  private boolean jj_3R_201() {
+    if (jj_scan_token(BIT_AND)) return true;
+    if (jj_3R_94()) return true;
+    return false;
+  }
+
   private boolean jj_3R_223() {
     if (jj_scan_token(DOUBLECOLON)) return true;
     Token xsp;
@@ -8374,12 +8380,6 @@ List vars;
 
   private boolean jj_3R_255() {
     if (jj_3R_97()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_201() {
-    if (jj_scan_token(BIT_AND)) return true;
-    if (jj_3R_94()) return true;
     return false;
   }
 
