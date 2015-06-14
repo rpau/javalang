@@ -2275,8 +2275,10 @@ Expression CastExpression():
 	Type type;
 	int line;
 	int column;
+	Type st = null;
 	AnnotationExpr ann;
 	List annotations = null;
+	List secondaryTypes = null;
 }
 {
   "(" {line=token.beginLine; column=token.beginColumn;}
@@ -2285,7 +2287,13 @@ Expression CastExpression():
   	  LOOKAHEAD(2)
   	  type = PrimitiveType() ")" ret = UnaryExpression() { type.setAnnotations(annotations); ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
   	|
-  	  type = ReferenceType() ")" ret = UnaryExpressionNotPlusMinus() { type.setAnnotations(annotations); ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); }
+  	  type = ReferenceType() { add(secondaryTypes, type); } ("&" st = ReferenceType() { secondaryTypes = add(secondaryTypes, st);} )* ")" 
+  	  		ret = UnaryExpressionNotPlusMinus() { 
+  	  				if(st != null) {
+  	  					type = new IntersectionType(type.getBeginLine(), type.getBeginColumn(), token.endLine, token.endColumn, secondaryTypes); 
+  	  				} type.setAnnotations(annotations); 
+  	  				ret = new CastExpr(line, column, token.endLine, token.endColumn,type, ret); 
+			}
   )
   { return ret; }
 }

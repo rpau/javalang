@@ -93,6 +93,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -269,4 +270,6 @@ public interface GenericVisitor<R, A> {
 	public R visit(MethodReferenceExpr n, A arg);
 
 	public R visit(TypeExpr n, A arg);
+	
+	public R visit(IntersectionType n, A arg);
 }

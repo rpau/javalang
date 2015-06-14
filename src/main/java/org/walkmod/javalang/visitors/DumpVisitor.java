@@ -104,6 +104,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -2575,6 +2576,25 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 		printPreviousComments(n, arg);
 		if (n.getType() != null) {
 			n.getType().accept(this, arg);
+		}
+	}
+
+	@Override
+	public void visit(IntersectionType n, Object arg) {
+		prepareComments(n);
+		printPreviousComments(n, arg);
+		if (n.getAnnotations() != null) {
+			for (AnnotationExpr ae : n.getAnnotations()) {
+				printer.print(" ");
+				ae.accept(this, arg);
+			}
+		}
+		List<ReferenceType> types = n.getBounds();
+		if(types != null){
+			for (ReferenceType ae : n.getBounds()) {
+				printer.print(" & ");
+				ae.accept(this, arg);
+			}
 		}
 	}
 }

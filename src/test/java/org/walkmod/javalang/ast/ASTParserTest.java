@@ -99,4 +99,13 @@ public class ASTParserTest {
 
 		System.out.println(cu.getTypes().get(0).getMembers().get(0).toString());
 	}
+	
+	@Test
+	public void testLambdaCast() throws Exception {
+		File f = new File(
+				"src/test/resources/lambdacast-error.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
 }

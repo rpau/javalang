@@ -99,6 +99,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -1206,6 +1207,18 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
 	public Boolean visit(TypeExpr n, Node arg) {
 		TypeExpr n2 = (TypeExpr) arg;
 		if (!nodeEquals(n.getType(), n2.getType())) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public Boolean visit(IntersectionType n1, Node arg) {
+		IntersectionType n2 = (IntersectionType) arg;
+		if (!nodesEquals(n1.getAnnotations(), n2.getAnnotations())) {
+			return Boolean.FALSE;
+		}
+		if (!nodesEquals(n1.getBounds(), n2.getBounds())) {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;

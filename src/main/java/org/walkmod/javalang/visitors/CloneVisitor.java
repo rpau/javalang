@@ -104,6 +104,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -966,6 +967,14 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
 		TypeExpr r = new TypeExpr(n.getBeginLine(), n.getBeginColumn(),
 				n.getEndLine(), n.getEndColumn(), t);
 
+		return r;
+	}
+
+	@Override
+	public Node visit(IntersectionType n, Object arg) {
+		List<ReferenceType> bounds = visit(n.getBounds(), arg);
+		IntersectionType r = new IntersectionType(n.getBeginLine(), n.getBeginColumn(),
+				n.getEndLine(), n.getEndColumn(), bounds);
 		return r;
 	}
 }

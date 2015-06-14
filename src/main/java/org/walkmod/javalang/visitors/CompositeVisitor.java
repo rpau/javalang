@@ -93,6 +93,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -958,5 +959,16 @@ public class CompositeVisitor<VisitorContext> extends
 			postVisitor.visit(n, arg);
 		}
 
+	}
+
+	@Override
+	public void visit(IntersectionType n, VisitorContext arg) {
+		if (preVisitor != null) {
+			preVisitor.visit(n, arg);
+		}
+		super.visit(n, arg);
+		if (postVisitor != null) {
+			postVisitor.visit(n, arg);
+		}
 	}
 }

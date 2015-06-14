@@ -15,14 +15,12 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.visitors;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.walkmod.javalang.ast.BlockComment;
 import org.walkmod.javalang.ast.CompilationUnit;
 import org.walkmod.javalang.ast.ImportDeclaration;
 import org.walkmod.javalang.ast.LineComment;
-import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.PackageDeclaration;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.body.AnnotationDeclaration;
@@ -103,6 +101,7 @@ import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -870,7 +869,7 @@ public abstract class GenericVisitorAdapter<R, A> implements
 	public R visit(LineComment n, A arg) {
 		return null;
 	}
-	
+
 	@Override
 	public R visit(MultiTypeParameter n, A arg) {
 		if (n.getAnnotations() != null) {
@@ -915,6 +914,18 @@ public abstract class GenericVisitorAdapter<R, A> implements
 	public R visit(TypeExpr n, A arg) {
 		if (n.getType() != null) {
 			n.getType().accept(this, arg);
+		}
+		return null;
+	}
+
+	@Override
+	public R visit(IntersectionType n, A arg) {
+		if (n.getBounds() != null) {
+
+			for (final ReferenceType a : n.getBounds()) {
+				a.accept(this, arg);
+			}
+
 		}
 		return null;
 	}

@@ -100,6 +100,7 @@ import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
 import org.walkmod.javalang.ast.type.Type;
@@ -1056,6 +1057,18 @@ public abstract class ModifierVisitorAdapter<A> implements
 						(AnnotationExpr) annotations.get(i).accept(this, arg));
 			}
 			removeNulls(annotations);
+		}
+		return n;
+	}
+	
+	@Override
+	public Node visit(IntersectionType n, A arg) {
+		if (n.getBounds() != null) {
+			List<ReferenceType> bounds = n.getBounds();
+			for (int i = 0; i < bounds.size(); i++) {
+				bounds.set(i, (ReferenceType)bounds.get(i).accept(this, arg));
+			}
+
 		}
 		return n;
 	}

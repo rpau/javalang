@@ -100,6 +100,7 @@ import org.walkmod.javalang.ast.stmt.ThrowStmt;
 import org.walkmod.javalang.ast.stmt.TryStmt;
 import org.walkmod.javalang.ast.stmt.TypeDeclarationStmt;
 import org.walkmod.javalang.ast.stmt.WhileStmt;
+import org.walkmod.javalang.ast.type.IntersectionType;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
 import org.walkmod.javalang.ast.type.PrimitiveType;
 import org.walkmod.javalang.ast.type.ReferenceType;
@@ -829,6 +830,19 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 	public void visit(TypeExpr n, final A arg) {
 		if (n.getType() != null) {
 			n.getType().accept(this, arg);
+		}
+	}
+
+	public void visit(IntersectionType n, A arg) {
+		if(n.getAnnotations() != null){
+			for (final AnnotationExpr ae: n.getAnnotations()){
+				ae.accept(this, arg);
+			}
+		}
+		if(n.getBounds() != null){
+			for(final ReferenceType t: n.getBounds()){
+				t.accept(this, arg);
+			}
 		}
 	}
 }
