@@ -108,4 +108,32 @@ public class ASTParserTest {
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
 	}
+	
+	@Test
+	public void testConditionalLambda() throws Exception{
+		File f = new File(
+				"src/test/resources/lambda-failure-conditional.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+	
+	
+	@Test
+	public void testConditionalLambda2() throws Exception{
+		File f = new File(
+				"src/test/resources/lambda-failure-conditional2.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
+	
+	@Test
+	public void testConditionalLambda3() throws Exception{
+		File f = new File(
+				"src/test/resources/lambda-failure-conditional3.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		Assert.assertNotNull(cu);
+		System.out.println(cu.toString());
+	}
 }

@@ -1,0 +1,5 @@
+public class A{
+	static <T> Predicate<T> isEqual(Object targetRef) {
+	    return (object -> targetRef.equals(object) != null)? object -> targetRef.equals(object) : Objects::isNull;
+	}
+}
