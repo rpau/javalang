@@ -138,6 +138,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
    public void setComments(List<Comment> comments) {
       this.comments = comments;
+      initializedComments = true;
    }
 
    public void setIndentationLevel(int level) {
