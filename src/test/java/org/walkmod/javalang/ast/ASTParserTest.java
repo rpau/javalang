@@ -16,10 +16,16 @@
 package org.walkmod.javalang.ast;
 
 import java.io.File;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.walkmod.javalang.ASTManager;
-import org.walkmod.javalang.ast.CompilationUnit;
+import org.walkmod.javalang.ast.body.MethodDeclaration;
+import org.walkmod.javalang.ast.expr.Expression;
+import org.walkmod.javalang.ast.expr.MethodCallExpr;
+import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
+import org.walkmod.javalang.ast.stmt.ReturnStmt;
 
 public class ASTParserTest {
 
@@ -135,5 +141,24 @@ public class ASTParserTest {
 		CompilationUnit cu = ASTManager.parse(f);
 		Assert.assertNotNull(cu);
 		System.out.println(cu.toString());
+	}
+	
+	
+	@Test
+	public void testPositionsOnMethodReferences() throws Exception{
+		File f = new File(
+				"src/test/resources/methodReferenceFailureNodePositions.txt");
+		CompilationUnit cu = ASTManager.parse(f);
+		MethodDeclaration md = (MethodDeclaration)cu.getTypes().get(0).getMembers().get(1);
+		ReturnStmt returnStmt = (ReturnStmt)md.getBody().getStmts().get(0);
+		MethodCallExpr expr = (MethodCallExpr)returnStmt.getExpr();
+		List<Expression> expressions = expr.getArgs();
+		expr = (MethodCallExpr)expressions.get(0);
+		expressions = expr.getArgs();
+		int pos = expr.getBeginColumn();
+		for(Expression arg: expressions){
+			Assert.assertTrue(arg.getBeginColumn() > pos);
+			pos = arg.getBeginColumn();
+		}
 	}
 }

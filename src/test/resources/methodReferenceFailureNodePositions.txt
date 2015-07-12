@@ -1,0 +1,17 @@
+package lambdasinaction.chap6;
+
+import static java.util.stream.Collectors.*;
+import static lambdasinaction.chap6.Dish.menu;
+
+public class Reducing {
+
+    public static void main(String ... args) {
+        System.out.println("Total calories in menu: " + calculateTotalCaloriesWithMethodReference());
+    }
+
+   
+    private static int calculateTotalCaloriesWithMethodReference() {
+        return menu.stream().collect(reducing(0, Dish::getCalories, Integer::sum));
+    }
+
+}

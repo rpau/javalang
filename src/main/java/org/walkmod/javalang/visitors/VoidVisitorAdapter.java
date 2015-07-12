@@ -709,6 +709,12 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 	}
 
 	public void visit(TryStmt n, A arg) {
+		List<VariableDeclarationExpr> resources = n.getResources();
+		if(resources != null){
+			for(VariableDeclarationExpr resource: resources){
+				resource.accept(this, arg);
+			}
+		}
 		n.getTryBlock().accept(this, arg);
 		if (n.getCatchs() != null) {
 			for (CatchClause c : n.getCatchs()) {

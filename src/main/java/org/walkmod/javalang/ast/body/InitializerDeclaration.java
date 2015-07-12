@@ -96,10 +96,5 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 				BlockStmt.class));
 
 	}
-	
-	@Override
-	public TypeDeclaration getParentNode(){
-		return (TypeDeclaration) super.getParentNode();
-	}
 
 }

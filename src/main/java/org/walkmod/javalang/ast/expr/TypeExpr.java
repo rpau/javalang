@@ -35,6 +35,7 @@ public class TypeExpr extends Expression {
 
 	public TypeExpr(int beginLine, int beginColumn, int endLine, int endColumn,
 			Type type) {
+		super(beginLine, beginColumn, endLine, endColumn);
 		setType(type);
 	}
 
