@@ -24,7 +24,6 @@ import org.walkmod.javalang.ASTManager;
 import org.walkmod.javalang.ast.body.MethodDeclaration;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.expr.MethodCallExpr;
-import org.walkmod.javalang.ast.expr.MethodReferenceExpr;
 import org.walkmod.javalang.ast.stmt.ReturnStmt;
 
 public class ASTParserTest {

@@ -345,8 +345,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
                   for (int i = start; i < end; i++) {
                      printer.printLn();
                   }
-               } else {
-                  printer.printLn();
                }
             } else {
                previous = comments.get(comments.size() - 1);
