@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.walkmod</groupId>
 	<artifactId>javalang</artifactId>
-	<version>4.2.2</version>
+	<version>4.2.3</version>
 	<description>Java 8 parser library</description>
 	<url>https://github.com/rpau/javalang</url>
 	<licenses>
