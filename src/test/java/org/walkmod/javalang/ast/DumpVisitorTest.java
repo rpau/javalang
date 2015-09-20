@@ -21,5 +21,12 @@ public class DumpVisitorTest {
 		String s = md.toString();
 		Assert.assertTrue(s.indexOf('\n') == -1);
 	}
+	
+	@Test
+	public void testIssue13() throws Exception {
+		CompilationUnit cu = ASTManager.parse("public enum A{B{};}");
+		System.out.println(cu.toString());
+		Assert.assertTrue(true);
+	}
 
 }

@@ -321,7 +321,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
       if (sepChar == null) {
          if (previous == null || !(previous instanceof SwitchEntryStmt)) {
             if (!parent.isNewNode()) {
-               if (parent.getEndLine() != previous.getEndLine()) {
+               if (previous != null && parent.getEndLine() != previous.getEndLine()) {
                   printer.printLn();
                }
             } else {
