@@ -472,6 +472,11 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
                it.remove();
             }
+            else if(c.isNewNode() && !(c instanceof JavadocComment)){
+            	 c.accept(this, arg);
+                 printedComments.add(c);
+                 it.remove();
+            }
          }
          if (previous != null && !previous.isNewNode()) {
             addEntersBetween(previous, n);
