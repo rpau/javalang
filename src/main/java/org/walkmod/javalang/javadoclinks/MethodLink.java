@@ -17,7 +17,7 @@ package org.walkmod.javalang.javadoclinks;
 
 import java.util.List;
 
-public class MethodLink {
+public class MethodLink implements Link {
 
 	private String className;
 	

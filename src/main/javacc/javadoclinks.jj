@@ -26,6 +26,11 @@ public class JavadocLinkParser
         return parser.methodlink();
     }
     
+    public static FieldLink parseField(String expr) throws ParseException{
+        String[] parts = expr.split("#", 2);
+        return new FieldLink(parts[0], parts[1]);
+    }
+    
     public static MethodLink parse(String expr) throws ParseException {
       MethodLink result = null;
         ByteArrayInputStream aux = new ByteArrayInputStream(expr.getBytes());

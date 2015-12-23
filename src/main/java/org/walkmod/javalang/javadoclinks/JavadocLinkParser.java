@@ -15,6 +15,8 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
 		// parse!
 		return parser.methodlink();
 	}
+	
+	
 
 	public MethodLink main(String[] args) throws ParseException, FileNotFoundException {
 		return parse(new FileInputStream(args[0]));
@@ -32,6 +34,11 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
 			}
 		}
 		return result;
+	}
+	
+	public static FieldLink parseField(String expr) throws ParseException{
+		String[] parts = expr.split("#", 2);
+		return new FieldLink(parts[0], parts[1]);
 	}
 
 	final public MethodLink methodlink() throws ParseException {

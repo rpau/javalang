@@ -1,10 +1,5 @@
 package org.walkmod.javalang.javadoclinks;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -59,5 +54,19 @@ public class JavadocLinksParserTest {
 		Assert.assertEquals("", ml.getClassName());
 		Assert.assertEquals("bar", ml.getName());
 		Assert.assertEquals(2, ml.getArguments().size());
+	}
+	
+	@Test
+	public void testParseField() throws ParseException{
+		FieldLink fl = JavadocLinkParser.parseField("org.walkmod.Foo#bar");
+		Assert.assertEquals("org.walkmod.Foo", fl.getClassName());
+		Assert.assertEquals("bar", fl.getName());
+	}
+	
+	@Test
+	public void testParseAnyField() throws ParseException{
+		FieldLink fl = JavadocLinkParser.parseField("#bar");
+		Assert.assertEquals("", fl.getClassName());
+		Assert.assertEquals("bar", fl.getName());
 	}
 }
