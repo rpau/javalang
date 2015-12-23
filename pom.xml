@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.walkmod</groupId>
 	<artifactId>javalang</artifactId>
-	<version>4.2.6</version>
+	<version>4.3.0</version>
 	<description>Java 8 parser library</description>
 	<url>https://github.com/rpau/javalang</url>
 	<licenses>
@@ -58,9 +58,19 @@
 				</executions>
 			</plugin>
 
-			<!-- plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javacc-maven-plugin</artifactId> 
-				<version>2.6</version> <executions> <execution> <id>javacc</id> <goals> <goal>javacc</goal> 
-				</goals> </execution> </executions> </plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 	</build>
@@ -73,7 +83,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -95,40 +105,40 @@
 					<systemPath>${java.home}/../lib/tools.jar</systemPath>
 				</dependency>
 			</dependencies>
-			
+
 		</profile>
 		<profile>
-				<id>jdk8</id>
-				<activation>
-					<jdk>[1.8,)</jdk>
-				</activation>
-				<!-- Disable doclint under JDK 8 -->
-				<!-- This is defined in guava-parent as well, but we need it here too 
-					because the <additionalparam> from the maven-javadoc-plugin configuration 
-					above seems to override the one from the parent pom. -->
-				<reporting>
-					<plugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<configuration>
-								<additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
-							</configuration>
-						</plugin>
-					</plugins>
-				</reporting>
-				<build>
-					<plugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<configuration>
-								<additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
-							</configuration>
-						</plugin>
-					</plugins>
-				</build>
-			</profile>
+			<id>jdk8</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<!-- Disable doclint under JDK 8 -->
+			<!-- This is defined in guava-parent as well, but we need it here too 
+				because the <additionalparam> from the maven-javadoc-plugin configuration 
+				above seems to override the one from the parent pom. -->
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+						</configuration>
+					</plugin>
+				</plugins>
+			</reporting>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 	<name>javalang</name>
 	<scm>

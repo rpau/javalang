@@ -5,7 +5,7 @@ image:https://travis-ci.org/rpau/javalang.svg?branch=master["Build Status", link
 
 Java 8 parser and Abstract Syntax Tree (AST). Therefore, *lambda expressions*, *reference expressions*, *type annotations* and *default* methods are supported.
 
-The AST contains the source code structure, javadoc and comments. It also allows to parse Javadoc tags. 
+The AST contains the source code structure, javadoc and comments. It also allows to parse Javadoc tags and the Java code links. 
 
 This parser is based on Sreenivasa Viswanadha's Java 1.5 parser.
 
@@ -35,7 +35,7 @@ If you are interested in creating a new http://www.walkmod.com[walkmod] plugin f
 <dependency>
     <groupId>org.walkmod</groupId>
     <artifactId>javalang</artifactId>
-    <version>3.0.0</version>
+    <version>4.3.0</version>
 </dependency>
 ----
 
