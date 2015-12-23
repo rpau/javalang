@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.LinkedList;
+import java.io.ByteArrayInputStream;
 
 /** Token Manager. */
 public class JavadocLinkParserTokenManager implements JavadocLinkParserConstants

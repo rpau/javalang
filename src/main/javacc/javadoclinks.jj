@@ -26,9 +26,26 @@ public class JavadocLinkParser
         return parser.methodlink();
     }
     
+     public static FieldLink parseField(InputStream aInSt) throws ParseException {
+        // create a parser (this object)
+        JavadocLinkParser parser = new JavadocLinkParser(aInSt);
+        // parse!
+        return parser.fieldlink();
+    }
+    
     public static FieldLink parseField(String expr) throws ParseException{
-        String[] parts = expr.split("#", 2);
-        return new FieldLink(parts[0], parts[1]);
+       FieldLink result = null;
+        ByteArrayInputStream aux = new ByteArrayInputStream(expr.getBytes());
+        try{
+          result =  parseField(aux);
+        }
+        finally{
+          try{
+            aux.close();
+          }catch(Exception e){
+          }
+        }
+        return result;
     }
     
     public static MethodLink parse(String expr) throws ParseException {
@@ -777,6 +794,17 @@ MethodLink methodlink() :
     ([className = type()] <SEPARATOR> <IDENTIFIER> {methodName = token.image; } <OPENPAR> [aux=type() {params.add(aux); } (<COMMA> aux=type() {params.add(aux); })*] <CLOSEPAR><EOF>)
     
     { return new MethodLink(className, methodName, params); }
+}
+
+FieldLink fieldlink() :
+{
+    String className = "";
+    String fieldName = "";
+}
+{    
+    ([className = type()] <SEPARATOR> <IDENTIFIER> {fieldName = token.image; } <EOF>)
+    
+    { return new FieldLink(className, fieldName); }
 }
 
 String type():
