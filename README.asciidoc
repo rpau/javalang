@@ -2,6 +2,7 @@ javalang: Java 8 parser customized for walkmod
 ==============================================
 
 image:https://travis-ci.org/rpau/javalang.svg?branch=master["Build Status", link="https://travis-ci.org/rpau/javalang"]
+image:http://walkmod.com/pulls/rpau/javalang/master/status.svg["Build Status", link="http://walkmod.com/rpau"]
 
 Java 8 parser and Abstract Syntax Tree (AST). Therefore, *lambda expressions*, *reference expressions*, *type annotations* and *default* methods are supported.
 
