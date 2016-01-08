@@ -11,7 +11,7 @@ This parser is based on Sreenivasa Viswanadha's Java 1.5 parser.
 
 The project was originally hosted at http://code.google.com/p/javaparser[javaparser] but 
 seemed dead. This repository adds powerful parsing functionalities for http://www.walkmod.com[walkmod] such 
-as AST merge support or Javadoc parsing.
+as AST merge support, AST dumping as the original format or Javadoc parsing.
 
 ----
 	This program is free software: you can redistribute it and/or modify
