@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.ConstructorSymbolData;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -277,5 +278,20 @@ public final class ConstructorDeclaration extends BodyDeclaration implements
 	@Override
 	public TypeDeclaration getParentNode(){
 		return (TypeDeclaration) super.getParentNode();
+	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+	   boolean update = super.replaceChildNode(oldChild, newChild);
+	   if(!update){
+	      update = replaceChildNodeInList(oldChild, newChild, parameters);
+	      if(!update){
+	         update = replaceChildNodeInList(oldChild, newChild, typeParameters);
+	         if(!update){
+	            update = replaceChildNodeInList(oldChild, newChild, throws_);
+	         }
+	      }
+	   }
+	   return update;
 	}
 }

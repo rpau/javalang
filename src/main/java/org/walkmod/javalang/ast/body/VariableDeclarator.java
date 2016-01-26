@@ -32,138 +32,151 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class VariableDeclarator extends Node implements
-		Mergeable<VariableDeclarator>, SymbolDefinition {
+public final class VariableDeclarator extends Node implements Mergeable<VariableDeclarator>, SymbolDefinition {
 
-	private VariableDeclaratorId id;
+   private VariableDeclaratorId id;
 
-	private Expression init;
+   private Expression init;
 
-	private List<SymbolReference> usages;
+   private List<SymbolReference> usages;
 
-	private List<SymbolReference> bodyReferences;
+   private List<SymbolReference> bodyReferences;
 
-	private int scopeLevel;
+   private int scopeLevel;
 
-	public VariableDeclarator() {
-	}
+   public VariableDeclarator() {
+   }
 
-	public VariableDeclarator(VariableDeclaratorId id) {
-		setId(id);
-	}
+   public VariableDeclarator(VariableDeclaratorId id) {
+      setId(id);
+   }
 
-	public VariableDeclarator(VariableDeclaratorId id, Expression init) {
-		setId(id);
-		setInit(init);
-	}
+   public VariableDeclarator(VariableDeclaratorId id, Expression init) {
+      setId(id);
+      setInit(init);
+   }
 
-	public VariableDeclarator(int beginLine, int beginColumn, int endLine,
-			int endColumn, VariableDeclaratorId id, Expression init) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setId(id);
-		setInit(init);
-	}
+   public VariableDeclarator(int beginLine, int beginColumn, int endLine, int endColumn, VariableDeclaratorId id,
+         Expression init) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setId(id);
+      setInit(init);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public VariableDeclaratorId getId() {
-		return id;
-	}
+   public VariableDeclaratorId getId() {
+      return id;
+   }
 
-	public Expression getInit() {
-		return init;
-	}
+   public Expression getInit() {
+      return init;
+   }
 
-	public void setId(VariableDeclaratorId id) {
-		this.id = id;
-		setAsParentNodeOf(id);
-	}
+   public void setId(VariableDeclaratorId id) {
+      this.id = id;
+      setAsParentNodeOf(id);
+   }
 
-	public void setInit(Expression init) {
-		this.init = init;
-		setAsParentNodeOf(init);
-	}
+   public void setInit(Expression init) {
+      this.init = init;
+      setAsParentNodeOf(init);
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		// TODO pensar si es un singleton o un atributo estatico de la clase
-		return new VariableDeclaratorComparator();
-	}
+   @Override
+   public Comparator<?> getIdentityComparator() {
+      // TODO pensar si es un singleton o un atributo estatico de la clase
+      return new VariableDeclaratorComparator();
+   }
 
-	@Override
-	public void merge(VariableDeclarator remote, MergeEngine configuration) {
-		setInit((Expression) configuration.apply(getInit(), remote.getInit(),
-				Expression.class));
-		setId((VariableDeclaratorId) configuration.apply(getId(),
-				remote.getId(), VariableDeclaratorId.class));
+   @Override
+   public void merge(VariableDeclarator remote, MergeEngine configuration) {
+      setInit((Expression) configuration.apply(getInit(), remote.getInit(), Expression.class));
+      setId((VariableDeclaratorId) configuration.apply(getId(), remote.getId(), VariableDeclaratorId.class));
 
-	}
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return bodyReferences;
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return bodyReferences;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		this.bodyReferences = bodyReferences;
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      this.bodyReferences = bodyReferences;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		if (bodyReference != null) {
-			SymbolDefinition definition = bodyReference.getSymbolDefinition();
-			if (definition != null) {
-				int scope = definition.getScopeLevel();
-				if (scope <= scopeLevel) {
-					if (bodyReferences == null) {
-						bodyReferences = new LinkedList<SymbolReference>();
-					}
-					return bodyReferences.add(bodyReference);
-				}
-			}
-		}
-		return false;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      if (bodyReference != null) {
+         SymbolDefinition definition = bodyReference.getSymbolDefinition();
+         if (definition != null) {
+            int scope = definition.getScopeLevel();
+            if (scope <= scopeLevel) {
+               if (bodyReferences == null) {
+                  bodyReferences = new LinkedList<SymbolReference>();
+               }
+               return bodyReferences.add(bodyReference);
+            }
+         }
+      }
+      return false;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
 
-	}
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = false;
+
+      if(oldChild == id){
+         id= (VariableDeclaratorId) newChild;
+         update = true;
+      }
+      if(!update){
+         if(init == oldChild){
+            init = (Expression) newChild;
+         }
+      }
+      return update;
+   }
 }

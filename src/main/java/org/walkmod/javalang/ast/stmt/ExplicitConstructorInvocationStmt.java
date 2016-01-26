@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -99,4 +100,21 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 		this.typeArgs = typeArgs;
 		setAsParentNodeOf(typeArgs);
 	}
+
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == expr){
+         expr = (Expression) newChild;
+         updated = true;
+      }
+      if(!updated){
+         updated = replaceChildNodeInList(oldChild, newChild, args);
+         
+         if(!updated){
+            updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
+         }
+      }
+      return updated;
+   }
 }

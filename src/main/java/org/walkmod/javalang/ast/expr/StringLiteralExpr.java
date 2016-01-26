@@ -16,6 +16,7 @@
 
 package org.walkmod.javalang.ast.expr;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -101,4 +102,9 @@ public class StringLiteralExpr extends LiteralExpr {
 	private static String hex(char ch) {
 		return Integer.toHexString(ch).toUpperCase();
 	}
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+     return false;
+   }
 }

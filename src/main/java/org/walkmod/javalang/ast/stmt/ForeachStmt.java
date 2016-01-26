@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -86,4 +87,26 @@ public final class ForeachStmt extends Statement {
 		this.var = var;
 		setAsParentNodeOf(var);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == iterable){
+         iterable = (Expression) newChild;
+         updated = true;
+      }
+      if(!updated){
+         if(oldChild == var){
+            var = (VariableDeclarationExpr) newChild;
+            updated = true;
+         }
+         if(!updated){
+            if(oldChild == body){
+               body = (Statement) newChild;
+               updated = true;
+            }
+         }
+      }
+      return updated;
+   }
 }

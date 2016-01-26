@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -26,81 +27,103 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class TryStmt extends Statement {
 
-	private List<VariableDeclarationExpr> resources;
+   private List<VariableDeclarationExpr> resources;
 
-	private BlockStmt tryBlock;
+   private BlockStmt tryBlock;
 
-	private List<CatchClause> catchs;
+   private List<CatchClause> catchs;
 
-	private BlockStmt finallyBlock;
+   private BlockStmt finallyBlock;
 
-	public TryStmt() {
-	}
+   public TryStmt() {
+   }
 
-	public TryStmt(final BlockStmt tryBlock, final List<CatchClause> catchs,
-			final BlockStmt finallyBlock) {
-		setTryBlock(tryBlock);
-		setCatchs(catchs);
-		setFinallyBlock(finallyBlock);
-	}
+   public TryStmt(final BlockStmt tryBlock, final List<CatchClause> catchs, final BlockStmt finallyBlock) {
+      setTryBlock(tryBlock);
+      setCatchs(catchs);
+      setFinallyBlock(finallyBlock);
+   }
 
-	public TryStmt(final int beginLine, final int beginColumn,
-			final int endLine, final int endColumn,
-			List<VariableDeclarationExpr> resources, final BlockStmt tryBlock,
-			final List<CatchClause> catchs, final BlockStmt finallyBlock) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setResources(resources);
-		setTryBlock(tryBlock);
-		setCatchs(catchs);
-		setFinallyBlock(finallyBlock);
-	}
+   public TryStmt(final int beginLine, final int beginColumn, final int endLine, final int endColumn,
+         List<VariableDeclarationExpr> resources, final BlockStmt tryBlock, final List<CatchClause> catchs,
+         final BlockStmt finallyBlock) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setResources(resources);
+      setTryBlock(tryBlock);
+      setCatchs(catchs);
+      setFinallyBlock(finallyBlock);
+   }
 
-	@Override
-	public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(final VoidVisitor<A> v, final A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(final VoidVisitor<A> v, final A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<CatchClause> getCatchs() {
-		return catchs;
-	}
+   public List<CatchClause> getCatchs() {
+      return catchs;
+   }
 
-	public BlockStmt getFinallyBlock() {
-		return finallyBlock;
-	}
+   public BlockStmt getFinallyBlock() {
+      return finallyBlock;
+   }
 
-	public BlockStmt getTryBlock() {
-		return tryBlock;
-	}
+   public BlockStmt getTryBlock() {
+      return tryBlock;
+   }
 
-	public List<VariableDeclarationExpr> getResources() {
-		return resources;
-	}
+   public List<VariableDeclarationExpr> getResources() {
+      return resources;
+   }
 
-	public void setCatchs(List<CatchClause> catchs) {
-		this.catchs = catchs;
-		setAsParentNodeOf(catchs);
+   public void setCatchs(List<CatchClause> catchs) {
+      this.catchs = catchs;
+      setAsParentNodeOf(catchs);
 
-	}
+   }
 
-	public void setFinallyBlock(BlockStmt finallyBlock) {
-		this.finallyBlock = finallyBlock;
-		setAsParentNodeOf(finallyBlock);
+   public void setFinallyBlock(BlockStmt finallyBlock) {
+      this.finallyBlock = finallyBlock;
+      setAsParentNodeOf(finallyBlock);
 
-	}
+   }
 
-	public void setTryBlock(BlockStmt tryBlock) {
-		this.tryBlock = tryBlock;
-		setAsParentNodeOf(tryBlock);
+   public void setTryBlock(BlockStmt tryBlock) {
+      this.tryBlock = tryBlock;
+      setAsParentNodeOf(tryBlock);
 
-	}
+   }
 
-	public void setResources(List<VariableDeclarationExpr> resources) {
-		this.resources = resources;
-		setAsParentNodeOf(resources);
-	}
+   public void setResources(List<VariableDeclarationExpr> resources) {
+      this.resources = resources;
+      setAsParentNodeOf(resources);
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if (oldChild == tryBlock) {
+         tryBlock = (BlockStmt) newChild;
+         updated = true;
+      }
+      if (!updated) {
+         if (oldChild == finallyBlock) {
+            finallyBlock = (BlockStmt) newChild;
+            updated = true;
+         }
+         if (!updated) {
+            updated = replaceChildNodeInList(oldChild, newChild, catchs);
+
+            if (!updated) {
+               updated = replaceChildNodeInList(oldChild, newChild, resources);
+            }
+         }
+      }
+
+      return updated;
+   }
 }

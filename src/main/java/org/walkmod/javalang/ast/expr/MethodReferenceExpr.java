@@ -18,6 +18,7 @@ package org.walkmod.javalang.ast.expr;
 import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -26,8 +27,8 @@ import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
 /**
- * Method reference expressions introduced in Java 8 specifically designed to
- * simplify lambda Expressions. These are some examples:
+ * Method reference expressions introduced in Java 8 specifically designed to simplify lambda
+ * Expressions. These are some examples:
  * 
  * System.out::println;
  * 
@@ -36,101 +37,112 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * @author Raquel Pau
  *
  */
-public class MethodReferenceExpr extends Expression implements SymbolReference{
+public class MethodReferenceExpr extends Expression implements SymbolReference {
 
-	private Expression scope;
+   private Expression scope;
 
-	private List<TypeParameter> typeParameters;
+   private List<TypeParameter> typeParameters;
 
-	private String identifier;
+   private String identifier;
 
-	private MethodSymbolData referencedMethodSymbolData;
+   private MethodSymbolData referencedMethodSymbolData;
 
-	private SymbolData[] referencedArgsSymbolData;
-	
-	private SymbolDefinition symbolDefinition;
+   private SymbolData[] referencedArgsSymbolData;
 
-	public MethodReferenceExpr() {
-	}
+   private SymbolDefinition symbolDefinition;
 
-	public MethodReferenceExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression scope,
-			List<TypeParameter> typeParameters, String identifier) {
+   public MethodReferenceExpr() {
+   }
 
-		super(beginLine, beginColumn, endLine, endColumn);
-		setScope(scope);
-		setTypeParameters(typeParameters);
-		this.identifier = identifier;
-	}
+   public MethodReferenceExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
+         List<TypeParameter> typeParameters, String identifier) {
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setScope(scope);
+      setTypeParameters(typeParameters);
+      this.identifier = identifier;
+   }
 
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+      return v.visit(this, arg);
+   }
 
-	public Expression getScope() {
-		return scope;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public void setScope(Expression scope) {
-		this.scope = scope;
-		setAsParentNodeOf(scope);
-	}
+   public Expression getScope() {
+      return scope;
+   }
 
-	public List<TypeParameter> getTypeParameters() {
-		return typeParameters;
-	}
+   public void setScope(Expression scope) {
+      this.scope = scope;
+      setAsParentNodeOf(scope);
+   }
 
-	public void setTypeParameters(List<TypeParameter> typeParameters) {
-		this.typeParameters = typeParameters;
-		setAsParentNodeOf(typeParameters);
-	}
+   public List<TypeParameter> getTypeParameters() {
+      return typeParameters;
+   }
 
-	public String getIdentifier() {
-		return identifier;
-	}
+   public void setTypeParameters(List<TypeParameter> typeParameters) {
+      this.typeParameters = typeParameters;
+      setAsParentNodeOf(typeParameters);
+   }
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
+   public String getIdentifier() {
+      return identifier;
+   }
 
-	@Override
-	public SymbolData getSymbolData() {
-		return super.getSymbolData();
-	}
+   public void setIdentifier(String identifier) {
+      this.identifier = identifier;
+   }
 
-	public MethodSymbolData getReferencedMethodSymbolData() {
-		return referencedMethodSymbolData;
-	}
+   @Override
+   public SymbolData getSymbolData() {
+      return super.getSymbolData();
+   }
 
-	public void setReferencedMethodSymbolData(
-			MethodSymbolData referencedMethodSymbolData) {
-		this.referencedMethodSymbolData = referencedMethodSymbolData;
-	}
+   public MethodSymbolData getReferencedMethodSymbolData() {
+      return referencedMethodSymbolData;
+   }
 
-	public SymbolData[] getReferencedArgsSymbolData() {
-		return referencedArgsSymbolData;
-	}
+   public void setReferencedMethodSymbolData(MethodSymbolData referencedMethodSymbolData) {
+      this.referencedMethodSymbolData = referencedMethodSymbolData;
+   }
 
-	public void setReferencedArgsSymbolData(
-			SymbolData[] referencedArgsSymbolData) {
-		this.referencedArgsSymbolData = referencedArgsSymbolData;
-	}
-	
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return symbolDefinition;
-	}
+   public SymbolData[] getReferencedArgsSymbolData() {
+      return referencedArgsSymbolData;
+   }
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-		this.symbolDefinition = symbolDefinition;
-	}
+   public void setReferencedArgsSymbolData(SymbolData[] referencedArgsSymbolData) {
+      this.referencedArgsSymbolData = referencedArgsSymbolData;
+   }
+
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return symbolDefinition;
+   }
+
+   @Override
+   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+      this.symbolDefinition = symbolDefinition;
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if (oldChild == scope) {
+         scope = (Expression) newChild;
+         updated = true;
+      }
+      if (!updated) {
+         updated = replaceChildNodeInList(oldChild, newChild, typeParameters);
+
+      }
+      return updated;
+   }
 
 }

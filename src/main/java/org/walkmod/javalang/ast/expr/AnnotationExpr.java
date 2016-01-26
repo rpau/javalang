@@ -18,6 +18,7 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.Comparator;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.comparators.AnnotationExprComparator;
@@ -26,51 +27,57 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public abstract class AnnotationExpr extends Expression implements
-		Mergeable<AnnotationExpr>, SymbolReference {
+public abstract class AnnotationExpr extends Expression implements Mergeable<AnnotationExpr>, SymbolReference {
 
-	protected NameExpr name;
-	
-	private SymbolDefinition symbolDefinition;
+   protected NameExpr name;
 
-	public AnnotationExpr() {
-	}
+   private SymbolDefinition symbolDefinition;
 
-	public AnnotationExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
+   public AnnotationExpr() {
+   }
 
-	public NameExpr getName() {
-		return name;
-	}
+   public AnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn) {
+      super(beginLine, beginColumn, endLine, endColumn);
+   }
 
-	public void setName(NameExpr name) {
-		this.name = name;
-		setAsParentNodeOf(name);
-	}
+   public NameExpr getName() {
+      return name;
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new AnnotationExprComparator();
-	}
+   public void setName(NameExpr name) {
+      this.name = name;
+      setAsParentNodeOf(name);
+   }
 
-	@Override
-	public String getPrettySource(char indentationChar, int indentationLevel,
-			int indentationSize) {
-		String text = super.getPrettySource(indentationChar, 0, 0);
-		text += " ";
+   @Override
+   public Comparator<?> getIdentityComparator() {
+      return new AnnotationExprComparator();
+   }
 
-		return text;
-	}
-	
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return symbolDefinition;
-	}
+   @Override
+   public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
+      String text = super.getPrettySource(indentationChar, 0, 0);
+      text += " ";
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-		this.symbolDefinition = symbolDefinition;
-	}
+      return text;
+   }
+
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return symbolDefinition;
+   }
+
+   @Override
+   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+      this.symbolDefinition = symbolDefinition;
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      if(name == oldChild){
+         name = (NameExpr) newChild;
+         return true;
+      }
+      return false;
+   }
 }

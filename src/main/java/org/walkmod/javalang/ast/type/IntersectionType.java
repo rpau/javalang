@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.type;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -56,4 +57,8 @@ public class IntersectionType extends Type {
       setAsParentNodeOf(bounds);
    }
 
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return super.replaceChildNode(oldChild, newChild);
+   }
 }

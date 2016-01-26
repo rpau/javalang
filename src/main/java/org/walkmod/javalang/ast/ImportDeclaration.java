@@ -205,4 +205,13 @@ public final class ImportDeclaration extends Node implements
 
 	}
 
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      if(oldChild == name){
+         name = (NameExpr) newChild;
+         return true;
+      }
+      return false;
+   }
+
 }

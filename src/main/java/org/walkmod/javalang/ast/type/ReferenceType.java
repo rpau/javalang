@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.type;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -26,87 +27,100 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ReferenceType extends Type {
 
-	private Type type;
+   private Type type;
 
-	private int arrayCount;
+   private int arrayCount;
 
-	private List<List<AnnotationExpr>> arraysAnnotations;
+   private List<List<AnnotationExpr>> arraysAnnotations;
 
-	public ReferenceType() {
-	}
+   public ReferenceType() {
+   }
 
-	public ReferenceType(Type type) {
-		setType(type);
-	}
+   public ReferenceType(Type type) {
+      setType(type);
+   }
 
-	public ReferenceType(Type type, int arrayCount) {
-		setType(type);
-		this.arrayCount = arrayCount;
-	}
+   public ReferenceType(Type type, int arrayCount) {
+      setType(type);
+      this.arrayCount = arrayCount;
+   }
 
-	public ReferenceType(Type type, int arrayCount,
-			List<AnnotationExpr> annotations) {
-		super(annotations);
-		setType(type);
-		this.arrayCount = arrayCount;
-	}
+   public ReferenceType(Type type, int arrayCount, List<AnnotationExpr> annotations) {
+      super(annotations);
+      setType(type);
+      this.arrayCount = arrayCount;
+   }
 
-	public ReferenceType(int beginLine, int beginColumn, int endLine,
-			int endColumn, Type type, int arrayCount) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setType(type);
-		this.arrayCount = arrayCount;
-	}
+   public ReferenceType(int beginLine, int beginColumn, int endLine, int endColumn, Type type, int arrayCount) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setType(type);
+      this.arrayCount = arrayCount;
+   }
 
-	public ReferenceType(int beginLine, int beginColumn, int endLine,
-			int endColumn, Type type, int arrayCount,
-			List<AnnotationExpr> annotations,
-			List<List<AnnotationExpr>> arraysAnnotations) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		setType(type);
-		this.arrayCount = arrayCount;
-		setArraysAnnotations(arraysAnnotations);
-	}
+   public ReferenceType(int beginLine, int beginColumn, int endLine, int endColumn, Type type, int arrayCount,
+         List<AnnotationExpr> annotations, List<List<AnnotationExpr>> arraysAnnotations) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations);
+      setType(type);
+      this.arrayCount = arrayCount;
+      setArraysAnnotations(arraysAnnotations);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public int getArrayCount() {
-		return arrayCount;
-	}
+   public int getArrayCount() {
+      return arrayCount;
+   }
 
-	public Type getType() {
-		return type;
-	}
+   public Type getType() {
+      return type;
+   }
 
-	public void setArrayCount(int arrayCount) {
-		this.arrayCount = arrayCount;
-	}
+   public void setArrayCount(int arrayCount) {
+      this.arrayCount = arrayCount;
+   }
 
-	public void setType(Type type) {
-		this.type = type;
-		setAsParentNodeOf(type);
-	}
+   public void setType(Type type) {
+      this.type = type;
+      setAsParentNodeOf(type);
+   }
 
-	public List<List<AnnotationExpr>> getArraysAnnotations() {
-		return arraysAnnotations;
-	}
+   public List<List<AnnotationExpr>> getArraysAnnotations() {
+      return arraysAnnotations;
+   }
 
-	public void setArraysAnnotations(
-			List<List<AnnotationExpr>> arraysAnnotations) {
-		this.arraysAnnotations = arraysAnnotations;
-		if(arraysAnnotations != null){
-			for(List<AnnotationExpr> ann: arraysAnnotations){
-				setAsParentNodeOf(ann);
-			}
-		}
-	}
+   public void setArraysAnnotations(List<List<AnnotationExpr>> arraysAnnotations) {
+      this.arraysAnnotations = arraysAnnotations;
+      if (arraysAnnotations != null) {
+         for (List<AnnotationExpr> ann : arraysAnnotations) {
+            setAsParentNodeOf(ann);
+         }
+      }
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = super.replaceChildNode(oldChild, newChild);
+      if (oldChild == type) {
+         type = (ClassOrInterfaceType) newChild;
+         updated = true;
+      }
+
+      if (!updated) {
+         if (arraysAnnotations != null) {
+            for (List<AnnotationExpr> list : arraysAnnotations) {
+               updated = updated || replaceChildNodeInList(oldChild, newChild, list);
+            }
+         }
+      }
+      return updated;
+   }
 
 }

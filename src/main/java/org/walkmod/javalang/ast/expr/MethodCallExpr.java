@@ -18,8 +18,10 @@ package org.walkmod.javalang.ast.expr;
 import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
+import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -27,99 +29,117 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class MethodCallExpr extends Expression implements SymbolReference{
+public final class MethodCallExpr extends Expression implements SymbolReference {
 
-	private Expression scope;
+   private Expression scope;
 
-	private List<Type> typeArgs;
+   private List<Type> typeArgs;
 
-	private String name;
+   private String name;
 
-	private List<Expression> args;
-	
-	private SymbolDefinition symbolDefinition;
+   private List<Expression> args;
 
-	public MethodCallExpr() {
-	}
+   private SymbolDefinition symbolDefinition;
 
-	public MethodCallExpr(Expression scope, String name) {
-		setScope(scope);
-		this.name = name;
-	}
+   public MethodCallExpr() {
+   }
 
-	public MethodCallExpr(Expression scope, String name, List<Expression> args) {
-		setScope(scope);
-		this.name = name;
-		setArgs(args);
-	}
+   public MethodCallExpr(Expression scope, String name) {
+      setScope(scope);
+      this.name = name;
+   }
 
-	public MethodCallExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression scope, List<Type> typeArgs, String name,
-			List<Expression> args) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setScope(scope);
-		setTypeArgs(typeArgs);
-		this.name = name;
-		setArgs(args);
-	}
+   public MethodCallExpr(Expression scope, String name, List<Expression> args) {
+      setScope(scope);
+      this.name = name;
+      setArgs(args);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   public MethodCallExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
+         List<Type> typeArgs, String name, List<Expression> args) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setScope(scope);
+      setTypeArgs(typeArgs);
+      this.name = name;
+      setArgs(args);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	public List<Expression> getArgs() {
-		return args;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public String getName() {
-		return name;
-	}
+   public List<Expression> getArgs() {
+      return args;
+   }
 
-	public Expression getScope() {
-		return scope;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public List<Type> getTypeArgs() {
-		return typeArgs;
-	}
+   public Expression getScope() {
+      return scope;
+   }
 
-	public void setArgs(List<Expression> args) {
-		this.args = args;
-		setAsParentNodeOf(args);
-	}
+   public List<Type> getTypeArgs() {
+      return typeArgs;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setArgs(List<Expression> args) {
+      this.args = args;
+      setAsParentNodeOf(args);
+   }
 
-	public void setScope(Expression scope) {
-		this.scope = scope;
-		setAsParentNodeOf(scope);
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public void setTypeArgs(List<Type> typeArgs) {
-		this.typeArgs = typeArgs;
-		setAsParentNodeOf(typeArgs);
-	}
-	
-	@Override
-	public MethodSymbolData getSymbolData() {
-		return (MethodSymbolData) super.getSymbolData();
-	}
+   public void setScope(Expression scope) {
+      this.scope = scope;
+      setAsParentNodeOf(scope);
+   }
 
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return symbolDefinition;
-	}
+   public void setTypeArgs(List<Type> typeArgs) {
+      this.typeArgs = typeArgs;
+      setAsParentNodeOf(typeArgs);
+   }
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-		this.symbolDefinition = symbolDefinition;
-	}
+   @Override
+   public MethodSymbolData getSymbolData() {
+      return (MethodSymbolData) super.getSymbolData();
+   }
+
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return symbolDefinition;
+   }
+
+   @Override
+   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+      this.symbolDefinition = symbolDefinition;
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+
+      if (oldChild == scope) {
+         scope = (Expression) newChild;
+         updated = true;
+      }
+      if (!updated) {
+         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
+
+         if (!updated) {
+            updated = replaceChildNodeInList(oldChild, newChild, args);
+         }
+      }
+
+      return updated;
+   }
 }

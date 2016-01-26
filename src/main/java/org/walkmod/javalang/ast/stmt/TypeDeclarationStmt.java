@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.body.TypeDeclaration;
@@ -26,80 +27,89 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class TypeDeclarationStmt extends Statement implements
-		SymbolDefinition {
+public final class TypeDeclarationStmt extends Statement implements SymbolDefinition {
 
-	private TypeDeclaration typeDecl;
+   private TypeDeclaration typeDecl;
 
-	public TypeDeclarationStmt() {
-	}
+   public TypeDeclarationStmt() {
+   }
 
-	public TypeDeclarationStmt(TypeDeclaration typeDecl) {
-		setTypeDeclaration(typeDecl);
-	}
+   public TypeDeclarationStmt(TypeDeclaration typeDecl) {
+      setTypeDeclaration(typeDecl);
+   }
 
-	public TypeDeclarationStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, TypeDeclaration typeDecl) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setTypeDeclaration(typeDecl);
-	}
+   public TypeDeclarationStmt(int beginLine, int beginColumn, int endLine, int endColumn, TypeDeclaration typeDecl) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setTypeDeclaration(typeDecl);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public TypeDeclaration getTypeDeclaration() {
-		return typeDecl;
-	}
+   public TypeDeclaration getTypeDeclaration() {
+      return typeDecl;
+   }
 
-	public void setTypeDeclaration(TypeDeclaration typeDecl) {
-		this.typeDecl = typeDecl;
-		setAsParentNodeOf(typeDecl);
-	}
+   public void setTypeDeclaration(TypeDeclaration typeDecl) {
+      this.typeDecl = typeDecl;
+      setAsParentNodeOf(typeDecl);
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return typeDecl.getUsages();
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return typeDecl.getUsages();
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		typeDecl.setUsages(usages);
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      typeDecl.setUsages(usages);
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		return typeDecl.addUsage(usage);
-	}
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      return typeDecl.addUsage(usage);
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return typeDecl.getBodyReferences();
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return typeDecl.getBodyReferences();
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		typeDecl.setBodyReferences(bodyReferences);
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      typeDecl.setBodyReferences(bodyReferences);
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		return typeDecl.addBodyReference(bodyReference);
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      return typeDecl.addBodyReference(bodyReference);
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return typeDecl.getScopeLevel();
-	}
+   @Override
+   public int getScopeLevel() {
+      return typeDecl.getScopeLevel();
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		typeDecl.setScopeLevel(scopeLevel);
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      typeDecl.setScopeLevel(scopeLevel);
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if (oldChild == typeDecl) {
+         typeDecl = (TypeDeclaration) newChild;
+         updated = true;
+      }
+
+      return updated;
+   }
 }

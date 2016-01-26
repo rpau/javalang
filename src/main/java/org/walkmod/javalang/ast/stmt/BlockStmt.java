@@ -17,6 +17,8 @@ package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -58,4 +60,9 @@ public final class BlockStmt extends Statement {
 		this.stmts = stmts;
 		setAsParentNodeOf(stmts);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return replaceChildNodeInList(oldChild, newChild, stmts);
+   }
 }

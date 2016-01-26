@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.comparators.InitializerDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -95,6 +96,18 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 		setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(),
 				BlockStmt.class));
 
+	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+	   boolean update = super.replaceChildNode(oldChild, newChild);
+	   if(!update){
+	      if(oldChild == block){
+	         block = (BlockStmt) newChild;
+	         update = true;
+	      }
+	   }
+	   return update;
 	}
 
 }

@@ -27,54 +27,55 @@ import org.walkmod.merger.MergeEngine;
  */
 public abstract class BodyDeclaration extends Node {
 
-	private JavadocComment javaDoc;
+   private JavadocComment javaDoc;
 
-	private List<AnnotationExpr> annotations;
+   private List<AnnotationExpr> annotations;
 
-	public BodyDeclaration() {
-	}
+   public BodyDeclaration() {
+   }
 
-	public BodyDeclaration(List<AnnotationExpr> annotations,
-			JavadocComment javaDoc) {
-		setJavaDoc(javaDoc);
-		setAnnotations(annotations);
-	}
+   public BodyDeclaration(List<AnnotationExpr> annotations, JavadocComment javaDoc) {
+      setJavaDoc(javaDoc);
+      setAnnotations(annotations);
+   }
 
-	public BodyDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, List<AnnotationExpr> annotations,
-			JavadocComment javaDoc) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setJavaDoc(javaDoc);
-		setAnnotations(annotations);
-	}
+   public BodyDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations,
+         JavadocComment javaDoc) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setJavaDoc(javaDoc);
+      setAnnotations(annotations);
+   }
 
-	public final JavadocComment getJavaDoc() {
-		return javaDoc;
-	}
+   public final JavadocComment getJavaDoc() {
+      return javaDoc;
+   }
 
-	public final List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+   public final List<AnnotationExpr> getAnnotations() {
+      return annotations;
+   }
 
-	public final void setJavaDoc(JavadocComment javaDoc) {
-		this.javaDoc = javaDoc;
-		setAsParentNodeOf(javaDoc);
-	}
+   public final void setJavaDoc(JavadocComment javaDoc) {
+      this.javaDoc = javaDoc;
+      setAsParentNodeOf(javaDoc);
+   }
 
-	public final void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-		setAsParentNodeOf(annotations);
-	}
+   public final void setAnnotations(List<AnnotationExpr> annotations) {
+      this.annotations = annotations;
+      setAsParentNodeOf(annotations);
+   }
 
-	public void merge(BodyDeclaration remoteBodyDeclaration,
-			MergeEngine configuration) {
-		List<AnnotationExpr> resultAnnotations = new LinkedList<AnnotationExpr>();
-		configuration.apply(getAnnotations(),
-				remoteBodyDeclaration.getAnnotations(), resultAnnotations,
-				AnnotationExpr.class);
-		setAnnotations(resultAnnotations);
+   public void merge(BodyDeclaration remoteBodyDeclaration, MergeEngine configuration) {
+      List<AnnotationExpr> resultAnnotations = new LinkedList<AnnotationExpr>();
+      configuration.apply(getAnnotations(), remoteBodyDeclaration.getAnnotations(), resultAnnotations,
+            AnnotationExpr.class);
+      setAnnotations(resultAnnotations);
 
-		setJavaDoc((JavadocComment) (configuration.apply(getJavaDoc(),
-				remoteBodyDeclaration.getJavaDoc(), JavadocComment.class)));
-	}
+      setJavaDoc((JavadocComment) (configuration.apply(getJavaDoc(), remoteBodyDeclaration.getJavaDoc(),
+            JavadocComment.class)));
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return replaceChildNodeInList(oldChild, newChild, annotations);
+   }
 }

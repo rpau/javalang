@@ -67,4 +67,8 @@ public abstract class Comment extends Node {
 		}
 		return text;
 	}
+	
+	public  boolean replaceChildNode(Node oldChild, Node newChild){
+	   return false;
+	}
 }

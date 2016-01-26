@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.type.Type;
@@ -97,4 +98,20 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
 	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
 		this.symbolDefinition = symbolDefinition;
 	}
+	
+	
+	 @Override
+	   public boolean replaceChildNode(Node oldChild, Node newChild) {
+	      boolean updated = false;
+	      
+	      if(oldChild == scope){
+	         scope = (Expression) newChild;
+	         updated = true;
+	      }
+	      if(!updated){
+	         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
+	      }
+	      
+	      return updated;
+	   }
 }

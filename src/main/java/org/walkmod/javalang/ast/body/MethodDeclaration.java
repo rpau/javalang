@@ -39,312 +39,324 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class MethodDeclaration extends BodyDeclaration implements
-		Mergeable<MethodDeclaration>, SymbolDataAware<MethodSymbolData>, SymbolDefinition {
+public final class MethodDeclaration extends BodyDeclaration
+      implements Mergeable<MethodDeclaration>, SymbolDataAware<MethodSymbolData>, SymbolDefinition {
 
-	private int modifiers;
+   private int modifiers;
 
-	private List<TypeParameter> typeParameters;
+   private List<TypeParameter> typeParameters;
 
-	private Type type;
+   private Type type;
 
-	private String name;
+   private String name;
 
-	private List<Parameter> parameters;
+   private List<Parameter> parameters;
 
-	private int arrayCount;
+   private int arrayCount;
 
-	private List<ClassOrInterfaceType> throws_;
+   private List<ClassOrInterfaceType> throws_;
 
-	private BlockStmt body;
+   private BlockStmt body;
 
-	private boolean isDefault = false;
+   private boolean isDefault = false;
 
-	private MethodSymbolData symbolData;
-	
-	private List<SymbolReference> usages;
-	
-	private List<SymbolReference> bodyReferences;
-	
-	private int scopeLevel = 0;
+   private MethodSymbolData symbolData;
 
-	public MethodDeclaration() {
-	}
+   private List<SymbolReference> usages;
 
-	public MethodDeclaration(int modifiers, Type type, String name) {
-		this.modifiers = modifiers;
-		setType(type);
-		this.name = name;
-	}
+   private List<SymbolReference> bodyReferences;
 
-	public MethodDeclaration(int modifiers, Type type, String name,
-			List<Parameter> parameters) {
-		this.modifiers = modifiers;
-		setType(type);
-		this.name = name;
-		setParameters(parameters);
-	}
+   private int scopeLevel = 0;
 
-	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount,
-			List<ClassOrInterfaceType> throws_, BlockStmt block) {
-		super(annotations, javaDoc);
-		this.modifiers = modifiers;
-		setTypeParameters(typeParameters);
-		setType(type);
-		this.name = name;
-		setParameters(parameters);
-		this.arrayCount = arrayCount;
-		setThrows(throws_);
-		setBody(block);
-	}
+   public MethodDeclaration() {
+   }
 
-	public MethodDeclaration(JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount,
-			List<ClassOrInterfaceType> throws_, BlockStmt block,
-			boolean isDefault) {
-		this(javaDoc, modifiers, annotations, typeParameters, type, name,
-				parameters, arrayCount, throws_, block);
-		this.isDefault = isDefault;
-	}
+   public MethodDeclaration(int modifiers, Type type, String name) {
+      this.modifiers = modifiers;
+      setType(type);
+      this.name = name;
+   }
 
-	public MethodDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount,
-			List<ClassOrInterfaceType> throws_, BlockStmt block) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
-		this.modifiers = modifiers;
-		setTypeParameters(typeParameters);
-		setType(type);
-		this.name = name;
-		setParameters(parameters);
-		this.arrayCount = arrayCount;
-		setThrows(throws_);
-		setBody(block);
-	}
+   public MethodDeclaration(int modifiers, Type type, String name, List<Parameter> parameters) {
+      this.modifiers = modifiers;
+      setType(type);
+      this.name = name;
+      setParameters(parameters);
+   }
 
-	public MethodDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, Type type, String name,
-			List<Parameter> parameters, int arrayCount,
-			List<ClassOrInterfaceType> throws_, BlockStmt block,
-			boolean isDefault) {
+   public MethodDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations,
+         List<TypeParameter> typeParameters, Type type, String name, List<Parameter> parameters, int arrayCount,
+         List<ClassOrInterfaceType> throws_, BlockStmt block) {
+      super(annotations, javaDoc);
+      this.modifiers = modifiers;
+      setTypeParameters(typeParameters);
+      setType(type);
+      this.name = name;
+      setParameters(parameters);
+      this.arrayCount = arrayCount;
+      setThrows(throws_);
+      setBody(block);
+   }
 
-		this(beginLine, beginColumn, endLine, endColumn, javaDoc, modifiers,
-				annotations, typeParameters, type, name, parameters,
-				arrayCount, throws_, block);
-		this.isDefault = isDefault;
-	}
+   public MethodDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations,
+         List<TypeParameter> typeParameters, Type type, String name, List<Parameter> parameters, int arrayCount,
+         List<ClassOrInterfaceType> throws_, BlockStmt block, boolean isDefault) {
+      this(javaDoc, modifiers, annotations, typeParameters, type, name, parameters, arrayCount, throws_, block);
+      this.isDefault = isDefault;
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   public MethodDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
+         int modifiers, List<AnnotationExpr> annotations, List<TypeParameter> typeParameters, Type type, String name,
+         List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_, BlockStmt block) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
+      this.modifiers = modifiers;
+      setTypeParameters(typeParameters);
+      setType(type);
+      this.name = name;
+      setParameters(parameters);
+      this.arrayCount = arrayCount;
+      setThrows(throws_);
+      setBody(block);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   public MethodDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
+         int modifiers, List<AnnotationExpr> annotations, List<TypeParameter> typeParameters, Type type, String name,
+         List<Parameter> parameters, int arrayCount, List<ClassOrInterfaceType> throws_, BlockStmt block,
+         boolean isDefault) {
 
-	public int getArrayCount() {
-		return arrayCount;
-	}
+      this(beginLine, beginColumn, endLine, endColumn, javaDoc, modifiers, annotations, typeParameters, type, name,
+            parameters, arrayCount, throws_, block);
+      this.isDefault = isDefault;
+   }
 
-	public BlockStmt getBody() {
-		return body;
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	/**
-	 * Return the modifiers of this member declaration.
-	 * 
-	 * @see ModifierSet
-	 * @return modifiers
-	 */
-	public int getModifiers() {
-		return modifiers;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public String getName() {
-		return name;
-	}
+   public int getArrayCount() {
+      return arrayCount;
+   }
 
-	public List<Parameter> getParameters() {
-		return parameters;
-	}
+   public BlockStmt getBody() {
+      return body;
+   }
 
-	public List<ClassOrInterfaceType> getThrows() {
-		return throws_;
-	}
+   /**
+    * Return the modifiers of this member declaration.
+    * 
+    * @see ModifierSet
+    * @return modifiers
+    */
+   public int getModifiers() {
+      return modifiers;
+   }
 
-	public Type getType() {
-		return type;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public List<TypeParameter> getTypeParameters() {
-		return typeParameters;
-	}
+   public List<Parameter> getParameters() {
+      return parameters;
+   }
 
-	public void setArrayCount(int arrayCount) {
-		this.arrayCount = arrayCount;
-	}
+   public List<ClassOrInterfaceType> getThrows() {
+      return throws_;
+   }
 
-	public void setBody(BlockStmt body) {
-		this.body = body;
-		setAsParentNodeOf(body);
-	}
+   public Type getType() {
+      return type;
+   }
 
-	public void setModifiers(int modifiers) {
-		this.modifiers = modifiers;
-	}
+   public List<TypeParameter> getTypeParameters() {
+      return typeParameters;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setArrayCount(int arrayCount) {
+      this.arrayCount = arrayCount;
+   }
 
-	public void setParameters(List<Parameter> parameters) {
-		this.parameters = parameters;
-		setAsParentNodeOf(parameters);
-	}
+   public void setBody(BlockStmt body) {
+      this.body = body;
+      setAsParentNodeOf(body);
+   }
 
-	public void setThrows(List<ClassOrInterfaceType> throws_) {
-		this.throws_ = throws_;
-		setAsParentNodeOf(throws_);
-	}
+   public void setModifiers(int modifiers) {
+      this.modifiers = modifiers;
+   }
 
-	public void setType(Type type) {
-		this.type = type;
-		setAsParentNodeOf(type);
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public void setTypeParameters(List<TypeParameter> typeParameters) {
-		this.typeParameters = typeParameters;
-		setAsParentNodeOf(typeParameters);
-	}
+   public void setParameters(List<Parameter> parameters) {
+      this.parameters = parameters;
+      setAsParentNodeOf(parameters);
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
+   public void setThrows(List<ClassOrInterfaceType> throws_) {
+      this.throws_ = throws_;
+      setAsParentNodeOf(throws_);
+   }
 
-		return new MethodDeclarationComparator();
-	}
+   public void setType(Type type) {
+      this.type = type;
+      setAsParentNodeOf(type);
+   }
 
-	@Override
-	public void merge(MethodDeclaration remote, MergeEngine configuration) {
-		super.merge(remote, configuration);
+   public void setTypeParameters(List<TypeParameter> typeParameters) {
+      this.typeParameters = typeParameters;
+      setAsParentNodeOf(typeParameters);
+   }
 
-		setBody((BlockStmt) configuration.apply(getBody(), remote.getBody(),
-				BlockStmt.class));
+   @Override
+   public Comparator<?> getIdentityComparator() {
 
-		List<Parameter> resultParams = new LinkedList<Parameter>();
-		configuration.apply(getParameters(), remote.getParameters(),
-				resultParams, Parameter.class);
-		if (!resultParams.isEmpty()) {
-			setParameters(resultParams);
-		} else {
-			setParameters(null);
-		}
+      return new MethodDeclarationComparator();
+   }
 
-		List<TypeParameter> resultTypeParams = new LinkedList<TypeParameter>();
-		configuration.apply(getTypeParameters(), remote.getTypeParameters(),
-				resultTypeParams, TypeParameter.class);
-		if (!resultTypeParams.isEmpty()) {
-			setTypeParameters(resultTypeParams);
-		} else {
-			setTypeParameters(null);
-		}
+   @Override
+   public void merge(MethodDeclaration remote, MergeEngine configuration) {
+      super.merge(remote, configuration);
 
-		List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
-		configuration.apply(getThrows(), remote.getThrows(), resultThrows,
-				ClassOrInterfaceType.class);
-		if (!resultThrows.isEmpty()) {
-			setThrows(resultThrows);
-		} else {
-			setThrows(null);
-		}
+      setBody((BlockStmt) configuration.apply(getBody(), remote.getBody(), BlockStmt.class));
 
-	}
+      List<Parameter> resultParams = new LinkedList<Parameter>();
+      configuration.apply(getParameters(), remote.getParameters(), resultParams, Parameter.class);
+      if (!resultParams.isEmpty()) {
+         setParameters(resultParams);
+      } else {
+         setParameters(null);
+      }
 
-	public boolean isDefault() {
-		return isDefault;
-	}
+      List<TypeParameter> resultTypeParams = new LinkedList<TypeParameter>();
+      configuration.apply(getTypeParameters(), remote.getTypeParameters(), resultTypeParams, TypeParameter.class);
+      if (!resultTypeParams.isEmpty()) {
+         setTypeParameters(resultTypeParams);
+      } else {
+         setTypeParameters(null);
+      }
 
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+      List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
+      configuration.apply(getThrows(), remote.getThrows(), resultThrows, ClassOrInterfaceType.class);
+      if (!resultThrows.isEmpty()) {
+         setThrows(resultThrows);
+      } else {
+         setThrows(null);
+      }
 
-	@Override
-	public MethodSymbolData getSymbolData() {
-		return symbolData;
-	}
+   }
 
-	@Override
-	public void setSymbolData(MethodSymbolData symbolData) {
-		this.symbolData = symbolData;
-	}
+   public boolean isDefault() {
+      return isDefault;
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   public void setDefault(boolean isDefault) {
+      this.isDefault = isDefault;
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public MethodSymbolData getSymbolData() {
+      return symbolData;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return bodyReferences;
-	}
+   @Override
+   public void setSymbolData(MethodSymbolData symbolData) {
+      this.symbolData = symbolData;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		this.bodyReferences = bodyReferences;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		if (bodyReference != null) {
-			SymbolDefinition definition = bodyReference.getSymbolDefinition();
-			if (definition != null) {
-				int scope = definition.getScopeLevel();
-				if (scope <= scopeLevel) {
-					if (bodyReferences == null) {
-						bodyReferences = new LinkedList<SymbolReference>();
-					}
-					return bodyReferences.add(bodyReference);
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return bodyReferences;
+   }
 
-	}
-	
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      this.bodyReferences = bodyReferences;
+   }
+
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
+
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
+
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      if (bodyReference != null) {
+         SymbolDefinition definition = bodyReference.getSymbolDefinition();
+         if (definition != null) {
+            int scope = definition.getScopeLevel();
+            if (scope <= scopeLevel) {
+               if (bodyReferences == null) {
+                  bodyReferences = new LinkedList<SymbolReference>();
+               }
+               return bodyReferences.add(bodyReference);
+            }
+         }
+      }
+      return false;
+   }
+
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
+
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = super.replaceChildNode(oldChild, newChild);
+      if (!update) {
+         if (type == oldChild) {
+            type = (Type) newChild;
+            update = true;
+         }
+
+         if (!update) {
+            if (body == oldChild) {
+               body = (BlockStmt) newChild;
+               update = true;
+            }
+            if (!update) {
+               update = replaceChildNodeInList(oldChild, newChild, parameters);
+               if (!update) {
+                  update = replaceChildNodeInList(oldChild, newChild, throws_);
+                  if (!update) {
+                     update = replaceChildNodeInList(oldChild, newChild, typeParameters);
+                  }
+               }
+            }
+         }
+
+      }
+      return update;
+   }
+
 }

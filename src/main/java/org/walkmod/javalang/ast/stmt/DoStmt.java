@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.body.MultiTypeParameter;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -70,4 +72,20 @@ public final class DoStmt extends Statement {
 		this.condition = condition;
 		setAsParentNodeOf(condition);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == body){
+         body = (Statement) newChild;
+         updated = true;
+      }
+      if(!updated){
+         if(oldChild == condition){
+            condition = (Expression) newChild;
+            updated = true;
+         }
+      }
+      return updated;
+   }
 }

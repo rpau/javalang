@@ -67,4 +67,9 @@ public final class VariableDeclaratorId extends Node {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return false;
+   }
 }

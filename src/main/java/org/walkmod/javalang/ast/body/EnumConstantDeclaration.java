@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
@@ -217,5 +218,17 @@ public final class EnumConstantDeclaration extends BodyDeclaration implements
 	@Override
 	public void setSymbolData(SymbolData symbolData) {
 		this.symbolData = symbolData;
+	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = super.replaceChildNode(oldChild, newChild);
+      if(!update){
+         update = replaceChildNodeInList(oldChild, newChild, args);
+         if(!update){
+            update = replaceChildNodeInList(oldChild, newChild, classBody);
+         }
+      }
+      return update;
 	}
 }

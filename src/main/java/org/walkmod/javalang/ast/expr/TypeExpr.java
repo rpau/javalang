@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -57,5 +58,15 @@ public class TypeExpr extends Expression {
 		this.type = type;
 		setAsParentNodeOf(type);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == type){
+         type = (Type) newChild;
+         updated = true;
+      }
+      return updated;
+   }
 
 }

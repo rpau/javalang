@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.type;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -83,4 +84,21 @@ public final class WildcardType extends Type {
 	public void setSuper(ReferenceType sup) {
 		this.sup = sup;
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = super.replaceChildNode(oldChild, newChild);
+      if(!updated){
+         if(ext == oldChild){
+            ext = (ReferenceType) newChild;
+            updated = true;
+         }
+         if(!updated){
+            if(sup == oldChild){
+               sup = (ReferenceType) newChild;
+            }
+         }
+      }
+      return updated;
+   }
 }

@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -24,63 +25,85 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class IfStmt extends Statement {
 
-	private Expression condition;
+   private Expression condition;
 
-	private Statement thenStmt;
+   private Statement thenStmt;
 
-	private Statement elseStmt;
+   private Statement elseStmt;
 
-	public IfStmt() {
-	}
+   public IfStmt() {
+   }
 
-	public IfStmt(Expression condition, Statement thenStmt, Statement elseStmt) {
-		setCondition(condition);
-		setThenStmt(thenStmt);
-		setElseStmt(elseStmt);
-	}
+   public IfStmt(Expression condition, Statement thenStmt, Statement elseStmt) {
+      setCondition(condition);
+      setThenStmt(thenStmt);
+      setElseStmt(elseStmt);
+   }
 
-	public IfStmt(int beginLine, int beginColumn, int endLine, int endColumn,
-			Expression condition, Statement thenStmt, Statement elseStmt) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setCondition(condition);
-		setThenStmt(thenStmt);
-		setElseStmt(elseStmt);
-	}
+   public IfStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression condition, Statement thenStmt,
+         Statement elseStmt) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setCondition(condition);
+      setThenStmt(thenStmt);
+      setElseStmt(elseStmt);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getCondition() {
-		return condition;
-	}
+   public Expression getCondition() {
+      return condition;
+   }
 
-	public Statement getElseStmt() {
-		return elseStmt;
-	}
+   public Statement getElseStmt() {
+      return elseStmt;
+   }
 
-	public Statement getThenStmt() {
-		return thenStmt;
-	}
+   public Statement getThenStmt() {
+      return thenStmt;
+   }
 
-	public void setCondition(Expression condition) {
-		this.condition = condition;
-		setAsParentNodeOf(condition);
-	}
+   public void setCondition(Expression condition) {
+      this.condition = condition;
+      setAsParentNodeOf(condition);
+   }
 
-	public void setElseStmt(Statement elseStmt) {
-		this.elseStmt = elseStmt;
-		setAsParentNodeOf(elseStmt);
-	}
+   public void setElseStmt(Statement elseStmt) {
+      this.elseStmt = elseStmt;
+      setAsParentNodeOf(elseStmt);
+   }
 
-	public void setThenStmt(Statement thenStmt) {
-		this.thenStmt = thenStmt;
-		setAsParentNodeOf(thenStmt);
-	}
+   public void setThenStmt(Statement thenStmt) {
+      this.thenStmt = thenStmt;
+      setAsParentNodeOf(thenStmt);
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if (oldChild == condition) {
+         condition = (Expression) newChild;
+         updated = true;
+      }
+      if (!updated) {
+         if (oldChild == thenStmt) {
+            thenStmt = (Statement) newChild;
+            updated = true;
+         }
+         if (!updated) {
+            if (oldChild == elseStmt) {
+               elseStmt = (Statement) newChild;
+               updated = true;
+            }
+         }
+      }
+      return updated;
+   }
 }

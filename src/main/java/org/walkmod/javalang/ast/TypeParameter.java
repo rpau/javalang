@@ -190,4 +190,13 @@ public final class TypeParameter extends Node implements SymbolDefinition {
 		this.scopeLevel = scopeLevel;
 	}
 
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
+      if(!update){
+         update = replaceChildNodeInList(oldChild, newChild, typeBound);
+      }
+      return update;
+   }
+
 }

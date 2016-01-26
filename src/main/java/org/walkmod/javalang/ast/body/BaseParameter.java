@@ -25,133 +25,143 @@ import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 
-public abstract class BaseParameter extends Node implements
-		SymbolDataAware<SymbolData>, SymbolDefinition {
+public abstract class BaseParameter extends Node implements SymbolDataAware<SymbolData>, SymbolDefinition {
 
-	private static final long serialVersionUID = -920000439540828718L;
+   private static final long serialVersionUID = -920000439540828718L;
 
-	private int modifiers;
+   private int modifiers;
 
-	private List<AnnotationExpr> annotations;
+   private List<AnnotationExpr> annotations;
 
-	private VariableDeclaratorId id;
+   private VariableDeclaratorId id;
 
-	private SymbolData symbolData;
+   private SymbolData symbolData;
 
-	private List<SymbolReference> usages;
+   private List<SymbolReference> usages;
 
-	private int scopeLevel = 0;
+   private int scopeLevel = 0;
 
-	public BaseParameter() {
-	}
+   public BaseParameter() {
+   }
 
-	public BaseParameter(VariableDeclaratorId id) {
-		setId(id);
-	}
+   public BaseParameter(VariableDeclaratorId id) {
+      setId(id);
+   }
 
-	public BaseParameter(int modifiers, VariableDeclaratorId id) {
-		setModifiers(modifiers);
-		setId(id);
-	}
+   public BaseParameter(int modifiers, VariableDeclaratorId id) {
+      setModifiers(modifiers);
+      setId(id);
+   }
 
-	public BaseParameter(int modifiers, List<AnnotationExpr> annotations,
-			VariableDeclaratorId id) {
-		setModifiers(modifiers);
-		setAnnotations(annotations);
-		setId(id);
-	}
+   public BaseParameter(int modifiers, List<AnnotationExpr> annotations, VariableDeclaratorId id) {
+      setModifiers(modifiers);
+      setAnnotations(annotations);
+      setId(id);
+   }
 
-	public BaseParameter(int beginLine, int beginColumn, int endLine,
-			int endColumn, int modifiers, List<AnnotationExpr> annotations,
-			VariableDeclaratorId id) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setModifiers(modifiers);
-		setAnnotations(annotations);
-		setId(id);
-	}
+   public BaseParameter(int beginLine, int beginColumn, int endLine, int endColumn, int modifiers,
+         List<AnnotationExpr> annotations, VariableDeclaratorId id) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setModifiers(modifiers);
+      setAnnotations(annotations);
+      setId(id);
+   }
 
-	public List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+   public List<AnnotationExpr> getAnnotations() {
+      return annotations;
+   }
 
-	public VariableDeclaratorId getId() {
-		return id;
-	}
+   public VariableDeclaratorId getId() {
+      return id;
+   }
 
-	/**
-	 * Return the modifiers of this parameter declaration.
-	 * 
-	 * @see ModifierSet
-	 * @return modifiers
-	 */
-	public int getModifiers() {
-		return modifiers;
-	}
+   /**
+    * Return the modifiers of this parameter declaration.
+    * 
+    * @see ModifierSet
+    * @return modifiers
+    */
+   public int getModifiers() {
+      return modifiers;
+   }
 
-	public void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-		setAsParentNodeOf(annotations);
-	}
+   public void setAnnotations(List<AnnotationExpr> annotations) {
+      this.annotations = annotations;
+      setAsParentNodeOf(annotations);
+   }
 
-	public void setId(VariableDeclaratorId id) {
-		this.id = id;
-		setAsParentNodeOf(id);
-	}
+   public void setId(VariableDeclaratorId id) {
+      this.id = id;
+      setAsParentNodeOf(id);
+   }
 
-	public void setModifiers(int modifiers) {
-		this.modifiers = modifiers;
-	}
+   public void setModifiers(int modifiers) {
+      this.modifiers = modifiers;
+   }
 
-	@Override
-	public SymbolData getSymbolData() {
-		return symbolData;
-	}
+   @Override
+   public SymbolData getSymbolData() {
+      return symbolData;
+   }
 
-	@Override
-	public void setSymbolData(SymbolData symbolData) {
-		this.symbolData = symbolData;
-	}
+   @Override
+   public void setSymbolData(SymbolData symbolData) {
+      this.symbolData = symbolData;
+   }
 
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	public List<SymbolReference> getBodyReferences() {
-		return null;
-	}
+   public List<SymbolReference> getBodyReferences() {
+      return null;
+   }
 
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-	}
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		return false;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      return false;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if (usages == null) {
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
 
-	}
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
+      if(!update){
+         if(id == oldChild){
+            id = (VariableDeclaratorId) newChild;
+            update = true;
+         }
+      }
+      
+      return update;
+   }
 }

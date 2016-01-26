@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -55,4 +56,9 @@ public final class ContinueStmt extends Statement {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+     return false;
+   }
 }

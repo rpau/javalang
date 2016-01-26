@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.stmt;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -72,4 +73,19 @@ public final class SwitchStmt extends Statement {
 		this.selector = selector;
 		setAsParentNodeOf(selector);
 	}
+
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if (oldChild == selector) {
+         selector = (Expression) newChild;
+         updated = true;
+      }
+      if (!updated) {
+         updated = replaceChildNodeInList(oldChild, newChild, entries);
+      }
+
+      return updated;
+   }
 }

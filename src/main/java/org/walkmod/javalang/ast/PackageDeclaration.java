@@ -115,4 +115,13 @@ public final class PackageDeclaration extends Node {
 		this.name = name;
 		setAsParentNodeOf(name);
 	}
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      if(name == oldChild){
+         name = (NameExpr) newChild;
+         return true;
+      }
+      return false;
+   }
 }

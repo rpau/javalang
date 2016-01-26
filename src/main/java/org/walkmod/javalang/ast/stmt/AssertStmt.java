@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -74,4 +75,20 @@ public final class AssertStmt extends Statement {
 		this.msg = msg;
 		setAsParentNodeOf(msg);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == check){
+         check = (Expression) newChild;
+         updated = true;
+      }
+      if(!updated){
+         if(oldChild == msg){
+            msg = (Expression) newChild;
+            updated = true;
+         }
+      }
+      return updated;
+   }
 }

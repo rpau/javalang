@@ -80,4 +80,10 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData>, 
 	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
 		this.symbolDefinition = symbolDefinition;
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      
+      return replaceChildNodeInList(oldChild, newChild, annotations);
+   }
 }

@@ -19,6 +19,7 @@ package org.walkmod.javalang.ast.body;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
@@ -158,6 +159,21 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 		} else {
 			setExtends(null);
 		}
+	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+	   boolean update = super.replaceChildNode(oldChild, newChild);
+	   if(!update){
+	      update = replaceChildNodeInList(oldChild, newChild, extendsList);
+	      if(!update){
+	         update = replaceChildNodeInList(oldChild, newChild, implementsList);
+	         if(!update){
+	            update = replaceChildNodeInList(oldChild, newChild, typeParameters);
+	         }
+	      }
+	   }
+	   return update;
 	}
 
 }

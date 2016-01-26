@@ -88,4 +88,9 @@ public class JavadocTag extends Node implements SymbolReference{
 	public void setSymbolDefinition(SymbolDefinition definition) {
 		this.definition = definition;
 	}
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return false;
+   }
 }

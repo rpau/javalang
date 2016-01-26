@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.body;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -56,4 +57,5 @@ public final class AnnotationDeclaration extends TypeDeclaration {
 	public <A> void accept(VoidVisitor<A> v, A arg) {
 		v.visit(this, arg);
 	}
+
 }

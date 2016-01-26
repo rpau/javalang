@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.FieldSymbolData;
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
@@ -214,6 +215,22 @@ public final class FieldDeclaration extends BodyDeclaration implements
 	@Override
 	public boolean addUsage(SymbolReference usage) {
 		return false;
+	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean update = super.replaceChildNode(oldChild, newChild);
+   
+      if(!update){
+         if(oldChild == type){
+            type = (Type) newChild;
+            update = true;
+         }
+         else{
+            update = replaceChildNodeInList(oldChild, newChild, variables);
+         }
+      }
+      return update;
 	}
 	
 }

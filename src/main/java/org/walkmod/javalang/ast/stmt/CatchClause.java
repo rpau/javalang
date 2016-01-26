@@ -89,4 +89,20 @@ public final class CatchClause extends Node {
 		this.except = except;
 		setAsParentNodeOf(except);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == except){
+         except = (MultiTypeParameter) newChild;
+         updated = true;
+      }
+      if(!updated){
+         if(oldChild == catchBlock){
+            catchBlock = (BlockStmt) newChild;
+            updated = true;
+         }
+      }
+      return updated;
+   }
 }

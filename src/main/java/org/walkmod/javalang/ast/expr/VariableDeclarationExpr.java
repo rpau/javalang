@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.expr;
 
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.VariableDeclarator;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -110,4 +111,21 @@ public final class VariableDeclarationExpr extends Expression {
 		this.vars = vars;
 		setAsParentNodeOf(vars);
 	}
+	
+	@Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+      if(oldChild == type){
+         type = (Type) newChild;
+         updated = true;
+      }
+      if(!updated){
+         updated = replaceChildNodeInList(oldChild, newChild, annotations);
+         
+         if(!updated){
+            updated = replaceChildNodeInList(oldChild, newChild, vars);
+         }
+      }
+      return updated;
+   }
 }
