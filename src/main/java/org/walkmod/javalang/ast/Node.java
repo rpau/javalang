@@ -208,7 +208,7 @@ public abstract class Node implements Serializable {
     * @return if it is a new node.
     */
    public boolean isNewNode() {
-      return (0 == getEndColumn()) && (getBeginLine() == 0);
+      return (0== getEndLine() && 0 == getEndColumn() && getBeginLine() == 0);
    }
 
    /**
