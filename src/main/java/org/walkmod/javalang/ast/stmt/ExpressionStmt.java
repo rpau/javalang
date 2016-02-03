@@ -55,6 +55,9 @@ public final class ExpressionStmt extends Statement {
 	}
 
 	public void setExpression(Expression expr) {
+	   if(this.expr != null){
+         updateReferences(this.expr);
+      }
 		this.expr = expr;
 		setAsParentNodeOf(expr);
 	}
@@ -63,7 +66,7 @@ public final class ExpressionStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == expr){
-         expr = (Expression) newChild;
+         setExpression((Expression) newChild);
          updated = true;
       }
       

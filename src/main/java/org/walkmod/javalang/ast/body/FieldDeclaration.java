@@ -119,6 +119,9 @@ public final class FieldDeclaration extends BodyDeclaration implements
 	}
 
 	public void setType(Type type) {
+	   if(this.type != null){
+         updateReferences(this.type);
+      }
 		this.type = type;
 		setAsParentNodeOf(type);
 	}
@@ -223,7 +226,7 @@ public final class FieldDeclaration extends BodyDeclaration implements
    
       if(!update){
          if(oldChild == type){
-            type = (Type) newChild;
+            setType((Type) newChild);
             update = true;
          }
          else{

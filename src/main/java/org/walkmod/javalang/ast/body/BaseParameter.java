@@ -91,6 +91,9 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
    }
 
    public void setId(VariableDeclaratorId id) {
+      if(this.id != null){
+         updateReferences(this.id);
+      }
       this.id = id;
       setAsParentNodeOf(id);
    }
@@ -157,7 +160,7 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
       boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
       if(!update){
          if(id == oldChild){
-            id = (VariableDeclaratorId) newChild;
+            setId((VariableDeclaratorId) newChild);
             update = true;
          }
       }

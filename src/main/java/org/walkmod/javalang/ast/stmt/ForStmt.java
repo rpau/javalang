@@ -81,11 +81,17 @@ public final class ForStmt extends Statement {
    }
 
    public void setBody(Statement body) {
+      if(this.body != null){
+         updateReferences(this.body);
+      }
       this.body = body;
       setAsParentNodeOf(body);
    }
 
    public void setCompare(Expression compare) {
+      if(this.compare != null){
+         updateReferences(this.compare);
+      }
       this.compare = compare;
       setAsParentNodeOf(compare);
    }
@@ -96,6 +102,7 @@ public final class ForStmt extends Statement {
    }
 
    public void setUpdate(List<Expression> update) {
+      
       this.update = update;
       setAsParentNodeOf(update);
    }
@@ -104,12 +111,12 @@ public final class ForStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == compare) {
-         compare = (Expression) newChild;
+         setCompare((Expression) newChild);
          updated = true;
       }
       if (!updated) {
          if (oldChild == body) {
-            body = (Statement) newChild;
+            setBody((Statement) newChild);
             updated = true;
          }
          if (!updated) {

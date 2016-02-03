@@ -77,6 +77,9 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 	}
 
 	public void setBlock(BlockStmt block) {
+	   if(this.block != null){
+         updateReferences(this.block);
+      }
 		this.block = block;
 		setAsParentNodeOf(block);
 	}
@@ -103,7 +106,7 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 	   boolean update = super.replaceChildNode(oldChild, newChild);
 	   if(!update){
 	      if(oldChild == block){
-	         block = (BlockStmt) newChild;
+	         setBlock((BlockStmt) newChild);
 	         update = true;
 	      }
 	   }

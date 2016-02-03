@@ -65,6 +65,9 @@ public final class LabeledStmt extends Statement {
    }
 
    public void setStmt(Statement stmt) {
+      if(this.stmt != null){
+         updateReferences(this.stmt);
+      }
       this.stmt = stmt;
       setAsParentNodeOf(stmt);
    }
@@ -73,7 +76,7 @@ public final class LabeledStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == stmt) {
-         stmt = (Statement) newChild;
+         setStmt((Statement) newChild);
          updated = true;
       }
 

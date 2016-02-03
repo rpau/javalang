@@ -65,6 +65,9 @@ public final class SwitchEntryStmt extends Statement {
    }
 
    public void setLabel(Expression label) {
+      if(this.label != null){
+         updateReferences(this.label);
+      }
       this.label = label;
       setAsParentNodeOf(label);
    }
@@ -78,7 +81,7 @@ public final class SwitchEntryStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == label) {
-         label = (Expression) newChild;
+         setLabel((Expression) newChild);
          updated = true;
       }
       if (!updated) {

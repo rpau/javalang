@@ -88,6 +88,9 @@ public final class ReferenceType extends Type {
    }
 
    public void setType(Type type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
       setAsParentNodeOf(type);
    }
@@ -109,7 +112,7 @@ public final class ReferenceType extends Type {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = super.replaceChildNode(oldChild, newChild);
       if (oldChild == type) {
-         type = (ClassOrInterfaceType) newChild;
+         setType((ClassOrInterfaceType) newChild);
          updated = true;
       }
 

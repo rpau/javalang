@@ -87,12 +87,18 @@ public final class TryStmt extends Statement {
    }
 
    public void setFinallyBlock(BlockStmt finallyBlock) {
+      if(this.finallyBlock != null){
+         updateReferences(this.finallyBlock);
+      }
       this.finallyBlock = finallyBlock;
       setAsParentNodeOf(finallyBlock);
 
    }
 
    public void setTryBlock(BlockStmt tryBlock) {
+      if(this.tryBlock != null){
+         updateReferences(this.tryBlock);
+      }
       this.tryBlock = tryBlock;
       setAsParentNodeOf(tryBlock);
 
@@ -107,12 +113,12 @@ public final class TryStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == tryBlock) {
-         tryBlock = (BlockStmt) newChild;
+         setTryBlock((BlockStmt) newChild);
          updated = true;
       }
       if (!updated) {
          if (oldChild == finallyBlock) {
-            finallyBlock = (BlockStmt) newChild;
+            setFinallyBlock((BlockStmt) newChild);
             updated = true;
          }
          if (!updated) {

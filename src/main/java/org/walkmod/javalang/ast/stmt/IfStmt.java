@@ -71,16 +71,25 @@ public final class IfStmt extends Statement {
    }
 
    public void setCondition(Expression condition) {
+      if(this.condition != null){
+         updateReferences(this.condition);
+      }
       this.condition = condition;
       setAsParentNodeOf(condition);
    }
 
    public void setElseStmt(Statement elseStmt) {
+      if(this.elseStmt != null){
+         updateReferences(this.elseStmt);
+      }
       this.elseStmt = elseStmt;
       setAsParentNodeOf(elseStmt);
    }
 
    public void setThenStmt(Statement thenStmt) {
+      if(this.thenStmt != null){
+         updateReferences(this.thenStmt);
+      }
       this.thenStmt = thenStmt;
       setAsParentNodeOf(thenStmt);
    }
@@ -89,17 +98,17 @@ public final class IfStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == condition) {
-         condition = (Expression) newChild;
+         setCondition((Expression) newChild);
          updated = true;
       }
       if (!updated) {
          if (oldChild == thenStmt) {
-            thenStmt = (Statement) newChild;
+            setThenStmt((Statement) newChild);
             updated = true;
          }
          if (!updated) {
             if (oldChild == elseStmt) {
-               elseStmt = (Statement) newChild;
+               setElseStmt((Statement) newChild);
                updated = true;
             }
          }

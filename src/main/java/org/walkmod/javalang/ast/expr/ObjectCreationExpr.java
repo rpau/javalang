@@ -111,11 +111,17 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
    }
 
    public void setScope(Expression scope) {
+      if(this.scope != null){
+         updateReferences(this.scope);
+      }
       this.scope = scope;
       setAsParentNodeOf(scope);
    }
 
    public void setType(ClassOrInterfaceType type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
       setAsParentNodeOf(type);
    }
@@ -201,13 +207,13 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
       boolean updated = false;
 
       if (oldChild == scope) {
-         scope = (Expression) newChild;
+         setScope((Expression) newChild);
          updated = true;
       }
       if (!updated) {
 
          if (oldChild == type) {
-            type = (ClassOrInterfaceType) newChild;
+            setType((ClassOrInterfaceType) newChild);
             updated = true;
          }
          if (!updated) {

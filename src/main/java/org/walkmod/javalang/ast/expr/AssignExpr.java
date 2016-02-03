@@ -79,11 +79,17 @@ public final class AssignExpr extends Expression {
 	}
 
 	public void setTarget(Expression target) {
+	   if(this.target != null){
+         updateReferences(this.target);
+      }
 		this.target = target;
 		setAsParentNodeOf(target);
 	}
 
 	public void setValue(Expression value) {
+	   if(this.value != null){
+         updateReferences(this.value);
+      }
 		this.value = value;
 		setAsParentNodeOf(value);
 	}
@@ -92,12 +98,12 @@ public final class AssignExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
 	   boolean updated = false;
 	   if(target == oldChild){
-	      target = (Expression) newChild;
+	      setTarget((Expression) newChild);
 	      updated = true;
 	   }
 	   if(!updated){
 	      if(value == oldChild){
-	         value = (Expression) newChild;
+	         setValue((Expression) newChild);
 	         updated = true;
 	      }
 	   }

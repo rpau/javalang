@@ -62,11 +62,17 @@ public final class WhileStmt extends Statement {
    }
 
    public void setBody(Statement body) {
+      if(this.body != null){
+         updateReferences(this.body);
+      }
       this.body = body;
       setAsParentNodeOf(body);
    }
 
    public void setCondition(Expression condition) {
+      if(this.condition != null){
+         updateReferences(this.condition);
+      }
       this.condition = condition;
       setAsParentNodeOf(condition);
    }
@@ -75,13 +81,13 @@ public final class WhileStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == condition) {
-         condition = (Expression) newChild;
+         setCondition((Expression) newChild);
          updated = true;
       }
 
       if (!updated) {
          if (oldChild == body) {
-            body = (Statement) newChild;
+            setBody((Statement) newChild);
             updated = true;
          }
       }

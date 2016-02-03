@@ -82,11 +82,17 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    }
 
    public void setId(VariableDeclaratorId id) {
+      if(this.id != null){
+         updateReferences(this.id);
+      }
       this.id = id;
       setAsParentNodeOf(id);
    }
 
    public void setInit(Expression init) {
+      if(this.init != null){
+         updateReferences(this.init);
+      }
       this.init = init;
       setAsParentNodeOf(init);
    }
@@ -169,12 +175,12 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
       boolean update = false;
 
       if(oldChild == id){
-         id= (VariableDeclaratorId) newChild;
+         setId((VariableDeclaratorId) newChild);
          update = true;
       }
       if(!update){
          if(init == oldChild){
-            init = (Expression) newChild;
+            setInit((Expression) newChild);
          }
       }
       return update;

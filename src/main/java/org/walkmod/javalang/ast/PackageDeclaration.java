@@ -112,6 +112,9 @@ public final class PackageDeclaration extends Node {
 	 *            the name to set
 	 */
 	public void setName(NameExpr name) {
+	   if(this.name != null){
+         updateReferences(this.name);
+      }
 		this.name = name;
 		setAsParentNodeOf(name);
 	}
@@ -119,7 +122,7 @@ public final class PackageDeclaration extends Node {
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       if(name == oldChild){
-         name = (NameExpr) newChild;
+         setName((NameExpr) newChild);
          return true;
       }
       return false;

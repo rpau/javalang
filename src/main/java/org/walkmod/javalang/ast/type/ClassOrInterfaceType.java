@@ -24,8 +24,6 @@ import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
-import org.walkmod.javalang.ast.expr.Expression;
-import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.comparators.ClassOrInterfaceTypeComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -105,6 +103,9 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
    }
 
    public void setScope(ClassOrInterfaceType scope) {
+      if(this.scope != null){
+         updateReferences(this.scope);
+      }
       this.scope = scope;
       setAsParentNodeOf(scope);
    }
@@ -189,7 +190,7 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = super.replaceChildNode(oldChild, newChild);
       if (oldChild == scope) {
-         scope = (ClassOrInterfaceType) newChild;
+         setScope((ClassOrInterfaceType) newChild);
          updated = true;
       }
 

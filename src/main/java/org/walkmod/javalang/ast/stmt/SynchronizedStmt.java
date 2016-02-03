@@ -63,11 +63,17 @@ public final class SynchronizedStmt extends Statement {
    }
 
    public void setBlock(BlockStmt block) {
+      if(this.block != null){
+         updateReferences(this.block);
+      }
       this.block = block;
       setAsParentNodeOf(block);
    }
 
    public void setExpr(Expression expr) {
+      if(this.expr != null){
+         updateReferences(this.expr);
+      }
       this.expr = expr;
       setAsParentNodeOf(expr);
    }
@@ -76,12 +82,12 @@ public final class SynchronizedStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == expr) {
-         expr = (Expression) newChild;
+         setExpr((Expression) newChild);
          updated = true;
       }
       if (!updated) {
          if (oldChild == block) {
-            block = (BlockStmt) newChild;
+            setBlock((BlockStmt) newChild);
             updated = true;
          }
       }

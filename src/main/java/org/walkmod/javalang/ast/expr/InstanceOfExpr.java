@@ -62,11 +62,17 @@ public final class InstanceOfExpr extends Expression {
    }
 
    public void setExpr(Expression expr) {
+      if(this.expr != null){
+         updateReferences(this.expr);
+      }
       this.expr = expr;
       setAsParentNodeOf(expr);
    }
 
    public void setType(Type type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
       setAsParentNodeOf(type);
    }
@@ -76,12 +82,12 @@ public final class InstanceOfExpr extends Expression {
       boolean updated = false;
 
       if (oldChild == expr) {
-         expr = (Expression) newChild;
+         setExpr((Expression) newChild);
          updated = true;
       }
       if (!updated) {
          if (type == oldChild) {
-            type = (Type) newChild;
+            setType((Type) newChild);
             updated = true;
          }
       }

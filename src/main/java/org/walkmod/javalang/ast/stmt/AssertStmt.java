@@ -67,11 +67,17 @@ public final class AssertStmt extends Statement {
 	}
 
 	public void setCheck(Expression check) {
+	   if(this.check != null){
+         updateReferences(this.check);
+      }
 		this.check = check;
 		setAsParentNodeOf(check);
 	}
 
 	public void setMessage(Expression msg) {
+	   if(this.msg != null){
+         updateReferences(this.msg);
+      }
 		this.msg = msg;
 		setAsParentNodeOf(msg);
 	}
@@ -80,12 +86,12 @@ public final class AssertStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == check){
-         check = (Expression) newChild;
+         setCheck((Expression) newChild);
          updated = true;
       }
       if(!updated){
          if(oldChild == msg){
-            msg = (Expression) newChild;
+            setMessage((Expression) newChild);
             updated = true;
          }
       }

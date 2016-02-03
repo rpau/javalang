@@ -182,6 +182,9 @@ public final class MethodDeclaration extends BodyDeclaration
    }
 
    public void setBody(BlockStmt body) {
+      if(this.body != null){
+         updateReferences(this.body);
+      }
       this.body = body;
       setAsParentNodeOf(body);
    }
@@ -205,6 +208,9 @@ public final class MethodDeclaration extends BodyDeclaration
    }
 
    public void setType(Type type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
       setAsParentNodeOf(type);
    }
@@ -335,13 +341,13 @@ public final class MethodDeclaration extends BodyDeclaration
       boolean update = super.replaceChildNode(oldChild, newChild);
       if (!update) {
          if (type == oldChild) {
-            type = (Type) newChild;
+            setType((Type) newChild);
             update = true;
          }
 
          if (!update) {
             if (body == oldChild) {
-               body = (BlockStmt) newChild;
+               setBody((BlockStmt) newChild);
                update = true;
             }
             if (!update) {

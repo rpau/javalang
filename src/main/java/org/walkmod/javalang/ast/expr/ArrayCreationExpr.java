@@ -136,11 +136,17 @@ public final class ArrayCreationExpr extends Expression {
    }
 
    public void setInitializer(ArrayInitializerExpr initializer) {
+      if(this.initializer != null){
+         updateReferences(this.initializer);
+      }
       this.initializer = initializer;
       setAsParentNodeOf(initializer);
    }
 
    public void setType(Type type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
    }
 
@@ -162,12 +168,12 @@ public final class ArrayCreationExpr extends Expression {
       boolean updated = false;
       
       if(type == oldChild){
-         type = (Type) newChild;
+         setType((Type) newChild);
          updated = true;
       }
       if(!updated){
          if(initializer == oldChild){
-            initializer = (ArrayInitializerExpr) newChild;
+            setInitializer((ArrayInitializerExpr) newChild);
             updated = true;
          }
          if(!updated){

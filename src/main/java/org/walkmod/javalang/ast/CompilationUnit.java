@@ -170,6 +170,9 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     *           the pakage declaration to set or <code>null</code> to default package
     */
    public void setPackage(PackageDeclaration pakage) {
+      if(this.pakage != null){
+         updateReferences(this.pakage);
+      }
       this.pakage = pakage;
       setAsParentNodeOf(pakage);
    }
@@ -209,7 +212,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (pakage == oldChild) {
-         pakage = (PackageDeclaration) newChild;
+         setPackage((PackageDeclaration) newChild);
          updated = true;
       }
       updated = replaceChildNodeInList(oldChild, newChild, imports);

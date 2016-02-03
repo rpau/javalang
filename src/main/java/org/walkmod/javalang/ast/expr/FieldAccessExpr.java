@@ -80,6 +80,9 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
 	}
 
 	public void setScope(Expression scope) {
+	   if(this.scope != null){
+         updateReferences(this.scope);
+      }
 		this.scope = scope;
 		setAsParentNodeOf(scope);
 	}
@@ -105,7 +108,7 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
 	      boolean updated = false;
 	      
 	      if(oldChild == scope){
-	         scope = (Expression) newChild;
+	         setScope((Expression) newChild);
 	         updated = true;
 	      }
 	      if(!updated){

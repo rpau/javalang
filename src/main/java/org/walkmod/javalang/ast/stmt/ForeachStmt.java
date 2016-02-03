@@ -74,11 +74,17 @@ public final class ForeachStmt extends Statement {
 	}
 
 	public void setBody(Statement body) {
+	   if(this.body != null){
+         updateReferences(this.body);
+      }
 		this.body = body;
 		setAsParentNodeOf(body);
 	}
 
 	public void setIterable(Expression iterable) {
+	   if(this.iterable != null){
+         updateReferences(this.iterable);
+      }
 		this.iterable = iterable;
 		setAsParentNodeOf(iterable);
 	}
@@ -92,17 +98,17 @@ public final class ForeachStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == iterable){
-         iterable = (Expression) newChild;
+         setIterable((Expression) newChild);
          updated = true;
       }
       if(!updated){
          if(oldChild == var){
-            var = (VariableDeclarationExpr) newChild;
+            setVariable((VariableDeclarationExpr) newChild);
             updated = true;
          }
          if(!updated){
             if(oldChild == body){
-               body = (Statement) newChild;
+               setBody((Statement) newChild);
                updated = true;
             }
          }

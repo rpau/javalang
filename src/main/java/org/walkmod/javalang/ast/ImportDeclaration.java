@@ -130,6 +130,9 @@ public final class ImportDeclaration extends Node implements
 	 *            the name to set
 	 */
 	public void setName(NameExpr name) {
+	   if(this.name != null){
+         updateReferences(this.name);
+      }
 		this.name = name;
 		setAsParentNodeOf(name);
 	}
@@ -208,7 +211,7 @@ public final class ImportDeclaration extends Node implements
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       if(oldChild == name){
-         name = (NameExpr) newChild;
+         setName((NameExpr) newChild);
          return true;
       }
       return false;

@@ -70,16 +70,25 @@ public final class ConditionalExpr extends Expression {
    }
 
    public void setCondition(Expression condition) {
+      if(this.condition != null){
+         updateReferences(this.condition);
+      }
       this.condition = condition;
       setAsParentNodeOf(condition);
    }
 
    public void setElseExpr(Expression elseExpr) {
+      if(this.elseExpr != null){
+         updateReferences(this.elseExpr);
+      }
       this.elseExpr = elseExpr;
       setAsParentNodeOf(elseExpr);
    }
 
    public void setThenExpr(Expression thenExpr) {
+      if(this.thenExpr != null){
+         updateReferences(this.thenExpr);
+      }
       this.thenExpr = thenExpr;
       setAsParentNodeOf(thenExpr);
    }
@@ -88,17 +97,17 @@ public final class ConditionalExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (condition == oldChild) {
-         condition = (Expression) newChild;
+         setCondition((Expression) newChild);
          updated = true;
       }
       if (!updated) {
          if (thenExpr == oldChild) {
-            thenExpr = (Expression) newChild;
+            setThenExpr((Expression) newChild);
             updated = true;
          }
          if (!updated) {
             if (elseExpr == oldChild) {
-               elseExpr = (Expression) newChild;
+               setElseExpr((Expression) newChild);
                updated = true;
             }
          }

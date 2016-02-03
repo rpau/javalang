@@ -54,6 +54,9 @@ public final class ClassExpr extends Expression {
    }
 
    public void setType(Type type) {
+      if(this.type != null){
+         updateReferences(this.type);
+      }
       this.type = type;
       setAsParentNodeOf(type);
    }
@@ -62,7 +65,7 @@ public final class ClassExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (type == oldChild) {
-         type = (Type) newChild;
+         setType((Type) newChild);
          updated = true;
       }
       

@@ -16,7 +16,6 @@
 package org.walkmod.javalang.ast.expr;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -66,6 +65,9 @@ public final class MemberValuePair extends Node {
    }
 
    public void setValue(Expression value) {
+      if(this.value != null){
+         updateReferences(this.value);
+      }
       this.value = value;
       setAsParentNodeOf(value);
    }
@@ -75,7 +77,7 @@ public final class MemberValuePair extends Node {
       boolean updated = false;
 
       if (oldChild == value) {
-         value = (Expression) newChild;
+         setValue((Expression) newChild);
          updated = true;
       }
 

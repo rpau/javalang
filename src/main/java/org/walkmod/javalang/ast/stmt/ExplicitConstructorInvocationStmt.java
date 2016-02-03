@@ -88,6 +88,9 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 	}
 
 	public void setExpr(Expression expr) {
+	   if(this.expr != null){
+         updateReferences(this.expr);
+      }
 		this.expr = expr;
 		setAsParentNodeOf(expr);
 	}
@@ -105,7 +108,7 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == expr){
-         expr = (Expression) newChild;
+         setExpr((Expression) newChild);
          updated = true;
       }
       if(!updated){

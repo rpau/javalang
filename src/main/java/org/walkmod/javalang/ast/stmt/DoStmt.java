@@ -16,7 +16,6 @@
 package org.walkmod.javalang.ast.stmt;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.body.MultiTypeParameter;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -64,11 +63,17 @@ public final class DoStmt extends Statement {
 	}
 
 	public void setBody(Statement body) {
+	   if(this.body != null){
+         updateReferences(this.body);
+      }
 		this.body = body;
 		setAsParentNodeOf(body);
 	}
 
 	public void setCondition(Expression condition) {
+	   if(this.condition != null){
+         updateReferences(this.condition);
+      }
 		this.condition = condition;
 		setAsParentNodeOf(condition);
 	}
@@ -77,12 +82,12 @@ public final class DoStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == body){
-         body = (Statement) newChild;
+         setBody((Statement) newChild);
          updated = true;
       }
       if(!updated){
          if(oldChild == condition){
-            condition = (Expression) newChild;
+            setCondition((Expression) newChild);
             updated = true;
          }
       }

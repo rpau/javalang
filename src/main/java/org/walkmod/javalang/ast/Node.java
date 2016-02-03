@@ -287,6 +287,34 @@ public abstract class Node implements Serializable {
       this.parentNode = parent;
    }
 
+   public boolean isAncestorOf(Node other) {
+      Node parent = other.getParentNode();
+      while (parent != null) {
+         if (parent == this) {
+            return true;
+         }
+         parent = parent.getParentNode();
+      }
+
+      return false;
+   }
+
+   public Node getCommonAncestor(Node other) {
+      Node parent = getParentNode();
+
+      while (parent != null) {
+         Node parent2 = other;
+         while (parent2 != null) {
+            if (parent == parent2) {
+               return parent;
+            }
+            parent2 = parent2.getParentNode();
+         }
+         parent = parent.getParentNode();
+      }
+      return null;
+   }
+
    protected void setAsParentNodeOf(List<? extends Node> childNodes) {
       if (childNodes != null) {
          Iterator<? extends Node> it = childNodes.iterator();
@@ -303,6 +331,43 @@ public abstract class Node implements Serializable {
       }
    }
 
+   protected void updateReferences(Object o) {
+      if (o instanceof SymbolReference) {
+         SymbolReference sr = (SymbolReference) o;
+         SymbolDefinition sd = sr.getSymbolDefinition();
+         if (sd != null) {
+            List<SymbolReference> usages = sd.getUsages();
+            if (usages != null) {
+               Iterator<SymbolReference> it = usages.iterator();
+               boolean found = false;
+               while (it.hasNext() && !found) {
+                  SymbolReference current = it.next();
+                  if (current == o) {
+                     it.remove();
+                     found = true;
+                  }
+               }
+            }
+         }
+      }
+      if (o instanceof SymbolDefinition) {
+         SymbolDefinition sd = (SymbolDefinition) o;
+         List<SymbolReference> usages = sd.getUsages();
+         if (usages != null) {
+            Iterator<SymbolReference> it = usages.iterator();
+            while (it.hasNext()) {
+               SymbolReference current = it.next();
+               current.setSymbolDefinition(null);
+               it.remove();
+            }
+            List<SymbolReference> bodyRefs = sd.getBodyReferences();
+            for (SymbolReference sr : bodyRefs) {
+               updateReferences(sr);
+            }
+         }
+      }
+   }
+
    @SuppressWarnings("unchecked")
    protected boolean replaceChildNodeInList(Node oldChild, Node newChild, List list) {
       if (list != null) {
@@ -313,13 +378,18 @@ public abstract class Node implements Serializable {
             Object current = it.next();
             if (current == oldChild) {
                it.remove();
+               updateReferences(current);
                updated = true;
             }
             if (!updated) {
                i++;
             }
          }
-         if(updated){
+         if (updated) {
+            Node parent = oldChild.getParentNode();
+            if(parent != null){
+               parent.setAsParentNodeOf(newChild);
+            }
             list.add(i, newChild);
          }
          return updated;

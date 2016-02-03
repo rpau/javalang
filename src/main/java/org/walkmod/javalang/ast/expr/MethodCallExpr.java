@@ -21,7 +21,6 @@ import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
-import org.walkmod.javalang.ast.stmt.Statement;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -100,6 +99,9 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
    }
 
    public void setScope(Expression scope) {
+      if(this.scope != null){
+         updateReferences(this.scope);
+      }
       this.scope = scope;
       setAsParentNodeOf(scope);
    }
@@ -129,7 +131,7 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
       boolean updated = false;
 
       if (oldChild == scope) {
-         scope = (Expression) newChild;
+         setScope((Expression) newChild);
          updated = true;
       }
       if (!updated) {

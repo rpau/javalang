@@ -58,6 +58,9 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
    }
 
    public void setTypeDeclaration(TypeDeclaration typeDecl) {
+      if(this.typeDecl != null){
+         updateReferences(this.typeDecl);
+      }
       this.typeDecl = typeDecl;
       setAsParentNodeOf(typeDecl);
    }
@@ -106,7 +109,7 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == typeDecl) {
-         typeDecl = (TypeDeclaration) newChild;
+         setTypeDeclaration((TypeDeclaration) newChild);
          updated = true;
       }
 

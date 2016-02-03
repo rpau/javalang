@@ -62,11 +62,17 @@ public final class ArrayAccessExpr extends Expression {
    }
 
    public void setIndex(Expression index) {
+      if(this.index != null){
+         updateReferences(this.index);
+      }
       this.index = index;
       setAsParentNodeOf(index);
    }
 
    public void setName(Expression name) {
+      if(this.name != null){
+         updateReferences(this.name);
+      }
       this.name = name;
       setAsParentNodeOf(name);
    }
@@ -75,12 +81,12 @@ public final class ArrayAccessExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(index == oldChild){
-         index = (Expression) newChild;
+         setIndex((Expression) newChild);
          updated = true;
       }
       if(!updated){
          if(name == oldChild){
-            name = (Expression) newChild;
+            setName((Expression) newChild);
          }
       }
       return updated;

@@ -79,6 +79,9 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
    }
 
    public void setScope(Expression scope) {
+      if(this.scope != null){
+         updateReferences(this.scope);
+      }
       this.scope = scope;
       setAsParentNodeOf(scope);
    }
@@ -135,7 +138,7 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == scope) {
-         scope = (Expression) newChild;
+         setScope((Expression) newChild);
          updated = true;
       }
       if (!updated) {

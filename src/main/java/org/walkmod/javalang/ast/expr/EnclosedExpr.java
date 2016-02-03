@@ -53,6 +53,9 @@ public final class EnclosedExpr extends Expression {
    }
 
    public void setInner(Expression inner) {
+      if(this.inner != null){
+         updateReferences(this.inner);
+      }
       this.inner = inner;
       setAsParentNodeOf(inner);
    }
@@ -60,12 +63,12 @@ public final class EnclosedExpr extends Expression {
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      
-      if(oldChild == inner){
-         inner = (Expression) newChild;
+
+      if (oldChild == inner) {
+         setInner((Expression) newChild);
          updated = true;
       }
-      
+
       return updated;
    }
 }

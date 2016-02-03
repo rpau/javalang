@@ -88,6 +88,9 @@ public class LambdaExpr extends Expression implements SymbolReference {
    }
 
    public void setBody(Statement body) {
+      if(this.body != null){
+         updateReferences(this.body);
+      }
       this.body = body;
       setAsParentNodeOf(body);
    }
@@ -125,7 +128,7 @@ public class LambdaExpr extends Expression implements SymbolReference {
       boolean updated = false;
       
       if(oldChild == body){
-         body = (Statement) newChild;
+         setBody((Statement) newChild);
          updated = true;
       }
       if(!updated){

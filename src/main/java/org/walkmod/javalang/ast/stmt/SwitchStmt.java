@@ -70,6 +70,9 @@ public final class SwitchStmt extends Statement {
 	}
 
 	public void setSelector(Expression selector) {
+	   if(this.selector != null){
+         updateReferences(this.selector);
+      }
 		this.selector = selector;
 		setAsParentNodeOf(selector);
 	}
@@ -79,7 +82,7 @@ public final class SwitchStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if (oldChild == selector) {
-         selector = (Expression) newChild;
+         setSelector((Expression) newChild);
          updated = true;
       }
       if (!updated) {

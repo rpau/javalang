@@ -78,11 +78,19 @@ public final class WildcardType extends Type {
 	}
 
 	public void setExtends(ReferenceType ext) {
+	   if(this.ext != null){
+         updateReferences(this.ext);
+      }
 		this.ext = ext;
+		setAsParentNodeOf(ext);
 	}
 
 	public void setSuper(ReferenceType sup) {
+	   if(this.sup != null){
+         updateReferences(this.sup);
+      }
 		this.sup = sup;
+		setAsParentNodeOf(sup);
 	}
 	
 	@Override
@@ -90,12 +98,12 @@ public final class WildcardType extends Type {
       boolean updated = super.replaceChildNode(oldChild, newChild);
       if(!updated){
          if(ext == oldChild){
-            ext = (ReferenceType) newChild;
+            setExtends((ReferenceType) newChild);
             updated = true;
          }
          if(!updated){
             if(sup == oldChild){
-               sup = (ReferenceType) newChild;
+               setSuper((ReferenceType) newChild);
             }
          }
       }

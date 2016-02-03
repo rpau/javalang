@@ -54,6 +54,9 @@ public final class SuperExpr extends Expression {
 	}
 
 	public void setClassExpr(Expression classExpr) {
+	   if(this.classExpr != null){
+         updateReferences(this.classExpr);
+      }
 		this.classExpr = classExpr;
 		setAsParentNodeOf(classExpr);
 	}
@@ -62,7 +65,7 @@ public final class SuperExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == classExpr){
-         classExpr = (Expression) newChild;
+         setClassExpr((Expression) newChild);
          updated = true;
       }
       return updated;

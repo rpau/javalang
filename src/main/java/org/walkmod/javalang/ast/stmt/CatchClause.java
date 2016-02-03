@@ -81,11 +81,17 @@ public final class CatchClause extends Node {
 	}
 
 	public void setCatchBlock(final BlockStmt catchBlock) {
+	   if(this.catchBlock != null){
+         updateReferences(this.catchBlock);
+      }
 		this.catchBlock = catchBlock;
 		setAsParentNodeOf(catchBlock);
 	}
 
 	public void setExcept(final MultiTypeParameter except) {
+	   if(this.except != null){
+         updateReferences(this.except);
+      }
 		this.except = except;
 		setAsParentNodeOf(except);
 	}
@@ -94,12 +100,12 @@ public final class CatchClause extends Node {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(oldChild == except){
-         except = (MultiTypeParameter) newChild;
+         setExcept((MultiTypeParameter) newChild);
          updated = true;
       }
       if(!updated){
          if(oldChild == catchBlock){
-            catchBlock = (BlockStmt) newChild;
+            setCatchBlock((BlockStmt) newChild);
             updated = true;
          }
       }

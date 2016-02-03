@@ -75,6 +75,9 @@ public final class BinaryExpr extends Expression {
 	}
 
 	public void setLeft(Expression left) {
+	   if(this.left != null){
+         updateReferences(this.left);
+      }
 		this.left = left;
 		setAsParentNodeOf(left);
 	}
@@ -84,6 +87,9 @@ public final class BinaryExpr extends Expression {
 	}
 
 	public void setRight(Expression right) {
+	   if(this.right != null){
+         updateReferences(this.right);
+      }
 		this.right = right;
 		setAsParentNodeOf(right);
 	}
@@ -93,11 +99,11 @@ public final class BinaryExpr extends Expression {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
       if(left == oldChild){
-         left = (Expression) newChild;
+         setLeft((Expression)newChild);
          updated = true;
       }
       if(right == oldChild){
-         right = (Expression) newChild;
+         setRight((Expression) newChild);
          updated = true;
       }
       return updated;
