@@ -47,5 +47,10 @@ public final class VoidType extends Type {
    public <A> void accept(VoidVisitor<A> v, A arg) {
       v.visit(this, arg);
    }
+   
+   @Override
+   public VoidType clone() throws CloneNotSupportedException {
+      return new VoidType();
+   }
 
 }

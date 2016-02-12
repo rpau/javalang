@@ -62,7 +62,7 @@ public final class CastExpr extends Expression {
    }
 
    public void setExpr(Expression expr) {
-      if(this.expr != null){
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
       this.expr = expr;
@@ -70,7 +70,7 @@ public final class CastExpr extends Expression {
    }
 
    public void setType(Type type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -84,12 +84,19 @@ public final class CastExpr extends Expression {
          setType((Type) newChild);
          updated = true;
       }
-      if(!updated){
-         if(expr == oldChild){
+      if (!updated) {
+         if (expr == oldChild) {
             setExpr((Expression) newChild);
             updated = true;
          }
       }
       return updated;
    }
+
+   @Override
+   public CastExpr clone() throws CloneNotSupportedException {
+
+      return new CastExpr(clone(getType()), clone(getExpr()));
+   }
+
 }

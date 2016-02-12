@@ -44,159 +44,162 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class TypeParameter extends Node implements SymbolDefinition {
 
-	private String name;
+   private String name;
 
-	private List<AnnotationExpr> annotations;
+   private List<AnnotationExpr> annotations;
 
-	private List<ClassOrInterfaceType> typeBound;
-	
-	private List<SymbolReference> usages;
+   private List<ClassOrInterfaceType> typeBound;
 
-	private int scopeLevel = 0;
+   private List<SymbolReference> usages;
 
-	public TypeParameter() {
-	}
+   private int scopeLevel = 0;
 
-	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound) {
-		this.name = name;
-		setTypeBound(typeBound);
-	}
+   public TypeParameter() {
+   }
 
-	public TypeParameter(String name, List<ClassOrInterfaceType> typeBound,
-			List<AnnotationExpr> annotations) {
-		this.name = name;
-		setTypeBound(typeBound);
-		setAnnotations(annotations);
-	}
+   public TypeParameter(String name, List<ClassOrInterfaceType> typeBound) {
+      this.name = name;
+      setTypeBound(typeBound);
+   }
 
-	public TypeParameter(int beginLine, int beginColumn, int endLine,
-			int endColumn, String name, List<ClassOrInterfaceType> typeBound) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
-		setTypeBound(typeBound);
-	}
+   public TypeParameter(String name, List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+      this.name = name;
+      setTypeBound(typeBound);
+      setAnnotations(annotations);
+   }
 
-	public TypeParameter(int beginLine, int beginColumn, int endLine,
-			int endColumn, String name, List<ClassOrInterfaceType> typeBound,
-			List<AnnotationExpr> annotations) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.name = name;
-		setTypeBound(typeBound);
-		setAnnotations(annotations);
-	}
+   public TypeParameter(int beginLine, int beginColumn, int endLine, int endColumn, String name,
+         List<ClassOrInterfaceType> typeBound) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      this.name = name;
+      setTypeBound(typeBound);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   public TypeParameter(int beginLine, int beginColumn, int endLine, int endColumn, String name,
+         List<ClassOrInterfaceType> typeBound, List<AnnotationExpr> annotations) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      this.name = name;
+      setTypeBound(typeBound);
+      setAnnotations(annotations);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	/**
-	 * Return the name of the paramenter.
-	 * 
-	 * @return the name of the paramenter
-	 */
-	public String getName() {
-		return name;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	/**
-	 * Return the list of {@link ClassOrInterfaceType} that this parameter
-	 * extends. Return <code>null</code> null if there are no type.
-	 * 
-	 * @return list of types that this paramente extends or <code>null</code>
-	 */
-	public List<ClassOrInterfaceType> getTypeBound() {
-		return typeBound;
-	}
+   /**
+    * Return the name of the paramenter.
+    * 
+    * @return the name of the paramenter
+    */
+   public String getName() {
+      return name;
+   }
 
-	/**
-	 * Sets the name of this type parameter.
-	 * 
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+   /**
+    * Return the list of {@link ClassOrInterfaceType} that this parameter extends. Return
+    * <code>null</code> null if there are no type.
+    * 
+    * @return list of types that this paramente extends or <code>null</code>
+    */
+   public List<ClassOrInterfaceType> getTypeBound() {
+      return typeBound;
+   }
 
-	/**
-	 * Sets the list o types.
-	 * 
-	 * @param typeBound
-	 *            the typeBound to set
-	 */
-	public void setTypeBound(List<ClassOrInterfaceType> typeBound) {
-		this.typeBound = typeBound;
-		setAsParentNodeOf(typeBound);
-	}
+   /**
+    * Sets the name of this type parameter.
+    * 
+    * @param name
+    *           the name to set
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+   /**
+    * Sets the list o types.
+    * 
+    * @param typeBound
+    *           the typeBound to set
+    */
+   public void setTypeBound(List<ClassOrInterfaceType> typeBound) {
+      this.typeBound = typeBound;
+      setAsParentNodeOf(typeBound);
+   }
 
-	public void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-		setAsParentNodeOf(annotations);
-	}
+   public List<AnnotationExpr> getAnnotations() {
+      return annotations;
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   public void setAnnotations(List<AnnotationExpr> annotations) {
+      this.annotations = annotations;
+      setAsParentNodeOf(annotations);
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return null;
-	}
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return null;
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		return false;
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      return false;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
+
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
-      if(!update){
+      if (!update) {
          update = replaceChildNodeInList(oldChild, newChild, typeBound);
       }
       return update;
+   }
+
+   @Override
+   public TypeParameter clone() throws CloneNotSupportedException {
+      return new TypeParameter(name, clone(typeBound), clone(annotations));
    }
 
 }

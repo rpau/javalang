@@ -90,4 +90,9 @@ public final class SwitchEntryStmt extends Statement {
 
       return updated;
    }
+   
+   @Override
+   public SwitchEntryStmt clone() throws CloneNotSupportedException {
+      return new SwitchEntryStmt(clone(label), clone(stmts));
+   }
 }

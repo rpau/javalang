@@ -27,86 +27,90 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class WildcardType extends Type {
 
-	private ReferenceType ext;
+   private ReferenceType ext;
 
-	private ReferenceType sup;
+   private ReferenceType sup;
 
-	public WildcardType() {
-	}
+   public WildcardType() {
+   }
 
-	public WildcardType(ReferenceType ext) {
-		setExtends(ext);
-	}
+   public WildcardType(ReferenceType ext) {
+      setExtends(ext);
+   }
 
-	public WildcardType(ReferenceType ext, ReferenceType sup) {
-		setExtends(ext);
-		setSuper(sup);
-	}
+   public WildcardType(ReferenceType ext, ReferenceType sup) {
+      setExtends(ext);
+      setSuper(sup);
+   }
 
-	public WildcardType(int beginLine, int beginColumn, int endLine,
-			int endColumn, ReferenceType ext, ReferenceType sup) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setExtends(ext);
-		setSuper(sup);
-	}
+   public WildcardType(int beginLine, int beginColumn, int endLine, int endColumn, ReferenceType ext,
+         ReferenceType sup) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setExtends(ext);
+      setSuper(sup);
+   }
 
-	public WildcardType(int beginLine, int beginColumn, int endLine,
-			int endColumn, ReferenceType ext, ReferenceType sup,
-			List<AnnotationExpr> annotations) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations);
-		setExtends(ext);
-		setSuper(sup);
+   public WildcardType(int beginLine, int beginColumn, int endLine, int endColumn, ReferenceType ext, ReferenceType sup,
+         List<AnnotationExpr> annotations) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations);
+      setExtends(ext);
+      setSuper(sup);
 
-	}
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public ReferenceType getExtends() {
-		return ext;
-	}
+   public ReferenceType getExtends() {
+      return ext;
+   }
 
-	public ReferenceType getSuper() {
-		return sup;
-	}
+   public ReferenceType getSuper() {
+      return sup;
+   }
 
-	public void setExtends(ReferenceType ext) {
-	   if(this.ext != null){
+   public void setExtends(ReferenceType ext) {
+      if (this.ext != null) {
          updateReferences(this.ext);
       }
-		this.ext = ext;
-		setAsParentNodeOf(ext);
-	}
+      this.ext = ext;
+      setAsParentNodeOf(ext);
+   }
 
-	public void setSuper(ReferenceType sup) {
-	   if(this.sup != null){
+   public void setSuper(ReferenceType sup) {
+      if (this.sup != null) {
          updateReferences(this.sup);
       }
-		this.sup = sup;
-		setAsParentNodeOf(sup);
-	}
-	
-	@Override
+      this.sup = sup;
+      setAsParentNodeOf(sup);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = super.replaceChildNode(oldChild, newChild);
-      if(!updated){
-         if(ext == oldChild){
+      if (!updated) {
+         if (ext == oldChild) {
             setExtends((ReferenceType) newChild);
             updated = true;
          }
-         if(!updated){
-            if(sup == oldChild){
+         if (!updated) {
+            if (sup == oldChild) {
                setSuper((ReferenceType) newChild);
             }
          }
       }
       return updated;
+   }
+
+   @Override
+   public WildcardType clone() throws CloneNotSupportedException {
+      return new WildcardType(clone(ext), clone(sup));
    }
 }

@@ -112,5 +112,10 @@ public final class InitializerDeclaration extends BodyDeclaration implements
 	   }
 	   return update;
 	}
+	
+	@Override
+   public InitializerDeclaration clone() throws CloneNotSupportedException {
+      return new InitializerDeclaration(clone(getJavaDoc()), isStatic, clone(getBlock()));
+   }
 
 }

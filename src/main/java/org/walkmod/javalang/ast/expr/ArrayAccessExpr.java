@@ -91,4 +91,9 @@ public final class ArrayAccessExpr extends Expression {
       }
       return updated;
    }
+
+   @Override
+   public ArrayAccessExpr clone() throws CloneNotSupportedException {
+      return new ArrayAccessExpr(clone(name), clone(index));
+   }
 }

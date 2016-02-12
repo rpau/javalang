@@ -44,4 +44,9 @@ public final class CharLiteralExpr extends StringLiteralExpr {
 	public <A> void accept(VoidVisitor<A> v, A arg) {
 		v.visit(this, arg);
 	}
+	
+	@Override
+   public CharLiteralExpr clone() throws CloneNotSupportedException {
+	   return new CharLiteralExpr(getValue());
+	}
 }

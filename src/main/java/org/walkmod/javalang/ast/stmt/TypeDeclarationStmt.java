@@ -58,7 +58,7 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
    }
 
    public void setTypeDeclaration(TypeDeclaration typeDecl) {
-      if(this.typeDecl != null){
+      if (this.typeDecl != null) {
          updateReferences(this.typeDecl);
       }
       this.typeDecl = typeDecl;
@@ -114,5 +114,10 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
       }
 
       return updated;
+   }
+
+   @Override
+   public TypeDeclarationStmt clone() throws CloneNotSupportedException {
+      return new TypeDeclarationStmt(clone(typeDecl));
    }
 }

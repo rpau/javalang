@@ -72,4 +72,9 @@ public final class VariableDeclaratorId extends Node {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return false;
    }
+   
+   @Override
+   public VariableDeclaratorId clone() throws CloneNotSupportedException {
+      return new VariableDeclaratorId(getName());
+   }
 }

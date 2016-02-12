@@ -24,90 +24,96 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class AssignExpr extends Expression {
 
-	public static enum Operator {
+   public static enum Operator {
 
-		assign, plus, minus, star, slash, and, or, xor, rem, lShift, rSignedShift, rUnsignedShift
-	}
+      assign, plus, minus, star, slash, and, or, xor, rem, lShift, rSignedShift, rUnsignedShift
+   }
 
-	private Expression target;
+   private Expression target;
 
-	private Expression value;
+   private Expression value;
 
-	private Operator op;
+   private Operator op;
 
-	public AssignExpr() {
-	}
+   public AssignExpr() {
+   }
 
-	public AssignExpr(Expression target, Expression value, Operator op) {
-		setTarget(target);
-		setValue(value);
-		setOperator(op);
-	}
+   public AssignExpr(Expression target, Expression value, Operator op) {
+      setTarget(target);
+      setValue(value);
+      setOperator(op);
+   }
 
-	public AssignExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression target, Expression value, Operator op) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setTarget(target);
-		setValue(value);
-		setOperator(op);
-	}
+   public AssignExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression target, Expression value,
+         Operator op) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setTarget(target);
+      setValue(value);
+      setOperator(op);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Operator getOperator() {
-		return op;
-	}
+   public Operator getOperator() {
+      return op;
+   }
 
-	public Expression getTarget() {
-		return target;
-	}
+   public Expression getTarget() {
+      return target;
+   }
 
-	public Expression getValue() {
-		return value;
-	}
+   public Expression getValue() {
+      return value;
+   }
 
-	public void setOperator(Operator op) {
-		this.op = op;
-	}
+   public void setOperator(Operator op) {
+      this.op = op;
+   }
 
-	public void setTarget(Expression target) {
-	   if(this.target != null){
+   public void setTarget(Expression target) {
+      if (this.target != null) {
          updateReferences(this.target);
       }
-		this.target = target;
-		setAsParentNodeOf(target);
-	}
+      this.target = target;
+      setAsParentNodeOf(target);
+   }
 
-	public void setValue(Expression value) {
-	   if(this.value != null){
+   public void setValue(Expression value) {
+      if (this.value != null) {
          updateReferences(this.value);
       }
-		this.value = value;
-		setAsParentNodeOf(value);
-	}
-	
-	@Override
+      this.value = value;
+      setAsParentNodeOf(value);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-	   boolean updated = false;
-	   if(target == oldChild){
-	      setTarget((Expression) newChild);
-	      updated = true;
-	   }
-	   if(!updated){
-	      if(value == oldChild){
-	         setValue((Expression) newChild);
-	         updated = true;
-	      }
-	   }
-	   
-	   return updated;
-	}
+      boolean updated = false;
+      if (target == oldChild) {
+         setTarget((Expression) newChild);
+         updated = true;
+      }
+      if (!updated) {
+         if (value == oldChild) {
+            setValue((Expression) newChild);
+            updated = true;
+         }
+      }
+
+      return updated;
+   }
+
+   @Override
+   public AssignExpr clone() throws CloneNotSupportedException {
+
+      return new AssignExpr(clone(getTarget()), clone(getValue()), getOperator());
+   }
 }

@@ -65,7 +65,7 @@ public final class MemberValuePair extends Node {
    }
 
    public void setValue(Expression value) {
-      if(this.value != null){
+      if (this.value != null) {
          updateReferences(this.value);
       }
       this.value = value;
@@ -82,5 +82,10 @@ public final class MemberValuePair extends Node {
       }
 
       return updated;
+   }
+
+   @Override
+   public MemberValuePair clone() throws CloneNotSupportedException {
+      return new MemberValuePair(new String(name), clone(value));
    }
 }

@@ -25,51 +25,55 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ExpressionStmt extends Statement {
 
-	private Expression expr;
+   private Expression expr;
 
-	public ExpressionStmt() {
-	}
+   public ExpressionStmt() {
+   }
 
-	public ExpressionStmt(Expression expr) {
-		setExpression(expr);
-	}
+   public ExpressionStmt(Expression expr) {
+      setExpression(expr);
+   }
 
-	public ExpressionStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression expr) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setExpression(expr);
-	}
+   public ExpressionStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setExpression(expr);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getExpression() {
-		return expr;
-	}
+   public Expression getExpression() {
+      return expr;
+   }
 
-	public void setExpression(Expression expr) {
-	   if(this.expr != null){
+   public void setExpression(Expression expr) {
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
-		this.expr = expr;
-		setAsParentNodeOf(expr);
-	}
-	
-	@Override
+      this.expr = expr;
+      setAsParentNodeOf(expr);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == expr){
+      if (oldChild == expr) {
          setExpression((Expression) newChild);
          updated = true;
       }
-      
+
       return updated;
+   }
+
+   @Override
+   public ExpressionStmt clone() throws CloneNotSupportedException {
+      return new ExpressionStmt(clone(expr));
    }
 }

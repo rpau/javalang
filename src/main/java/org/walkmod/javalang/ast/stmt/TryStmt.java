@@ -87,7 +87,7 @@ public final class TryStmt extends Statement {
    }
 
    public void setFinallyBlock(BlockStmt finallyBlock) {
-      if(this.finallyBlock != null){
+      if (this.finallyBlock != null) {
          updateReferences(this.finallyBlock);
       }
       this.finallyBlock = finallyBlock;
@@ -96,7 +96,7 @@ public final class TryStmt extends Statement {
    }
 
    public void setTryBlock(BlockStmt tryBlock) {
-      if(this.tryBlock != null){
+      if (this.tryBlock != null) {
          updateReferences(this.tryBlock);
       }
       this.tryBlock = tryBlock;
@@ -131,5 +131,10 @@ public final class TryStmt extends Statement {
       }
 
       return updated;
+   }
+
+   @Override
+   public TryStmt clone() throws CloneNotSupportedException {
+      return new TryStmt(clone(tryBlock), clone(catchs), clone(finallyBlock));
    }
 }

@@ -60,4 +60,10 @@ public final class BooleanLiteralExpr extends LiteralExpr {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return false;
    }
+
+   @Override
+   public BooleanLiteralExpr clone() throws CloneNotSupportedException {
+      return new BooleanLiteralExpr(value);
+   }
+
 }

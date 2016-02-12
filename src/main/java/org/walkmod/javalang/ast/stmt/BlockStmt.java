@@ -27,42 +27,46 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class BlockStmt extends Statement {
 
-	private List<Statement> stmts;
+   private List<Statement> stmts;
 
-	public BlockStmt() {
-	}
+   public BlockStmt() {
+   }
 
-	public BlockStmt(List<Statement> stmts) {
-		setStmts(stmts);
-	}
+   public BlockStmt(List<Statement> stmts) {
+      setStmts(stmts);
+   }
 
-	public BlockStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, List<Statement> stmts) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setStmts(stmts);
-	}
+   public BlockStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setStmts(stmts);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<Statement> getStmts() {
-		return stmts;
-	}
+   public List<Statement> getStmts() {
+      return stmts;
+   }
 
-	public void setStmts(List<Statement> stmts) {
-		this.stmts = stmts;
-		setAsParentNodeOf(stmts);
-	}
-	
-	@Override
+   public void setStmts(List<Statement> stmts) {
+      this.stmts = stmts;
+      setAsParentNodeOf(stmts);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return replaceChildNodeInList(oldChild, newChild, stmts);
+   }
+
+   @Override
+   public BlockStmt clone() throws CloneNotSupportedException {
+      return new BlockStmt(clone(stmts));
    }
 }

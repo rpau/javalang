@@ -41,4 +41,10 @@ public final class IntegerLiteralMinValueExpr extends IntegerLiteralExpr {
 	public <A> void accept(VoidVisitor<A> v, A arg) {
 		v.visit(this, arg);
 	}
+	
+
+   @Override
+   public IntegerLiteralMinValueExpr clone() throws CloneNotSupportedException {
+      return new IntegerLiteralMinValueExpr();
+   }
 }

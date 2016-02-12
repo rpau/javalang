@@ -182,7 +182,7 @@ public final class MethodDeclaration extends BodyDeclaration
    }
 
    public void setBody(BlockStmt body) {
-      if(this.body != null){
+      if (this.body != null) {
          updateReferences(this.body);
       }
       this.body = body;
@@ -208,7 +208,7 @@ public final class MethodDeclaration extends BodyDeclaration
    }
 
    public void setType(Type type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -363,6 +363,13 @@ public final class MethodDeclaration extends BodyDeclaration
 
       }
       return update;
+   }
+
+   @Override
+   public MethodDeclaration clone() throws CloneNotSupportedException {
+      return new MethodDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()),
+            clone(getTypeParameters()), clone(getType()), getName(), clone(getParameters()), getArrayCount(),
+            clone(getThrows()), clone(getBody()));
    }
 
 }

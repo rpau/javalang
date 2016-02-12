@@ -37,261 +37,257 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class ConstructorDeclaration extends BodyDeclaration implements
-		Mergeable<ConstructorDeclaration>, SymbolDataAware<ConstructorSymbolData>,
-		SymbolDefinition {
+public final class ConstructorDeclaration extends BodyDeclaration
+      implements Mergeable<ConstructorDeclaration>, SymbolDataAware<ConstructorSymbolData>, SymbolDefinition {
 
-	private int modifiers;
+   private int modifiers;
 
-	private List<TypeParameter> typeParameters;
+   private List<TypeParameter> typeParameters;
 
-	private String name;
+   private String name;
 
-	private List<Parameter> parameters;
+   private List<Parameter> parameters;
 
-	private List<ClassOrInterfaceType> throws_;
+   private List<ClassOrInterfaceType> throws_;
 
-	private BlockStmt block;
-	
-	private ConstructorSymbolData symbolData;
-	
-	private List<SymbolReference> usages;
-	
-	private List<SymbolReference> bodyReferences;
-	
-	private int scopeLevel = 0;
+   private BlockStmt block;
 
-	public ConstructorDeclaration() {
-	}
+   private ConstructorSymbolData symbolData;
 
-	public ConstructorDeclaration(int modifiers, String name) {
-		this.modifiers = modifiers;
-		this.name = name;
-	}
+   private List<SymbolReference> usages;
 
-	public ConstructorDeclaration(JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<ClassOrInterfaceType> throws_,
-			BlockStmt block) {
-		super(annotations, javaDoc);
-		this.modifiers = modifiers;
-		this.typeParameters = typeParameters;
-		this.name = name;
-		this.parameters = parameters;
-		this.throws_ = throws_;
-		this.block = block;
-	}
+   private List<SymbolReference> bodyReferences;
 
-	public ConstructorDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations,
-			List<TypeParameter> typeParameters, String name,
-			List<Parameter> parameters, List<ClassOrInterfaceType> throws_,
-			BlockStmt block) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
-		this.modifiers = modifiers;
-		this.typeParameters = typeParameters;
-		this.name = name;
-		this.parameters = parameters;
-		this.throws_ = throws_;
-		this.block = block;
-	}
+   private int scopeLevel = 0;
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   public ConstructorDeclaration() {
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   public ConstructorDeclaration(int modifiers, String name) {
+      this.modifiers = modifiers;
+      this.name = name;
+   }
 
-	public BlockStmt getBlock() {
-		return block;
-	}
+   public ConstructorDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations,
+         List<TypeParameter> typeParameters, String name, List<Parameter> parameters,
+         List<ClassOrInterfaceType> throws_, BlockStmt block) {
+      super(annotations, javaDoc);
+      this.modifiers = modifiers;
+      this.typeParameters = typeParameters;
+      this.name = name;
+      this.parameters = parameters;
+      this.throws_ = throws_;
+      this.block = block;
+   }
 
-	/**
-	 * Return the modifiers of this member declaration.
-	 * 
-	 * @see ModifierSet
-	 * @return modifiers
-	 */
-	public int getModifiers() {
-		return modifiers;
-	}
+   public ConstructorDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
+         int modifiers, List<AnnotationExpr> annotations, List<TypeParameter> typeParameters, String name,
+         List<Parameter> parameters, List<ClassOrInterfaceType> throws_, BlockStmt block) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
+      this.modifiers = modifiers;
+      this.typeParameters = typeParameters;
+      this.name = name;
+      this.parameters = parameters;
+      this.throws_ = throws_;
+      this.block = block;
+   }
 
-	public String getName() {
-		return name;
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	public List<Parameter> getParameters() {
-		return parameters;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<ClassOrInterfaceType> getThrows() {
-		return throws_;
-	}
+   public BlockStmt getBlock() {
+      return block;
+   }
 
-	public List<TypeParameter> getTypeParameters() {
-		return typeParameters;
-	}
+   /**
+    * Return the modifiers of this member declaration.
+    * 
+    * @see ModifierSet
+    * @return modifiers
+    */
+   public int getModifiers() {
+      return modifiers;
+   }
 
-	public void setBlock(BlockStmt block) {
-		this.block = block;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public void setModifiers(int modifiers) {
-		this.modifiers = modifiers;
-	}
+   public List<Parameter> getParameters() {
+      return parameters;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public List<ClassOrInterfaceType> getThrows() {
+      return throws_;
+   }
 
-	public void setParameters(List<Parameter> parameters) {
-		this.parameters = parameters;
-	}
+   public List<TypeParameter> getTypeParameters() {
+      return typeParameters;
+   }
 
-	public void setThrows(List<ClassOrInterfaceType> throws_) {
-		this.throws_ = throws_;
-	}
+   public void setBlock(BlockStmt block) {
+      this.block = block;
+   }
 
-	public void setTypeParameters(List<TypeParameter> typeParameters) {
-		this.typeParameters = typeParameters;
-	}
+   public void setModifiers(int modifiers) {
+      this.modifiers = modifiers;
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new ConstructorDeclarationComparator();
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	@Override
-	public void merge(ConstructorDeclaration remote, MergeEngine configuration) {
+   public void setParameters(List<Parameter> parameters) {
+      this.parameters = parameters;
+   }
 
-		super.merge(remote, configuration);
-		setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(),
-				BlockStmt.class));
+   public void setThrows(List<ClassOrInterfaceType> throws_) {
+      this.throws_ = throws_;
+   }
 
-		List<Parameter> resultParams = new LinkedList<Parameter>();
-		configuration.apply(getParameters(), remote.getParameters(),
-				resultParams, Parameter.class);
+   public void setTypeParameters(List<TypeParameter> typeParameters) {
+      this.typeParameters = typeParameters;
+   }
 
-		if (!resultParams.isEmpty()) {
-			setParameters(resultParams);
-		} else {
-			setParameters(null);
-		}
+   @Override
+   public Comparator<?> getIdentityComparator() {
+      return new ConstructorDeclarationComparator();
+   }
 
-		List<TypeParameter> resultTypeParams = new LinkedList<TypeParameter>();
-		configuration.apply(getTypeParameters(), remote.getTypeParameters(),
-				resultTypeParams, TypeParameter.class);
+   @Override
+   public void merge(ConstructorDeclaration remote, MergeEngine configuration) {
 
-		if (!resultTypeParams.isEmpty()) {
-			setTypeParameters(resultTypeParams);
-		} else {
-			setTypeParameters(null);
-		}
+      super.merge(remote, configuration);
+      setBlock((BlockStmt) configuration.apply(getBlock(), remote.getBlock(), BlockStmt.class));
 
-		List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
-		configuration.apply(getThrows(), remote.getThrows(), resultThrows,
-				ClassOrInterfaceType.class);
+      List<Parameter> resultParams = new LinkedList<Parameter>();
+      configuration.apply(getParameters(), remote.getParameters(), resultParams, Parameter.class);
 
-		if (!resultThrows.isEmpty()) {
-			setThrows(resultThrows);
-		} else {
-			setThrows(null);
-		}
+      if (!resultParams.isEmpty()) {
+         setParameters(resultParams);
+      } else {
+         setParameters(null);
+      }
 
-	}
+      List<TypeParameter> resultTypeParams = new LinkedList<TypeParameter>();
+      configuration.apply(getTypeParameters(), remote.getTypeParameters(), resultTypeParams, TypeParameter.class);
 
-	@Override
-	public ConstructorSymbolData getSymbolData() {
-		return symbolData;
-	}
+      if (!resultTypeParams.isEmpty()) {
+         setTypeParameters(resultTypeParams);
+      } else {
+         setTypeParameters(null);
+      }
 
-	@Override
-	public void setSymbolData(ConstructorSymbolData symbolData) {
-		this.symbolData = symbolData;
-	}
+      List<ClassOrInterfaceType> resultThrows = new LinkedList<ClassOrInterfaceType>();
+      configuration.apply(getThrows(), remote.getThrows(), resultThrows, ClassOrInterfaceType.class);
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+      if (!resultThrows.isEmpty()) {
+         setThrows(resultThrows);
+      } else {
+         setThrows(null);
+      }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return bodyReferences;
-	}
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public ConstructorSymbolData getSymbolData() {
+      return symbolData;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		this.bodyReferences = bodyReferences;
-	}
+   @Override
+   public void setSymbolData(ConstructorSymbolData symbolData) {
+      this.symbolData = symbolData;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
-	
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		if (bodyReference != null) {
-			SymbolDefinition definition = bodyReference.getSymbolDefinition();
-			if (definition != null) {
-				int scope = definition.getScopeLevel();
-				if (scope <= scopeLevel) {
-					if (bodyReferences == null) {
-						bodyReferences = new LinkedList<SymbolReference>();
-					}
-					return bodyReferences.add(bodyReference);
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
-	}
-	
-	@Override
-	public TypeDeclaration getParentNode(){
-		return (TypeDeclaration) super.getParentNode();
-	}
-	
-	@Override
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return bodyReferences;
+   }
+
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
+
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      this.bodyReferences = bodyReferences;
+   }
+
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
+
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
+
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      if (bodyReference != null) {
+         SymbolDefinition definition = bodyReference.getSymbolDefinition();
+         if (definition != null) {
+            int scope = definition.getScopeLevel();
+            if (scope <= scopeLevel) {
+               if (bodyReferences == null) {
+                  bodyReferences = new LinkedList<SymbolReference>();
+               }
+               return bodyReferences.add(bodyReference);
+            }
+         }
+      }
+      return false;
+   }
+
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
+   }
+
+   @Override
+   public TypeDeclaration getParentNode() {
+      return (TypeDeclaration) super.getParentNode();
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-	   boolean update = super.replaceChildNode(oldChild, newChild);
-	   if(!update){
-	      update = replaceChildNodeInList(oldChild, newChild, parameters);
-	      if(!update){
-	         update = replaceChildNodeInList(oldChild, newChild, typeParameters);
-	         if(!update){
-	            update = replaceChildNodeInList(oldChild, newChild, throws_);
-	         }
-	      }
-	   }
-	   return update;
-	}
+      boolean update = super.replaceChildNode(oldChild, newChild);
+      if (!update) {
+         update = replaceChildNodeInList(oldChild, newChild, parameters);
+         if (!update) {
+            update = replaceChildNodeInList(oldChild, newChild, typeParameters);
+            if (!update) {
+               update = replaceChildNodeInList(oldChild, newChild, throws_);
+            }
+         }
+      }
+      return update;
+   }
+
+   @Override
+   public ConstructorDeclaration clone() throws CloneNotSupportedException {
+      return new ConstructorDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()),
+            clone(getTypeParameters()), getName(), clone(getParameters()), clone(getThrows()), clone(getBlock()));
+   }
 }

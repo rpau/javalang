@@ -27,94 +27,104 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class FieldAccessExpr extends Expression implements SymbolReference{
+public final class FieldAccessExpr extends Expression implements SymbolReference {
 
-	private Expression scope;
+   private Expression scope;
 
-	private List<Type> typeArgs;
+   private List<Type> typeArgs;
 
-	private String field;
-	
-	private SymbolDefinition symbolDefinition;
+   private String field;
 
-	public FieldAccessExpr() {
-	}
+   private SymbolDefinition symbolDefinition;
 
-	public FieldAccessExpr(Expression scope, String field) {
-		setScope(scope);
-		this.field = field;
-	}
+   public FieldAccessExpr() {
+   }
 
-	public FieldAccessExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression scope, List<Type> typeArgs, String field) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setScope(scope);
-		setTypeArgs(typeArgs);
-		this.field = field;
-	}
+   public FieldAccessExpr(Expression scope, String field) {
+      setScope(scope);
+      this.field = field;
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   public FieldAccessExpr(Expression scope, List<Type> typeArgs, String field) {
+      setScope(scope);
+      setTypeArgs(typeArgs);
+      this.field = field;
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   public FieldAccessExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
+         List<Type> typeArgs, String field) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setScope(scope);
+      setTypeArgs(typeArgs);
+      this.field = field;
+   }
 
-	public String getField() {
-		return field;
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	public Expression getScope() {
-		return scope;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<Type> getTypeArgs() {
-		return typeArgs;
-	}
+   public String getField() {
+      return field;
+   }
 
-	public void setField(String field) {
-		this.field = field;
-	}
+   public Expression getScope() {
+      return scope;
+   }
 
-	public void setScope(Expression scope) {
-	   if(this.scope != null){
+   public List<Type> getTypeArgs() {
+      return typeArgs;
+   }
+
+   public void setField(String field) {
+      this.field = field;
+   }
+
+   public void setScope(Expression scope) {
+      if (this.scope != null) {
          updateReferences(this.scope);
       }
-		this.scope = scope;
-		setAsParentNodeOf(scope);
-	}
+      this.scope = scope;
+      setAsParentNodeOf(scope);
+   }
 
-	public void setTypeArgs(List<Type> typeArgs) {
-		this.typeArgs = typeArgs;
-		setAsParentNodeOf(typeArgs);
-	}
+   public void setTypeArgs(List<Type> typeArgs) {
+      this.typeArgs = typeArgs;
+      setAsParentNodeOf(typeArgs);
+   }
 
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return symbolDefinition;
-	}
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return symbolDefinition;
+   }
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-		this.symbolDefinition = symbolDefinition;
-	}
-	
-	
-	 @Override
-	   public boolean replaceChildNode(Node oldChild, Node newChild) {
-	      boolean updated = false;
-	      
-	      if(oldChild == scope){
-	         setScope((Expression) newChild);
-	         updated = true;
-	      }
-	      if(!updated){
-	         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
-	      }
-	      
-	      return updated;
-	   }
+   @Override
+   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+      this.symbolDefinition = symbolDefinition;
+   }
+
+   @Override
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      boolean updated = false;
+
+      if (oldChild == scope) {
+         setScope((Expression) newChild);
+         updated = true;
+      }
+      if (!updated) {
+         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
+      }
+
+      return updated;
+   }
+
+   @Override
+   public FieldAccessExpr clone() throws CloneNotSupportedException {
+      return new FieldAccessExpr(clone(getScope()), clone(getTypeArgs()), getField());
+   }
 }

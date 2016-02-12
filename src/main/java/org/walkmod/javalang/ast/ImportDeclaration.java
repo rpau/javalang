@@ -28,8 +28,7 @@ import org.walkmod.merger.Mergeable;
 
 /**
  * <p>
- * This class represents a import declaration. Imports are optional for the
- * {@link CompilationUnit}.
+ * This class represents a import declaration. Imports are optional for the {@link CompilationUnit}.
  * </p>
  * The ImportDeclaration is constructed following the syntax:<br>
  * <code>
@@ -46,175 +45,177 @@ import org.walkmod.merger.Mergeable;
  * 
  * @author Julio Vilmar Gesser
  */
-public final class ImportDeclaration extends Node implements
-		Mergeable<ImportDeclaration>, SymbolDefinition {
+public final class ImportDeclaration extends Node implements Mergeable<ImportDeclaration>, SymbolDefinition {
 
-	private NameExpr name;
+   private NameExpr name;
 
-	private boolean static_;
+   private boolean static_;
 
-	private boolean asterisk;
+   private boolean asterisk;
 
-	private List<SymbolReference> usages;
+   private List<SymbolReference> usages;
 
-	public ImportDeclaration() {
-	}
+   public ImportDeclaration() {
+   }
 
-	public ImportDeclaration(NameExpr name, boolean isStatic, boolean isAsterisk) {
-		setName(name);
-		this.static_ = isStatic;
-		this.asterisk = isAsterisk;
-	}
+   public ImportDeclaration(NameExpr name, boolean isStatic, boolean isAsterisk) {
+      setName(name);
+      this.static_ = isStatic;
+      this.asterisk = isAsterisk;
+   }
 
-	public ImportDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, NameExpr name, boolean isStatic, boolean isAsterisk) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setName(name);
-		this.static_ = isStatic;
-		this.asterisk = isAsterisk;
-	}
+   public ImportDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name, boolean isStatic,
+         boolean isAsterisk) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setName(name);
+      this.static_ = isStatic;
+      this.asterisk = isAsterisk;
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	/**
-	 * Retrieves the name of the import.
-	 * 
-	 * @return the name of the import
-	 */
-	public NameExpr getName() {
-		return name;
-	}
+   /**
+    * Retrieves the name of the import.
+    * 
+    * @return the name of the import
+    */
+   public NameExpr getName() {
+      return name;
+   }
 
-	/**
-	 * Return if the import ends with "*".
-	 * 
-	 * @return <code>true</code> if the import ends with "*", <code>false</code>
-	 *         otherwise
-	 */
-	public boolean isAsterisk() {
-		return asterisk;
-	}
+   /**
+    * Return if the import ends with "*".
+    * 
+    * @return <code>true</code> if the import ends with "*", <code>false</code> otherwise
+    */
+   public boolean isAsterisk() {
+      return asterisk;
+   }
 
-	/**
-	 * Return if the import is static.
-	 * 
-	 * @return <code>true</code> if the import is static, <code>false</code>
-	 *         otherwise
-	 */
-	public boolean isStatic() {
-		return static_;
-	}
+   /**
+    * Return if the import is static.
+    * 
+    * @return <code>true</code> if the import is static, <code>false</code> otherwise
+    */
+   public boolean isStatic() {
+      return static_;
+   }
 
-	/**
-	 * Sets if this import is asterisk.
-	 * 
-	 * @param asterisk
-	 *            <code>true</code> if this import is asterisk
-	 */
-	public void setAsterisk(boolean asterisk) {
-		this.asterisk = asterisk;
-	}
+   /**
+    * Sets if this import is asterisk.
+    * 
+    * @param asterisk
+    *           <code>true</code> if this import is asterisk
+    */
+   public void setAsterisk(boolean asterisk) {
+      this.asterisk = asterisk;
+   }
 
-	/**
-	 * Sets the name this import.
-	 * 
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(NameExpr name) {
-	   if(this.name != null){
+   /**
+    * Sets the name this import.
+    * 
+    * @param name
+    *           the name to set
+    */
+   public void setName(NameExpr name) {
+      if (this.name != null) {
          updateReferences(this.name);
       }
-		this.name = name;
-		setAsParentNodeOf(name);
-	}
+      this.name = name;
+      setAsParentNodeOf(name);
+   }
 
-	/**
-	 * Sets if this import is static.
-	 * 
-	 * @param static_
-	 *            <code>true</code> if this import is static
-	 */
-	public void setStatic(boolean static_) {
-		this.static_ = static_;
-	}
+   /**
+    * Sets if this import is static.
+    * 
+    * @param static_
+    *           <code>true</code> if this import is static
+    */
+   public void setStatic(boolean static_) {
+      this.static_ = static_;
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new ImportDeclarationComparator();
-	}
+   @Override
+   public Comparator<?> getIdentityComparator() {
+      return new ImportDeclarationComparator();
+   }
 
-	@Override
-	public void merge(ImportDeclaration t1, MergeEngine configuration) {
-		if (t1.isStatic()) {
-			setStatic(t1.isAsterisk());
-		}
-		if (t1.isAsterisk()) {
-			setAsterisk(t1.isAsterisk());
-		}
-	}
+   @Override
+   public void merge(ImportDeclaration t1, MergeEngine configuration) {
+      if (t1.isStatic()) {
+         setStatic(t1.isAsterisk());
+      }
+      if (t1.isAsterisk()) {
+         setAsterisk(t1.isAsterisk());
+      }
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return null;
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return null;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return 0;
-	}
+   @Override
+   public int getScopeLevel() {
+      return 0;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		return false;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      return false;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
 
-	}
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      if(oldChild == name){
+      if (oldChild == name) {
          setName((NameExpr) newChild);
          return true;
       }
       return false;
+   }
+
+   @Override
+   public ImportDeclaration clone() throws CloneNotSupportedException {
+      return new ImportDeclaration(clone(name), static_, asterisk);
    }
 
 }

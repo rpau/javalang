@@ -54,6 +54,13 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
    public MethodReferenceExpr() {
    }
 
+   public MethodReferenceExpr(Expression scope, List<TypeParameter> typeParameters, String identifier) {
+
+      setScope(scope);
+      setTypeParameters(typeParameters);
+      this.identifier = identifier;
+   }
+
    public MethodReferenceExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
          List<TypeParameter> typeParameters, String identifier) {
 
@@ -79,7 +86,7 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
    }
 
    public void setScope(Expression scope) {
-      if(this.scope != null){
+      if (this.scope != null) {
          updateReferences(this.scope);
       }
       this.scope = scope;
@@ -148,4 +155,9 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
       return updated;
    }
 
+   @Override
+   public MethodReferenceExpr clone() throws CloneNotSupportedException {
+
+      return new MethodReferenceExpr(clone(scope), clone(typeParameters), identifier);
+   }
 }

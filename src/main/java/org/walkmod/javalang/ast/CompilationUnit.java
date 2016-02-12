@@ -16,7 +16,6 @@
 package org.walkmod.javalang.ast;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -224,5 +223,11 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       }
       
       return updated;
+   }
+   
+
+   @Override
+   public CompilationUnit clone() throws CloneNotSupportedException {
+      return new CompilationUnit(clone(pakage), clone(imports), clone(types), clone(comments));
    }
 }

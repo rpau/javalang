@@ -63,7 +63,7 @@ public final class SynchronizedStmt extends Statement {
    }
 
    public void setBlock(BlockStmt block) {
-      if(this.block != null){
+      if (this.block != null) {
          updateReferences(this.block);
       }
       this.block = block;
@@ -71,7 +71,7 @@ public final class SynchronizedStmt extends Statement {
    }
 
    public void setExpr(Expression expr) {
-      if(this.expr != null){
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
       this.expr = expr;
@@ -93,5 +93,10 @@ public final class SynchronizedStmt extends Statement {
       }
 
       return updated;
+   }
+
+   @Override
+   public SynchronizedStmt clone() throws CloneNotSupportedException {
+      return new SynchronizedStmt(clone(expr), clone(block));
    }
 }

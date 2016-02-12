@@ -28,96 +28,99 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ExplicitConstructorInvocationStmt extends Statement {
 
-	private List<Type> typeArgs;
+   private List<Type> typeArgs;
 
-	private boolean isThis;
+   private boolean isThis;
 
-	private Expression expr;
+   private Expression expr;
 
-	private List<Expression> args;
+   private List<Expression> args;
 
-	public ExplicitConstructorInvocationStmt() {
-	}
+   public ExplicitConstructorInvocationStmt() {
+   }
 
-	public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr,
-			List<Expression> args) {
-		this.isThis = isThis;
-		setExpr(expr);
-		setArgs(args);
-	}
+   public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr, List<Expression> args) {
+      this.isThis = isThis;
+      setExpr(expr);
+      setArgs(args);
+   }
 
-	public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn,
-			int endLine, int endColumn, List<Type> typeArgs, boolean isThis,
-			Expression expr, List<Expression> args) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setTypeArgs(typeArgs);
-		this.isThis = isThis;
-		setExpr(expr);
-		setArgs(args);
-	}
+   public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn, int endLine, int endColumn,
+         List<Type> typeArgs, boolean isThis, Expression expr, List<Expression> args) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setTypeArgs(typeArgs);
+      this.isThis = isThis;
+      setExpr(expr);
+      setArgs(args);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<Expression> getArgs() {
-		return args;
-	}
+   public List<Expression> getArgs() {
+      return args;
+   }
 
-	public Expression getExpr() {
-		return expr;
-	}
+   public Expression getExpr() {
+      return expr;
+   }
 
-	public List<Type> getTypeArgs() {
-		return typeArgs;
-	}
+   public List<Type> getTypeArgs() {
+      return typeArgs;
+   }
 
-	public boolean isThis() {
-		return isThis;
-	}
+   public boolean isThis() {
+      return isThis;
+   }
 
-	public void setArgs(List<Expression> args) {
-		this.args = args;
-		setAsParentNodeOf(args);
-	}
+   public void setArgs(List<Expression> args) {
+      this.args = args;
+      setAsParentNodeOf(args);
+   }
 
-	public void setExpr(Expression expr) {
-	   if(this.expr != null){
+   public void setExpr(Expression expr) {
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
-		this.expr = expr;
-		setAsParentNodeOf(expr);
-	}
+      this.expr = expr;
+      setAsParentNodeOf(expr);
+   }
 
-	public void setThis(boolean isThis) {
-		this.isThis = isThis;
-	}
+   public void setThis(boolean isThis) {
+      this.isThis = isThis;
+   }
 
-	public void setTypeArgs(List<Type> typeArgs) {
-		this.typeArgs = typeArgs;
-		setAsParentNodeOf(typeArgs);
-	}
+   public void setTypeArgs(List<Type> typeArgs) {
+      this.typeArgs = typeArgs;
+      setAsParentNodeOf(typeArgs);
+   }
 
-	@Override
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == expr){
+      if (oldChild == expr) {
          setExpr((Expression) newChild);
          updated = true;
       }
-      if(!updated){
+      if (!updated) {
          updated = replaceChildNodeInList(oldChild, newChild, args);
-         
-         if(!updated){
+
+         if (!updated) {
             updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
          }
       }
       return updated;
+   }
+
+   @Override
+   public ExplicitConstructorInvocationStmt clone() throws CloneNotSupportedException {
+      return new ExplicitConstructorInvocationStmt(isThis, clone(expr), clone(args));
    }
 }

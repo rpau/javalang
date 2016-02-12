@@ -43,4 +43,7 @@ public abstract class Expression extends Node implements
 	public void setSymbolData(SymbolData symbolData) {
 		this.symbolData = symbolData;
 	}
+	
+	@Override
+	public abstract Expression clone() throws CloneNotSupportedException;
 }

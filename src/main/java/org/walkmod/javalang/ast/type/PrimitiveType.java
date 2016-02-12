@@ -74,4 +74,9 @@ public final class PrimitiveType extends Type {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return super.replaceChildNode(oldChild, newChild);
    }
+   
+   @Override
+   public PrimitiveType clone() throws CloneNotSupportedException {
+      return new PrimitiveType(type);
+   }
 }

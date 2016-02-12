@@ -71,7 +71,7 @@ public final class IfStmt extends Statement {
    }
 
    public void setCondition(Expression condition) {
-      if(this.condition != null){
+      if (this.condition != null) {
          updateReferences(this.condition);
       }
       this.condition = condition;
@@ -79,7 +79,7 @@ public final class IfStmt extends Statement {
    }
 
    public void setElseStmt(Statement elseStmt) {
-      if(this.elseStmt != null){
+      if (this.elseStmt != null) {
          updateReferences(this.elseStmt);
       }
       this.elseStmt = elseStmt;
@@ -87,7 +87,7 @@ public final class IfStmt extends Statement {
    }
 
    public void setThenStmt(Statement thenStmt) {
-      if(this.thenStmt != null){
+      if (this.thenStmt != null) {
          updateReferences(this.thenStmt);
       }
       this.thenStmt = thenStmt;
@@ -114,5 +114,10 @@ public final class IfStmt extends Statement {
          }
       }
       return updated;
+   }
+
+   @Override
+   public IfStmt clone() throws CloneNotSupportedException {
+      return new IfStmt(clone(condition), clone(thenStmt), clone(elseStmt));
    }
 }

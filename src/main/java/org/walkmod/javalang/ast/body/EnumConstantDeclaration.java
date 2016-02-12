@@ -35,200 +35,200 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class EnumConstantDeclaration extends BodyDeclaration implements
-		Mergeable<EnumConstantDeclaration>, SymbolDefinition,
-		SymbolDataAware<SymbolData> {
+public final class EnumConstantDeclaration extends BodyDeclaration
+      implements Mergeable<EnumConstantDeclaration>, SymbolDefinition, SymbolDataAware<SymbolData> {
 
-	private String name;
+   private String name;
 
-	private List<Expression> args;
+   private List<Expression> args;
 
-	private List<BodyDeclaration> classBody;
+   private List<BodyDeclaration> classBody;
 
-	private List<SymbolReference> usages;
+   private List<SymbolReference> usages;
 
-	private List<SymbolReference> bodyReferences;
+   private List<SymbolReference> bodyReferences;
 
-	private int scopeLevel = 0;
+   private int scopeLevel = 0;
 
-	private SymbolData symbolData = null;
+   private SymbolData symbolData = null;
 
-	public EnumConstantDeclaration() {
-	}
+   public EnumConstantDeclaration() {
+   }
 
-	public EnumConstantDeclaration(String name) {
-		this.name = name;
-	}
+   public EnumConstantDeclaration(String name) {
+      this.name = name;
+   }
 
-	public EnumConstantDeclaration(JavadocComment javaDoc,
-			List<AnnotationExpr> annotations, String name,
-			List<Expression> args, List<BodyDeclaration> classBody) {
-		super(annotations, javaDoc);
-		this.name = name;
-		setArgs(args);
-		setClassBody(classBody);
-	}
+   public EnumConstantDeclaration(JavadocComment javaDoc, List<AnnotationExpr> annotations, String name,
+         List<Expression> args, List<BodyDeclaration> classBody) {
+      super(annotations, javaDoc);
+      this.name = name;
+      setArgs(args);
+      setClassBody(classBody);
+   }
 
-	public EnumConstantDeclaration(int beginLine, int beginColumn, int endLine,
-			int endColumn, JavadocComment javaDoc,
-			List<AnnotationExpr> annotations, String name,
-			List<Expression> args, List<BodyDeclaration> classBody) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
-		this.name = name;
-		setArgs(args);
-		setClassBody(classBody);
-	}
+   public EnumConstantDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
+         List<AnnotationExpr> annotations, String name, List<Expression> args, List<BodyDeclaration> classBody) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
+      this.name = name;
+      setArgs(args);
+      setClassBody(classBody);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public List<Expression> getArgs() {
-		return args;
-	}
+   public List<Expression> getArgs() {
+      return args;
+   }
 
-	public List<BodyDeclaration> getClassBody() {
-		return classBody;
-	}
+   public List<BodyDeclaration> getClassBody() {
+      return classBody;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public void setArgs(List<Expression> args) {
-		this.args = args;
-		setAsParentNodeOf(args);
-	}
+   public void setArgs(List<Expression> args) {
+      this.args = args;
+      setAsParentNodeOf(args);
+   }
 
-	public void setClassBody(List<BodyDeclaration> classBody) {
-		this.classBody = classBody;
-		setAsParentNodeOf(classBody);
-	}
+   public void setClassBody(List<BodyDeclaration> classBody) {
+      this.classBody = classBody;
+      setAsParentNodeOf(classBody);
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
+   @Override
+   public Comparator<?> getIdentityComparator() {
 
-		return new EnumConstantDeclarationComparator();
-	}
+      return new EnumConstantDeclarationComparator();
+   }
 
-	@Override
-	public void merge(EnumConstantDeclaration remote, MergeEngine configuration) {
-		super.merge(remote, configuration);
+   @Override
+   public void merge(EnumConstantDeclaration remote, MergeEngine configuration) {
+      super.merge(remote, configuration);
 
-		List<BodyDeclaration> resultClassBody = new LinkedList<BodyDeclaration>();
-		configuration.apply(getClassBody(), remote.getClassBody(),
-				resultClassBody, BodyDeclaration.class);
+      List<BodyDeclaration> resultClassBody = new LinkedList<BodyDeclaration>();
+      configuration.apply(getClassBody(), remote.getClassBody(), resultClassBody, BodyDeclaration.class);
 
-		if (!resultClassBody.isEmpty()) {
-			setClassBody(resultClassBody);
-		} else {
-			setClassBody(null);
-		}
+      if (!resultClassBody.isEmpty()) {
+         setClassBody(resultClassBody);
+      } else {
+         setClassBody(null);
+      }
 
-		List<Expression> resultArgs = new LinkedList<Expression>();
-		configuration.apply(getArgs(), remote.getArgs(), resultArgs,
-				Expression.class);
-		if (!resultArgs.isEmpty()) {
-			setArgs(resultArgs);
-		} else {
-			setArgs(null);
-		}
+      List<Expression> resultArgs = new LinkedList<Expression>();
+      configuration.apply(getArgs(), remote.getArgs(), resultArgs, Expression.class);
+      if (!resultArgs.isEmpty()) {
+         setArgs(resultArgs);
+      } else {
+         setArgs(null);
+      }
 
-	}
+   }
 
-	@Override
-	public EnumDeclaration getParentNode() {
-		return (EnumDeclaration) super.getParentNode();
-	}
+   @Override
+   public EnumDeclaration getParentNode() {
+      return (EnumDeclaration) super.getParentNode();
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if (usages == null) {
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
-	}
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return bodyReferences;
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return bodyReferences;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		this.bodyReferences = bodyReferences;
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      this.bodyReferences = bodyReferences;
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		if (bodyReference != null) {
-			SymbolDefinition definition = bodyReference.getSymbolDefinition();
-			if (definition != null) {
-				int scope = definition.getScopeLevel();
-				if (scope <= scopeLevel) {
-					if (bodyReferences == null) {
-						bodyReferences = new LinkedList<SymbolReference>();
-					}
-					return bodyReferences.add(bodyReference);
-				}
-			}
-		}
-		return false;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      if (bodyReference != null) {
+         SymbolDefinition definition = bodyReference.getSymbolDefinition();
+         if (definition != null) {
+            int scope = definition.getScopeLevel();
+            if (scope <= scopeLevel) {
+               if (bodyReferences == null) {
+                  bodyReferences = new LinkedList<SymbolReference>();
+               }
+               return bodyReferences.add(bodyReference);
+            }
+         }
+      }
+      return false;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
 
-	@Override
-	public SymbolData getSymbolData() {
-		return symbolData;
-	}
+   @Override
+   public SymbolData getSymbolData() {
+      return symbolData;
+   }
 
-	@Override
-	public void setSymbolData(SymbolData symbolData) {
-		this.symbolData = symbolData;
-	}
-	
-	@Override
+   @Override
+   public void setSymbolData(SymbolData symbolData) {
+      this.symbolData = symbolData;
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean update = super.replaceChildNode(oldChild, newChild);
-      if(!update){
+      if (!update) {
          update = replaceChildNodeInList(oldChild, newChild, args);
-         if(!update){
+         if (!update) {
             update = replaceChildNodeInList(oldChild, newChild, classBody);
          }
       }
       return update;
-	}
+   }
+
+   @Override
+   public EnumConstantDeclaration clone() throws CloneNotSupportedException {
+      return new EnumConstantDeclaration(clone(getJavaDoc()), clone(getAnnotations()), name, clone(getArgs()),
+            clone(getClassBody()));
+   }
 }

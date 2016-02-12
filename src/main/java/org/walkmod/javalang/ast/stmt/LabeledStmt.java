@@ -65,7 +65,7 @@ public final class LabeledStmt extends Statement {
    }
 
    public void setStmt(Statement stmt) {
-      if(this.stmt != null){
+      if (this.stmt != null) {
          updateReferences(this.stmt);
       }
       this.stmt = stmt;
@@ -81,5 +81,10 @@ public final class LabeledStmt extends Statement {
       }
 
       return updated;
+   }
+
+   @Override
+   public LabeledStmt clone() throws CloneNotSupportedException {
+      return new LabeledStmt(label, clone(stmt));
    }
 }

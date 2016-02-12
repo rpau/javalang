@@ -23,6 +23,7 @@ import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
+import org.walkmod.javalang.ast.body.VariableDeclaratorId;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.comparators.ClassOrInterfaceTypeComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -198,6 +199,11 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
          updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
       }
       return updated;
+   }
+   
+   @Override
+   public ClassOrInterfaceType clone() throws CloneNotSupportedException {
+      return new ClassOrInterfaceType(clone(getScope()), getName());
    }
 
 }

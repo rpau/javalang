@@ -30,7 +30,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  * 
  * @author Julio Vilmar Gesser
  */
-public abstract class Node implements Serializable {
+public abstract class Node implements Serializable, Cloneable {
 
    private int beginLine;
 
@@ -208,7 +208,7 @@ public abstract class Node implements Serializable {
     * @return if it is a new node.
     */
    public boolean isNewNode() {
-      return (0== getEndLine() && 0 == getEndColumn() && getBeginLine() == 0);
+      return (0 == getEndLine() && 0 == getEndColumn() && getBeginLine() == 0);
    }
 
    /**
@@ -387,7 +387,7 @@ public abstract class Node implements Serializable {
          }
          if (updated) {
             Node parent = oldChild.getParentNode();
-            if(parent != null){
+            if (parent != null) {
                parent.setAsParentNodeOf(newChild);
             }
             list.add(i, newChild);
@@ -398,5 +398,25 @@ public abstract class Node implements Serializable {
    }
 
    public abstract boolean replaceChildNode(Node oldChild, Node newChild);
+
+   protected <T extends Node> List<T> clone(List<T> original) throws CloneNotSupportedException {
+      List<T> aux = null;
+      if (original != null) {
+         aux = new LinkedList<T>();
+         for (T node : original) {
+            aux.add(clone(node));
+         }
+      }
+      return aux;
+   }
+
+   protected <T extends Node> T clone(T node) throws CloneNotSupportedException {
+      if (node == null) {
+         return null;
+      }
+      return (T) node.clone();
+   }
+
+   public abstract <T extends Node> T clone() throws CloneNotSupportedException;
 
 }

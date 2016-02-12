@@ -74,6 +74,18 @@ public class LambdaExpr extends Expression implements SymbolReference {
       }
    }
 
+   public LambdaExpr(List<Parameter> parameters, Statement body, boolean parametersEnclosed) {
+
+      setParameters(parameters);
+      setBody(body);
+
+      if (this.parameters != null && this.parameters.size() == 1 && this.parameters.get(0).getType() == null) {
+         this.parametersEnclosed = parametersEnclosed;
+      } else {
+         this.parametersEnclosed = true;
+      }
+   }
+
    public List<Parameter> getParameters() {
       return parameters;
    }
@@ -88,7 +100,7 @@ public class LambdaExpr extends Expression implements SymbolReference {
    }
 
    public void setBody(Statement body) {
-      if(this.body != null){
+      if (this.body != null) {
          updateReferences(this.body);
       }
       this.body = body;
@@ -122,20 +134,25 @@ public class LambdaExpr extends Expression implements SymbolReference {
    public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
       this.symbolDefinition = symbolDefinition;
    }
-   
+
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      
-      if(oldChild == body){
+
+      if (oldChild == body) {
          setBody((Statement) newChild);
          updated = true;
       }
-      if(!updated){
+      if (!updated) {
          updated = replaceChildNodeInList(oldChild, newChild, parameters);
       }
-      
+
       return updated;
+   }
+
+   @Override
+   public LambdaExpr clone() throws CloneNotSupportedException {
+      return new LambdaExpr(clone(parameters), clone(body), parametersEnclosed);
    }
 
 }

@@ -71,4 +71,10 @@ public final class ClassExpr extends Expression {
       
       return updated;
    }
+
+   @Override
+   public ClassExpr clone() throws CloneNotSupportedException {
+      return new ClassExpr(clone(getType()));
+   }
+
 }

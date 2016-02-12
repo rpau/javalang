@@ -86,4 +86,7 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData>, 
       
       return replaceChildNodeInList(oldChild, newChild, annotations);
    }
+	
+	@Override
+   public abstract Type clone() throws CloneNotSupportedException;
 }

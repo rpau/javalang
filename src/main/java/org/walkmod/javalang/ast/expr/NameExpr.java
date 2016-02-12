@@ -75,4 +75,9 @@ public class NameExpr extends Expression implements SymbolReference {
       return false;
    }
 
+   @Override
+   public NameExpr clone() throws CloneNotSupportedException {
+      return new NameExpr(name);
+   }
+
 }

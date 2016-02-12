@@ -111,7 +111,7 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
    }
 
    public void setScope(Expression scope) {
-      if(this.scope != null){
+      if (this.scope != null) {
          updateReferences(this.scope);
       }
       this.scope = scope;
@@ -119,7 +119,7 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
    }
 
    public void setType(ClassOrInterfaceType type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -222,7 +222,7 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
             if (!updated) {
                updated = replaceChildNodeInList(oldChild, newChild, args);
             }
-            if(!updated){
+            if (!updated) {
                updated = replaceChildNodeInList(oldChild, newChild, anonymousClassBody);
             }
          }
@@ -230,4 +230,11 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
 
       return updated;
    }
+
+   @Override
+   public ObjectCreationExpr clone() throws CloneNotSupportedException {
+
+      return new ObjectCreationExpr(clone(scope), clone(type), clone(args));
+   }
+
 }

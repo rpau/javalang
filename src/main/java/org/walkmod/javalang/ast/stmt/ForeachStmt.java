@@ -26,93 +26,96 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ForeachStmt extends Statement {
 
-	private VariableDeclarationExpr var;
+   private VariableDeclarationExpr var;
 
-	private Expression iterable;
+   private Expression iterable;
 
-	private Statement body;
+   private Statement body;
 
-	public ForeachStmt() {
-	}
+   public ForeachStmt() {
+   }
 
-	public ForeachStmt(VariableDeclarationExpr var, Expression iterable,
-			Statement body) {
-		setVariable(var);
-		setIterable(iterable);
-		setBody(body);
-	}
+   public ForeachStmt(VariableDeclarationExpr var, Expression iterable, Statement body) {
+      setVariable(var);
+      setIterable(iterable);
+      setBody(body);
+   }
 
-	public ForeachStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, VariableDeclarationExpr var, Expression iterable,
-			Statement body) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setVariable(var);
-		setIterable(iterable);
-		setBody(body);
-	}
+   public ForeachStmt(int beginLine, int beginColumn, int endLine, int endColumn, VariableDeclarationExpr var,
+         Expression iterable, Statement body) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setVariable(var);
+      setIterable(iterable);
+      setBody(body);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Statement getBody() {
-		return body;
-	}
+   public Statement getBody() {
+      return body;
+   }
 
-	public Expression getIterable() {
-		return iterable;
-	}
+   public Expression getIterable() {
+      return iterable;
+   }
 
-	public VariableDeclarationExpr getVariable() {
-		return var;
-	}
+   public VariableDeclarationExpr getVariable() {
+      return var;
+   }
 
-	public void setBody(Statement body) {
-	   if(this.body != null){
+   public void setBody(Statement body) {
+      if (this.body != null) {
          updateReferences(this.body);
       }
-		this.body = body;
-		setAsParentNodeOf(body);
-	}
+      this.body = body;
+      setAsParentNodeOf(body);
+   }
 
-	public void setIterable(Expression iterable) {
-	   if(this.iterable != null){
+   public void setIterable(Expression iterable) {
+      if (this.iterable != null) {
          updateReferences(this.iterable);
       }
-		this.iterable = iterable;
-		setAsParentNodeOf(iterable);
-	}
+      this.iterable = iterable;
+      setAsParentNodeOf(iterable);
+   }
 
-	public void setVariable(VariableDeclarationExpr var) {
-		this.var = var;
-		setAsParentNodeOf(var);
-	}
-	
-	@Override
+   public void setVariable(VariableDeclarationExpr var) {
+      this.var = var;
+      setAsParentNodeOf(var);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == iterable){
+      if (oldChild == iterable) {
          setIterable((Expression) newChild);
          updated = true;
       }
-      if(!updated){
-         if(oldChild == var){
+      if (!updated) {
+         if (oldChild == var) {
             setVariable((VariableDeclarationExpr) newChild);
             updated = true;
          }
-         if(!updated){
-            if(oldChild == body){
+         if (!updated) {
+            if (oldChild == body) {
                setBody((Statement) newChild);
                updated = true;
             }
          }
       }
       return updated;
+   }
+
+   @Override
+   public ForeachStmt clone() throws CloneNotSupportedException {
+      return new ForeachStmt(clone(var), clone(iterable), clone(body));
    }
 }

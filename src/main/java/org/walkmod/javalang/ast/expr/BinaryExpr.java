@@ -24,88 +24,93 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class BinaryExpr extends Expression {
 
-	public static enum Operator {
+   public static enum Operator {
 
-		or, and, binOr, binAnd, xor, equals, notEquals, less, greater, lessEquals, greaterEquals, lShift, rSignedShift, rUnsignedShift, plus, minus, times, divide, remainder
-	}
+      or, and, binOr, binAnd, xor, equals, notEquals, less, greater, lessEquals, greaterEquals, lShift, rSignedShift, rUnsignedShift, plus, minus, times, divide, remainder
+   }
 
-	private Expression left;
+   private Expression left;
 
-	private Expression right;
+   private Expression right;
 
-	private Operator op;
+   private Operator op;
 
-	public BinaryExpr() {
-	}
+   public BinaryExpr() {
+   }
 
-	public BinaryExpr(Expression left, Expression right, Operator op) {
-		setLeft(left);
-		setRight(right);
-		setOperator(op);
-	}
+   public BinaryExpr(Expression left, Expression right, Operator op) {
+      setLeft(left);
+      setRight(right);
+      setOperator(op);
+   }
 
-	public BinaryExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression left, Expression right, Operator op) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setLeft(left);
-		setRight(right);
-		setOperator(op);
-	}
+   public BinaryExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression left, Expression right,
+         Operator op) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setLeft(left);
+      setRight(right);
+      setOperator(op);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getLeft() {
-		return left;
-	}
+   public Expression getLeft() {
+      return left;
+   }
 
-	public Operator getOperator() {
-		return op;
-	}
+   public Operator getOperator() {
+      return op;
+   }
 
-	public Expression getRight() {
-		return right;
-	}
+   public Expression getRight() {
+      return right;
+   }
 
-	public void setLeft(Expression left) {
-	   if(this.left != null){
+   public void setLeft(Expression left) {
+      if (this.left != null) {
          updateReferences(this.left);
       }
-		this.left = left;
-		setAsParentNodeOf(left);
-	}
+      this.left = left;
+      setAsParentNodeOf(left);
+   }
 
-	public void setOperator(Operator op) {
-		this.op = op;
-	}
+   public void setOperator(Operator op) {
+      this.op = op;
+   }
 
-	public void setRight(Expression right) {
-	   if(this.right != null){
+   public void setRight(Expression right) {
+      if (this.right != null) {
          updateReferences(this.right);
       }
-		this.right = right;
-		setAsParentNodeOf(right);
-	}
-	
+      this.right = right;
+      setAsParentNodeOf(right);
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(left == oldChild){
-         setLeft((Expression)newChild);
+      if (left == oldChild) {
+         setLeft((Expression) newChild);
          updated = true;
       }
-      if(right == oldChild){
+      if (right == oldChild) {
          setRight((Expression) newChild);
          updated = true;
       }
       return updated;
    }
+
+   @Override
+   public BinaryExpr clone() throws CloneNotSupportedException {
+      return new BinaryExpr(clone(getLeft()), clone(getRight()), getOperator());
+   }
+
 }

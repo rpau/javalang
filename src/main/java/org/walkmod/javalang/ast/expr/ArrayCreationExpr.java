@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -136,7 +137,7 @@ public final class ArrayCreationExpr extends Expression {
    }
 
    public void setInitializer(ArrayInitializerExpr initializer) {
-      if(this.initializer != null){
+      if (this.initializer != null) {
          updateReferences(this.initializer);
       }
       this.initializer = initializer;
@@ -144,7 +145,7 @@ public final class ArrayCreationExpr extends Expression {
    }
 
    public void setType(Type type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -166,24 +167,36 @@ public final class ArrayCreationExpr extends Expression {
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      
-      if(type == oldChild){
+
+      if (type == oldChild) {
          setType((Type) newChild);
          updated = true;
       }
-      if(!updated){
-         if(initializer == oldChild){
+      if (!updated) {
+         if (initializer == oldChild) {
             setInitializer((ArrayInitializerExpr) newChild);
             updated = true;
          }
-         if(!updated){
+         if (!updated) {
             updated = this.replaceChildNodeInList(oldChild, newChild, dimensions);
-            
-            if(!updated){
+
+            if (!updated) {
                updated = replaceChildNodeInList(oldChild, newChild, arraysAnnotations);
             }
          }
       }
       return updated;
+   }
+
+   @Override
+   public ArrayCreationExpr clone() throws CloneNotSupportedException {
+      List<List<AnnotationExpr>> copy = null;
+      if (arraysAnnotations != null) {
+         copy = new LinkedList<List<AnnotationExpr>>();
+         for (List<AnnotationExpr> item : arraysAnnotations) {
+            copy.add(clone(item));
+         }
+      }
+      return new ArrayCreationExpr(clone(getType()), clone(dimensions), arrayCount, copy);
    }
 }

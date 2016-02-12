@@ -25,72 +25,76 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class DoStmt extends Statement {
 
-	private Statement body;
+   private Statement body;
 
-	private Expression condition;
+   private Expression condition;
 
-	public DoStmt() {
-	}
+   public DoStmt() {
+   }
 
-	public DoStmt(Statement body, Expression condition) {
-		setBody(body);
-		setCondition(condition);
-	}
+   public DoStmt(Statement body, Expression condition) {
+      setBody(body);
+      setCondition(condition);
+   }
 
-	public DoStmt(int beginLine, int beginColumn, int endLine, int endColumn,
-			Statement body, Expression condition) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setBody(body);
-		setCondition(condition);
-	}
+   public DoStmt(int beginLine, int beginColumn, int endLine, int endColumn, Statement body, Expression condition) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setBody(body);
+      setCondition(condition);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Statement getBody() {
-		return body;
-	}
+   public Statement getBody() {
+      return body;
+   }
 
-	public Expression getCondition() {
-		return condition;
-	}
+   public Expression getCondition() {
+      return condition;
+   }
 
-	public void setBody(Statement body) {
-	   if(this.body != null){
+   public void setBody(Statement body) {
+      if (this.body != null) {
          updateReferences(this.body);
       }
-		this.body = body;
-		setAsParentNodeOf(body);
-	}
+      this.body = body;
+      setAsParentNodeOf(body);
+   }
 
-	public void setCondition(Expression condition) {
-	   if(this.condition != null){
+   public void setCondition(Expression condition) {
+      if (this.condition != null) {
          updateReferences(this.condition);
       }
-		this.condition = condition;
-		setAsParentNodeOf(condition);
-	}
-	
-	@Override
+      this.condition = condition;
+      setAsParentNodeOf(condition);
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == body){
+      if (oldChild == body) {
          setBody((Statement) newChild);
          updated = true;
       }
-      if(!updated){
-         if(oldChild == condition){
+      if (!updated) {
+         if (oldChild == condition) {
             setCondition((Expression) newChild);
             updated = true;
          }
       }
       return updated;
+   }
+
+   @Override
+   public DoStmt clone() throws CloneNotSupportedException {
+      return new DoStmt(clone(body), clone(condition));
    }
 }

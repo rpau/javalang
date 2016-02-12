@@ -24,50 +24,55 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class SuperExpr extends Expression {
 
-	private Expression classExpr;
+   private Expression classExpr;
 
-	public SuperExpr() {
-	}
+   public SuperExpr() {
+   }
 
-	public SuperExpr(Expression classExpr) {
-		setClassExpr(classExpr);
-	}
+   public SuperExpr(Expression classExpr) {
+      setClassExpr(classExpr);
+   }
 
-	public SuperExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression classExpr) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setClassExpr(classExpr);
-	}
+   public SuperExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression classExpr) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setClassExpr(classExpr);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getClassExpr() {
-		return classExpr;
-	}
+   public Expression getClassExpr() {
+      return classExpr;
+   }
 
-	public void setClassExpr(Expression classExpr) {
-	   if(this.classExpr != null){
+   public void setClassExpr(Expression classExpr) {
+      if (this.classExpr != null) {
          updateReferences(this.classExpr);
       }
-		this.classExpr = classExpr;
-		setAsParentNodeOf(classExpr);
-	}
+      this.classExpr = classExpr;
+      setAsParentNodeOf(classExpr);
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == classExpr){
+      if (oldChild == classExpr) {
          setClassExpr((Expression) newChild);
          updated = true;
       }
       return updated;
    }
+
+   @Override
+   public SuperExpr clone() throws CloneNotSupportedException {
+      return new SuperExpr(clone(classExpr));
+   }
+
 }

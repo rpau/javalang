@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -23,74 +24,83 @@ import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
-public class JavadocTag extends Node implements SymbolReference{
+public class JavadocTag extends Node implements SymbolReference {
 
-	private String name;
+   private String name;
 
-	private List<String> values = null;
+   private List<String> values = null;
 
-	private boolean isInline = false;
-	
-	private SymbolDefinition definition;
+   private boolean isInline = false;
 
-	public JavadocTag() {
-	}
+   private SymbolDefinition definition;
 
-	public JavadocTag(String name, List<String> values, boolean isInline) {
-		setName(name);
-		setValues(values);
-		setInline(isInline);
-	}
+   public JavadocTag() {
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		// TODO Auto-generated method stub
+   public JavadocTag(String name, List<String> values, boolean isInline) {
+      setName(name);
+      setValues(values);
+      setInline(isInline);
+   }
 
-		return null;
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      // TODO Auto-generated method stub
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-	}
+      return null;
+   }
 
-	// TODO Auto-generated method stub
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+   }
 
-	public String getName() {
-		return name;
-	}
+   // TODO Auto-generated method stub
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public List<String> getValues() {
-		return values;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public void setValues(List<String> values) {
-		this.values = values;
-	}
+   public List<String> getValues() {
+      return values;
+   }
 
-	public boolean isInline() {
-		return isInline;
-	}
+   public void setValues(List<String> values) {
+      this.values = values;
+   }
 
-	public void setInline(boolean isInline) {
-		this.isInline = isInline;
-	}
+   public boolean isInline() {
+      return isInline;
+   }
 
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return definition;
-	}
+   public void setInline(boolean isInline) {
+      this.isInline = isInline;
+   }
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition definition) {
-		this.definition = definition;
-	}
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return definition;
+   }
+
+   @Override
+   public void setSymbolDefinition(SymbolDefinition definition) {
+      this.definition = definition;
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return false;
+   }
+
+   @Override
+   public JavadocTag clone() throws CloneNotSupportedException {
+      List<String> copy = null;
+      if (values != null) {
+         copy = new LinkedList<String>(values);
+      }
+      return new JavadocTag(name, copy, isInline);
    }
 }

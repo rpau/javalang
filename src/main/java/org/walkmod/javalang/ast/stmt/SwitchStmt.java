@@ -91,4 +91,9 @@ public final class SwitchStmt extends Statement {
 
       return updated;
    }
+   
+   @Override
+   public SwitchStmt clone() throws CloneNotSupportedException {
+      return new SwitchStmt(clone(selector), clone(entries));
+   }
 }

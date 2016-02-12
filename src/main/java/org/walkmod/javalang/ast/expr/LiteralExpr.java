@@ -20,11 +20,13 @@ package org.walkmod.javalang.ast.expr;
  */
 public abstract class LiteralExpr extends Expression {
 
-	public LiteralExpr() {
-	}
+   public LiteralExpr() {
+   }
 
-	public LiteralExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
+   public LiteralExpr(int beginLine, int beginColumn, int endLine, int endColumn) {
+      super(beginLine, beginColumn, endLine, endColumn);
+   }
+   
+   @Override
+   public abstract LiteralExpr clone() throws CloneNotSupportedException;
 }

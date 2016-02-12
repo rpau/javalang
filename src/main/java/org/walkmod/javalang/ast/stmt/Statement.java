@@ -42,4 +42,7 @@ public abstract class Statement extends Node implements SymbolDataAware<SymbolDa
 	public void setSymbolData(SymbolData symbolData){
 		this.symbolData = symbolData;
 	}
+	
+	@Override
+   public abstract Statement clone() throws CloneNotSupportedException;
 }

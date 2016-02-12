@@ -54,7 +54,7 @@ public final class ReturnStmt extends Statement {
    }
 
    public void setExpr(Expression expr) {
-      if(this.expr != null){
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
       this.expr = expr;
@@ -70,5 +70,10 @@ public final class ReturnStmt extends Statement {
       }
 
       return updated;
+   }
+
+   @Override
+   public ReturnStmt clone() throws CloneNotSupportedException {
+      return new ReturnStmt(clone(expr));
    }
 }

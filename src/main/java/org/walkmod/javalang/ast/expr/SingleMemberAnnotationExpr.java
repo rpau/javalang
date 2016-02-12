@@ -24,45 +24,52 @@ import org.walkmod.merger.MergeEngine;
  */
 public final class SingleMemberAnnotationExpr extends AnnotationExpr {
 
-	private Expression memberValue;
+   private Expression memberValue;
 
-	public SingleMemberAnnotationExpr() {
-	}
+   public SingleMemberAnnotationExpr() {
+   }
 
-	public SingleMemberAnnotationExpr(NameExpr name, Expression memberValue) {
-		setName(name);
-		setMemberValue(memberValue);
-	}
+   public SingleMemberAnnotationExpr(NameExpr name, Expression memberValue) {
+      setName(name);
+      setMemberValue(memberValue);
+   }
 
-	public SingleMemberAnnotationExpr(int beginLine, int beginColumn,
-			int endLine, int endColumn, NameExpr name, Expression memberValue) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setName(name);
-		setMemberValue(memberValue);
-	}
+   public SingleMemberAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name,
+         Expression memberValue) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setName(name);
+      setMemberValue(memberValue);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getMemberValue() {
-		return memberValue;
-	}
+   public Expression getMemberValue() {
+      return memberValue;
+   }
 
-	public void setMemberValue(Expression memberValue) {
-		this.memberValue = memberValue;
-		setAsParentNodeOf(memberValue);
-	}
+   public void setMemberValue(Expression memberValue) {
+      this.memberValue = memberValue;
+      setAsParentNodeOf(memberValue);
+   }
 
-	@Override
-	public void merge(AnnotationExpr t1, MergeEngine configuration) {
-		// nothing
+   @Override
+   public void merge(AnnotationExpr t1, MergeEngine configuration) {
+      // nothing
 
-	}
+   }
+
+   @Override
+   public SingleMemberAnnotationExpr clone() throws CloneNotSupportedException {
+
+      return new SingleMemberAnnotationExpr(clone(name), clone(memberValue));
+   }
+
 }

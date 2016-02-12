@@ -81,7 +81,7 @@ public final class ForStmt extends Statement {
    }
 
    public void setBody(Statement body) {
-      if(this.body != null){
+      if (this.body != null) {
          updateReferences(this.body);
       }
       this.body = body;
@@ -89,7 +89,7 @@ public final class ForStmt extends Statement {
    }
 
    public void setCompare(Expression compare) {
-      if(this.compare != null){
+      if (this.compare != null) {
          updateReferences(this.compare);
       }
       this.compare = compare;
@@ -102,7 +102,7 @@ public final class ForStmt extends Statement {
    }
 
    public void setUpdate(List<Expression> update) {
-      
+
       this.update = update;
       setAsParentNodeOf(update);
    }
@@ -128,5 +128,10 @@ public final class ForStmt extends Statement {
          }
       }
       return updated;
+   }
+
+   @Override
+   public ForStmt clone() throws CloneNotSupportedException {
+      return new ForStmt(clone(init), clone(compare), clone(update), clone(body));
    }
 }

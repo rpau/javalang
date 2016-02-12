@@ -70,7 +70,7 @@ public final class ConditionalExpr extends Expression {
    }
 
    public void setCondition(Expression condition) {
-      if(this.condition != null){
+      if (this.condition != null) {
          updateReferences(this.condition);
       }
       this.condition = condition;
@@ -78,7 +78,7 @@ public final class ConditionalExpr extends Expression {
    }
 
    public void setElseExpr(Expression elseExpr) {
-      if(this.elseExpr != null){
+      if (this.elseExpr != null) {
          updateReferences(this.elseExpr);
       }
       this.elseExpr = elseExpr;
@@ -86,7 +86,7 @@ public final class ConditionalExpr extends Expression {
    }
 
    public void setThenExpr(Expression thenExpr) {
-      if(this.thenExpr != null){
+      if (this.thenExpr != null) {
          updateReferences(this.thenExpr);
       }
       this.thenExpr = thenExpr;
@@ -114,4 +114,11 @@ public final class ConditionalExpr extends Expression {
       }
       return updated;
    }
+
+   @Override
+   public ConditionalExpr clone() throws CloneNotSupportedException {
+
+      return new ConditionalExpr(clone(getCondition()), clone(getThenExpr()), clone(getElseExpr()));
+   }
+
 }

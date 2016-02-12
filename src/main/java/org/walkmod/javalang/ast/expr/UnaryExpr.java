@@ -24,67 +24,72 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class UnaryExpr extends Expression {
 
-	public static enum Operator {
+   public static enum Operator {
 
-		positive, negative, preIncrement, preDecrement, not, inverse, posIncrement, posDecrement
-	}
+      positive, negative, preIncrement, preDecrement, not, inverse, posIncrement, posDecrement
+   }
 
-	private Expression expr;
+   private Expression expr;
 
-	private Operator op;
+   private Operator op;
 
-	public UnaryExpr() {
-	}
+   public UnaryExpr() {
+   }
 
-	public UnaryExpr(Expression expr, Operator op) {
-		setExpr(expr);
-		this.op = op;
-	}
+   public UnaryExpr(Expression expr, Operator op) {
+      setExpr(expr);
+      this.op = op;
+   }
 
-	public UnaryExpr(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression expr, Operator op) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setExpr(expr);
-		this.op = op;
-	}
+   public UnaryExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Operator op) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setExpr(expr);
+      this.op = op;
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getExpr() {
-		return expr;
-	}
+   public Expression getExpr() {
+      return expr;
+   }
 
-	public Operator getOperator() {
-		return op;
-	}
+   public Operator getOperator() {
+      return op;
+   }
 
-	public void setExpr(Expression expr) {
-	   if(this.expr != null){
+   public void setExpr(Expression expr) {
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
-		this.expr = expr;
-		setAsParentNodeOf(expr);
-	}
+      this.expr = expr;
+      setAsParentNodeOf(expr);
+   }
 
-	public void setOperator(Operator op) {
-		this.op = op;
-	}
-	
-	@Override
+   public void setOperator(Operator op) {
+      this.op = op;
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(oldChild == expr){
-         setExpr((Expression)newChild);
+      if (oldChild == expr) {
+         setExpr((Expression) newChild);
          updated = true;
       }
       return updated;
    }
+
+   @Override
+   public UnaryExpr clone() throws CloneNotSupportedException {
+      return new UnaryExpr(clone(expr), op);
+   }
+
 }

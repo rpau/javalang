@@ -70,4 +70,10 @@ public final class ThisExpr extends Expression {
       }
       return updated;
    }
+
+   @Override
+   public ThisExpr clone() throws CloneNotSupportedException {
+      return new ThisExpr(clone(classExpr));
+   }
+
 }

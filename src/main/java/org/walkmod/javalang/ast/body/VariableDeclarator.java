@@ -185,4 +185,9 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
       }
       return update;
    }
+   
+   @Override
+   public VariableDeclarator clone() throws CloneNotSupportedException {
+      return new VariableDeclarator(clone(getId()), clone(getInit()));
+   }
 }

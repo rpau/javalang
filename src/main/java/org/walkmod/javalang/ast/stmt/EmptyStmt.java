@@ -45,4 +45,9 @@ public final class EmptyStmt extends Statement {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return false;
    }
+   
+   @Override
+   public EmptyStmt clone() throws CloneNotSupportedException {
+      return new EmptyStmt();
+   }
 }

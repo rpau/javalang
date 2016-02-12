@@ -82,4 +82,10 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
       return replaceChildNodeInList(oldChild, newChild, pairs);
    }
 
+   @Override
+   public NormalAnnotationExpr clone() throws CloneNotSupportedException {
+
+      return new NormalAnnotationExpr(clone(name), clone(pairs));
+   }
+
 }

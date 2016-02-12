@@ -62,7 +62,7 @@ public final class WhileStmt extends Statement {
    }
 
    public void setBody(Statement body) {
-      if(this.body != null){
+      if (this.body != null) {
          updateReferences(this.body);
       }
       this.body = body;
@@ -70,7 +70,7 @@ public final class WhileStmt extends Statement {
    }
 
    public void setCondition(Expression condition) {
-      if(this.condition != null){
+      if (this.condition != null) {
          updateReferences(this.condition);
       }
       this.condition = condition;
@@ -92,5 +92,11 @@ public final class WhileStmt extends Statement {
          }
       }
       return updated;
+   }
+
+   @Override
+   public WhileStmt clone() throws CloneNotSupportedException {
+
+      return new WhileStmt(clone(condition), clone(body));
    }
 }

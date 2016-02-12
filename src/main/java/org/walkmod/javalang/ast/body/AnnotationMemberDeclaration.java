@@ -34,182 +34,181 @@ import org.walkmod.merger.Mergeable;
  * @author Julio Vilmar Gesser
  */
 public final class AnnotationMemberDeclaration extends BodyDeclaration
-		implements Mergeable<AnnotationMemberDeclaration>, SymbolDefinition {
+      implements Mergeable<AnnotationMemberDeclaration>, SymbolDefinition {
 
-	private int modifiers;
+   private int modifiers;
 
-	private Type type;
+   private Type type;
 
-	private String name;
+   private String name;
 
-	private Expression defaultValue;
+   private Expression defaultValue;
 
-	private List<SymbolReference> usages;
+   private List<SymbolReference> usages;
 
-	private List<SymbolReference> bodyReferences;
+   private List<SymbolReference> bodyReferences;
 
-	private int scopeLevel = 0;
+   private int scopeLevel = 0;
 
-	public AnnotationMemberDeclaration() {
-	}
+   public AnnotationMemberDeclaration() {
+   }
 
-	public AnnotationMemberDeclaration(int modifiers, Type type, String name,
-			Expression defaultValue) {
-		this.modifiers = modifiers;
-		setType(type);
-		this.name = name;
-		setDefaultValue(defaultValue);
-	}
+   public AnnotationMemberDeclaration(int modifiers, Type type, String name, Expression defaultValue) {
+      this.modifiers = modifiers;
+      setType(type);
+      this.name = name;
+      setDefaultValue(defaultValue);
+   }
 
-	public AnnotationMemberDeclaration(JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations, Type type, String name,
-			Expression defaultValue) {
-		setJavaDoc(javaDoc);
-		this.modifiers = modifiers;
-		setType(type);
-		this.name = name;
-		setDefaultValue(defaultValue);
+   public AnnotationMemberDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations,
+         Type type, String name, Expression defaultValue) {
+      setJavaDoc(javaDoc);
+      this.modifiers = modifiers;
+      setType(type);
+      this.name = name;
+      setDefaultValue(defaultValue);
 
-	}
+   }
 
-	public AnnotationMemberDeclaration(int beginLine, int beginColumn,
-			int endLine, int endColumn, JavadocComment javaDoc, int modifiers,
-			List<AnnotationExpr> annotations, Type type, String name,
-			Expression defaultValue) {
-		super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
-		this.modifiers = modifiers;
-		setType(type);
-		this.name = name;
-		setDefaultValue(defaultValue);
-	}
+   public AnnotationMemberDeclaration(int beginLine, int beginColumn, int endLine, int endColumn,
+         JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, Type type, String name,
+         Expression defaultValue) {
+      super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
+      this.modifiers = modifiers;
+      setType(type);
+      this.name = name;
+      setDefaultValue(defaultValue);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public Expression getDefaultValue() {
-		return defaultValue;
-	}
+   public Expression getDefaultValue() {
+      return defaultValue;
+   }
 
-	/**
-	 * Return the modifiers of this member declaration.
-	 * 
-	 * @see ModifierSet
-	 * @return modifiers
-	 */
-	public int getModifiers() {
-		return modifiers;
-	}
+   /**
+    * Return the modifiers of this member declaration.
+    * 
+    * @see ModifierSet
+    * @return modifiers
+    */
+   public int getModifiers() {
+      return modifiers;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public String getName() {
+      return name;
+   }
 
-	public Type getType() {
-		return type;
-	}
+   public Type getType() {
+      return type;
+   }
 
-	public void setDefaultValue(Expression defaultValue) {
-		this.defaultValue = defaultValue;
-		setAsParentNodeOf(defaultValue);
-	}
+   public void setDefaultValue(Expression defaultValue) {
+      this.defaultValue = defaultValue;
+      setAsParentNodeOf(defaultValue);
+   }
 
-	public void setModifiers(int modifiers) {
-		this.modifiers = modifiers;
-	}
+   public void setModifiers(int modifiers) {
+      this.modifiers = modifiers;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	public void setType(Type type) {
-		this.type = type;
-		setAsParentNodeOf(type);
-	}
+   public void setType(Type type) {
+      this.type = type;
+      setAsParentNodeOf(type);
+   }
 
-	@Override
-	public Comparator<?> getIdentityComparator() {
-		return new AnnotationMemberDeclarationComparator();
-	}
+   @Override
+   public Comparator<?> getIdentityComparator() {
+      return new AnnotationMemberDeclarationComparator();
+   }
 
-	@Override
-	public void merge(AnnotationMemberDeclaration remote,
-			MergeEngine configuration) {
-		super.merge(remote, configuration);
-		setType((Type) configuration.apply(getType(), remote.getType(),
-				Type.class));
-		setDefaultValue((Expression) configuration.apply(getDefaultValue(),
-				remote.getDefaultValue(), Expression.class));
+   @Override
+   public void merge(AnnotationMemberDeclaration remote, MergeEngine configuration) {
+      super.merge(remote, configuration);
+      setType((Type) configuration.apply(getType(), remote.getType(), Type.class));
+      setDefaultValue((Expression) configuration.apply(getDefaultValue(), remote.getDefaultValue(), Expression.class));
 
-	}
+   }
 
-	@Override
-	public AnnotationDeclaration getParentNode() {
-		return (AnnotationDeclaration) super.getParentNode();
-	}
+   @Override
+   public AnnotationDeclaration getParentNode() {
+      return (AnnotationDeclaration) super.getParentNode();
+   }
 
-	@Override
-	public List<SymbolReference> getUsages() {
-		return usages;
-	}
+   @Override
+   public List<SymbolReference> getUsages() {
+      return usages;
+   }
 
-	@Override
-	public void setUsages(List<SymbolReference> usages) {
-		this.usages = usages;
-	}
+   @Override
+   public void setUsages(List<SymbolReference> usages) {
+      this.usages = usages;
+   }
 
-	@Override
-	public boolean addUsage(SymbolReference usage) {
-		if (usage != null) {
-			usage.setSymbolDefinition(this);
-			if(usages == null){
-				usages = new LinkedList<SymbolReference>();
-			}
-			return usages.add(usage);
-		}
-		return false;
-	}
+   @Override
+   public boolean addUsage(SymbolReference usage) {
+      if (usage != null) {
+         usage.setSymbolDefinition(this);
+         if (usages == null) {
+            usages = new LinkedList<SymbolReference>();
+         }
+         return usages.add(usage);
+      }
+      return false;
+   }
 
-	@Override
-	public List<SymbolReference> getBodyReferences() {
-		return bodyReferences;
-	}
+   @Override
+   public List<SymbolReference> getBodyReferences() {
+      return bodyReferences;
+   }
 
-	@Override
-	public void setBodyReferences(List<SymbolReference> bodyReferences) {
-		this.bodyReferences = bodyReferences;
-	}
+   @Override
+   public void setBodyReferences(List<SymbolReference> bodyReferences) {
+      this.bodyReferences = bodyReferences;
+   }
 
-	@Override
-	public boolean addBodyReference(SymbolReference bodyReference) {
-		if (bodyReference != null) {
-			SymbolDefinition definition = bodyReference.getSymbolDefinition();
-			if (definition != null) {
-				int scope = definition.getScopeLevel();
-				if (scope <= scopeLevel) {
-					if (bodyReferences == null) {
-						bodyReferences = new LinkedList<SymbolReference>();
-					}
-					return bodyReferences.add(bodyReference);
-				}
-			}
-		}
-		return false;
-	}
+   @Override
+   public boolean addBodyReference(SymbolReference bodyReference) {
+      if (bodyReference != null) {
+         SymbolDefinition definition = bodyReference.getSymbolDefinition();
+         if (definition != null) {
+            int scope = definition.getScopeLevel();
+            if (scope <= scopeLevel) {
+               if (bodyReferences == null) {
+                  bodyReferences = new LinkedList<SymbolReference>();
+               }
+               return bodyReferences.add(bodyReference);
+            }
+         }
+      }
+      return false;
+   }
 
-	@Override
-	public int getScopeLevel() {
-		return scopeLevel;
-	}
+   @Override
+   public int getScopeLevel() {
+      return scopeLevel;
+   }
 
-	@Override
-	public void setScopeLevel(int scopeLevel) {
-		this.scopeLevel = scopeLevel;
-	}
+   @Override
+   public void setScopeLevel(int scopeLevel) {
+      this.scopeLevel = scopeLevel;
+   }
+
+   @Override
+   public AnnotationMemberDeclaration clone() throws CloneNotSupportedException {
+      return new AnnotationMemberDeclaration(getModifiers(), clone(getType()), getName(), clone(getDefaultValue()));
+   }
 }

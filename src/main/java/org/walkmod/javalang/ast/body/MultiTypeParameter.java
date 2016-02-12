@@ -61,4 +61,9 @@ public class MultiTypeParameter extends BaseParameter {
 		this.types = types;
 		setAsParentNodeOf(types);
 	}
+	
+	@Override
+   public MultiTypeParameter clone() throws CloneNotSupportedException {
+      return new MultiTypeParameter(getModifiers(), clone(getAnnotations()), clone(getTypes()), clone(getId()));
+   }
 }

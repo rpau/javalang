@@ -67,4 +67,11 @@ public final class ArrayInitializerExpr extends Expression {
       return updated;
 
    }
+
+   @Override
+   public ArrayInitializerExpr clone() throws CloneNotSupportedException {
+
+      return new ArrayInitializerExpr(clone(values));
+   }
+
 }

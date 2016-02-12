@@ -53,7 +53,7 @@ public final class EnclosedExpr extends Expression {
    }
 
    public void setInner(Expression inner) {
-      if(this.inner != null){
+      if (this.inner != null) {
          updateReferences(this.inner);
       }
       this.inner = inner;
@@ -71,4 +71,11 @@ public final class EnclosedExpr extends Expression {
 
       return updated;
    }
+
+   @Override
+   public EnclosedExpr clone() throws CloneNotSupportedException {
+
+      return new EnclosedExpr(clone(inner));
+   }
+
 }

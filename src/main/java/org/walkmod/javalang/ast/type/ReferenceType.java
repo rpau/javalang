@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -49,6 +50,13 @@ public final class ReferenceType extends Type {
       super(annotations);
       setType(type);
       this.arrayCount = arrayCount;
+   }
+   
+   public ReferenceType(Type type, int arrayCount, List<AnnotationExpr> annotations, List<List<AnnotationExpr>> arraysAnnotations) {
+      super(annotations);
+      setType(type);
+      this.arrayCount = arrayCount;
+      setArraysAnnotations(arraysAnnotations);
    }
 
    public ReferenceType(int beginLine, int beginColumn, int endLine, int endColumn, Type type, int arrayCount) {
@@ -124,6 +132,18 @@ public final class ReferenceType extends Type {
          }
       }
       return updated;
+   }
+   
+   @Override
+   public ReferenceType clone() throws CloneNotSupportedException {
+      List<List<AnnotationExpr>> copy = null;
+      if(arraysAnnotations != null){
+         copy = new LinkedList<List<AnnotationExpr>>();
+         for(List<AnnotationExpr> item: arraysAnnotations){
+            copy.add(clone(item));
+         }
+      }
+      return new ReferenceType(clone(type), arrayCount, clone(getAnnotations()), copy);
    }
 
 }

@@ -62,7 +62,7 @@ public final class InstanceOfExpr extends Expression {
    }
 
    public void setExpr(Expression expr) {
-      if(this.expr != null){
+      if (this.expr != null) {
          updateReferences(this.expr);
       }
       this.expr = expr;
@@ -70,7 +70,7 @@ public final class InstanceOfExpr extends Expression {
    }
 
    public void setType(Type type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -94,4 +94,11 @@ public final class InstanceOfExpr extends Expression {
 
       return updated;
    }
+
+   @Override
+   public InstanceOfExpr clone() throws CloneNotSupportedException {
+
+      return new InstanceOfExpr(clone(expr), clone(type));
+   }
+
 }
