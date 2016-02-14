@@ -438,7 +438,8 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
       return (T) node.clone();
    }
 
-   public abstract <T extends Node> T clone() throws CloneNotSupportedException;
+   @Override
+   public abstract Object clone() throws CloneNotSupportedException;
 
    @Override
    public boolean check() {

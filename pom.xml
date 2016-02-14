@@ -83,7 +83,7 @@
 		<dependency>
             <groupId>org.walkmod</groupId>
             <artifactId>model-checker</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>[1.0, 2.0)</version>
         </dependency>
 		<dependency>
 			<groupId>junit</groupId>
