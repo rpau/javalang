@@ -81,20 +81,20 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       setTypes(types);
       setComments(comments);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> aux = new LinkedList<Node>();
-      if(pakage != null){
+      if (pakage != null) {
          aux.add(pakage);
       }
-      if(imports != null){
+      if (imports != null) {
          aux.addAll(imports);
       }
-      if(types != null){
+      if (types != null) {
          aux.addAll(types);
       }
-      if(comments != null){
+      if (comments != null) {
          aux.addAll(comments);
       }
       return aux;
@@ -102,12 +102,17 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    /**
@@ -187,7 +192,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     *           the pakage declaration to set or <code>null</code> to default package
     */
    public void setPackage(PackageDeclaration pakage) {
-      if(this.pakage != null){
+      if (this.pakage != null) {
          updateReferences(this.pakage);
       }
       this.pakage = pakage;
@@ -235,14 +240,13 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       updated = replaceChildNodeInList(oldChild, newChild, imports);
       if (!updated) {
          updated = replaceChildNodeInList(oldChild, newChild, types);
-         if(!updated){
+         if (!updated) {
             updated = replaceChildNodeInList(oldChild, newChild, comments);
          }
       }
-      
+
       return updated;
    }
-   
 
    @Override
    public CompilationUnit clone() throws CloneNotSupportedException {

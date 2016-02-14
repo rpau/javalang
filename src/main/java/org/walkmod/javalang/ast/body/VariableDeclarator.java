@@ -62,28 +62,32 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
       setId(id);
       setInit(init);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(id != null){
+      if (id != null) {
          children.add(id);
       }
-      if(init != null){
+      if (init != null) {
          children.add(init);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public VariableDeclaratorId getId() {
@@ -95,7 +99,7 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    }
 
    public void setId(VariableDeclaratorId id) {
-      if(this.id != null){
+      if (this.id != null) {
          updateReferences(this.id);
       }
       this.id = id;
@@ -103,7 +107,7 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    }
 
    public void setInit(Expression init) {
-      if(this.init != null){
+      if (this.init != null) {
          updateReferences(this.init);
       }
       this.init = init;
@@ -187,18 +191,18 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean update = false;
 
-      if(oldChild == id){
+      if (oldChild == id) {
          setId((VariableDeclaratorId) newChild);
          update = true;
       }
-      if(!update){
-         if(init == oldChild){
+      if (!update) {
+         if (init == oldChild) {
             setInit((Expression) newChild);
          }
       }
       return update;
    }
-   
+
    @Override
    public VariableDeclarator clone() throws CloneNotSupportedException {
       return new VariableDeclarator(clone(getId()), clone(getInit()));

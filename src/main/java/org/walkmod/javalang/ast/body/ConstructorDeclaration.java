@@ -91,20 +91,20 @@ public final class ConstructorDeclaration extends BodyDeclaration
       this.throws_ = throws_;
       this.block = block;
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      if(typeParameters != null){
+      if (typeParameters != null) {
          children.addAll(typeParameters);
       }
-      if(parameters != null){
+      if (parameters != null) {
          children.addAll(parameters);
       }
-      if(throws_ != null){
+      if (throws_ != null) {
          children.addAll(throws_);
       }
-      if(block != null){
+      if (block != null) {
          children.add(block);
       }
       return children;
@@ -112,12 +112,17 @@ public final class ConstructorDeclaration extends BodyDeclaration
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public BlockStmt getBlock() {

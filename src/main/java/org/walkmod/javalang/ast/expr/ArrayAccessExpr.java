@@ -45,27 +45,32 @@ public final class ArrayAccessExpr extends Expression {
       setName(name);
       setIndex(index);
    }
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(name != null){
+      if (name != null) {
          children.add(name);
       }
-      if(index != null){
+      if (index != null) {
          children.add(index);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Expression getIndex() {
@@ -77,7 +82,7 @@ public final class ArrayAccessExpr extends Expression {
    }
 
    public void setIndex(Expression index) {
-      if(this.index != null){
+      if (this.index != null) {
          updateReferences(this.index);
       }
       this.index = index;
@@ -85,7 +90,7 @@ public final class ArrayAccessExpr extends Expression {
    }
 
    public void setName(Expression name) {
-      if(this.name != null){
+      if (this.name != null) {
          updateReferences(this.name);
       }
       this.name = name;
@@ -95,12 +100,12 @@ public final class ArrayAccessExpr extends Expression {
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean updated = false;
-      if(index == oldChild){
+      if (index == oldChild) {
          setIndex((Expression) newChild);
          updated = true;
       }
-      if(!updated){
-         if(name == oldChild){
+      if (!updated) {
+         if (name == oldChild) {
             setName((Expression) newChild);
          }
       }

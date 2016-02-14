@@ -82,14 +82,14 @@ public final class TypeParameter extends Node implements SymbolDefinition {
       setTypeBound(typeBound);
       setAnnotations(annotations);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(annotations != null){
+      if (annotations != null) {
          children.addAll(annotations);
       }
-      if(typeBound != null){
+      if (typeBound != null) {
          children.addAll(typeBound);
       }
       return children;
@@ -97,12 +97,17 @@ public final class TypeParameter extends Node implements SymbolDefinition {
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    /**

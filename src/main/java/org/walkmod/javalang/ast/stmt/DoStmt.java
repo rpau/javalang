@@ -45,29 +45,33 @@ public final class DoStmt extends Statement {
       setBody(body);
       setCondition(condition);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      if(body != null){
+      if (body != null) {
          children.add(body);
       }
-      if(condition != null){
+      if (condition != null) {
          children.add(condition);
       }
-      
+
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Statement getBody() {

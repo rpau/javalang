@@ -54,12 +54,17 @@ public final class PrimitiveType extends Type {
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Primitive getType() {
@@ -74,7 +79,7 @@ public final class PrimitiveType extends Type {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return super.replaceChildNode(oldChild, newChild);
    }
-   
+
    @Override
    public PrimitiveType clone() throws CloneNotSupportedException {
       return new PrimitiveType(type);

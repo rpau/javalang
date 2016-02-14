@@ -76,23 +76,32 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
       this.name = name;
       setTypeArgs(typeArgs);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      children.add(scope);
-      children.addAll(typeArgs);
+      if (scope != null) {
+         children.add(scope);
+      }
+      if (typeArgs != null) {
+         children.addAll(typeArgs);
+      }
       return children;
    }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public String getName() {
@@ -112,7 +121,7 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
    }
 
    public void setScope(ClassOrInterfaceType scope) {
-      if(this.scope != null){
+      if (this.scope != null) {
          updateReferences(this.scope);
       }
       this.scope = scope;
@@ -208,7 +217,7 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
       }
       return updated;
    }
-   
+
    @Override
    public ClassOrInterfaceType clone() throws CloneNotSupportedException {
       return new ClassOrInterfaceType(clone(getScope()), getName());

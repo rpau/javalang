@@ -57,23 +57,32 @@ public final class WildcardType extends Type {
       setSuper(sup);
 
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      children.add(ext);
-      children.add(sup);
+      if (ext != null) {
+         children.add(ext);
+      }
+      if (sup != null) {
+         children.add(sup);
+      }
       return children;
    }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public ReferenceType getExtends() {

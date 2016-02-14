@@ -56,28 +56,32 @@ public final class CatchClause extends Node {
             exceptTypes, exceptId));
       setCatchBlock(catchBlock);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(except != null){
+      if (except != null) {
          children.add(except);
       }
-      if(catchBlock != null){
+      if (catchBlock != null) {
          children.add(catchBlock);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(final VoidVisitor<A> v, final A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public BlockStmt getCatchBlock() {

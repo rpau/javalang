@@ -80,30 +80,35 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
       this.name = name;
       setDefaultValue(defaultValue);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      
-      if(type != null){
+
+      if (type != null) {
          children.add(type);
       }
-      
-      if(defaultValue != null){
+
+      if (defaultValue != null) {
          children.add(defaultValue);
       }
-      
+
       return children;
    }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Expression getDefaultValue() {

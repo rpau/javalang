@@ -128,37 +128,41 @@ public final class MethodDeclaration extends BodyDeclaration
             parameters, arrayCount, throws_, block);
       this.isDefault = isDefault;
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      if(typeParameters != null){
+      if (typeParameters != null) {
          children.addAll(typeParameters);
       }
-      if(type != null){
+      if (type != null) {
          children.add(type);
       }
-      if(parameters != null){
+      if (parameters != null) {
          children.addAll(parameters);
       }
-      if(throws_ != null){
+      if (throws_ != null) {
          children.addAll(throws_);
       }
-      if(body != null){
+      if (body != null) {
          children.add(body);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public int getArrayCount() {

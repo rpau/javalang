@@ -49,28 +49,32 @@ public final class AssertStmt extends Statement {
       setCheck(check);
       setMessage(msg);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(check != null){
+      if (check != null) {
          children.add(check);
       }
-      if(msg != null){
+      if (msg != null) {
          children.add(msg);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Expression getCheck() {

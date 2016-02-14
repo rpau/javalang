@@ -49,31 +49,35 @@ public final class ConditionalExpr extends Expression {
       setThenExpr(thenExpr);
       setElseExpr(elseExpr);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(condition != null){
+      if (condition != null) {
          children.add(condition);
       }
-      if(thenExpr != null){
+      if (thenExpr != null) {
          children.add(thenExpr);
       }
-      if(elseExpr != null){
+      if (elseExpr != null) {
          children.add(elseExpr);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Expression getCondition() {

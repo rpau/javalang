@@ -51,23 +51,25 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
 
    private List<Constraint> constraints;
 
+   private List<Constraint> constraintsAux;
+
    public Node() {
    }
 
    public void setConstraints(List<Constraint> constraints) {
       this.constraints = constraints;
       List<Node> children = getChildren();
-      if(children != null){
-         for(Node child: children){
+      if (children != null) {
+         for (Node child : children) {
             child.setConstraints(constraints);
          }
       }
    }
-   
+
    public abstract List<Node> getChildren();
-   
+
    @Override
-   public List<Constraint> getConstraints(){
+   public List<Constraint> getConstraints() {
       return constraints;
    }
 
@@ -200,6 +202,19 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
       this.endLine = endLine;
    }
 
+   public void enableConstraints() {
+      if (constraintsAux != null && constraints != null) {
+         constraints.addAll(constraintsAux);
+      }
+   }
+
+   public void diableConstraints() {
+      if (constraints != null) {
+         constraintsAux = new LinkedList<Constraint>(constraints);
+         constraints.clear();
+      }
+   }
+
    /**
     * Return the String representation of this node.
     * 
@@ -207,9 +222,12 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
     */
    @Override
    public final String toString() {
+      enableConstraints();
       DumpVisitor visitor = new DumpVisitor();
       accept(visitor, null);
-      return visitor.getSource();
+      String aux = visitor.getSource();
+      diableConstraints();
+      return aux;
    }
 
    @Override

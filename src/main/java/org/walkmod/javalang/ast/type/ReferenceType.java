@@ -51,8 +51,9 @@ public final class ReferenceType extends Type {
       setType(type);
       this.arrayCount = arrayCount;
    }
-   
-   public ReferenceType(Type type, int arrayCount, List<AnnotationExpr> annotations, List<List<AnnotationExpr>> arraysAnnotations) {
+
+   public ReferenceType(Type type, int arrayCount, List<AnnotationExpr> annotations,
+         List<List<AnnotationExpr>> arraysAnnotations) {
       super(annotations);
       setType(type);
       this.arrayCount = arrayCount;
@@ -72,13 +73,15 @@ public final class ReferenceType extends Type {
       this.arrayCount = arrayCount;
       setArraysAnnotations(arraysAnnotations);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      children.add(type);
-      if(arraysAnnotations != null){
-         for(List<AnnotationExpr> annList: arraysAnnotations){
+      if (type != null) {
+         children.add(type);
+      }
+      if (arraysAnnotations != null) {
+         for (List<AnnotationExpr> annList : arraysAnnotations) {
             children.addAll(annList);
          }
       }
@@ -87,12 +90,17 @@ public final class ReferenceType extends Type {
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public int getArrayCount() {
@@ -108,7 +116,7 @@ public final class ReferenceType extends Type {
    }
 
    public void setType(Type type) {
-      if(this.type != null){
+      if (this.type != null) {
          updateReferences(this.type);
       }
       this.type = type;
@@ -145,13 +153,13 @@ public final class ReferenceType extends Type {
       }
       return updated;
    }
-   
+
    @Override
    public ReferenceType clone() throws CloneNotSupportedException {
       List<List<AnnotationExpr>> copy = null;
-      if(arraysAnnotations != null){
+      if (arraysAnnotations != null) {
          copy = new LinkedList<List<AnnotationExpr>>();
-         for(List<AnnotationExpr> item: arraysAnnotations){
+         for (List<AnnotationExpr> item : arraysAnnotations) {
             copy.add(clone(item));
          }
       }

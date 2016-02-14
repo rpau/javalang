@@ -40,25 +40,29 @@ public final class EnclosedExpr extends Expression {
       super(beginLine, beginColumn, endLine, endColumn);
       setInner(inner);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(inner != null){
+      if (inner != null) {
          children.add(inner);
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public Expression getInner() {

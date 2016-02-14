@@ -46,18 +46,25 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      children.add(typeDecl);
+      if (typeDecl != null) {
+         children.add(typeDecl);
+      }
       return children;
    }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public TypeDeclaration getTypeDeclaration() {

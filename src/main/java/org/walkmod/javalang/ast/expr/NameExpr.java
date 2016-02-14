@@ -44,20 +44,25 @@ public class NameExpr extends Expression implements SymbolReference {
       super(beginLine, beginColumn, endLine, endColumn);
       this.name = name;
    }
+
    @Override
    public List<Node> getChildren() {
       return new LinkedList<Node>();
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public final String getName() {

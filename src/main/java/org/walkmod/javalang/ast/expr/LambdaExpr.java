@@ -87,20 +87,19 @@ public class LambdaExpr extends Expression implements SymbolReference {
          this.parametersEnclosed = true;
       }
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-     
-      if(parameters != null){
+
+      if (parameters != null) {
          children.addAll(parameters);
       }
-      if(body != null){
+      if (body != null) {
          children.add(body);
       }
       return children;
    }
-
 
    public List<Parameter> getParameters() {
       return parameters;
@@ -125,12 +124,17 @@ public class LambdaExpr extends Expression implements SymbolReference {
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public boolean isParametersEnclosed() {

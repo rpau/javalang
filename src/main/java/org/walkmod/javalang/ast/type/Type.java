@@ -55,7 +55,9 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData>, 
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      children.addAll(annotations);
+      if (annotations != null) {
+         children.addAll(annotations);
+      }
       return children;
    }
 

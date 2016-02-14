@@ -100,36 +100,40 @@ public final class ArrayCreationExpr extends Expression {
       this.initializer = null;
       setArraysAnnotations(arraysAnnotations);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(type != null){
+      if (type != null) {
          children.add(type);
       }
-      if(initializer != null){
+      if (initializer != null) {
          children.add(initializer);
       }
-      if(dimensions != null){
+      if (dimensions != null) {
          children.addAll(dimensions);
       }
-      if(arraysAnnotations != null){
-         for(List<AnnotationExpr> l: arraysAnnotations){
+      if (arraysAnnotations != null) {
+         for (List<AnnotationExpr> l : arraysAnnotations) {
             children.addAll(l);
          }
       }
       return children;
    }
 
-
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public int getArrayCount() {

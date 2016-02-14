@@ -72,17 +72,17 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
       setExtends(extendsList);
       setImplements(implementsList);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
-      if(typeParameters != null){
+      if (typeParameters != null) {
          children.addAll(typeParameters);
       }
-      if(extendsList != null){
+      if (extendsList != null) {
          children.addAll(extendsList);
       }
-      if(implementsList != null){
+      if (implementsList != null) {
          children.addAll(implementsList);
       }
       return children;
@@ -90,12 +90,17 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      if (!check()) {
+         return null;
+      }
       return v.visit(this, arg);
    }
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
-      v.visit(this, arg);
+      if (check()) {
+         v.visit(this, arg);
+      }
    }
 
    public List<ClassOrInterfaceType> getExtends() {
