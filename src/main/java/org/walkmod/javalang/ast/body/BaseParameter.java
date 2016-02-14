@@ -67,6 +67,19 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
       setId(id);
    }
 
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (annotations != null) {
+         children.addAll(annotations);
+      }
+      if (id != null) {
+         children.add(id);
+      }
+
+      return children;
+   }
+
    public List<AnnotationExpr> getAnnotations() {
       return annotations;
    }
@@ -91,7 +104,7 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
    }
 
    public void setId(VariableDeclaratorId id) {
-      if(this.id != null){
+      if (this.id != null) {
          updateReferences(this.id);
       }
       this.id = id;
@@ -158,13 +171,13 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
-      if(!update){
-         if(id == oldChild){
+      if (!update) {
+         if (id == oldChild) {
             setId((VariableDeclaratorId) newChild);
             update = true;
          }
       }
-      
+
       return update;
    }
 }

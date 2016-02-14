@@ -74,6 +74,19 @@ public final class EnumConstantDeclaration extends BodyDeclaration
       setArgs(args);
       setClassBody(classBody);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(args != null){
+         children.addAll(args);
+      }
+      if(classBody != null){
+         children.addAll(classBody);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

@@ -72,6 +72,21 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
       setExtends(extendsList);
       setImplements(implementsList);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(typeParameters != null){
+         children.addAll(typeParameters);
+      }
+      if(extendsList != null){
+         children.addAll(extendsList);
+      }
+      if(implementsList != null){
+         children.addAll(implementsList);
+      }
+      return children;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

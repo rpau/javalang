@@ -55,6 +55,24 @@ public final class TryStmt extends Statement {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (resources != null) {
+         children.addAll(resources);
+      }
+      if (tryBlock != null) {
+         children.add(tryBlock);
+      }
+      if (catchs != null) {
+         children.addAll(catchs);
+      }
+      if (finallyBlock != null) {
+         children.add(finallyBlock);
+      }
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
       return v.visit(this, arg);
    }

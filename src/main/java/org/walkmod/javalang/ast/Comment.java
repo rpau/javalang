@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Abstract class for all AST nodes that represent comments.
  * 
@@ -25,50 +28,55 @@ package org.walkmod.javalang.ast;
  */
 public abstract class Comment extends Node {
 
-	private String content;
+   private String content;
 
-	public Comment() {
-	}
+   public Comment() {
+   }
 
-	public Comment(String content) {
-		this.content = content;
-	}
+   public Comment(String content) {
+      this.content = content;
+   }
 
-	public Comment(int beginLine, int beginColumn, int endLine, int endColumn,
-			String content) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		this.content = content;
-	}
+   public Comment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      this.content = content;
+   }
 
-	/**
-	 * Return the text of the comment.
-	 * 
-	 * @return text of the comment
-	 */
-	public final String getContent() {
-		return content;
-	}
+   /**
+    * Return the text of the comment.
+    * 
+    * @return text of the comment
+    */
+   public final String getContent() {
+      return content;
+   }
 
-	/**
-	 * Sets the text of the comment.
-	 * 
-	 * @param content
-	 *            the text of the comment to set
-	 */
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	@Override
-	public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
-		String text = super.getPrettySource(indentationChar, indentationLevel, indentationSize);
-		if (!text.endsWith("\n")) {
-			text += "\n";
-		}
-		return text;
-	}
-	
-	public  boolean replaceChildNode(Node oldChild, Node newChild){
-	   return false;
-	}
+   /**
+    * Sets the text of the comment.
+    * 
+    * @param content
+    *           the text of the comment to set
+    */
+   public void setContent(String content) {
+      this.content = content;
+   }
+
+   @Override
+   public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
+      String text = super.getPrettySource(indentationChar, indentationLevel, indentationSize);
+      if (!text.endsWith("\n")) {
+         text += "\n";
+      }
+      return text;
+   }
+
+   public boolean replaceChildNode(Node oldChild, Node newChild) {
+      return false;
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      return new LinkedList<Node>();
+   }
+
 }

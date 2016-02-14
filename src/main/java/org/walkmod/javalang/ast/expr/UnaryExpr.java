@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -45,6 +48,15 @@ public final class UnaryExpr extends Expression {
       super(beginLine, beginColumn, endLine, endColumn);
       setExpr(expr);
       this.op = op;
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (expr != null) {
+         children.add(expr);
+      }
+      return children;
    }
 
    @Override

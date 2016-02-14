@@ -100,6 +100,27 @@ public final class ArrayCreationExpr extends Expression {
       this.initializer = null;
       setArraysAnnotations(arraysAnnotations);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(type != null){
+         children.add(type);
+      }
+      if(initializer != null){
+         children.add(initializer);
+      }
+      if(dimensions != null){
+         children.addAll(dimensions);
+      }
+      if(arraysAnnotations != null){
+         for(List<AnnotationExpr> l: arraysAnnotations){
+            children.addAll(l);
+         }
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

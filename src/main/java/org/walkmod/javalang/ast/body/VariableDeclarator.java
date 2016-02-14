@@ -62,6 +62,19 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
       setId(id);
       setInit(init);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(id != null){
+         children.add(id);
+      }
+      if(init != null){
+         children.add(init);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

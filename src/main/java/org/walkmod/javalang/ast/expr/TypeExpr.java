@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -40,6 +43,15 @@ public class TypeExpr extends Expression {
    public TypeExpr(int beginLine, int beginColumn, int endLine, int endColumn, Type type) {
       super(beginLine, beginColumn, endLine, endColumn);
       setType(type);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (type != null) {
+         children.add(type);
+      }
+      return children;
    }
 
    @Override

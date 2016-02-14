@@ -45,6 +45,19 @@ public abstract class BodyDeclaration extends Node {
       setJavaDoc(javaDoc);
       setAnnotations(annotations);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(javaDoc != null){
+         children.add(javaDoc);
+      }
+      if(annotations != null){
+         children.addAll(annotations);
+      }
+      return children;
+   }
+
 
    public final JavadocComment getJavaDoc() {
       return javaDoc;

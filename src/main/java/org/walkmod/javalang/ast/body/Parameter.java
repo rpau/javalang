@@ -15,8 +15,10 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -50,6 +52,16 @@ public final class Parameter extends BaseParameter {
       setType(type);
       setVarArgs(isVarArgs);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(type != null){
+         children.add(type);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

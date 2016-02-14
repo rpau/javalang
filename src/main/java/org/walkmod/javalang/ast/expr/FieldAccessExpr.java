@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -58,6 +59,19 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
       setTypeArgs(typeArgs);
       this.field = field;
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(scope != null){
+         children.add(scope);
+      }
+      if(typeArgs != null){
+         children.addAll(typeArgs);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

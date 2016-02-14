@@ -49,6 +49,12 @@ public class JavadocTag extends Node implements SymbolReference {
 
       return null;
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      return new LinkedList<Node>();
+   }
+
 
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {

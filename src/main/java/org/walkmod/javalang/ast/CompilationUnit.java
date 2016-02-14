@@ -81,6 +81,24 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       setTypes(types);
       setComments(comments);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> aux = new LinkedList<Node>();
+      if(pakage != null){
+         aux.add(pakage);
+      }
+      if(imports != null){
+         aux.addAll(imports);
+      }
+      if(types != null){
+         aux.addAll(types);
+      }
+      if(comments != null){
+         aux.addAll(comments);
+      }
+      return aux;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

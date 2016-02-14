@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
+
 /* 
  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
 
@@ -85,6 +87,20 @@ public class LambdaExpr extends Expression implements SymbolReference {
          this.parametersEnclosed = true;
       }
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+     
+      if(parameters != null){
+         children.addAll(parameters);
+      }
+      if(body != null){
+         children.add(body);
+      }
+      return children;
+   }
+
 
    public List<Parameter> getParameters() {
       return parameters;

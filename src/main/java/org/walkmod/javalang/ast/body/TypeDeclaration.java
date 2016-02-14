@@ -75,6 +75,16 @@ public abstract class TypeDeclaration extends BodyDeclaration
       setMembers(members);
    }
 
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (members != null) {
+         children.addAll(members);
+      }
+
+      return children;
+   }
+
    public final List<BodyDeclaration> getMembers() {
       return members;
    }

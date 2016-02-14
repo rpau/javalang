@@ -55,6 +55,21 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (typeArgs != null) {
+         children.addAll(typeArgs);
+      }
+      if (expr != null) {
+         children.add(expr);
+      }
+      if (args != null) {
+         children.addAll(args);
+      }
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }

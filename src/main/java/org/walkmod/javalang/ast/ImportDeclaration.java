@@ -73,6 +73,15 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> aux = new LinkedList<Node>();
+      if (name != null) {
+         aux.add(name);
+      }
+      return aux;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }

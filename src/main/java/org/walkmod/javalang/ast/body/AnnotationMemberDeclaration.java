@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
@@ -78,6 +79,21 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
       setType(type);
       this.name = name;
       setDefaultValue(defaultValue);
+   }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      
+      if(type != null){
+         children.add(type);
+      }
+      
+      if(defaultValue != null){
+         children.add(defaultValue);
+      }
+      
+      return children;
    }
 
    @Override

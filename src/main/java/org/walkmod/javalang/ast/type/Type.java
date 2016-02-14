@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -29,64 +30,70 @@ import org.walkmod.javalang.ast.expr.AnnotationExpr;
  */
 public abstract class Type extends Node implements SymbolDataAware<SymbolData>, SymbolReference {
 
-	private List<AnnotationExpr> annotations;
+   private List<AnnotationExpr> annotations;
 
-	private SymbolData symbolData;
-	
-	private SymbolDefinition symbolDefinition;
+   private SymbolData symbolData;
 
-	public Type() {
-	}
+   private SymbolDefinition symbolDefinition;
 
-	public Type(List<AnnotationExpr> annotation) {
-		setAnnotations(annotation);
-	}
+   public Type() {
+   }
 
-	public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
-		super(beginLine, beginColumn, endLine, endColumn);
-	}
+   public Type(List<AnnotationExpr> annotation) {
+      setAnnotations(annotation);
+   }
 
-	public Type(int beginLine, int beginColumn, int endLine, int endColumn,
-			List<AnnotationExpr> annotations) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setAnnotations(annotations);
-	}
+   public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
+      super(beginLine, beginColumn, endLine, endColumn);
+   }
 
-	public List<AnnotationExpr> getAnnotations() {
-		return annotations;
-	}
+   public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setAnnotations(annotations);
+   }
 
-	public void setAnnotations(List<AnnotationExpr> annotations) {
-		this.annotations = annotations;
-		setAsParentNodeOf(annotations);
-	}
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      children.addAll(annotations);
+      return children;
+   }
 
-	@Override
-	public SymbolData getSymbolData() {
-		return symbolData;
-	}
+   public List<AnnotationExpr> getAnnotations() {
+      return annotations;
+   }
 
-	@Override
-	public void setSymbolData(SymbolData symbolData) {
-		this.symbolData = symbolData;
-	}
+   public void setAnnotations(List<AnnotationExpr> annotations) {
+      this.annotations = annotations;
+      setAsParentNodeOf(annotations);
+   }
 
-	@Override
-	public SymbolDefinition getSymbolDefinition() {
-		return symbolDefinition;
-	}
+   @Override
+   public SymbolData getSymbolData() {
+      return symbolData;
+   }
 
-	@Override
-	public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-		this.symbolDefinition = symbolDefinition;
-	}
-	
-	@Override
+   @Override
+   public void setSymbolData(SymbolData symbolData) {
+      this.symbolData = symbolData;
+   }
+
+   @Override
+   public SymbolDefinition getSymbolDefinition() {
+      return symbolDefinition;
+   }
+
+   @Override
+   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+      this.symbolDefinition = symbolDefinition;
+   }
+
+   @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      
+
       return replaceChildNodeInList(oldChild, newChild, annotations);
    }
-	
-	@Override
+
+   @Override
    public abstract Type clone() throws CloneNotSupportedException;
 }

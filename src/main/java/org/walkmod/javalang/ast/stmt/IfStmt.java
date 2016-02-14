@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -46,6 +48,21 @@ public final class IfStmt extends Statement {
       setCondition(condition);
       setThenStmt(thenStmt);
       setElseStmt(elseStmt);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (condition != null) {
+         children.add(condition);
+      }
+      if (thenStmt != null) {
+         children.add(thenStmt);
+      }
+      if (elseStmt != null) {
+         children.add(elseStmt);
+      }
+      return children;
    }
 
    @Override

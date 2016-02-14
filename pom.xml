@@ -81,6 +81,11 @@
 			<version>[1.0.1, 2.0)</version>
 		</dependency>
 		<dependency>
+            <groupId>org.walkmod</groupId>
+            <artifactId>model-checker</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>

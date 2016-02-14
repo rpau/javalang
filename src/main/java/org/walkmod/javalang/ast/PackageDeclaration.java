@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
@@ -65,6 +66,18 @@ public final class PackageDeclaration extends Node {
       super(beginLine, beginColumn, endLine, endColumn);
       setAnnotations(annotations);
       setName(name);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (annotations != null) {
+         children.addAll(annotations);
+      }
+      if (name != null) {
+         children.add(name);
+      }
+      return children;
    }
 
    @Override

@@ -47,6 +47,19 @@ public final class SwitchEntryStmt extends Statement {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (label != null) {
+         children.add(label);
+      }
+      if (stmts != null) {
+         children.addAll(stmts);
+      }
+
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }
@@ -65,7 +78,7 @@ public final class SwitchEntryStmt extends Statement {
    }
 
    public void setLabel(Expression label) {
-      if(this.label != null){
+      if (this.label != null) {
          updateReferences(this.label);
       }
       this.label = label;
@@ -90,7 +103,7 @@ public final class SwitchEntryStmt extends Statement {
 
       return updated;
    }
-   
+
    @Override
    public SwitchEntryStmt clone() throws CloneNotSupportedException {
       return new SwitchEntryStmt(clone(label), clone(stmts));

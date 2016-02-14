@@ -24,13 +24,15 @@ import org.walkmod.javalang.visitors.DumpVisitor;
 import org.walkmod.javalang.visitors.EqualsVisitor;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
+import org.walkmod.modelchecker.ConstrainedElement;
+import org.walkmod.modelchecker.Constraint;
 
 /**
  * Abstract class for all nodes of the AST.
  * 
  * @author Julio Vilmar Gesser
  */
-public abstract class Node implements Serializable, Cloneable {
+public abstract class Node implements Serializable, Cloneable, ConstrainedElement {
 
    private int beginLine;
 
@@ -47,7 +49,26 @@ public abstract class Node implements Serializable, Cloneable {
 
    private Node parentNode;
 
+   private List<Constraint> constraints;
+
    public Node() {
+   }
+
+   public void setConstraints(List<Constraint> constraints) {
+      this.constraints = constraints;
+      List<Node> children = getChildren();
+      if(children != null){
+         for(Node child: children){
+            child.setConstraints(constraints);
+         }
+      }
+   }
+   
+   public abstract List<Node> getChildren();
+   
+   @Override
+   public List<Constraint> getConstraints(){
+      return constraints;
    }
 
    public Node(int beginLine, int beginColumn, int endLine, int endColumn) {
@@ -418,5 +439,20 @@ public abstract class Node implements Serializable, Cloneable {
    }
 
    public abstract <T extends Node> T clone() throws CloneNotSupportedException;
+
+   @Override
+   public boolean check() {
+      if ((constraints == null) || constraints.isEmpty()) {
+         return true;
+      } else {
+         Iterator<Constraint> it = constraints.iterator();
+         boolean isConstrained = false;
+         while (it.hasNext() && !isConstrained) {
+            Constraint c = it.next();
+            isConstrained = c.isConstrained(this);
+         }
+         return !isConstrained;
+      }
+   }
 
 }

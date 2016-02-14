@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.expr.VariableDeclarationExpr;
@@ -47,6 +49,21 @@ public final class ForeachStmt extends Statement {
       setVariable(var);
       setIterable(iterable);
       setBody(body);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (var != null) {
+         children.add(var);
+      }
+      if (iterable != null) {
+         children.add(iterable);
+      }
+      if (body != null) {
+         children.add(body);
+      }
+      return children;
    }
 
    @Override

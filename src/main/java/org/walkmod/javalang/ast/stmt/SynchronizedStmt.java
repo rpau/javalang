@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -42,6 +44,18 @@ public final class SynchronizedStmt extends Statement {
       super(beginLine, beginColumn, endLine, endColumn);
       setExpr(expr);
       setBlock(block);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (expr != null) {
+         children.add(expr);
+      }
+      if (block != null) {
+         children.add(block);
+      }
+      return children;
    }
 
    @Override

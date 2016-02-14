@@ -15,8 +15,10 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -41,6 +43,11 @@ public final class AnnotationDeclaration extends TypeDeclaration {
    public AnnotationDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
          int modifiers, List<AnnotationExpr> annotations, String name, List<BodyDeclaration> members) {
       super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc, modifiers, name, members);
+   }
+   
+   @Override
+   public List<Node> getChildren() {
+      return super.getChildren();
    }
 
    @Override

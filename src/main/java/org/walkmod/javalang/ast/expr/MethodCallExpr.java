@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
@@ -68,6 +69,21 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
       setTypeArgs(typeArgs);
       this.name = name;
       setArgs(args);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (scope != null) {
+         children.add(scope);
+      }
+      if (typeArgs != null) {
+         children.addAll(typeArgs);
+      }
+      if (args != null) {
+         children.addAll(args);
+      }
+      return children;
    }
 
    @Override

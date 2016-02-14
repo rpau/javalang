@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.List;
+
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 import org.walkmod.merger.MergeEngine;
@@ -39,6 +42,15 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
       super(beginLine, beginColumn, endLine, endColumn);
       setName(name);
       setMemberValue(memberValue);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (memberValue != null) {
+         children.add(memberValue);
+      }
+      return children;
    }
 
    @Override

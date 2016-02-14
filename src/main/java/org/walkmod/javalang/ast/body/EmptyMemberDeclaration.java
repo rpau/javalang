@@ -16,7 +16,10 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.comparators.EmptyMemberDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -37,6 +40,12 @@ public final class EmptyMemberDeclaration extends BodyDeclaration implements Mer
 
    public EmptyMemberDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc) {
       super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      
+      return super.getChildren();
    }
 
    @Override

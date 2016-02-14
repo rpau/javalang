@@ -53,6 +53,19 @@ public final class EnumDeclaration extends TypeDeclaration {
       setImplements(implementsList);
       setEntries(entries);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(implementsList != null){
+         children.addAll(implementsList);
+      }
+      if(entries != null){
+         children.addAll(entries);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

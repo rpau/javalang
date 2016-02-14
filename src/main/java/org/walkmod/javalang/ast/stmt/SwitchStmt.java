@@ -27,56 +27,68 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class SwitchStmt extends Statement {
 
-	private Expression selector;
+   private Expression selector;
 
-	private List<SwitchEntryStmt> entries;
+   private List<SwitchEntryStmt> entries;
 
-	public SwitchStmt() {
-	}
+   public SwitchStmt() {
+   }
 
-	public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
-		setSelector(selector);
-		setEntries(entries);
-	}
+   public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
+      setSelector(selector);
+      setEntries(entries);
+   }
 
-	public SwitchStmt(int beginLine, int beginColumn, int endLine,
-			int endColumn, Expression selector, List<SwitchEntryStmt> entries) {
-		super(beginLine, beginColumn, endLine, endColumn);
-		setSelector(selector);
-		setEntries(entries);
-	}
+   public SwitchStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression selector,
+         List<SwitchEntryStmt> entries) {
+      super(beginLine, beginColumn, endLine, endColumn);
+      setSelector(selector);
+      setEntries(entries);
+   }
 
-	@Override
-	public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-		return v.visit(this, arg);
-	}
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (selector != null) {
+         children.add(selector);
+      }
+      if (entries != null) {
+         children.addAll(entries);
+      }
 
-	@Override
-	public <A> void accept(VoidVisitor<A> v, A arg) {
-		v.visit(this, arg);
-	}
+      return children;
+   }
 
-	public List<SwitchEntryStmt> getEntries() {
-		return entries;
-	}
+   @Override
+   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+      return v.visit(this, arg);
+   }
 
-	public Expression getSelector() {
-		return selector;
-	}
+   @Override
+   public <A> void accept(VoidVisitor<A> v, A arg) {
+      v.visit(this, arg);
+   }
 
-	public void setEntries(List<SwitchEntryStmt> entries) {
-		this.entries = entries;
-		setAsParentNodeOf(entries);
-	}
+   public List<SwitchEntryStmt> getEntries() {
+      return entries;
+   }
 
-	public void setSelector(Expression selector) {
-	   if(this.selector != null){
+   public Expression getSelector() {
+      return selector;
+   }
+
+   public void setEntries(List<SwitchEntryStmt> entries) {
+      this.entries = entries;
+      setAsParentNodeOf(entries);
+   }
+
+   public void setSelector(Expression selector) {
+      if (this.selector != null) {
          updateReferences(this.selector);
       }
-		this.selector = selector;
-		setAsParentNodeOf(selector);
-	}
-
+      this.selector = selector;
+      setAsParentNodeOf(selector);
+   }
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
@@ -91,7 +103,7 @@ public final class SwitchStmt extends Statement {
 
       return updated;
    }
-   
+
    @Override
    public SwitchStmt clone() throws CloneNotSupportedException {
       return new SwitchStmt(clone(selector), clone(entries));

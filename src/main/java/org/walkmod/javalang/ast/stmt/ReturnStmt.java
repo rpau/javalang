@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -37,6 +39,15 @@ public final class ReturnStmt extends Statement {
    public ReturnStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr) {
       super(beginLine, beginColumn, endLine, endColumn);
       setExpr(expr);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (expr != null) {
+         children.add(expr);
+      }
+      return children;
    }
 
    @Override

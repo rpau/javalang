@@ -39,6 +39,13 @@ public class IntersectionType extends Type {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      children.addAll(bounds);
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }
@@ -61,7 +68,7 @@ public class IntersectionType extends Type {
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       return super.replaceChildNode(oldChild, newChild);
    }
-   
+
    @Override
    public IntersectionType clone() throws CloneNotSupportedException {
       return new IntersectionType(clone(getBounds()));

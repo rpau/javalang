@@ -55,6 +55,24 @@ public final class ForStmt extends Statement {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (init != null) {
+         children.addAll(init);
+      }
+      if (compare != null) {
+         children.add(compare);
+      }
+      if (update != null) {
+         children.addAll(update);
+      }
+      if (body != null) {
+         children.add(body);
+      }
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }

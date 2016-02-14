@@ -46,6 +46,16 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
    }
 
    @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (pairs != null) {
+         children.addAll(pairs);
+      }
+
+      return children;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       return v.visit(this, arg);
    }

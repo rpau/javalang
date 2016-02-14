@@ -72,6 +72,18 @@ public final class ReferenceType extends Type {
       this.arrayCount = arrayCount;
       setArraysAnnotations(arraysAnnotations);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      children.add(type);
+      if(arraysAnnotations != null){
+         for(List<AnnotationExpr> annList: arraysAnnotations){
+            children.addAll(annList);
+         }
+      }
+      return children;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

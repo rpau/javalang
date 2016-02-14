@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -42,6 +45,20 @@ public final class DoStmt extends Statement {
       setBody(body);
       setCondition(condition);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(body != null){
+         children.add(body);
+      }
+      if(condition != null){
+         children.add(condition);
+      }
+      
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

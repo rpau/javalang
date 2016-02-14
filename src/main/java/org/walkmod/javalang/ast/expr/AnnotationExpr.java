@@ -17,6 +17,8 @@
 package org.walkmod.javalang.ast.expr;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
@@ -39,6 +41,16 @@ public abstract class AnnotationExpr extends Expression implements Mergeable<Ann
    public AnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn) {
       super(beginLine, beginColumn, endLine, endColumn);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(name != null){
+         children.add(name);
+      }
+      return children;
+   }
+
 
    public NameExpr getName() {
       return name;

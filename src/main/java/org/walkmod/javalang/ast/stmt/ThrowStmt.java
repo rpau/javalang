@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -47,6 +49,15 @@ public final class ThrowStmt extends Statement {
    @Override
    public <A> void accept(VoidVisitor<A> v, A arg) {
       v.visit(this, arg);
+   }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if(expr != null){
+         children.add(expr);
+      }
+      return children;
    }
 
    public Expression getExpr() {

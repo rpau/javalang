@@ -15,6 +15,9 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -41,6 +44,11 @@ public class NameExpr extends Expression implements SymbolReference {
       super(beginLine, beginColumn, endLine, endColumn);
       this.name = name;
    }
+   @Override
+   public List<Node> getChildren() {
+      return new LinkedList<Node>();
+   }
+
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.List;
+
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -40,6 +42,15 @@ public final class LabeledStmt extends Statement {
       super(beginLine, beginColumn, endLine, endColumn);
       this.label = label;
       setStmt(stmt);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      if (stmt != null) {
+         children.add(stmt);
+      }
+      return children;
    }
 
    @Override

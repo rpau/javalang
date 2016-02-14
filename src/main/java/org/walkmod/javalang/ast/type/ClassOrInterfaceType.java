@@ -76,6 +76,14 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
       this.name = name;
       setTypeArgs(typeArgs);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = super.getChildren();
+      children.add(scope);
+      children.addAll(typeArgs);
+      return children;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

@@ -15,10 +15,10 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
 
@@ -39,6 +39,15 @@ public final class BlockStmt extends Statement {
    public BlockStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
       super(beginLine, beginColumn, endLine, endColumn);
       setStmts(stmts);
+   }
+
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if (stmts != null) {
+         children.addAll(stmts);
+      }
+      return children;
    }
 
    @Override

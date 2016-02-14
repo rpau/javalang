@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -55,6 +56,19 @@ public final class CatchClause extends Node {
             exceptTypes, exceptId));
       setCatchBlock(catchBlock);
    }
+   
+   @Override
+   public List<Node> getChildren() {
+      List<Node> children = new LinkedList<Node>();
+      if(except != null){
+         children.add(except);
+      }
+      if(catchBlock != null){
+         children.add(catchBlock);
+      }
+      return children;
+   }
+
 
    @Override
    public <R, A> R accept(final GenericVisitor<R, A> v, final A arg) {
