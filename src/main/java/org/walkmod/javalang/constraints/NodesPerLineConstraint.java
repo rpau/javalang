@@ -34,6 +34,10 @@ public class NodesPerLineConstraint implements Constraint<Node> {
       }
    }
 
+   public void addLine(int lineNumber) {
+      segments.add(lineNumber);
+   }
+
    @Override
    public boolean isConstrained(Node o) {
       if (o.isNewNode()) {
@@ -41,12 +45,12 @@ public class NodesPerLineConstraint implements Constraint<Node> {
       }
       int beginLine = o.getBeginLine();
       int endLine = o.getEndLine();
-      
+
       if (segments.contains(beginLine) && segments.contains(endLine)) {
          return false;
       }
       boolean includesAChildrenNode = false;
-      for(int i = beginLine; i <= endLine && !includesAChildrenNode; i++){
+      for (int i = beginLine; i <= endLine && !includesAChildrenNode; i++) {
          includesAChildrenNode = segments.contains(i);
       }
       return !includesAChildrenNode;

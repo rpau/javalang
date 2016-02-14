@@ -57,11 +57,15 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
    }
 
    public void setConstraints(List<Constraint> constraints) {
-      this.constraints = constraints;
-      List<Node> children = getChildren();
-      if (children != null) {
-         for (Node child : children) {
-            child.setConstraints(constraints);
+      if (this.constraints != constraints) {
+         this.constraints = constraints;
+         if (this.constraints != null) {
+            List<Node> children = getChildren();
+            if (children != null) {
+               for (Node child : children) {
+                  child.setConstraints(constraints);
+               }
+            }
          }
       }
    }
