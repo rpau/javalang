@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.net.URI;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +62,8 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
    private List<TypeDeclaration> types;
 
    private List<Comment> comments;
+   
+   private URI uri;
 
    public CompilationUnit() {
    }
@@ -80,6 +83,14 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       setImports(imports);
       setTypes(types);
       setComments(comments);
+   }
+   
+   public void setURI(URI uri) {
+      this.uri = uri;
+   }
+
+   public URI getURI() {
+      return uri;
    }
 
    @Override

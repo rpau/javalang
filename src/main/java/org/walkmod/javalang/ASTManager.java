@@ -112,7 +112,9 @@ public class ASTManager {
 			throws ParseException, IOException {
 		Reader reader = new InputStreamReader(new FileInputStream(file),
 				encoding);
-		return parse(reader);
+		CompilationUnit cu = parse(reader);
+		cu.setURI(file.toURI());
+		return cu;
 	}
 
 	/**
