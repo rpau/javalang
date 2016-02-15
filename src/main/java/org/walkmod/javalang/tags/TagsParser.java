@@ -37,7 +37,7 @@ public class TagsParser implements TagsParserConstants {
 
    final public List<JavadocTag> javadoc() throws ParseException {
       List<JavadocTag> result = new LinkedList();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case PARAM:
       case RETURN:
       case THROWS:
@@ -72,7 +72,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String inlineTag() throws ParseException {
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case CODE:
          jj_consume_token(CODE);
          break;
@@ -98,7 +98,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String blockTag() throws ParseException {
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case AUTHOR:
          jj_consume_token(AUTHOR);
          break;
@@ -127,7 +127,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String IDBlockTag() throws ParseException {
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case PARAM:
          jj_consume_token(PARAM);
          break;
@@ -153,7 +153,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String NSInlineTag() throws ParseException {
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LINK:
          jj_consume_token(LINK);
          break;
@@ -177,7 +177,7 @@ public class TagsParser implements TagsParserConstants {
 
    final public String anyTag() throws ParseException {
       String result = "";
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case INHERITDOC:
       case DOCROOT:
       case CODE:
@@ -218,10 +218,10 @@ public class TagsParser implements TagsParserConstants {
       String result = "";
       String arg1 = null;
       String arg2 = null;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case OPENBRACE:
          jj_consume_token(OPENBRACE);
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LINKPLAIN:
          case LINK:
          case VALUE:
@@ -236,7 +236,7 @@ public class TagsParser implements TagsParserConstants {
             jj_la1[6] = jj_gen;
             ;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -269,7 +269,7 @@ public class TagsParser implements TagsParserConstants {
       case NAMECHAR:
       case OPERATION:
       case WORD:
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case WORD:
             jj_consume_token(WORD);
             break;
@@ -294,7 +294,7 @@ public class TagsParser implements TagsParserConstants {
             throw new ParseException();
          }
          arg1 = token.image;
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -361,13 +361,13 @@ public class TagsParser implements TagsParserConstants {
       JavadocTag result = null;
       List<String> values = null;
       String words = null;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case INHERITDOC:
       case DOCROOT:
       case CODE:
       case LITERAL:
          tag = inlineTag();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LINKPLAIN:
          case LINK:
          case VALUE:
@@ -401,19 +401,19 @@ public class TagsParser implements TagsParserConstants {
       case LINK:
       case VALUE:
          tag = NSInlineTag();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case OPENBRACE:
          case ASTERISK:
          case IDENTIFIER:
          case NAMECHAR:
          case OPERATION:
          case WORD:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
             case NAMECHAR:
             case OPERATION:
                ns = namespace();
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LINKPLAIN:
                case LINK:
                case VALUE:
@@ -492,7 +492,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String namespace() throws ParseException {
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IDENTIFIER:
          jj_consume_token(IDENTIFIER);
          break;
@@ -524,14 +524,14 @@ public class TagsParser implements TagsParserConstants {
       JavadocTag tag2 = null;
       List<String> values = null;
       List<JavadocTag> postTags = new LinkedList<JavadocTag>();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case SERIALDATA:
       case DEPRECATED:
       case AUTHOR:
       case SINCE:
       case VERSION:
          name = blockTag();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -561,7 +561,7 @@ public class TagsParser implements TagsParserConstants {
       case SERIAL:
          jj_consume_token(SERIAL);
          name = token.image;
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -580,12 +580,12 @@ public class TagsParser implements TagsParserConstants {
          case NAMECHAR:
          case OPERATION:
          case WORD:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
             case NAMECHAR:
             case OPERATION:
                arg1 = namespace();
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -614,7 +614,7 @@ public class TagsParser implements TagsParserConstants {
                break;
             case ASTERISK:
             case WORD:
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case WORD:
                   jj_consume_token(WORD);
                   break;
@@ -627,7 +627,7 @@ public class TagsParser implements TagsParserConstants {
                   jj_consume_token(-1);
                   throw new ParseException();
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -659,7 +659,7 @@ public class TagsParser implements TagsParserConstants {
                break;
             case OPENBRACE:
                jj_consume_token(OPENBRACE);
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LINKPLAIN:
                case LINK:
                case VALUE:
@@ -673,7 +673,7 @@ public class TagsParser implements TagsParserConstants {
                   jj_la1[21] = jj_gen;
                   ;
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -733,7 +733,7 @@ public class TagsParser implements TagsParserConstants {
       case THROWS:
       case EXCEPTION:
          name = IDBlockTag();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -752,11 +752,11 @@ public class TagsParser implements TagsParserConstants {
          case NAMECHAR:
          case OPERATION:
          case WORD:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
                jj_consume_token(IDENTIFIER);
                arg1 = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -787,7 +787,7 @@ public class TagsParser implements TagsParserConstants {
             case NAMECHAR:
             case OPERATION:
             case WORD:
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case WORD:
                   jj_consume_token(WORD);
                   break;
@@ -806,7 +806,7 @@ public class TagsParser implements TagsParserConstants {
                   throw new ParseException();
                }
                arg1 = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -838,7 +838,7 @@ public class TagsParser implements TagsParserConstants {
                break;
             case OPENBRACE:
                jj_consume_token(OPENBRACE);
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LINKPLAIN:
                case LINK:
                case VALUE:
@@ -852,7 +852,7 @@ public class TagsParser implements TagsParserConstants {
                   jj_la1[28] = jj_gen;
                   ;
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -912,7 +912,7 @@ public class TagsParser implements TagsParserConstants {
       case SERIALFIELD:
          jj_consume_token(SERIALFIELD);
          name = token.image;
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -928,11 +928,11 @@ public class TagsParser implements TagsParserConstants {
          case OPENBRACE:
          case IDENTIFIER:
          case NAMECHAR:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case NAMECHAR:
                jj_consume_token(NAMECHAR);
                arg1 = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -951,11 +951,11 @@ public class TagsParser implements TagsParserConstants {
                case NAMECHAR:
                case OPERATION:
                case WORD:
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case IDENTIFIER:
                      jj_consume_token(IDENTIFIER);
                      arg2 = token.image;
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -986,7 +986,7 @@ public class TagsParser implements TagsParserConstants {
                   case NAMECHAR:
                   case OPERATION:
                   case WORD:
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case WORD:
                         jj_consume_token(WORD);
                         break;
@@ -1005,7 +1005,7 @@ public class TagsParser implements TagsParserConstants {
                         throw new ParseException();
                      }
                      arg2 = token.image;
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -1037,7 +1037,7 @@ public class TagsParser implements TagsParserConstants {
                      break;
                   case OPENBRACE:
                      jj_consume_token(OPENBRACE);
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case LINKPLAIN:
                      case LINK:
                      case VALUE:
@@ -1051,7 +1051,7 @@ public class TagsParser implements TagsParserConstants {
                         jj_la1[35] = jj_gen;
                         ;
                      }
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -1106,7 +1106,7 @@ public class TagsParser implements TagsParserConstants {
             case IDENTIFIER:
                jj_consume_token(IDENTIFIER);
                arg1 = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -1125,11 +1125,11 @@ public class TagsParser implements TagsParserConstants {
                case NAMECHAR:
                case OPERATION:
                case WORD:
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case IDENTIFIER:
                      jj_consume_token(IDENTIFIER);
                      arg2 = token.image;
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -1160,7 +1160,7 @@ public class TagsParser implements TagsParserConstants {
                   case NAMECHAR:
                   case OPERATION:
                   case WORD:
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case WORD:
                         jj_consume_token(WORD);
                         break;
@@ -1179,7 +1179,7 @@ public class TagsParser implements TagsParserConstants {
                         throw new ParseException();
                      }
                      arg2 = token.image;
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -1211,7 +1211,7 @@ public class TagsParser implements TagsParserConstants {
                      break;
                   case OPENBRACE:
                      jj_consume_token(OPENBRACE);
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case LINKPLAIN:
                      case LINK:
                      case VALUE:
@@ -1225,7 +1225,7 @@ public class TagsParser implements TagsParserConstants {
                         jj_la1[42] = jj_gen;
                         ;
                      }
-                     switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                     switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                      case PARAM:
                      case RETURN:
                      case THROWS:
@@ -1284,7 +1284,7 @@ public class TagsParser implements TagsParserConstants {
                break;
             case OPENBRACE:
                jj_consume_token(OPENBRACE);
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LINKPLAIN:
                case LINK:
                case VALUE:
@@ -1298,7 +1298,7 @@ public class TagsParser implements TagsParserConstants {
                   jj_la1[46] = jj_gen;
                   ;
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -1353,7 +1353,7 @@ public class TagsParser implements TagsParserConstants {
       case SEE:
          jj_consume_token(SEE);
          name = token.image;
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PARAM:
          case RETURN:
          case THROWS:
@@ -1373,12 +1373,12 @@ public class TagsParser implements TagsParserConstants {
          case NAMECHAR:
          case OPERATION:
          case WORD:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
             case NAMECHAR:
             case OPERATION:
                arg1 = namespace();
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -1408,7 +1408,7 @@ public class TagsParser implements TagsParserConstants {
             case CLOSEBRACE:
             case ASTERISK:
             case WORD:
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case WORD:
                   jj_consume_token(WORD);
                   break;
@@ -1424,7 +1424,7 @@ public class TagsParser implements TagsParserConstants {
                   throw new ParseException();
                }
                arg2 = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -1456,7 +1456,7 @@ public class TagsParser implements TagsParserConstants {
                break;
             case OPENBRACE:
                jj_consume_token(OPENBRACE);
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LINKPLAIN:
                case LINK:
                case VALUE:
@@ -1475,7 +1475,7 @@ public class TagsParser implements TagsParserConstants {
                   jj_la1[53] = jj_gen;
                   ;
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case PARAM:
                case RETURN:
                case THROWS:
@@ -1559,7 +1559,7 @@ public class TagsParser implements TagsParserConstants {
    final public String inlineDescription() throws ParseException {
       String result = "";
       String w = "";
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LINKPLAIN:
       case LINK:
       case VALUE:
@@ -1585,7 +1585,7 @@ public class TagsParser implements TagsParserConstants {
          break;
       case OPENBRACE:
          jj_consume_token(OPENBRACE);
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LINKPLAIN:
          case LINK:
          case VALUE:
@@ -1622,7 +1622,7 @@ public class TagsParser implements TagsParserConstants {
          jj_consume_token(-1);
          throw new ParseException();
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LINKPLAIN:
       case LINK:
       case VALUE:
@@ -1664,7 +1664,7 @@ public class TagsParser implements TagsParserConstants {
    final public String textDescription() throws ParseException {
       String result = "";
       String w = "";
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case WORD:
          jj_consume_token(WORD);
          result = token.image;
@@ -1718,7 +1718,7 @@ public class TagsParser implements TagsParserConstants {
    final public String NSInlineDescription() throws ParseException {
       String result = "";
       String w = "";
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case WORD:
          jj_consume_token(WORD);
          result = token.image;
@@ -1736,7 +1736,7 @@ public class TagsParser implements TagsParserConstants {
          jj_consume_token(-1);
          throw new ParseException();
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LINKPLAIN:
       case LINK:
       case VALUE:
