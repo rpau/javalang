@@ -58,8 +58,8 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
 
   final public MethodLink methodlink() throws ParseException {
     String className = "";
-    String methodName = "";
-    String aux = "";
+    String methodName;
+    String aux;
     List<String> params = new LinkedList<String>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
@@ -104,7 +104,7 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
 
   final public FieldLink fieldlink() throws ParseException {
     String className = "";
-    String fieldName = "";
+    String fieldName;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
       className = type();
@@ -122,7 +122,7 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
   }
 
   final public String type() throws ParseException {
-    String typeName = "";
+    String typeName;
     jj_consume_token(IDENTIFIER);
                   typeName = token.image;
     label_2:

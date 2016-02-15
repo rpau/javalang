@@ -176,7 +176,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String anyTag() throws ParseException {
-      String result = "";
+      String result;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case INHERITDOC:
       case DOCROOT:
@@ -215,7 +215,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String description(List<JavadocTag> tags) throws ParseException {
-      String result = "";
+      String result;
       String arg1 = null;
       String arg2 = null;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -357,8 +357,8 @@ public class TagsParser implements TagsParserConstants {
    final public String inlines(List<JavadocTag> tags) throws ParseException {
       String description = null;
       String ns = null;
-      String tag = null;
-      JavadocTag result = null;
+      String tag;
+      JavadocTag result;
       List<String> values = null;
       String words = null;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -515,12 +515,12 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public void blocks(List<JavadocTag> tags) throws ParseException {
-      String name = null;
+      String name;
       String arg1 = null;
       String arg2 = null;
       String arg3 = null;
       String aux = null;
-      JavadocTag tag = null;
+      JavadocTag tag;
       JavadocTag tag2 = null;
       List<String> values = null;
       List<JavadocTag> postTags = new LinkedList<JavadocTag>();
@@ -1558,7 +1558,7 @@ public class TagsParser implements TagsParserConstants {
 
    final public String inlineDescription() throws ParseException {
       String result = "";
-      String w = "";
+      String w;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case LINKPLAIN:
       case LINK:
@@ -1662,7 +1662,7 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String textDescription() throws ParseException {
-      String result = "";
+      String result;
       String w = "";
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case WORD:
@@ -1716,8 +1716,8 @@ public class TagsParser implements TagsParserConstants {
    }
 
    final public String NSInlineDescription() throws ParseException {
-      String result = "";
-      String w = "";
+      String result;
+      String w;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case WORD:
          jj_consume_token(WORD);
