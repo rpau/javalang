@@ -160,4 +160,12 @@ public class ASTParserTest {
 			pos = arg.getBeginColumn();
 		}
 	}
+	
+	@Test
+	public void testParseBigCommentBug() throws Exception{
+	   File f = new File(
+            "src/test/resources/bigCommentBug.txt");
+      CompilationUnit cu = ASTManager.parse(f);
+      Assert.assertNull(cu.getImports());
+	}
 }

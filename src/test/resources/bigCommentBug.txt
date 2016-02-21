@@ -1,0 +1,41 @@
+package foo;
+
+/* <template-not-strip>
+import static de.pixelboxx.pb.lang.ObjectUtil.nonNull;
+// <template-if-map>
+import static de.pixelboxx.pb.lang.ObjectUtil.safeEquals;
+// </template-if-map>
+// <template-checkinvariant>
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static nads.pixelbox.lang.StringUtil.repeat;
+// </template-checkinvariant>
+
+// <template-not-map>
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+// </template-not-map>
+// <template-if-map>
+import java.util.Map;
+// </template-if-map>
+
+import javax.annotation.CheckReturnValue;
+// <template-if-map>
+import javax.annotation.Nullable;
+// </template-if-map>
+// <template-not-map>
+
+import com.google.common.collect.Iterators;
+// </template-not-map>
+// <template-checkinvariant>
+
+// <template-if-map>
+import nads.pixelbox.block.UnaryProc;
+// </template-if-map>
+import nads.pixelbox.block.BinaryProc;
+// </template-checkinvariant>
+ </template-not-strip> */
+ 
+ public class Bar{}
