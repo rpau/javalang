@@ -69,6 +69,16 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
          }
       }
    }
+   
+   public boolean remove(){
+      Node parent = getParentNode();
+      if(parent != null){
+         return parent.removeChild(this);
+      }
+      return false;
+   }
+   
+   public abstract boolean removeChild(Node child);
 
    public abstract List<Node> getChildren();
 

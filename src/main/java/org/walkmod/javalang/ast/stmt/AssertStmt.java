@@ -51,6 +51,28 @@ public final class AssertStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (check == child) {
+            check = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (msg == child) {
+               msg = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (check != null) {

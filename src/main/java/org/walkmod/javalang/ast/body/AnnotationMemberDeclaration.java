@@ -82,6 +82,27 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (type == child && type != null) {
+               type = null;
+               result = true;
+            } else if (defaultValue == child && defaultValue != null) {
+               defaultValue = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
 

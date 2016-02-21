@@ -37,6 +37,11 @@ public final class VoidType extends Type {
    public VoidType(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
       super(beginLine, beginColumn, endLine, endColumn, annotations);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

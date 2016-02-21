@@ -16,7 +16,6 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -55,6 +54,24 @@ public final class InitializerDeclaration extends BodyDeclaration implements Mer
       super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
       this.isStatic = isStatic;
       setBlock(block);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child == block && block != null) {
+               block = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

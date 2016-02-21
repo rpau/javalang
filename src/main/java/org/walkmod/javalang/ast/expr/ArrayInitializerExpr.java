@@ -42,6 +42,24 @@ public final class ArrayInitializerExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (values != null) {
+            if (child instanceof Expression) {
+               List<Expression> valuesAux = new LinkedList<Expression>();
+               result = valuesAux.remove(child);
+               values = valuesAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (values != null) {

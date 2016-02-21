@@ -39,6 +39,11 @@ public final class ContinueStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       if (!check()) {
          return null;

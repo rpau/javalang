@@ -42,6 +42,21 @@ public final class ThisExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (classExpr == child) {
+            classExpr = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (classExpr != null) {

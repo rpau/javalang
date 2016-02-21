@@ -37,6 +37,11 @@ public final class BreakStmt extends Statement {
       super(beginLine, beginColumn, endLine, endColumn);
       this.id = id;
    }
+   
+   @Override
+   public boolean removeChild(Node child){
+      return false;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

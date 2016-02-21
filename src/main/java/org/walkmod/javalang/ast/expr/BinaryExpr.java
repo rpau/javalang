@@ -56,6 +56,32 @@ public final class BinaryExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (left != null) {
+            if (left == child) {
+               left = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (right != null) {
+               if (right == child) {
+                  right = null;
+                  result = true;
+               }
+            }
+         }
+      }
+      if (result) {
+         updateReferences(child);
+      }
+
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (left != null) {

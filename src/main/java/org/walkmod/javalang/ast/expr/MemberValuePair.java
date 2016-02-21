@@ -46,6 +46,22 @@ public final class MemberValuePair extends Node {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+
+      if (child != null) {
+         if (value == child) {
+            value = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (value != null) {

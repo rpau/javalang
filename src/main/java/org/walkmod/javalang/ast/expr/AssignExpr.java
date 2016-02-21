@@ -56,6 +56,31 @@ public final class AssignExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (target != null) {
+            if (target == child) {
+               target = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (value != null) {
+               if (value == child) {
+                  value = null;
+                  result = true;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (target != null) {

@@ -45,19 +45,41 @@ public abstract class BodyDeclaration extends Node {
       setJavaDoc(javaDoc);
       setAnnotations(annotations);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(javaDoc != null){
+      if (javaDoc != null) {
          children.add(javaDoc);
       }
-      if(annotations != null){
+      if (annotations != null) {
          children.addAll(annotations);
       }
       return children;
    }
 
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child instanceof AnnotationExpr) {
+            if (annotations != null) {
+               List<AnnotationExpr> aux = new LinkedList<AnnotationExpr>(annotations);
+               result = aux.remove(child);
+               this.annotations = aux;
+            }
+         } else if (child instanceof JavadocComment) {
+            if (javaDoc != null && javaDoc.equals(child)) {
+               javaDoc = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    public final JavadocComment getJavaDoc() {
       return javaDoc;

@@ -93,6 +93,42 @@ public final class ConstructorDeclaration extends BodyDeclaration
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof TypeParameter) {
+               if (typeParameters != null) {
+                  List<TypeParameter> typeParametersAux = new LinkedList<TypeParameter>(typeParameters);
+                  result = typeParametersAux.remove(child);
+                  typeParameters = typeParametersAux;
+               }
+            } else if (child instanceof Parameter) {
+               if (parameters != null) {
+                  List<Parameter> paramsAux = new LinkedList<Parameter>(parameters);
+                  result = paramsAux.remove(child);
+                  parameters = paramsAux;
+               }
+            } else if (child instanceof ClassOrInterfaceType) {
+               if (throws_ != null) {
+                  List<ClassOrInterfaceType> throwsAux = new LinkedList<ClassOrInterfaceType>(throws_);
+                  result = throwsAux.remove(child);
+                  throws_ = throwsAux;
+               }
+            } else if (child == block && block != null) {
+               block = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (typeParameters != null) {

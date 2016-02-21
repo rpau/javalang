@@ -47,6 +47,27 @@ public final class SynchronizedStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (expr == child) {
+            expr = null;
+            result = true;
+         }
+         if (!result) {
+            if (block == child) {
+               block = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (expr != null) {

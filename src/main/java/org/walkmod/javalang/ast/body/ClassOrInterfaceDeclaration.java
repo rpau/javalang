@@ -74,6 +74,38 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof TypeParameter) {
+               if (typeParameters != null) {
+                  List<TypeParameter> tp = new LinkedList<TypeParameter>(typeParameters);
+                  result = tp.remove(child);
+                  typeParameters = tp;
+               }
+            } else if (child instanceof ClassOrInterfaceType) {
+               if (extendsList != null) {
+                  List<ClassOrInterfaceType> extendsListAux = new LinkedList<ClassOrInterfaceType>(extendsList);
+                  result = extendsListAux.remove(child);
+                  extendsList = extendsListAux;
+               }
+               if (!result && implementsList != null) {
+                  List<ClassOrInterfaceType> implementsListAux = new LinkedList<ClassOrInterfaceType>(implementsList);
+                  result = implementsListAux.remove(child);
+                  implementsList = implementsListAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (typeParameters != null) {

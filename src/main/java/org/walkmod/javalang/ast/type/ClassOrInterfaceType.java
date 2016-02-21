@@ -23,7 +23,6 @@ import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
-import org.walkmod.javalang.ast.body.VariableDeclaratorId;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.comparators.ClassOrInterfaceTypeComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -75,6 +74,31 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
       setScope(scope);
       this.name = name;
       setTypeArgs(typeArgs);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+
+      if (child != null) {
+         if (scope == child) {
+            scope = null;
+            result = true;
+         }
+         if (!result) {
+            if (typeArgs != null) {
+               if (child instanceof Type) {
+                  List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+                  result = typeArgsAux.remove(child);
+                  typeArgs = typeArgsAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

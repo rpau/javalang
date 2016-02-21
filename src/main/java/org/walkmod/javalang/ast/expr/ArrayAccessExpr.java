@@ -47,6 +47,31 @@ public final class ArrayAccessExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (name != null) {
+            if (name == child) {
+               name = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (index != null) {
+               if (index == child) {
+                  index = null;
+                  result = true;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (name != null) {

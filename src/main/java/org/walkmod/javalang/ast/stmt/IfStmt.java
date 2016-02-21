@@ -51,6 +51,33 @@ public final class IfStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (condition == child) {
+            condition = null;
+            result = true;
+         }
+         if (!result) {
+            if (thenStmt == child) {
+               thenStmt = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (elseStmt == child) {
+               elseStmt = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (condition != null) {

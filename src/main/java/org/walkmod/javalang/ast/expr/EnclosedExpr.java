@@ -40,6 +40,21 @@ public final class EnclosedExpr extends Expression {
       super(beginLine, beginColumn, endLine, endColumn);
       setInner(inner);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if(child != null){
+         if(inner == child){
+            inner = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    @Override
    public List<Node> getChildren() {

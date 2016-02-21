@@ -72,6 +72,32 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (scope == child) {
+            scope = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (typeParameters != null) {
+               if (child instanceof TypeParameter) {
+                  List<TypeParameter> typeParametersAux = new LinkedList<TypeParameter>(typeParameters);
+                  result = typeParametersAux.remove(child);
+                  typeParameters = typeParametersAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (scope != null) {

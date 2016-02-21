@@ -68,6 +68,28 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child instanceof AnnotationExpr) {
+            if (annotations != null) {
+               List<AnnotationExpr> annotationAux = new LinkedList<AnnotationExpr>(annotations);
+               result = annotationAux.remove(child);
+               this.annotations = annotationAux;
+            }
+         }
+         if (child == id && id != null) {
+            id = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (annotations != null) {

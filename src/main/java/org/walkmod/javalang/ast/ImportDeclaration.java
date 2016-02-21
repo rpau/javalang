@@ -71,6 +71,17 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
       this.static_ = isStatic;
       this.asterisk = isAsterisk;
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      if(child == name && child != null){
+         name = null;
+         updateReferences(child);
+         return true;
+      }
+     
+      return false;
+   }
 
    @Override
    public List<Node> getChildren() {

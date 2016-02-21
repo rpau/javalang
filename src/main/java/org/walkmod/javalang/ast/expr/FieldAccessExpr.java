@@ -61,6 +61,31 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (scope == child) {
+            scope = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (typeArgs != null) {
+               if (child instanceof Type) {
+                  List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+                  result = typeArgsAux.remove(child);
+                  typeArgs = typeArgsAux;
+               }
+            }
+         }
+      }
+      if (result) {
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (scope != null) {

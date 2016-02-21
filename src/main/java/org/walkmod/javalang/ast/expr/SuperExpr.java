@@ -39,6 +39,21 @@ public final class SuperExpr extends Expression {
       super(beginLine, beginColumn, endLine, endColumn);
       setClassExpr(classExpr);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if(child != null){
+         if(classExpr == child){
+            classExpr = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    @Override
    public List<Node> getChildren() {

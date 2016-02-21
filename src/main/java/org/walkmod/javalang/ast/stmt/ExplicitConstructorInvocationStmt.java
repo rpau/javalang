@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -52,6 +53,31 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
       this.isThis = isThis;
       setExpr(expr);
       setArgs(args);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+
+      if (child != null) {
+         if (expr == child) {
+            expr = null;
+            result = true;
+         }
+         if (!result) {
+            if (typeArgs != null) {
+               if (child instanceof Type) {
+                  List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+                  result = typeArgsAux.remove(child);
+                  typeArgs = typeArgsAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

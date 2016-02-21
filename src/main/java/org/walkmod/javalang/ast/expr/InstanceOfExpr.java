@@ -47,6 +47,28 @@ public final class InstanceOfExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (expr == child) {
+            expr = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (type == child) {
+               type = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (expr != null) {

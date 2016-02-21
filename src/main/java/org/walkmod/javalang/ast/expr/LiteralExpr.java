@@ -15,6 +15,8 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.expr;
 
+import org.walkmod.javalang.ast.Node;
+
 /**
  * @author Julio Vilmar Gesser
  */
@@ -29,4 +31,9 @@ public abstract class LiteralExpr extends Expression {
    
    @Override
    public abstract LiteralExpr clone() throws CloneNotSupportedException;
+   
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
 }

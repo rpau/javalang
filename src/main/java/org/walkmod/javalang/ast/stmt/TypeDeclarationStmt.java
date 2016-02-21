@@ -44,6 +44,21 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child == typeDecl) {
+            typeDecl = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (typeDecl != null) {

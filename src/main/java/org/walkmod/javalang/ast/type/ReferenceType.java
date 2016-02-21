@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,6 +73,34 @@ public final class ReferenceType extends Type {
       setType(type);
       this.arrayCount = arrayCount;
       setArraysAnnotations(arraysAnnotations);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child == type) {
+            type = null;
+            result = true;
+         }
+         if (arraysAnnotations != null) {
+            if (child instanceof AnnotationExpr) {
+               List<List<AnnotationExpr>> arraysAnnotationsAux = new LinkedList<List<AnnotationExpr>>();
+               Iterator<List<AnnotationExpr>> it = arraysAnnotations.iterator();
+               while (it.hasNext()) {
+                  List<AnnotationExpr> next = it.next();
+                  List<AnnotationExpr> nextAux = new LinkedList<AnnotationExpr>(next);
+                  result = result || nextAux.remove(child);
+                  arraysAnnotationsAux.add(nextAux);
+               }
+               arraysAnnotations = arraysAnnotationsAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -52,6 +53,47 @@ public final class ForStmt extends Statement {
       setInit(init);
       setUpdate(update);
       setBody(body);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (compare == child) {
+            compare = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (init != null) {
+               if (child instanceof Expression) {
+                  List<Expression> initAux = new LinkedList<Expression>(init);
+                  result = initAux.remove(child);
+                  init = initAux;
+               }
+            }
+         }
+         if (!result) {
+            if (update != null) {
+               if (child instanceof Expression) {
+                  List<Expression> updateAux = new LinkedList<Expression>(update);
+                  result = updateAux.remove(child);
+                  update = updateAux;
+               }
+
+            }
+         }
+         if (!result) {
+            if (body == child) {
+               body = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

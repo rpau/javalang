@@ -46,6 +46,25 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (pairs != null) {
+               List<MemberValuePair> pairsAux = new LinkedList<MemberValuePair>(pairs);
+               result = pairsAux.remove(child);
+               pairs = pairsAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (pairs != null) {

@@ -76,6 +76,27 @@ public abstract class TypeDeclaration extends BodyDeclaration
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof BodyDeclaration) {
+               if (members != null) {
+                  List<BodyDeclaration> auxMembers = new LinkedList<BodyDeclaration>(members);
+                  result = auxMembers.remove(child);
+                  this.members = auxMembers;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (members != null) {

@@ -89,6 +89,30 @@ public class LambdaExpr extends Expression implements SymbolReference {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (parameters != null) {
+            if (child instanceof Parameter) {
+               List<Parameter> parametersAux = new LinkedList<Parameter>(parameters);
+               result = parametersAux.remove(child);
+               parameters = parametersAux;
+            }
+         }
+         if (!result) {
+            if (body == child) {
+               body = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
 

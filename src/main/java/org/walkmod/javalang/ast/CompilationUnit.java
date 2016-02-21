@@ -62,7 +62,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
    private List<TypeDeclaration> types;
 
    private List<Comment> comments;
-   
+
    private URI uri;
 
    public CompilationUnit() {
@@ -84,7 +84,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       setTypes(types);
       setComments(comments);
    }
-   
+
    public void setURI(URI uri) {
       this.uri = uri;
    }
@@ -109,6 +109,39 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
          aux.addAll(comments);
       }
       return aux;
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child instanceof ImportDeclaration) {
+            if (imports != null) {
+               List<ImportDeclaration> auxImports = new LinkedList<ImportDeclaration>(imports);
+               result = auxImports.remove(child);
+               this.imports = auxImports;
+            }
+         } else if (child instanceof TypeDeclaration) {
+            if (types != null) {
+               List<TypeDeclaration> typesAux = new LinkedList<TypeDeclaration>(types);
+               result = typesAux.remove(child);
+               types = typesAux;
+            }
+         } else if (child instanceof Comment) {
+            if (comments != null) {
+               List<Comment> commentAux = new LinkedList<Comment>(comments);
+               result = commentAux.remove(child);
+               comments = commentAux;
+            }
+         } else if (child == pakage) {
+            pakage = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(result);
+      }
+      return result;
    }
 
    @Override

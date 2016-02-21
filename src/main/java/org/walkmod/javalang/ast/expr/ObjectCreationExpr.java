@@ -71,6 +71,57 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (scope == child) {
+            scope = null;
+            result = true;
+         }
+
+         if (!result) {
+
+            if (type == child) {
+               type = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (child instanceof Type) {
+               if (typeArgs != null) {
+                  List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+                  result = typeArgsAux.remove(child);
+                  typeArgs = typeArgsAux;
+               }
+            }
+         }
+         if (!result) {
+            if (child instanceof Expression) {
+               if (args != null) {
+                  List<Expression> argsAux = new LinkedList<Expression>(args);
+                  result = argsAux.remove(child);
+                  args = argsAux;
+               }
+            }
+
+         }
+         if (!result) {
+            if (child instanceof BodyDeclaration) {
+               if (anonymousClassBody != null) {
+                  List<BodyDeclaration> anonymousClassBodyAux = new LinkedList<BodyDeclaration>(anonymousClassBody);
+                  result = anonymousClassBodyAux.remove(child);
+                  anonymousClassBody = anonymousClassBodyAux;
+               }
+            }
+         }
+      }
+      if (result) {
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (scope != null) {

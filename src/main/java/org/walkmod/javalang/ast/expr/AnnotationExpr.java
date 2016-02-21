@@ -41,23 +41,37 @@ public abstract class AnnotationExpr extends Expression implements Mergeable<Ann
    public AnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn) {
       super(beginLine, beginColumn, endLine, endColumn);
    }
-   
+
    @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
-      if(name != null){
+      if (name != null) {
          children.add(name);
       }
       return children;
    }
 
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (name == child) {
+            name = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    public NameExpr getName() {
       return name;
    }
 
    public void setName(NameExpr name) {
-      if(this.name != null){
+      if (this.name != null) {
          updateReferences(this.name);
       }
       this.name = name;
@@ -89,7 +103,7 @@ public abstract class AnnotationExpr extends Expression implements Mergeable<Ann
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      if(name == oldChild){
+      if (name == oldChild) {
          setName((NameExpr) newChild);
          return true;
       }

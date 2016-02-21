@@ -53,6 +53,11 @@ public final class PrimitiveType extends Type {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
+
+   @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
       if (!check()) {
          return null;

@@ -44,6 +44,11 @@ public class NameExpr extends Expression implements SymbolReference {
       super(beginLine, beginColumn, endLine, endColumn);
       this.name = name;
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
 
    @Override
    public List<Node> getChildren() {

@@ -215,6 +215,30 @@ public final class TypeParameter extends Node implements SymbolDefinition {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child instanceof ClassOrInterfaceType) {
+            if (typeBound != null) {
+               List<ClassOrInterfaceType> auxTypeBound = new LinkedList<ClassOrInterfaceType>(typeBound);
+               result = auxTypeBound.remove(child);
+               this.typeBound = auxTypeBound;
+            }
+         } else if (child instanceof AnnotationExpr) {
+            if (annotations != null) {
+               List<AnnotationExpr> annotationsAux = new LinkedList<AnnotationExpr>(annotations);
+               result = annotationsAux.remove(child);
+               annotations = annotationsAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public TypeParameter clone() throws CloneNotSupportedException {
       return new TypeParameter(name, clone(typeBound), clone(annotations));
    }

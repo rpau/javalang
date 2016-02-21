@@ -49,6 +49,21 @@ public final class UnaryExpr extends Expression {
       setExpr(expr);
       this.op = op;
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if(child != null){
+         if(expr == child){
+            expr = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    @Override
    public List<Node> getChildren() {

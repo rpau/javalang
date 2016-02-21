@@ -49,6 +49,11 @@ public final class VariableDeclaratorId extends Node {
    public List<Node> getChildren() {
       return new LinkedList<Node>();
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

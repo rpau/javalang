@@ -52,6 +52,33 @@ public final class ForeachStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (var == child) {
+            var = null;
+            result = true;
+         }
+         if (!result) {
+            if (iterable == child) {
+               iterable = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (body == child) {
+               body = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (var != null) {

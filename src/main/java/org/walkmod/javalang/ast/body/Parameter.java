@@ -15,7 +15,6 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -51,6 +50,26 @@ public final class Parameter extends BaseParameter {
       super(beginLine, beginColumn, endLine, endColumn, modifiers, annotations, id);
       setType(type);
       setVarArgs(isVarArgs);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (type != null) {
+               if (type == child) {
+                  type = null;
+                  result = true;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

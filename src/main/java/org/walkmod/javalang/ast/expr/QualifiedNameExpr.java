@@ -40,6 +40,21 @@ public final class QualifiedNameExpr extends NameExpr {
       super(beginLine, beginColumn, endLine, endColumn, name);
       setQualifier(scope);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if(child != null){
+         if(qualifier == child){
+            qualifier = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    @Override
    public List<Node> getChildren() {

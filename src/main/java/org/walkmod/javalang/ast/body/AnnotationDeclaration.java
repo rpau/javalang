@@ -15,7 +15,6 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;

@@ -64,6 +64,29 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (id != null) {
+            if (id == child) {
+               id = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (init != null) {
+               init = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (id != null) {

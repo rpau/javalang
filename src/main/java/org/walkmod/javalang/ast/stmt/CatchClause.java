@@ -58,6 +58,28 @@ public final class CatchClause extends Node {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (except == child) {
+            except = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (catchBlock == child) {
+               catchBlock = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (except != null) {

@@ -100,6 +100,21 @@ public final class ArrayCreationExpr extends Expression {
       this.initializer = null;
       setArraysAnnotations(arraysAnnotations);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if(child != null){
+         if(type == child){
+            type = null;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
 
    @Override
    public List<Node> getChildren() {

@@ -42,6 +42,24 @@ public final class BlockStmt extends Statement {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (stmts != null) {
+            if (child instanceof Statement) {
+               List<Statement> stmtsAux = new LinkedList<Statement>(stmts);
+               result = stmtsAux.remove(child);
+               stmts = stmtsAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (stmts != null) {

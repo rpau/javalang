@@ -69,6 +69,25 @@ public final class PackageDeclaration extends Node {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (child instanceof AnnotationExpr) {
+            List<AnnotationExpr> annotationAux = new LinkedList<AnnotationExpr>(annotations);
+            result = annotationAux.remove(child);
+            annotations = annotationAux;
+         } else if (child == name && name != null) {
+            name = (NameExpr) child;
+            result = true;
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (annotations != null) {

@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -52,6 +53,46 @@ public final class TryStmt extends Statement {
       setTryBlock(tryBlock);
       setCatchs(catchs);
       setFinallyBlock(finallyBlock);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (tryBlock == child) {
+            tryBlock = null;
+            result = true;
+         }
+         if (!result) {
+            if (finallyBlock == child) {
+               finallyBlock = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (resources != null) {
+               if (child instanceof VariableDeclarationExpr) {
+                  List<VariableDeclarationExpr> resourcesAux = new LinkedList<VariableDeclarationExpr>(resources);
+                  result = resourcesAux.remove(child);
+                  resources = resourcesAux;
+               }
+            }
+         }
+         if (!result) {
+            if (catchs != null) {
+               if (child instanceof CatchClause) {
+                  List<CatchClause> catchsAux = new LinkedList<CatchClause>(catchs);
+                  result = catchsAux.remove(child);
+                  catchs = catchsAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+
+      return result;
    }
 
    @Override

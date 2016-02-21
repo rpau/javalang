@@ -62,6 +62,39 @@ public final class VariableDeclarationExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = true;
+      if (child != null) {
+         if (annotations != null) {
+            if (child instanceof AnnotationExpr) {
+               List<AnnotationExpr> annotationsAux = new LinkedList<AnnotationExpr>(annotations);
+               result = annotationsAux.remove(child);
+               annotations = annotationsAux;
+            }
+         }
+         if (!result) {
+            if (type == child) {
+               type = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (vars != null) {
+               if (child instanceof VariableDeclarator) {
+                  List<VariableDeclarator> varsAux = new LinkedList<VariableDeclarator>(vars);
+                  result = varsAux.remove(child);
+                  vars = varsAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (annotations != null) {

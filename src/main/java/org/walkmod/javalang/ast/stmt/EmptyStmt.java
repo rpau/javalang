@@ -30,6 +30,11 @@ public final class EmptyStmt extends Statement {
    public EmptyStmt(int beginLine, int beginColumn, int endLine, int endColumn) {
       super(beginLine, beginColumn, endLine, endColumn);
    }
+   
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
 
    @Override
    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {

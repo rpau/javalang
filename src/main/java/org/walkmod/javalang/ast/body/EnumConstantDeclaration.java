@@ -76,6 +76,33 @@ public final class EnumConstantDeclaration extends BodyDeclaration
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof Expression) {
+               if (args != null) {
+                  List<Expression> argsAux = new LinkedList<Expression>(args);
+                  result = argsAux.remove(child);
+                  args = argsAux;
+               }
+            } else if (child instanceof BodyDeclaration) {
+               if (classBody != null) {
+                  List<BodyDeclaration> classBodyAux = new LinkedList<BodyDeclaration>(classBody);
+                  result = classBodyAux.remove(child);
+                  classBody = classBodyAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (args != null) {

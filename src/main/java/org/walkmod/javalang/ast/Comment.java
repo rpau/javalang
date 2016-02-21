@@ -42,6 +42,11 @@ public abstract class Comment extends Node {
       this.content = content;
    }
 
+   @Override
+   public boolean removeChild(Node child) {
+      return false;
+   }
+
    /**
     * Return the text of the comment.
     * 

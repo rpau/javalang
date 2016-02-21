@@ -130,6 +130,48 @@ public final class MethodDeclaration extends BodyDeclaration
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child == type && type != null) {
+               type = null;
+               result = true;
+            }
+            if (child instanceof TypeParameter) {
+               if (typeParameters != null) {
+                  List<TypeParameter> typeParametersAux = new LinkedList<TypeParameter>(typeParameters);
+                  result = typeParametersAux.remove(child);
+                  typeParameters = typeParametersAux;
+               }
+            } else if (child instanceof Parameter) {
+               if (parameters != null) {
+                  List<Parameter> parametersAux = new LinkedList<Parameter>(parameters);
+                  result = parametersAux.remove(child);
+                  parameters = parametersAux;
+               }
+            } else if (child instanceof ClassOrInterfaceType) {
+               if (throws_ != null) {
+                  List<ClassOrInterfaceType> throwsAux = new LinkedList<ClassOrInterfaceType>();
+                  result = throwsAux.remove(child);
+                  throws_ = throwsAux;
+               }
+            } else if (child instanceof BlockStmt) {
+               if (body != null && body == child) {
+                  body = null;
+                  result = true;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (typeParameters != null) {

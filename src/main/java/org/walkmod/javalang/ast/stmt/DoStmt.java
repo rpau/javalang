@@ -15,7 +15,6 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -44,6 +43,28 @@ public final class DoStmt extends Statement {
       super(beginLine, beginColumn, endLine, endColumn);
       setBody(body);
       setCondition(condition);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (body == child) {
+            body = null;
+            result = true;
+         }
+
+         if (!result) {
+            if (condition == child) {
+               condition = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

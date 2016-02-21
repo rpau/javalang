@@ -51,6 +51,33 @@ public final class ConditionalExpr extends Expression {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (condition == child) {
+            condition = null;
+            result = true;
+         }
+         if (!result) {
+            if (thenExpr == child) {
+               thenExpr = null;
+               result = true;
+            }
+         }
+         if (!result) {
+            if (elseExpr == child) {
+               elseExpr = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = new LinkedList<Node>();
       if (condition != null) {

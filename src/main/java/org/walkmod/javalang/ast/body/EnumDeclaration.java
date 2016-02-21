@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -52,6 +53,33 @@ public final class EnumDeclaration extends TypeDeclaration {
       super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc, modifiers, name, members);
       setImplements(implementsList);
       setEntries(entries);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof ClassOrInterfaceType) {
+               if (implementsList != null) {
+                  List<ClassOrInterfaceType> auxImplementsList = new LinkedList<ClassOrInterfaceType>(implementsList);
+                  result = auxImplementsList.remove(child);
+                  implementsList = auxImplementsList;
+               }
+            } else if (child instanceof EnumConstantDeclaration) {
+               if (entries != null) {
+                  List<EnumConstantDeclaration> entriesAux = new LinkedList<EnumConstantDeclaration>();
+                  result = entriesAux.remove(child);
+                  entries = entriesAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

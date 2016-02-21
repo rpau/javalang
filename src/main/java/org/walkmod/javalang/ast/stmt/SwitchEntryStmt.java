@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.stmt;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -44,6 +45,30 @@ public final class SwitchEntryStmt extends Statement {
       super(beginLine, beginColumn, endLine, endColumn);
       setLabel(label);
       setStmts(stmts);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (label == child) {
+            label = null;
+            result = true;
+         }
+         if (!result) {
+            if (child instanceof Statement) {
+               if (stmts != null) {
+                  List<Statement> stmtsAux = new LinkedList<Statement>(stmts);
+                  result = stmtsAux.remove(child);
+                  stmts = stmtsAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

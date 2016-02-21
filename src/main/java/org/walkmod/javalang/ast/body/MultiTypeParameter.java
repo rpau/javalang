@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.body;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -48,8 +49,28 @@ public class MultiTypeParameter extends BaseParameter {
       if (types != null) {
          children.addAll(types);
       }
-
       return children;
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         result = super.removeChild(child);
+         if (!result) {
+            if (child instanceof Type) {
+               if (types != null) {
+                  List<Type> typesAux = new LinkedList<Type>(types);
+                  result = typesAux.remove(child);
+                  types = typesAux;
+               }
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

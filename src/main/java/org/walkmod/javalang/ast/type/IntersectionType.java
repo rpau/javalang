@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast.type;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
@@ -36,6 +37,24 @@ public class IntersectionType extends Type {
    public IntersectionType(int beginLine, int beginColumn, int endLine, int endColumn, List<ReferenceType> bounds) {
       super(beginLine, beginColumn, endLine, endColumn, null);
       setBounds(bounds);
+   }
+
+   @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (bounds != null) {
+            if (child instanceof ReferenceType) {
+               List<ReferenceType> boundsAux = new LinkedList<ReferenceType>(bounds);
+               result = boundsAux.remove(child);
+               bounds = boundsAux;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
    }
 
    @Override

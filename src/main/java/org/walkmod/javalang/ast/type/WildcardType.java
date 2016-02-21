@@ -59,6 +59,27 @@ public final class WildcardType extends Type {
    }
 
    @Override
+   public boolean removeChild(Node child) {
+      boolean result = false;
+      if (child != null) {
+         if (ext == child) {
+            ext = null;
+            result = true;
+         }
+         if (!result) {
+            if (sup == child) {
+               sup = null;
+               result = true;
+            }
+         }
+      }
+      if(result){
+         updateReferences(child);
+      }
+      return result;
+   }
+
+   @Override
    public List<Node> getChildren() {
       List<Node> children = super.getChildren();
       if (ext != null) {
