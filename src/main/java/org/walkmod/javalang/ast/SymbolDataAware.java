@@ -30,7 +30,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
-public interface SymbolDataAware<T extends SymbolData> {
+public interface SymbolDataAware<T extends SymbolData>{
 
    /**
     * Returns the symbol data related to a given node. It is null if the node value 

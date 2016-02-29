@@ -253,4 +253,11 @@ public final class AnnotationMemberDeclaration extends BodyDeclaration
    public AnnotationMemberDeclaration clone() throws CloneNotSupportedException {
       return new AnnotationMemberDeclaration(getModifiers(), clone(getType()), getName(), clone(getDefaultValue()));
    }
+
+   @Override
+   public String getSymbolName() {
+      return name;
+   }
+   
+  
 }

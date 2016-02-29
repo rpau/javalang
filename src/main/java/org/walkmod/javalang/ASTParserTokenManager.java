@@ -28,13 +28,14 @@
  */
 package org.walkmod.javalang;
 
-import java.io.*;
-import java.util.*;
-import org.walkmod.javalang.ast.*;
-import org.walkmod.javalang.ast.body.*;
-import org.walkmod.javalang.ast.expr.*;
-import org.walkmod.javalang.ast.stmt.*;
-import org.walkmod.javalang.ast.type.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
+import org.walkmod.javalang.ast.BlockComment;
+import org.walkmod.javalang.ast.Comment;
+import org.walkmod.javalang.ast.LineComment;
+import org.walkmod.javalang.ast.body.JavadocComment;
 
 /** Token Manager. */
 public class ASTParserTokenManager implements ASTParserConstants {

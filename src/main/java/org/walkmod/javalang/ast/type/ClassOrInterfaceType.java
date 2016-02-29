@@ -95,7 +95,7 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -245,6 +245,11 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
    @Override
    public ClassOrInterfaceType clone() throws CloneNotSupportedException {
       return new ClassOrInterfaceType(clone(getScope()), getName());
+   }
+
+   @Override
+   public String getSymbolName() {
+      return name;
    }
 
 }

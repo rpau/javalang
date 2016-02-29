@@ -69,4 +69,6 @@ public final class AnnotationDeclaration extends TypeDeclaration {
       return new AnnotationDeclaration(getModifiers(), getName());
    }
 
+   
+
 }

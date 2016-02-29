@@ -24,7 +24,7 @@ import java.util.List;
  * @author rpau
  *
  */
-public interface SymbolDefinition {
+public interface SymbolDefinition extends ScopeAware{
 
    /**
     * Returns the references that represent usages to that definition.
@@ -96,4 +96,11 @@ public interface SymbolDefinition {
     *            the scope level where this definition is specified.
     */
    public void setScopeLevel(int scopeLevel);
+   
+   /**
+    * Gets the symbol name
+    * @return the symbol name
+    */
+   public String getSymbolName();
+   
 }

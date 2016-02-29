@@ -96,7 +96,7 @@ public final class EnumConstantDeclaration extends BodyDeclaration
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -274,5 +274,10 @@ public final class EnumConstantDeclaration extends BodyDeclaration
    public EnumConstantDeclaration clone() throws CloneNotSupportedException {
       return new EnumConstantDeclaration(clone(getJavaDoc()), clone(getAnnotations()), name, clone(getArgs()),
             clone(getClassBody()));
+   }
+
+   @Override
+   public String getSymbolName() {
+      return name;
    }
 }

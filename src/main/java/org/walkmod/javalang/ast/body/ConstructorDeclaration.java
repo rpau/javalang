@@ -18,6 +18,7 @@ package org.walkmod.javalang.ast.body;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.walkmod.javalang.ast.ConstructorSymbolData;
 import org.walkmod.javalang.ast.Node;
@@ -122,7 +123,7 @@ public final class ConstructorDeclaration extends BodyDeclaration
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -348,5 +349,32 @@ public final class ConstructorDeclaration extends BodyDeclaration
    public ConstructorDeclaration clone() throws CloneNotSupportedException {
       return new ConstructorDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()),
             clone(getTypeParameters()), getName(), clone(getParameters()), clone(getThrows()), clone(getBlock()));
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getVariableDefinitions() {
+      Map<String, SymbolDefinition> result = super.getVariableDefinitions();
+      if(parameters != null){
+         for(Parameter param: parameters){
+            result.put(param.getSymbolName(), param);
+         }
+      }
+      return result;
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Map<String, SymbolDefinition> result = super.getVariableDefinitions();
+      if(typeParameters != null){
+         for(TypeParameter tp: typeParameters){
+            result.put(tp.getSymbolName(), tp);
+         }
+      }
+      return result;
+   }
+
+   @Override
+   public String getSymbolName() {
+      return name;
    }
 }

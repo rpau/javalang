@@ -1,5 +1,5 @@
 /* 
- Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
  
  Walkmod is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
@@ -15,9 +15,29 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
-public interface SymbolReference extends ScopeAware {
+import java.util.List;
+import java.util.Map;
 
-   public SymbolDefinition getSymbolDefinition();
+public interface ScopeAware {
 
-   public void setSymbolDefinition(SymbolDefinition symbolDefinition);
+   /**
+    * Gets the available variables
+    * @return the available variables
+    */
+   public Map<String, SymbolDefinition> getVariableDefinitions();
+   
+   
+   /**
+    * Gets the available variables
+    * @return the available variables
+    */
+   public Map<String, SymbolDefinition> getTypeDefinitions();
+   
+   
+   
+   /**
+    * Gets the available methods
+    * @return the available variables
+    */
+   public Map<String, List<SymbolDefinition>> getMethodDefinitions();
 }

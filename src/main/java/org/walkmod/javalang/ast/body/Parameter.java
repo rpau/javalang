@@ -18,6 +18,8 @@ package org.walkmod.javalang.ast.body;
 import java.util.List;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.Refactorizable;
+import org.walkmod.javalang.ast.Refactorization;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.Type;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -26,7 +28,7 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class Parameter extends BaseParameter {
+public final class Parameter extends BaseParameter implements Refactorizable {
 
    private Type type;
 
@@ -66,7 +68,7 @@ public final class Parameter extends BaseParameter {
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -111,6 +113,16 @@ public final class Parameter extends BaseParameter {
 
    public void setVarArgs(boolean isVarArgs) {
       this.isVarArgs = isVarArgs;
+   }
+
+   @Override
+   public boolean rename(String newName) {
+      Refactorization refactorization = new Refactorization();
+      if (refactorization.refactorVariable(this, newName)) {
+         replaceChildNode(getId(), new VariableDeclaratorId(newName));
+         return true;
+      }
+      return false;
    }
 
    @Override

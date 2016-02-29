@@ -1,5 +1,5 @@
 /* 
- Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
  
  Walkmod is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
@@ -15,9 +15,13 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
-public interface SymbolReference extends ScopeAware {
-
-   public SymbolDefinition getSymbolDefinition();
-
-   public void setSymbolDefinition(SymbolDefinition symbolDefinition);
+public interface Refactorizable {
+   
+   /**
+    * Renames the element and all their usages if the newName has no conflicts.
+    * @param newName new name to set
+    * @return if the rename has been applied successfully.
+    */
+   public boolean rename(String newName);
+   
 }

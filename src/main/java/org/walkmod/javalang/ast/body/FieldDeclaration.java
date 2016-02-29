@@ -268,4 +268,12 @@ public final class FieldDeclaration extends BodyDeclaration implements Mergeable
             clone(getVariables()));
    }
 
+   @Override
+   public String getSymbolName() {
+      if(variables != null && variables.size() == 1){
+         return variables.get(0).getId().getName();
+      }
+      return null;
+   }
+
 }

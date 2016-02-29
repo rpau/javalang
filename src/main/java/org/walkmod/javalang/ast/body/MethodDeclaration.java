@@ -19,6 +19,7 @@ package org.walkmod.javalang.ast.body;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.Node;
@@ -438,6 +439,33 @@ public final class MethodDeclaration extends BodyDeclaration
       return new MethodDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()),
             clone(getTypeParameters()), clone(getType()), getName(), clone(getParameters()), getArrayCount(),
             clone(getThrows()), clone(getBody()));
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getVariableDefinitions() {
+      Map<String, SymbolDefinition> result = super.getVariableDefinitions();
+      if(parameters != null){
+         for(Parameter param: parameters){
+            result.put(param.getSymbolName(), param);
+         }
+      }
+      return result;
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Map<String, SymbolDefinition> result = super.getVariableDefinitions();
+      if(typeParameters != null){
+         for(TypeParameter tp: typeParameters){
+            result.put(tp.getSymbolName(), tp);
+         }
+      }
+      return result;
+   }
+
+   @Override
+   public String getSymbolName() {
+      return name;
    }
 
 }

@@ -16,10 +16,15 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.Refactorizable;
+import org.walkmod.javalang.ast.Refactorization;
+import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.expr.Expression;
@@ -32,7 +37,8 @@ import org.walkmod.merger.Mergeable;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class VariableDeclarator extends Node implements Mergeable<VariableDeclarator>, SymbolDefinition {
+public final class VariableDeclarator extends Node
+      implements Mergeable<VariableDeclarator>, SymbolDefinition, Refactorizable {
 
    private VariableDeclaratorId id;
 
@@ -80,7 +86,7 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -229,5 +235,56 @@ public final class VariableDeclarator extends Node implements Mergeable<Variable
    @Override
    public VariableDeclarator clone() throws CloneNotSupportedException {
       return new VariableDeclarator(clone(getId()), clone(getInit()));
+   }
+
+   @Override
+   public Map<String, SymbolDefinition> getVariableDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null && (parent instanceof ScopeAware)) {
+         return ((ScopeAware) parent).getVariableDefinitions();
+      }
+      return new HashMap<String, SymbolDefinition>();
+   }
+
+   @Override
+   public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null && (parent instanceof ScopeAware)) {
+         return ((ScopeAware) parent).getMethodDefinitions();
+      }
+      return new HashMap<String, List<SymbolDefinition>>();
+   }
+
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null && (parent instanceof ScopeAware)) {
+         return ((ScopeAware) parent).getTypeDefinitions();
+      }
+      return new HashMap<String, SymbolDefinition>();
+   }
+
+   @Override
+   public String getSymbolName() {
+      return getId().getName();
+   }
+
+   @Override
+   public boolean rename(String newName) {
+      Refactorization refactorization = new Refactorization();
+      if (refactorization.refactorVariable(this, newName)) {
+         replaceChildNode(getId(), new VariableDeclaratorId(newName));
+         return true;
+      }
+      return false;
    }
 }

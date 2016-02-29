@@ -67,7 +67,7 @@ public class MultiTypeParameter extends BaseParameter {
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;

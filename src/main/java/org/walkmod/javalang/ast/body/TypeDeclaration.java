@@ -17,10 +17,13 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
@@ -90,7 +93,7 @@ public abstract class TypeDeclaration extends BodyDeclaration
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -224,5 +227,93 @@ public abstract class TypeDeclaration extends BodyDeclaration
    public boolean replaceChildNode(Node oldChild, Node newChild) {
 
       return replaceChildNodeInList(oldChild, newChild, members);
+   }
+
+   @Override
+   public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null) {
+         Map<String, List<SymbolDefinition>> aux = ((ScopeAware) parent).getMethodDefinitions();
+         List<BodyDeclaration> children = getMembers();
+         if (children != null) {
+            for (BodyDeclaration child : children) {
+               if (child instanceof MethodDeclaration) {
+                  MethodDeclaration md = (MethodDeclaration) child;
+                  List<SymbolDefinition> sd = aux.get(md.getName());
+                  if (sd == null) {
+                     sd = new LinkedList<SymbolDefinition>();
+                     aux.put(md.getName(), sd);
+                  }
+                  sd.add(md);
+               }
+            }
+         }
+         return aux;
+      }
+      return new HashMap<String, List<SymbolDefinition>>();
+   }
+
+   @Override
+   public Map<String, SymbolDefinition> getVariableDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null) {
+         Map<String, SymbolDefinition> aux = ((ScopeAware) parent).getVariableDefinitions();
+         List<BodyDeclaration> children = getMembers();
+         if (children != null) {
+            for (BodyDeclaration child : children) {
+               if (child instanceof FieldDeclaration) {
+                  FieldDeclaration fd = (FieldDeclaration) child;
+                  List<VariableDeclarator> vars = fd.getVariables();
+                  if (vars != null) {
+                     for (VariableDeclarator var : vars) {
+                        aux.put(var.getSymbolName(), var);
+                     }
+                  }
+               } else if (child instanceof EnumConstantDeclaration) {
+                  EnumConstantDeclaration ecd = (EnumConstantDeclaration) child;
+                  aux.put(ecd.getName(), ecd);
+               } else if (child instanceof AnnotationMemberDeclaration) {
+                  AnnotationMemberDeclaration ecd = (AnnotationMemberDeclaration) child;
+                  aux.put(ecd.getName(), ecd);
+               }
+            }
+         }
+         return aux;
+      }
+      return new HashMap<String, SymbolDefinition>();
+   }
+
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Node parent = getParentNode();
+      while (parent != null && parent instanceof ScopeAware) {
+         parent = parent.getParentNode();
+      }
+      if (parent != null) {
+         Map<String, SymbolDefinition> aux = ((ScopeAware) parent).getVariableDefinitions();
+         List<BodyDeclaration> children = getMembers();
+         if (children != null) {
+            for (BodyDeclaration child : children) {
+               if (child instanceof TypeDeclaration) {
+                  TypeDeclaration td = (TypeDeclaration) child;
+                  aux.put(td.getName(), td);
+               }
+            }
+         }
+         return aux;
+      }
+      return new HashMap<String, SymbolDefinition>();
+   }
+
+   @Override
+   public String getSymbolName() {
+
+      return name;
    }
 }

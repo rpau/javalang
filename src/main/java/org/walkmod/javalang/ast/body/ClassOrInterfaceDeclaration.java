@@ -18,8 +18,10 @@ package org.walkmod.javalang.ast.body;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.TypeParameter;
 import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.type.ClassOrInterfaceType;
@@ -99,7 +101,7 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
             }
          }
       }
-      if(result){
+      if (result) {
          updateReferences(child);
       }
       return result;
@@ -219,6 +221,17 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
    public ClassOrInterfaceDeclaration clone() throws CloneNotSupportedException {
       return new ClassOrInterfaceDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()), interface_,
             getName(), clone(getTypeParameters()), clone(getExtends()), clone(getImplements()), clone(getMembers()));
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Map<String, SymbolDefinition> result = super.getTypeDefinitions();
+      if(typeParameters != null){
+         for(TypeParameter tp: typeParameters){
+            result.put(tp.getSymbolName(), tp);
+         }
+      }
+      return result;
    }
 
 }

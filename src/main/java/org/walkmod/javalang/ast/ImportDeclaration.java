@@ -16,9 +16,12 @@
 package org.walkmod.javalang.ast;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import org.walkmod.javalang.ast.body.TypeDeclaration;
 import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.comparators.ImportDeclarationComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -71,15 +74,15 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
       this.static_ = isStatic;
       this.asterisk = isAsterisk;
    }
-   
+
    @Override
    public boolean removeChild(Node child) {
-      if(child == name && child != null){
+      if (child == name && child != null) {
          name = null;
          updateReferences(child);
          return true;
       }
-     
+
       return false;
    }
 
@@ -241,6 +244,50 @@ public final class ImportDeclaration extends Node implements Mergeable<ImportDec
    @Override
    public ImportDeclaration clone() throws CloneNotSupportedException {
       return new ImportDeclaration(clone(name), static_, asterisk);
+   }
+   
+   @Override
+   public Map<String, SymbolDefinition> getVariableDefinitions(){
+      return new HashMap<String, SymbolDefinition>();
+   }
+   
+   @Override
+   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
+      return new HashMap<String, List<SymbolDefinition>>();
+   }
+
+   @Override
+   public Map<String, SymbolDefinition> getTypeDefinitions() {
+      Map<String, SymbolDefinition> result = new HashMap<String, SymbolDefinition>();
+      List<Node> children = getParentNode().getChildren();
+      for (Node child : children) {
+
+         if (child instanceof ImportDeclaration) {
+            ImportDeclaration id = (ImportDeclaration) child;
+            if (id.isAsterisk()) {
+               List<SymbolReference> usages = id.getUsages();
+               if (usages != null) {
+                  for (SymbolReference usage : usages) {
+                     if (usage instanceof SymbolDataAware) {
+                        SymbolDataAware<?> sda = (SymbolDataAware) usage;
+                        result.put(sda.getSymbolData().getName(), id);
+                     }
+                  }
+               }
+            } else {
+               result.put(getSymbolName(), id);
+            }
+         } else if (child instanceof TypeDeclaration) {
+            TypeDeclaration td = (TypeDeclaration) child;
+            result.put(td.getName(), td);
+         }
+      }
+      return result;
+   }
+
+   @Override
+   public String getSymbolName() {
+      return name.getName();
    }
 
 }
