@@ -36,10 +36,10 @@ public class Refactorization {
       Map<String, SymbolDefinition> scope = n.getVariableDefinitions();
 
       if (!scope.containsKey(newName)) {
-         List<SymbolReference> usages = new LinkedList<SymbolReference>(n.getUsages());
-
-         if (usages != null) {
-
+  
+         if (n.getUsages() != null) {
+            List<SymbolReference> usages = new LinkedList<SymbolReference>(n.getUsages());
+            
             VoidVisitorAdapter<?> visitor = new VoidVisitorAdapter<Object>() {
                @Override
                public void visit(NameExpr nexpr, Object ctx) {
