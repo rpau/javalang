@@ -63,7 +63,7 @@ public final class VariableDeclarationExpr extends Expression {
 
    @Override
    public boolean removeChild(Node child) {
-      boolean result = true;
+      boolean result = false;
       if (child != null) {
          if (annotations != null) {
             if (child instanceof AnnotationExpr) {

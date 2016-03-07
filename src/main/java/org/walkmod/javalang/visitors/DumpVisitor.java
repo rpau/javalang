@@ -471,11 +471,10 @@ public final class DumpVisitor implements VoidVisitor<Object> {
                previous = c;
 
                it.remove();
-            }
-            else if(c.isNewNode() && !(c instanceof JavadocComment)){
-            	 c.accept(this, arg);
-                 printedComments.add(c);
-                 it.remove();
+            } else if (c.isNewNode() && !(c instanceof JavadocComment)) {
+               c.accept(this, arg);
+               printedComments.add(c);
+               it.remove();
             }
          }
          if (previous != null && !previous.isNewNode()) {
@@ -1931,8 +1930,11 @@ public final class DumpVisitor implements VoidVisitor<Object> {
    public void visit(ExpressionStmt n, Object arg) {
       prepareComments(n);
       printPreviousComments(n, arg);
-      n.getExpression().accept(this, arg);
-      printer.print(";");
+      Expression expr = n.getExpression();
+      if (expr != null) {
+         expr.accept(this, arg);
+         printer.print(";");
+      }
    }
 
    public void visit(SwitchStmt n, Object arg) {
