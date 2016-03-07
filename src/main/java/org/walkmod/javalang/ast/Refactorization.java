@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class Refactorization {
       Map<String, SymbolDefinition> scope = n.getVariableDefinitions();
 
       if (!scope.containsKey(newName)) {
-         List<SymbolReference> usages = n.getUsages();
+         List<SymbolReference> usages = new LinkedList<SymbolReference>(n.getUsages());
 
          if (usages != null) {
 
