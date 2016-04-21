@@ -108,10 +108,18 @@ public class ActionsApplier {
          int line = 0;
          int actionColumn = 0;
 
+         Action previousAction = null;
+         StringBuffer accum = null;
+
          while (it.hasNext()) {
             Action next = it.next();
             int actionLine = next.getBeginLine() - 1;
 
+            if (previousAction != null && previousAction.getType().equals(ActionType.REMOVE)
+                  && next.getType().equals(ActionType.APPEND)) {
+               accum = modifiedText;
+               modifiedText = new StringBuffer();
+            }
             // the cursor is moved to the line
             for (int i = line; i < actionLine; i++) {
 
@@ -139,12 +147,21 @@ public class ActionsApplier {
                   }
                   index = index + incr;
                }
+               if (previousAction != null && previousAction.getType().equals(ActionType.REMOVE)
+                     && next.getType().equals(ActionType.APPEND)) {
+
+                  if (modifiedText.toString().trim().length() != 0) {
+                     accum.append(modifiedText);
+
+                  }
+                  modifiedText = accum;
+               }
 
                if (next.getType().equals(ActionType.REMOVE)) {
                   RemoveAction remove = (RemoveAction) next;
 
-                  for (; (actionLine < (remove.getEndLine() - 1) || (actionLine == (remove.getEndLine() - 1) && actionColumn < remove
-                        .getEndColumn())); index++) {
+                  for (; (actionLine < (remove.getEndLine() - 1) || (actionLine == (remove.getEndLine() - 1)
+                        && actionColumn < remove.getEndColumn())); index++) {
 
                      if (contents[index] == '\r') {
                         //modifiedText.append('\r');
@@ -195,6 +212,7 @@ public class ActionsApplier {
                   actionColumn = replace.getOldEndColumn();
                }
             }
+            previousAction = next;
          }
 
          for (int i = index; i < contents.length; i++) {

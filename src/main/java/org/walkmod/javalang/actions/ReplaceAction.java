@@ -36,8 +36,6 @@ public class ReplaceAction extends Action {
 
    private char indentationChar = ' ';
 
-   private String oldCodeWithoutNonBlanks;
-
    private int indentationLevel;
 
    private int indentationSize;
@@ -67,7 +65,6 @@ public class ReplaceAction extends Action {
       this.oldNode = oldNode;
 
       oldCode = oldNode.getPrettySource(indentationChar, indentation, indentationSize, acceptedComments);
-      oldCodeWithoutNonBlanks = oldCode.replaceAll("\\S", " ");
 
       if (oldNode instanceof BodyDeclaration) {
          JavadocComment jc = ((BodyDeclaration) oldNode).getJavaDoc();
@@ -102,9 +99,21 @@ public class ReplaceAction extends Action {
    private void updateCode() {
 
       newCode = newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
-      if (newCode.length() < oldCodeWithoutNonBlanks.length()) {
-         newCode = newCode + oldCodeWithoutNonBlanks.substring(newCode.length());
+      Node parent = newNode.getParentNode();
+      if (parent != null && parent.getBeginLine() == getBeginLine()) {
+         int pos = 0;
+         char[] letters = newCode.toCharArray();
+         for (; pos < letters.length && letters[pos] == indentationChar; pos++) {
+         }
+         if (pos < letters.length) {
+            newCode = newCode.substring(pos);
+         }
       }
+
+      /*
+       * if (newCode.length() < oldCodeWithoutNonBlanks.length()) { newCode = newCode +
+       * oldCodeWithoutNonBlanks.substring(newCode.length()); }
+       */
 
    }
 

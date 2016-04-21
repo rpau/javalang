@@ -16,6 +16,7 @@
 package org.walkmod.javalang.actions;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.expr.Expression;
 
 public class AppendAction extends Action {
 
@@ -62,7 +63,7 @@ public class AppendAction extends Action {
 
       text = node.getPrettySource(indentationChar, indentationLevel, indentationSize);
 
-      if (getBeginColumn() == 1 && getBeginLine() > 1) {
+      if (!(node instanceof Expression) && getBeginLine() > 1) {
          if (!text.endsWith("\n")) {
             if (text.endsWith(" ")) {
                text = text.substring(0, text.length() - 1);
