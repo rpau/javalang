@@ -226,7 +226,7 @@ public abstract class TypeDeclaration extends BodyDeclaration
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
 
-      return replaceChildNodeInList(oldChild, newChild, members);
+      return super.replaceChildNode(oldChild, newChild) || replaceChildNodeInList(oldChild, newChild, members);
    }
 
    @Override

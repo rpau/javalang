@@ -115,6 +115,10 @@ public abstract class BodyDeclaration extends Node implements ScopeAware{
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
+      if(newChild instanceof JavadocComment){
+         setJavaDoc((JavadocComment) newChild);
+         return true;
+      }
       return replaceChildNodeInList(oldChild, newChild, annotations);
    }
    
