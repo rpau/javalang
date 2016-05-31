@@ -17,6 +17,7 @@ package org.walkmod.javalang.actions;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.walkmod.javalang.util.FileUtils;
@@ -30,6 +31,16 @@ public class ActionsApplier {
    private StringBuffer modifiedText;
 
    private Character indentationChar = null;
+
+   private boolean annotationsInNewLines = false;
+
+   public boolean isAnnotationsInNewLines() {
+      return annotationsInNewLines;
+   }
+
+   public void setAnnotationsInNewLines(boolean annotationsInNewLines) {
+      this.annotationsInNewLines = annotationsInNewLines;
+   }
 
    public void setText(String text) {
       this.text = text;
@@ -159,21 +170,66 @@ public class ActionsApplier {
 
                if (next.getType().equals(ActionType.REMOVE)) {
                   RemoveAction remove = (RemoveAction) next;
+                  int lastLine = modifiedText.lastIndexOf("\n");
+                  String aux = modifiedText.substring(lastLine + 1);
 
                   for (; (actionLine < (remove.getEndLine() - 1) || (actionLine == (remove.getEndLine() - 1)
                         && actionColumn < remove.getEndColumn())); index++) {
 
                      if (contents[index] == '\r') {
-                        //modifiedText.append('\r');
+
                         actionColumn++;
                      } else if (contents[index] != '\n') {
-                        // modifiedText.append(' ');
+
                         actionColumn++;
                      } else {
                         actionLine++;
                         line++;
                         actionColumn = 0;
-                        //modifiedText.append('\n');
+
+                     }
+                  }
+                  if (index < contents.length && contents[index] == '\r') {
+                     index++;
+                     actionColumn++;
+                  }
+                  boolean nextIsNewLine = (index < contents.length && contents[index] == '\n');
+                
+                  if (nextIsNewLine) {
+                     
+                     index++;
+                     line++;
+                     actionColumn = 0;
+                     
+                     if (remove.getBeginColumn() > 1) {
+                        List<Character> chars = new LinkedList<Character>();
+                        while (index < contents.length && (contents[index] == ' ' || contents[index] == '\t')) {
+                           chars.add(contents[index]);
+                           actionColumn++;
+                           index++;
+                        }
+                        if (actionColumn + 1 > 1 && actionColumn + 1 < remove.getBeginColumn()) {
+                           if (aux.matches("\\s+") || aux.equals("")) {
+                              if (!aux.equals("")) {
+                                 modifiedText = modifiedText.delete(lastLine + 1, modifiedText.length());
+                              }
+                           } else {
+                              modifiedText.append('\n');
+                           }
+
+                           for (int k = 0; k < actionColumn; k++) {
+                              modifiedText.append(chars.get(k));
+                           }
+                        } else if (actionColumn + 1 > remove.getBeginColumn()) {
+                           for (int k = remove.getBeginColumn(); k < actionColumn + 1; k++) {
+                              modifiedText.append(chars.get(k - remove.getBeginColumn()));
+                           }
+                        }
+                        else if(actionColumn == 0 && (aux.matches("\\s+") || aux.equals(""))){
+                           modifiedText = modifiedText.delete(lastLine + 1, modifiedText.length());
+                           index++;
+                           line++;
+                        }
                      }
                   }
                } else if (next.getType().equals(ActionType.APPEND)) {

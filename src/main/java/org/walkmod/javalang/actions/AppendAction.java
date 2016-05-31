@@ -16,6 +16,7 @@
 package org.walkmod.javalang.actions;
 
 import org.walkmod.javalang.ast.Node;
+import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.Expression;
 
 public class AppendAction extends Action {
@@ -63,12 +64,23 @@ public class AppendAction extends Action {
 
       text = node.getPrettySource(indentationChar, indentationLevel, indentationSize);
 
-      if (!(node instanceof Expression) && getBeginLine() > 1) {
+      if (!(node instanceof Expression)&& getBeginLine() > 1) {
          if (!text.endsWith("\n")) {
             if (text.endsWith(" ")) {
                text = text.substring(0, text.length() - 1);
             }
             text += "\n";
+         }
+      }
+      else if(node instanceof AnnotationExpr && getBeginLine() > 1){
+         if (!text.endsWith("\n")) {
+            if (text.endsWith(" ")) {
+               text = text.substring(0, text.length() - 1);
+            }
+            text += "\n";
+         }
+         for(int i = 1;  i < getBeginColumn(); i++){
+            text+=" ";
          }
       }
    }

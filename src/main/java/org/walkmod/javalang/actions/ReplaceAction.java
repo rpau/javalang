@@ -23,6 +23,8 @@ import org.walkmod.javalang.ast.Comment;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
+import org.walkmod.javalang.ast.expr.Expression;
+import org.walkmod.javalang.ast.stmt.Statement;
 
 public class ReplaceAction extends Action {
 
@@ -99,8 +101,8 @@ public class ReplaceAction extends Action {
    private void updateCode() {
 
       newCode = newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
-      Node parent = newNode.getParentNode();
-      if (parent != null && parent.getBeginLine() == getBeginLine()) {
+      
+      if ((newNode instanceof Statement) || (newNode instanceof Expression)) {
          int pos = 0;
          char[] letters = newCode.toCharArray();
          for (; pos < letters.length && letters[pos] == indentationChar; pos++) {

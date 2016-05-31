@@ -40,7 +40,10 @@ public class RemoveAction extends Action {
       }
 
       this.text = node.toString();
-
+      if(text.endsWith("\n")){
+         text = text.substring(0, text.length()-1);
+         this.endColumn--;
+      }
    }
 
    public String getText() {
