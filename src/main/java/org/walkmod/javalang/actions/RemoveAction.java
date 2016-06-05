@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.actions;
 
+import org.walkmod.javalang.ast.LineComment;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
@@ -40,7 +41,7 @@ public class RemoveAction extends Action {
       }
 
       this.text = node.toString();
-      if(text.endsWith("\n")){
+      if(text.endsWith("\n") && node instanceof LineComment){
          text = text.substring(0, text.length()-1);
          this.endColumn--;
       }
