@@ -69,15 +69,15 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
          }
       }
    }
-   
-   public boolean remove(){
+
+   public boolean remove() {
       Node parent = getParentNode();
-      if(parent != null){
+      if (parent != null) {
          return parent.removeChild(this);
       }
       return false;
    }
-   
+
    public abstract boolean removeChild(Node child);
 
    public abstract List<Node> getChildren();
@@ -414,8 +414,10 @@ public abstract class Node implements Serializable, Cloneable, ConstrainedElemen
                it.remove();
             }
             List<SymbolReference> bodyRefs = sd.getBodyReferences();
-            for (SymbolReference sr : bodyRefs) {
-               updateReferences(sr);
+            if (bodyRefs != null) {
+               for (SymbolReference sr : bodyRefs) {
+                  updateReferences(sr);
+               }
             }
          }
       }

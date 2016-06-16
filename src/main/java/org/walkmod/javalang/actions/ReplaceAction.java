@@ -24,6 +24,7 @@ import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
 import org.walkmod.javalang.ast.expr.Expression;
+import org.walkmod.javalang.ast.stmt.BlockStmt;
 import org.walkmod.javalang.ast.stmt.Statement;
 
 public class ReplaceAction extends Action {
@@ -65,6 +66,9 @@ public class ReplaceAction extends Action {
       }
 
       this.oldNode = oldNode;
+      if(!(newNode instanceof BlockStmt)){
+         indentation --;
+      }
 
       oldCode = oldNode.getPrettySource(indentationChar, indentation, indentationSize, acceptedComments);
 
@@ -102,7 +106,7 @@ public class ReplaceAction extends Action {
 
       newCode = newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
       
-      if ((newNode instanceof Statement) || (newNode instanceof Expression)) {
+      if ((newNode instanceof Expression) || (newNode instanceof BlockStmt)) {
          int pos = 0;
          char[] letters = newCode.toCharArray();
          for (; pos < letters.length && letters[pos] == indentationChar; pos++) {

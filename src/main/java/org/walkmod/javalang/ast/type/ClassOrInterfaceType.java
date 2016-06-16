@@ -59,6 +59,13 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
       setScope(scope);
       this.name = name;
    }
+   
+   public ClassOrInterfaceType(ClassOrInterfaceType scope, String name,List<Type> typeArgs, List<AnnotationExpr> annotations) {
+      setScope(scope);
+      this.name = name;
+      setTypeArgs(typeArgs);
+      setAnnotations(annotations);
+   }
 
    public ClassOrInterfaceType(int beginLine, int beginColumn, int endLine, int endColumn, ClassOrInterfaceType scope,
          String name, List<Type> typeArgs) {
@@ -244,7 +251,7 @@ public final class ClassOrInterfaceType extends Type implements IdentificableNod
 
    @Override
    public ClassOrInterfaceType clone() throws CloneNotSupportedException {
-      return new ClassOrInterfaceType(clone(getScope()), getName());
+      return new ClassOrInterfaceType(clone(getScope()), getName(), clone(getTypeArgs()), clone(getAnnotations()));
    }
 
    @Override

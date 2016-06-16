@@ -62,6 +62,13 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
       setType(type);
       setArgs(args);
    }
+   
+   public ObjectCreationExpr(Expression scope, ClassOrInterfaceType type, List<Expression> args, List<BodyDeclaration> anonymousBody) {
+      setScope(scope);
+      setType(type);
+      setArgs(args);
+      setAnonymousClassBody(anonymousBody);
+   }
 
    public ObjectCreationExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
          ClassOrInterfaceType type, List<Type> typeArgs, List<Expression> args, List<BodyDeclaration> anonymousBody) {
@@ -311,7 +318,7 @@ public final class ObjectCreationExpr extends Expression implements SymbolRefere
    @Override
    public ObjectCreationExpr clone() throws CloneNotSupportedException {
 
-      return new ObjectCreationExpr(clone(scope), clone(type), clone(args));
+      return new ObjectCreationExpr(clone(scope), clone(type), clone(args), clone(anonymousClassBody));
    }
    
    @Override
