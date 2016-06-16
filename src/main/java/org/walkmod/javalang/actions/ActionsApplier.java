@@ -227,8 +227,8 @@ public class ActionsApplier {
                         }
                         else if(actionColumn == 0 && (aux.matches("\\s+") || aux.equals(""))){
                            modifiedText = modifiedText.delete(lastLine + 1, modifiedText.length());
-                           index++;
-                           line++;
+                           //index++;
+                           //line++;
                         }
                      }
                   }
