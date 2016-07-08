@@ -16,9 +16,8 @@
 package org.walkmod.javalang.actions;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.body.BodyDeclaration;
-import org.walkmod.javalang.ast.expr.AnnotationExpr;
 import org.walkmod.javalang.ast.expr.Expression;
+import org.walkmod.javalang.ast.stmt.BlockStmt;
 
 public class AppendAction extends Action {
 
@@ -31,7 +30,7 @@ public class AppendAction extends Action {
    private int indentationLevel = 0;
 
    private int indentationSize = 0;
-   
+
    private int beginPosition = 0;
 
    private char indentationChar = ' ';
@@ -40,19 +39,26 @@ public class AppendAction extends Action {
 
    private int diff = 0;
 
+   private int endLines = 0;
+   
+   
    public AppendAction(int beginLine, int beginPosition, Node node, int level, int indentationSize) {
+      this(beginLine, beginPosition, node, level, indentationSize, 0);
+   }
+
+   public AppendAction(int beginLine, int beginPosition, Node node, int level, int indentationSize, int endLines) {
       super(beginLine, beginPosition, ActionType.APPEND);
 
       this.indentationLevel = level;
       this.indentationSize = indentationSize;
       this.node = node;
       this.beginPosition = beginPosition;
-      
+      this.endLines = endLines;
       if (beginPosition > 1 && indentationSize > 0) {
-         diff = beginPosition / indentationSize;
+         diff = (beginPosition - 1) / indentationSize;
          indentationLevel = indentationLevel - diff;
       }
-      generateText();
+      getText("", indentationChar);
 
       String[] lines = text.split("\n");
       endLine = getBeginLine() + lines.length - 1;
@@ -63,76 +69,52 @@ public class AppendAction extends Action {
       }
    }
 
-   public String getText() {
-      if (text == null) {
-         generateText();
-      }
-      return text;
+   public int getEndLines() {
+      return endLines;
    }
 
-   public void generateText() {
+   public String getText(String indentation, char indentationChar) {
 
+      this.indentationChar = indentationChar;
       text = node.getPrettySource(indentationChar, indentationLevel, indentationSize);
 
-      if (((node instanceof AnnotationExpr) || !(node instanceof Expression)) && getBeginLine() > 1) {
+      if (endLines > 0) {
          if (!text.endsWith("\n")) {
             if (text.endsWith(" ")) {
                text = text.substring(0, text.length() - 1);
             }
             text += "\n";
-
          }
-
       }
 
       String[] lines = text.split("\n");
 
       if (beginPosition > 1 && indentationSize > 0) {
          if (lines.length > 1) {
-            StringBuffer aux = new StringBuffer(lines[0] + "\n");
-            for (int k = 1; k < lines.length; k++) {
-               char[] chars = lines[k].toCharArray();
+            StringBuffer aux = new StringBuffer();
 
-               int j = 0;
-               int begin = -1;
-               while (j < getBeginColumn() - 1) {
-                  if (chars[j] == indentationChar) {
-                     aux.append(indentationChar);
-                  } else {
-                     if (begin == -1) {
-                        begin = j;
-                     }
-                     aux.append(indentationChar);
-                  }
+            aux.append(FormatterHelper.indent(text, indentation, indentationChar, indentationLevel, indentationSize,
+                  requiresExtraIndentationOnFirstLine(node)));
 
-                  j++;
-               }
-               if (begin == -1) {
-                  begin = 0;
-               }
-               aux.append(lines[k].substring(begin));
-
+            for (int i = 1; i < endLines; i++) {
                aux.append('\n');
-
-               if (node instanceof BodyDeclaration) {
-                  aux.append('\n');
-               }
-
             }
+
             text = aux.toString();
          }
-         StringBuffer extraString = new StringBuffer("");
+         if (indentation.length() > 0) {
+            text += indentation;
+         } else {
+            StringBuffer extraString = new StringBuffer("");
 
-         for (int i = 0; i < diff * indentationSize; i++) {
-            extraString.append(indentationChar);
+            for (int i = 0; i < diff * indentationSize; i++) {
+               extraString.append(indentationChar);
+            }
+            text += extraString;
          }
-         text += extraString;
       }
-   }
 
-   public void setIndentationChar(char indentationChar) {
-      this.indentationChar = indentationChar;
-      generateText();
+      return text;
    }
 
    public int getEndLine() {
@@ -145,6 +127,11 @@ public class AppendAction extends Action {
 
    public int getIndentations() {
       return indentationSize;
+   }
+
+   private boolean requiresExtraIndentationOnFirstLine(Node node) {
+
+      return !((node instanceof Expression) || (node instanceof BlockStmt));
    }
 
 }

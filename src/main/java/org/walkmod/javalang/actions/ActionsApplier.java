@@ -121,6 +121,8 @@ public class ActionsApplier {
 
          Action previousAction = null;
          StringBuffer accum = null;
+         
+         StringBuffer indentation = new StringBuffer();
 
          while (it.hasNext()) {
             Action next = it.next();
@@ -142,16 +144,27 @@ public class ActionsApplier {
                   if (endLine) {
                      line++;
                      actionColumn = 0;
+                     if(indentation.length() != 0){
+                        indentation = new StringBuffer();
+                     }
                   }
 
                }
             }
-
+           
             // the cursor is moved to the column
             if (index < contents.length) {
                int incr = next.getBeginColumn() - 1 - actionColumn;
+               boolean stop = false;
                if (incr > 0) {
                   for (int i = index; i < index + incr; i++) {
+                     
+                     if(!stop && (contents[i] == ' ' || contents[i] == '\t')){
+                        indentation.append(contents[i]);
+                     }
+                     else{
+                        stop = true;
+                     }
                      modifiedText.append(contents[i]);
                      actionColumn++;
 
@@ -180,7 +193,6 @@ public class ActionsApplier {
 
                         actionColumn++;
                      } else if (contents[index] != '\n') {
-
                         actionColumn++;
                      } else {
                         actionLine++;
@@ -196,7 +208,7 @@ public class ActionsApplier {
                   boolean nextIsNewLine = (index < contents.length && contents[index] == '\n');
                 
                   if (nextIsNewLine) {
-                     
+                    
                      index++;
                      line++;
                      actionColumn = 0;
@@ -210,7 +222,7 @@ public class ActionsApplier {
                         }
                         if (actionColumn + 1 > 1 && actionColumn + 1 < remove.getBeginColumn()) {
                            if (aux.matches("\\s+") || aux.equals("")) {
-                              if (!aux.equals("")) {
+                              if (!"".equals(aux)) {
                                  modifiedText = modifiedText.delete(lastLine + 1, modifiedText.length());
                               }
                            } else {
@@ -225,10 +237,8 @@ public class ActionsApplier {
                               modifiedText.append(chars.get(k - remove.getBeginColumn()));
                            }
                         }
-                        else if(actionColumn == 0 && (aux.matches("\\s+") || aux.equals(""))){
+                        else if(actionColumn == 0 && (aux.matches("\\s+") || "".equals(aux))){
                            modifiedText = modifiedText.delete(lastLine + 1, modifiedText.length());
-                           //index++;
-                           //line++;
                         }
                      }
                   }
@@ -236,27 +246,32 @@ public class ActionsApplier {
                   inferIndentationChar(contents);
 
                   AppendAction append = (AppendAction) next;
-                  append.setIndentationChar(indentationChar);
-
-                  String code = append.getText();
+                  
+                  char indent = indentationChar;
+                  if(indentation.length() > 1){
+                     indent = indentation.charAt(indentation.length()-1);
+                  }
+                  
+                  String code = append.getText(indentation.toString(), indent);
                   modifiedText.append(code);
 
                } else if (next.getType().equals(ActionType.REPLACE)) {
                   inferIndentationChar(contents);
 
+                  char indent = indentationChar;
+                  if(indentation.length() > 1){
+                     indent = indentation.charAt(indentation.length()-1);
+                  }
+                  
                   ReplaceAction replace = (ReplaceAction) next;
-                  replace.setIndentationChar(indentationChar);
-
-                  String code = replace.getNewText();
+                  String code = replace.getText(indentation.toString(), indent);
                   modifiedText.append(code);
 
                   int futureLine = replace.getOldEndLine() - 1;
                   // we need to update the index cursor according the old
                   // value
                   for (; actionLine < futureLine; index++) {
-                     if (contents[index] == '\r') {
-                        actionColumn++;
-                     } else if (contents[index] != '\n') {
+                     if (contents[index] == '\r' || contents[index] != '\n') {
                         actionColumn++;
                      } else {
                         actionLine++;

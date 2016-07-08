@@ -17,8 +17,6 @@ package org.walkmod.javalang.actions;
 
 import org.walkmod.javalang.ast.LineComment;
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.body.BodyDeclaration;
-import org.walkmod.javalang.ast.body.JavadocComment;
 
 public class RemoveAction extends Action {
 
@@ -32,13 +30,7 @@ public class RemoveAction extends Action {
       super(beginLine, beginPosition, ActionType.REMOVE);
       this.endLine = endLine;
       this.endColumn = endColumn;
-      if (node instanceof BodyDeclaration) {
-         JavadocComment javadoc = (((BodyDeclaration) node).getJavaDoc());
-         if (javadoc != null) {
-            setBeginLine(javadoc.getBeginLine());
-            setBeginColumn(javadoc.getBeginColumn());
-         }
-      }
+     
 
       this.text = node.toString();
       if(text.endsWith("\n") && node instanceof LineComment){

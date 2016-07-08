@@ -25,7 +25,6 @@ import org.walkmod.javalang.ast.body.BodyDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.stmt.BlockStmt;
-import org.walkmod.javalang.ast.stmt.Statement;
 
 public class ReplaceAction extends Action {
 
@@ -53,10 +52,12 @@ public class ReplaceAction extends Action {
          int indentationSize, List<Comment> comments) {
       super(beginLine, beginPosition, ActionType.REPLACE);
 
+     
+      //we filter those comments that affects to the region of the replace to keep them available
       if (comments != null) {
          Iterator<Comment> it = comments.iterator();
-         boolean finish = false;
-         while (it.hasNext() && !finish) {
+
+         while (it.hasNext()) {
             Comment next = it.next();
             if (oldNode.contains(next) && !(next instanceof JavadocComment)) {
                acceptedComments.add(next);
@@ -66,25 +67,16 @@ public class ReplaceAction extends Action {
       }
 
       this.oldNode = oldNode;
-      if(!(newNode instanceof BlockStmt)){
-         indentation --;
-      }
-
-      oldCode = oldNode.getPrettySource(indentationChar, indentation, indentationSize, acceptedComments);
-
-      if (oldNode instanceof BodyDeclaration) {
-         JavadocComment jc = ((BodyDeclaration) oldNode).getJavaDoc();
-         if (jc != null) {
-            setBeginLine(jc.getBeginLine());
-            setBeginColumn(jc.getBeginColumn());
-         }
-      }
       this.indentationLevel = indentation;
+
+      oldCode = oldNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
+
       this.indentationSize = indentationSize;
       this.newNode = newNode;
 
-      updateCode();
+      getText("", indentationChar);
 
+      //we infer the new ending line and columns for the new text
       String[] lines = newCode.split("\n");
       endLine = getBeginLine() + lines.length - 1;
       endColumn = lines[lines.length - 1].length();
@@ -102,25 +94,23 @@ public class ReplaceAction extends Action {
       }
    }
 
-   private void updateCode() {
+   /**
+    * Returns the new text to insert with the appropriate indentation and comments
+    * 
+    * @param indentation
+    *           the existing indentation at the file. It never should be null and it is needed for
+    *           files that mix tabs and spaces in the same line.
+    * @param indentationChar
+    *           the used indentation char (' ', or '\t')
+    * @return the new text that replaces the existing one
+    */
+   public String getText(String indentation, char indentationChar) {
 
-      newCode = newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
-      
-      if ((newNode instanceof Expression) || (newNode instanceof BlockStmt)) {
-         int pos = 0;
-         char[] letters = newCode.toCharArray();
-         for (; pos < letters.length && letters[pos] == indentationChar; pos++) {
-         }
-         if (pos < letters.length) {
-            newCode = newCode.substring(pos);
-         }
-      }
+      newCode = FormatterHelper.indent(
+            newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments), indentation,
+            indentationChar, indentationLevel, indentationSize, requiresExtraIndentationOnFirstLine(newNode));
 
-      /*
-       * if (newCode.length() < oldCodeWithoutNonBlanks.length()) { newCode = newCode +
-       * oldCodeWithoutNonBlanks.substring(newCode.length()); }
-       */
-
+      return newCode;
    }
 
    @Override
@@ -141,17 +131,16 @@ public class ReplaceAction extends Action {
       return endColumn;
    }
 
-   public void setIndentationChar(char indentationChar) {
-      this.indentationChar = indentationChar;
-      updateCode();
-   }
-
    public String getNewText() {
       return newCode;
    }
 
    public String getOldText() {
       return oldCode;
+   }
+   
+   private boolean requiresExtraIndentationOnFirstLine(Node node) {
+      return !((node instanceof Expression) || (node instanceof BlockStmt) || (node instanceof BodyDeclaration));
    }
 
 }

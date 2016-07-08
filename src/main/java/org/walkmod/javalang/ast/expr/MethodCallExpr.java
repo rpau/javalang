@@ -201,10 +201,19 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
          updated = true;
       }
       if (!updated) {
-         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
-
+         if (typeArgs != null) {
+            List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+            updated = replaceChildNodeInList(oldChild, newChild, typeArgsAux);
+            typeArgs = typeArgsAux;
+         }
          if (!updated) {
-            updated = replaceChildNodeInList(oldChild, newChild, args);
+            if (args != null) {
+               List<Expression> argsAux = new LinkedList<Expression>(args);
+               updated = replaceChildNodeInList(oldChild, newChild, argsAux);
+               if (updated) {
+                  args = argsAux;
+               }
+            }
          }
       }
 
@@ -215,9 +224,9 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
    public MethodCallExpr clone() throws CloneNotSupportedException {
       return new MethodCallExpr(clone(scope), clone(typeArgs), name, clone(args));
    }
-   
+
    @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
+   public Map<String, SymbolDefinition> getVariableDefinitions() {
       Node parent = getParentNode();
       while (parent != null && parent instanceof ScopeAware) {
          parent = parent.getParentNode();
@@ -227,9 +236,9 @@ public final class MethodCallExpr extends Expression implements SymbolReference 
       }
       return new HashMap<String, SymbolDefinition>();
    }
-   
+
    @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
+   public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
       Node parent = getParentNode();
       while (parent != null && parent instanceof ScopeAware) {
          parent = parent.getParentNode();
