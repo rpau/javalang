@@ -15,6 +15,7 @@
  along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
 package org.walkmod.javalang.ast;
 
+import java.io.File;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -25,7 +26,9 @@ import org.walkmod.javalang.ast.body.ClassOrInterfaceDeclaration;
 import org.walkmod.javalang.ast.body.EmptyTypeDeclaration;
 import org.walkmod.javalang.ast.body.EnumDeclaration;
 import org.walkmod.javalang.ast.body.JavadocComment;
+import org.walkmod.javalang.ast.body.ModifierSet;
 import org.walkmod.javalang.ast.body.TypeDeclaration;
+import org.walkmod.javalang.ast.expr.NameExpr;
 import org.walkmod.javalang.comparators.CompilationUnitComparator;
 import org.walkmod.javalang.visitors.GenericVisitor;
 import org.walkmod.javalang.visitors.VoidVisitor;
@@ -138,7 +141,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
             result = true;
          }
       }
-      if(result){
+      if (result) {
          updateReferences(result);
       }
       return result;
@@ -290,6 +293,53 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
       }
 
       return updated;
+   }
+
+   public boolean hasEqualFileName(CompilationUnit other) {
+      boolean samePackage = getPackage() == null && other.getPackage() == null;
+      samePackage = samePackage
+            || (getPackage() != null && other.getPackage() != null && getPackage().equals(other.getPackage()));
+
+      boolean sameType = getTypes() == null && other.getTypes() == null;
+      sameType = sameType || (getTypes() != null && other.getTypes() != null
+            && getTypes().get(0).getName().equals(other.getTypes().get(0).getName()));
+
+      return (samePackage && sameType);
+   }
+
+   public String getQualifiedName() {
+      String name = "";
+      if (getPackage() != null) {
+         name = getPackage().getName().toString();
+      }
+      if (getTypes() != null && !getTypes().isEmpty()) {
+         if (getPackage() != null) {
+            name = name + ".";
+         }
+         name = name + getTypes().get(0).getName();
+      }
+
+      return name;
+   }
+
+   public String getFileName() {
+      String path = "";
+      if (getPackage() != null) {
+         NameExpr packageName = getPackage().getName();
+         String packPath = packageName.toString().replace('.', File.separatorChar);
+         path = path + packPath + File.separator + getSimpleName() + ".java";
+      } else {
+         path = path + getSimpleName() + ".java";
+      }
+      return path;
+   }
+
+   public String getSimpleName() {
+      String name = "";
+      if (getTypes() != null) {
+         name = getTypes().get(0).getName();
+      }
+      return name;
    }
 
    @Override
