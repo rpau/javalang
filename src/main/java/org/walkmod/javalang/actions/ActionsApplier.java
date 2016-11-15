@@ -270,7 +270,7 @@ public class ActionsApplier {
                   int futureLine = replace.getOldEndLine() - 1;
                   // we need to update the index cursor according the old
                   // value
-                  for (; actionLine < futureLine; index++) {
+                  for (; actionLine < futureLine && index < contents.length; index++) {
                      if (contents[index] == '\r' || contents[index] != '\n') {
                         actionColumn++;
                      } else {

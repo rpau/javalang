@@ -74,6 +74,12 @@ public abstract class Action {
          } else if ((getEndLine() == action.getEndLine()) && getEndColumn() >= action.getEndColumn()) {
             return true;
          }
+         else if (getEndLine() > action.getBeginLine()){
+            return true;
+         }
+         else if (getEndLine() == action.getBeginLine() && getEndColumn() > action.getBeginColumn()){
+            return true;
+         }
       }
       return false;
    }
