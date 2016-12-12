@@ -175,7 +175,7 @@ public class ASTManager {
 	public static CompilationUnit parse(String code, boolean withoutLocation)
 			throws ParseException {
 
-		ASTParser astParser = null;
+		ASTParser astParser;
 		StringReader sr = new StringReader(code);
 
 		if (!withoutLocation) {
@@ -241,7 +241,7 @@ public class ASTManager {
 			return null;
 		}
 
-		ASTParser astParser = null;
+		ASTParser astParser;
 		StringReader sr = new StringReader(text);
 
 		if (!withoutLocation) {
@@ -272,7 +272,7 @@ public class ASTManager {
 		} else if (Statement.class.isAssignableFrom(clazz)) {
 			result = astParser.BlockStatement();
 		} else {
-			Method method = null;
+			Method method;
 			try {
 				method = astParser.getClass().getMethod(clazz.getSimpleName());
 			} catch (Exception e) {

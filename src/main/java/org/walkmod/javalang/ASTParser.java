@@ -129,8 +129,8 @@ final class ASTParser implements ASTParserConstants {
 
    private Expression generateLambda(Expression ret, Statement lambdaBody) {
       List params = null;
-      VariableDeclaratorId id = null;
-      Expression inner = null;
+      VariableDeclaratorId id;
+      Expression inner;
 
       if (ret instanceof EnclosedExpr) {
          inner = ((EnclosedExpr) ret).getInner();
@@ -257,9 +257,9 @@ final class ASTParser implements ASTParserConstants {
    final public CompilationUnit CompilationUnit() throws ParseException {
       PackageDeclaration pakage = null;
       List imports = null;
-      ImportDeclaration in = null;
+      ImportDeclaration in;
       List types = null;
-      TypeDeclaration tn = null;
+      TypeDeclaration tn;
       int line = -1;
       int column = 0;
       if (jj_2_1(2147483647)) {
@@ -1645,8 +1645,8 @@ final class ASTParser implements ASTParserConstants {
       List stmts;
       int line = modifier.beginLine;
       int column = modifier.beginColumn;
-      int bbLine = 0;
-      int bbColumn = 0;
+      int bbLine;
+      int bbColumn;
       int beLine = 0;
       int beColumn = 0;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -2393,11 +2393,11 @@ final class ASTParser implements ASTParserConstants {
       Expression ret;
       AssignExpr.Operator op;
       Expression value;
-      Statement lambdaBody = null;
+      Statement lambdaBody;
       List params = null;
       List typeArgs = null;
       VariableDeclaratorId id = null;
-      Expression inner = null;
+      Expression inner;
       ret = ConditionalExpression();
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case ASSIGN:
@@ -2927,8 +2927,8 @@ final class ASTParser implements ASTParserConstants {
    final public Expression UnaryExpression() throws ParseException {
       Expression ret;
       UnaryExpr.Operator op;
-      int line = 0;
-      int column = 0;
+      int line;
+      int column;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case INCR:
          ret = PreIncrementExpression();
@@ -3042,8 +3042,8 @@ final class ASTParser implements ASTParserConstants {
    final public Expression UnaryExpressionNotPlusMinus() throws ParseException {
       Expression ret;
       UnaryExpr.Operator op;
-      int line = 0;
-      int column = 0;
+      int line;
+      int column;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case BANG:
       case TILDE:
@@ -3269,7 +3269,7 @@ final class ASTParser implements ASTParserConstants {
       int line;
       int column;
       Parameter p = null;
-      VariableDeclaratorId id = null;
+      VariableDeclaratorId id;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case FALSE:
       case NULL:
@@ -3793,7 +3793,7 @@ final class ASTParser implements ASTParserConstants {
       Expression ret;
       ArrayCreationExpr arrayExpr;
       Type type;
-      Object[] arr = null;
+      Object[] arr;
       List typeArgs = null;
       List anonymousBody = null;
       List args;
@@ -4285,7 +4285,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Statement LambdaBody() throws ParseException {
       Expression expr;
-      Statement n = null;
+      Statement n;
       switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
@@ -4339,10 +4339,10 @@ final class ASTParser implements ASTParserConstants {
       Expression value;
       Type type;
       List typeArgs = null;
-      Statement lambdaBody = null;
+      Statement lambdaBody;
       VariableDeclaratorId id = null;
       List params = null;
-      Expression inner = null;
+      Expression inner;
       if (jj_2_39(2)) {
          expr = PreIncrementExpression();
       } else {

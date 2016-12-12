@@ -80,7 +80,7 @@ public class FileUtils {
 
 	public static List<String> fileToLines(String filename) throws Exception {
 		List<String> lines = new LinkedList<String>();
-		String line = "";
+		String line;
 		BufferedReader in = new BufferedReader(new FileReader(filename));
 		try {
 			while ((line = in.readLine()) != null) {
@@ -96,7 +96,7 @@ public class FileUtils {
 		StringBuffer result = new StringBuffer();
 		BufferedReader in = new BufferedReader(new FileReader(fileName));
 		char[] buffer = new char[1000];
-		int readedChars = 0;
+		int readedChars;
 		try {
 			while ((readedChars = in.read(buffer)) > 0) {
 				result.append(buffer, 0, readedChars);

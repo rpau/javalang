@@ -94,11 +94,7 @@ public final class ArrayInitializerExpr extends Expression {
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
-      updated = replaceChildNodeInList(oldChild, newChild, values);
-
-      return updated;
-
+      return replaceChildNodeInList(oldChild, newChild, values);
    }
 
    @Override

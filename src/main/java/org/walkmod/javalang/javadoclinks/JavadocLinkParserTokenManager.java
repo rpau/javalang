@@ -647,7 +647,7 @@ int jjmatchedKind;
 public Token getNextToken() 
 {
   Token matchedToken;
-  int curPos = 0;
+  int curPos;
 
   EOFLoop :
   for (;;)

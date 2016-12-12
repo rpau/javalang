@@ -279,7 +279,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
    }
 
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
+      boolean updated;
       if (pakage == oldChild) {
          setPackage((PackageDeclaration) newChild);
          updated = true;

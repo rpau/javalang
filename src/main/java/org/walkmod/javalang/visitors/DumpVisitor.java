@@ -917,7 +917,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
    }
 
    private void printContainingCommentsAndEnters(Node n, List<?> members, Object arg, int beginLineMembers) {
-      Node lastNode = null;
+      Node lastNode;
       if (members != null && !members.isEmpty()) {
          lastNode = printContainingComments(n, -1, arg);
       } else {
@@ -1833,7 +1833,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
    private void printStmtList(Node n, List<Statement> stmts, Object arg) {
       int index = 0;
       Node previousNode = null;
-      List<Node> comments = null;
+      List<Node> comments;
       if (stmts != null && !stmts.isEmpty()) {
          printFirstBlankLines(n, stmts, n.getBeginLine() + 1);
 
@@ -2492,7 +2492,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
       printPreviousComments(n, arg);
 
       List<Parameter> parameters = n.getParameters();
-      boolean printPar = false;
+      boolean printPar;
       printPar = n.isParametersEnclosed();
 
       if (printPar) {

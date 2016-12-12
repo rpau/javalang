@@ -1248,7 +1248,7 @@ public class TagsParserTokenManager implements TagsParserConstants {
    /** Get the next Token. */
    public Token getNextToken() {
       Token matchedToken;
-      int curPos = 0;
+      int curPos;
 
       EOFLoop: for (;;) {
          try {
