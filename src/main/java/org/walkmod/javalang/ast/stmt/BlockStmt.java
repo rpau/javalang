@@ -32,137 +32,144 @@ import org.walkmod.javalang.visitors.VoidVisitor;
 /**
  * @author Julio Vilmar Gesser
  */
-public final class BlockStmt extends Statement implements ScopeAware{
+public final class BlockStmt extends Statement implements ScopeAware {
 
-   private List<Statement> stmts;
+    private List<Statement> stmts;
 
-   public BlockStmt() {
-   }
+    public BlockStmt() {
+    }
 
-   public BlockStmt(List<Statement> stmts) {
-      setStmts(stmts);
-   }
+    public BlockStmt(List<Statement> stmts) {
+        setStmts(stmts);
+    }
 
-   public BlockStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setStmts(stmts);
-   }
+    public BlockStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setStmts(stmts);
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         if (stmts != null) {
-            if (child instanceof Statement) {
-               List<Statement> stmtsAux = new LinkedList<Statement>(stmts);
-               result = stmtsAux.remove(child);
-               stmts = stmtsAux;
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (stmts != null) {
+                if (child instanceof Statement) {
+                    List<Statement> stmtsAux = new LinkedList<Statement>(stmts);
+                    result = stmtsAux.remove(child);
+                    stmts = stmtsAux;
+                }
             }
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (stmts != null) {
-         children.addAll(stmts);
-      }
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (stmts != null) {
+            children.addAll(stmts);
+        }
+        return children;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public List<Statement> getStmts() {
-      return stmts;
-   }
+    public List<Statement> getStmts() {
+        return stmts;
+    }
 
-   public void setStmts(List<Statement> stmts) {
-      this.stmts = stmts;
-      setAsParentNodeOf(stmts);
-   }
+    public void setStmts(List<Statement> stmts) {
+        this.stmts = stmts;
+        setAsParentNodeOf(stmts);
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      return replaceChildNodeInList(oldChild, newChild, stmts);
-   }
-
-   @Override
-   public BlockStmt clone() throws CloneNotSupportedException {
-      return new BlockStmt(clone(stmts));
-   }
-
-   @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
-      Node parent = getParentNode();
-      Map<String, SymbolDefinition> result = null;
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         result =  ((ScopeAware) parent).getVariableDefinitions();
-      }
-      if(result == null){
-         result = new HashMap<String, SymbolDefinition>();
-      }
-      if(stmts != null){
-         for(Statement stmt: stmts){
-            if(stmt instanceof ExpressionStmt){
-               ExpressionStmt exprStmt = (ExpressionStmt) stmt;
-               Expression expr = exprStmt.getExpression();
-               if(expr instanceof VariableDeclarationExpr){
-                  VariableDeclarationExpr vde = (VariableDeclarationExpr) expr;
-                  List<VariableDeclarator> vars = vde.getVars();
-                  if(vars != null){
-                     for(VariableDeclarator vd: vars){
-                        result.put(vd.getSymbolName(), vd);
-                     }
-                  }
-               }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        if (stmts != null) {
+            List<Statement> auxStmts = new LinkedList<Statement>(stmts);
+            if (replaceChildNodeInList(oldChild, newChild, auxStmts)) {
+                stmts = auxStmts;
+                return true;
             }
-         }
-      }
-      return result;
-   }
-   
-   @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getMethodDefinitions();
-      }
-      return new HashMap<String, List<SymbolDefinition>>();
-   }
+        }
+        return false;
+    }
 
-   @Override
-   public Map<String, SymbolDefinition> getTypeDefinitions() {
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getTypeDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
+    @Override
+    public BlockStmt clone() throws CloneNotSupportedException {
+        return new BlockStmt(clone(stmts));
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getVariableDefinitions() {
+        Node parent = getParentNode();
+        Map<String, SymbolDefinition> result = null;
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            result = ((ScopeAware) parent).getVariableDefinitions();
+        }
+        if (result == null) {
+            result = new HashMap<String, SymbolDefinition>();
+        }
+        if (stmts != null) {
+            for (Statement stmt : stmts) {
+                if (stmt instanceof ExpressionStmt) {
+                    ExpressionStmt exprStmt = (ExpressionStmt) stmt;
+                    Expression expr = exprStmt.getExpression();
+                    if (expr instanceof VariableDeclarationExpr) {
+                        VariableDeclarationExpr vde = (VariableDeclarationExpr) expr;
+                        List<VariableDeclarator> vars = vde.getVars();
+                        if (vars != null) {
+                            for (VariableDeclarator vd : vars) {
+                                result.put(vd.getSymbolName(), vd);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getMethodDefinitions();
+        }
+        return new HashMap<String, List<SymbolDefinition>>();
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getTypeDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getTypeDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 }

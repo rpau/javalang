@@ -27,84 +27,87 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class ArrayInitializerExpr extends Expression {
 
-   private List<Expression> values;
+    private List<Expression> values;
 
-   public ArrayInitializerExpr() {
-   }
+    public ArrayInitializerExpr() {
+    }
 
-   public ArrayInitializerExpr(List<Expression> values) {
-      this.values = values;
-   }
+    public ArrayInitializerExpr(List<Expression> values) {
+        this.values = values;
+    }
 
-   public ArrayInitializerExpr(int beginLine, int beginColumn, int endLine, int endColumn, List<Expression> values) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setValues(values);
-   }
+    public ArrayInitializerExpr(int beginLine, int beginColumn, int endLine, int endColumn, List<Expression> values) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setValues(values);
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         if (values != null) {
-            if (child instanceof Expression) {
-               List<Expression> valuesAux = new LinkedList<Expression>();
-               result = valuesAux.remove(child);
-               values = valuesAux;
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (values != null) {
+                if (child instanceof Expression) {
+                    List<Expression> valuesAux = new LinkedList<Expression>();
+                    result = valuesAux.remove(child);
+                    values = valuesAux;
+                }
             }
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (values != null) {
-         children.addAll(values);
-      }
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (values != null) {
+            children.addAll(values);
+        }
+        return children;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public List<Expression> getValues() {
-      return values;
-   }
+    public List<Expression> getValues() {
+        return values;
+    }
 
-   public void setValues(List<Expression> values) {
-      this.values = values;
-      setAsParentNodeOf(values);
-   }
+    public void setValues(List<Expression> values) {
+        this.values = values;
+        setAsParentNodeOf(values);
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
-      updated = replaceChildNodeInList(oldChild, newChild, values);
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
+        if (values != null) {
+            List<Expression> auxValues = new LinkedList<Expression>(values);
+            updated = replaceChildNodeInList(oldChild, newChild, auxValues);
+            values = auxValues;
+        }
+        return updated;
 
-      return updated;
+    }
 
-   }
+    @Override
+    public ArrayInitializerExpr clone() throws CloneNotSupportedException {
 
-   @Override
-   public ArrayInitializerExpr clone() throws CloneNotSupportedException {
-
-      return new ArrayInitializerExpr(clone(values));
-   }
+        return new ArrayInitializerExpr(clone(values));
+    }
 
 }

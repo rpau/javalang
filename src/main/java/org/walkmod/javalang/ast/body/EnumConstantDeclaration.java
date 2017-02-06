@@ -262,11 +262,21 @@ public final class EnumConstantDeclaration extends BodyDeclaration
    public boolean replaceChildNode(Node oldChild, Node newChild) {
       boolean update = super.replaceChildNode(oldChild, newChild);
       if (!update) {
-         update = replaceChildNodeInList(oldChild, newChild, args);
-         if (!update) {
-            update = replaceChildNodeInList(oldChild, newChild, classBody);
-         }
+         if(args != null){
+             List<Expression> auxArgs = new LinkedList<Expression>(args);
+             update = replaceChildNodeInList(oldChild, newChild, auxArgs);
+             if(update){
+                 args = auxArgs;
+             }
+         } 
       }
+      if (!update && classBody != null) {
+          List<BodyDeclaration> auxClassBody = new LinkedList<BodyDeclaration>(classBody);
+          update = replaceChildNodeInList(oldChild, newChild, auxClassBody);
+          if(update){
+              classBody = auxClassBody;
+          }
+       }
       return update;
    }
 

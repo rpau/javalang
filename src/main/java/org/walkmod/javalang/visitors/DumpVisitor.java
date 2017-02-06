@@ -2286,7 +2286,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
       prepareComments(n);
       printPreviousComments(n, arg);
       printer.print("try ");
-      if (!n.getResources().isEmpty()) {
+      if (n.getResources() != null && !n.getResources().isEmpty()) {
          printer.print("(");
          Iterator<VariableDeclarationExpr> resources = n.getResources().iterator();
          boolean first = true;

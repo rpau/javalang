@@ -33,180 +33,184 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class FieldAccessExpr extends Expression implements SymbolReference {
 
-   private Expression scope;
+    private Expression scope;
 
-   private List<Type> typeArgs;
+    private List<Type> typeArgs;
 
-   private String field;
+    private String field;
 
-   private SymbolDefinition symbolDefinition;
+    private SymbolDefinition symbolDefinition;
 
-   public FieldAccessExpr() {
-   }
+    public FieldAccessExpr() {
+    }
 
-   public FieldAccessExpr(Expression scope, String field) {
-      setScope(scope);
-      this.field = field;
-   }
+    public FieldAccessExpr(Expression scope, String field) {
+        setScope(scope);
+        this.field = field;
+    }
 
-   public FieldAccessExpr(Expression scope, List<Type> typeArgs, String field) {
-      setScope(scope);
-      setTypeArgs(typeArgs);
-      this.field = field;
-   }
+    public FieldAccessExpr(Expression scope, List<Type> typeArgs, String field) {
+        setScope(scope);
+        setTypeArgs(typeArgs);
+        this.field = field;
+    }
 
-   public FieldAccessExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
-         List<Type> typeArgs, String field) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setScope(scope);
-      setTypeArgs(typeArgs);
-      this.field = field;
-   }
+    public FieldAccessExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
+            List<Type> typeArgs, String field) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setScope(scope);
+        setTypeArgs(typeArgs);
+        this.field = field;
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         if (scope == child) {
-            scope = null;
-            result = true;
-         }
-
-         if (!result) {
-            if (typeArgs != null) {
-               if (child instanceof Type) {
-                  List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
-                  result = typeArgsAux.remove(child);
-                  typeArgs = typeArgsAux;
-               }
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (scope == child) {
+                scope = null;
+                result = true;
             }
-         }
-      }
-      if (result) {
-         updateReferences(child);
-      }
-      return result;
-   }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (scope != null) {
-         children.add(scope);
-      }
-      if (typeArgs != null) {
-         children.addAll(typeArgs);
-      }
-      return children;
-   }
+            if (!result) {
+                if (typeArgs != null) {
+                    if (child instanceof Type) {
+                        List<Type> typeArgsAux = new LinkedList<Type>(typeArgs);
+                        result = typeArgsAux.remove(child);
+                        typeArgs = typeArgsAux;
+                    }
+                }
+            }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (scope != null) {
+            children.add(scope);
+        }
+        if (typeArgs != null) {
+            children.addAll(typeArgs);
+        }
+        return children;
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   public String getField() {
-      return field;
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public Expression getScope() {
-      return scope;
-   }
+    public String getField() {
+        return field;
+    }
 
-   public List<Type> getTypeArgs() {
-      return typeArgs;
-   }
+    public Expression getScope() {
+        return scope;
+    }
 
-   public void setField(String field) {
-      this.field = field;
-   }
+    public List<Type> getTypeArgs() {
+        return typeArgs;
+    }
 
-   public void setScope(Expression scope) {
-      if (this.scope != null) {
-         updateReferences(this.scope);
-      }
-      this.scope = scope;
-      setAsParentNodeOf(scope);
-   }
+    public void setField(String field) {
+        this.field = field;
+    }
 
-   public void setTypeArgs(List<Type> typeArgs) {
-      this.typeArgs = typeArgs;
-      setAsParentNodeOf(typeArgs);
-   }
+    public void setScope(Expression scope) {
+        if (this.scope != null) {
+            updateReferences(this.scope);
+        }
+        this.scope = scope;
+        setAsParentNodeOf(scope);
+    }
 
-   @Override
-   public SymbolDefinition getSymbolDefinition() {
-      return symbolDefinition;
-   }
+    public void setTypeArgs(List<Type> typeArgs) {
+        this.typeArgs = typeArgs;
+        setAsParentNodeOf(typeArgs);
+    }
 
-   @Override
-   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-      this.symbolDefinition = symbolDefinition;
-   }
+    @Override
+    public SymbolDefinition getSymbolDefinition() {
+        return symbolDefinition;
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
+    @Override
+    public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+        this.symbolDefinition = symbolDefinition;
+    }
 
-      if (oldChild == scope) {
-         setScope((Expression) newChild);
-         updated = true;
-      }
-      if (!updated) {
-         updated = replaceChildNodeInList(oldChild, newChild, typeArgs);
-      }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
 
-      return updated;
-   }
+        if (oldChild == scope) {
+            setScope((Expression) newChild);
+            updated = true;
+        }
+        if (!updated && typeArgs != null) {
+            List<Type> auxTypeArgs = new LinkedList<Type>(typeArgs);
+            updated = replaceChildNodeInList(oldChild, newChild, auxTypeArgs);
+            if (updated) {
+                typeArgs = auxTypeArgs;
+            }
+        }
 
-   @Override
-   public FieldAccessExpr clone() throws CloneNotSupportedException {
-      return new FieldAccessExpr(clone(getScope()), clone(getTypeArgs()), getField());
-   }
-   
-   @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getVariableDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
-   
-   @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getMethodDefinitions();
-      }
-      return new HashMap<String, List<SymbolDefinition>>();
-   }
+        return updated;
+    }
 
-   @Override
-   public Map<String, SymbolDefinition> getTypeDefinitions() {
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getTypeDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
+    @Override
+    public FieldAccessExpr clone() throws CloneNotSupportedException {
+        return new FieldAccessExpr(clone(getScope()), clone(getTypeArgs()), getField());
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getVariableDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getVariableDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
+
+    @Override
+    public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getMethodDefinitions();
+        }
+        return new HashMap<String, List<SymbolDefinition>>();
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getTypeDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getTypeDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 }

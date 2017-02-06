@@ -195,7 +195,15 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
 
    @Override
    public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean update = replaceChildNodeInList(oldChild, newChild, annotations);
+      boolean update = false;
+      if(annotations != null){
+          List<AnnotationExpr> auxAnnotations = new LinkedList<AnnotationExpr>(annotations);
+          update =  replaceChildNodeInList(oldChild, newChild, auxAnnotations);
+          if(update){
+              annotations = auxAnnotations;
+          }
+      }
+     
       if (!update) {
          if (id == oldChild) {
             setId((VariableDeclaratorId) newChild);

@@ -33,108 +33,115 @@ import org.walkmod.javalang.ast.expr.AnnotationExpr;
  */
 public abstract class Type extends Node implements SymbolDataAware<SymbolData>, SymbolReference {
 
-   private List<AnnotationExpr> annotations;
+    private List<AnnotationExpr> annotations;
 
-   private SymbolData symbolData;
+    private SymbolData symbolData;
 
-   private SymbolDefinition symbolDefinition;
+    private SymbolDefinition symbolDefinition;
 
-   public Type() {
-   }
+    public Type() {
+    }
 
-   public Type(List<AnnotationExpr> annotation) {
-      setAnnotations(annotation);
-   }
+    public Type(List<AnnotationExpr> annotation) {
+        setAnnotations(annotation);
+    }
 
-   public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
-      super(beginLine, beginColumn, endLine, endColumn);
-   }
+    public Type(int beginLine, int beginColumn, int endLine, int endColumn) {
+        super(beginLine, beginColumn, endLine, endColumn);
+    }
 
-   public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setAnnotations(annotations);
-   }
+    public Type(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setAnnotations(annotations);
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (annotations != null) {
-         children.addAll(annotations);
-      }
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (annotations != null) {
+            children.addAll(annotations);
+        }
+        return children;
+    }
 
-   public List<AnnotationExpr> getAnnotations() {
-      return annotations;
-   }
+    public List<AnnotationExpr> getAnnotations() {
+        return annotations;
+    }
 
-   public void setAnnotations(List<AnnotationExpr> annotations) {
-      this.annotations = annotations;
-      setAsParentNodeOf(annotations);
-   }
+    public void setAnnotations(List<AnnotationExpr> annotations) {
+        this.annotations = annotations;
+        setAsParentNodeOf(annotations);
+    }
 
-   @Override
-   public SymbolData getSymbolData() {
-      return symbolData;
-   }
+    @Override
+    public SymbolData getSymbolData() {
+        return symbolData;
+    }
 
-   @Override
-   public void setSymbolData(SymbolData symbolData) {
-      this.symbolData = symbolData;
-   }
+    @Override
+    public void setSymbolData(SymbolData symbolData) {
+        this.symbolData = symbolData;
+    }
 
-   @Override
-   public SymbolDefinition getSymbolDefinition() {
-      return symbolDefinition;
-   }
+    @Override
+    public SymbolDefinition getSymbolDefinition() {
+        return symbolDefinition;
+    }
 
-   @Override
-   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-      this.symbolDefinition = symbolDefinition;
-   }
+    @Override
+    public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+        this.symbolDefinition = symbolDefinition;
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean update = false;
+        if (annotations != null) {
+            List<AnnotationExpr> auxAnn = new LinkedList<AnnotationExpr>(annotations);
+            update = replaceChildNodeInList(oldChild, newChild, auxAnn);
+            if (update) {
+                annotations = auxAnn;
+            }
+        }
+        return update;
+    }
 
-      return replaceChildNodeInList(oldChild, newChild, annotations);
-   }
+    @Override
+    public abstract Type clone() throws CloneNotSupportedException;
 
-   @Override
-   public abstract Type clone() throws CloneNotSupportedException;
-   
-   @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getVariableDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
-   
-   @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getMethodDefinitions();
-      }
-      return new HashMap<String, List<SymbolDefinition>>();
-   }
+    @Override
+    public Map<String, SymbolDefinition> getVariableDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getVariableDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 
-   @Override
-   public Map<String, SymbolDefinition> getTypeDefinitions() {
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getTypeDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
+    @Override
+    public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getMethodDefinitions();
+        }
+        return new HashMap<String, List<SymbolDefinition>>();
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getTypeDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getTypeDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 }

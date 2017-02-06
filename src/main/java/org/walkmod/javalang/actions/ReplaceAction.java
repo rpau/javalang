@@ -28,119 +28,122 @@ import org.walkmod.javalang.ast.stmt.BlockStmt;
 
 public class ReplaceAction extends Action {
 
-   private String newCode;
+    private String newCode;
 
-   private int endLine;
+    private int endLine;
 
-   private int endColumn;
+    private int endColumn;
 
-   private String oldCode;
+    private String oldCode;
 
-   private char indentationChar = ' ';
+    private char indentationChar = ' ';
 
-   private int indentationLevel;
+    private int indentationLevel;
 
-   private int indentationSize;
+    private int indentationSize;
 
-   private Node newNode;
+    private Node newNode;
 
-   private Node oldNode;
+    private Node oldNode;
 
-   private List<Comment> acceptedComments = new LinkedList<Comment>();
+    private List<Comment> acceptedComments = new LinkedList<Comment>();
 
-   public ReplaceAction(int beginLine, int beginPosition, Node oldNode, Node newNode, int indentation,
-         int indentationSize, List<Comment> comments) {
-      super(beginLine, beginPosition, ActionType.REPLACE);
+    public ReplaceAction(int beginLine, int beginPosition, Node oldNode, Node newNode, int indentation,
+            int indentationSize, List<Comment> comments) {
+        super(beginLine, beginPosition, ActionType.REPLACE);
 
-     
-      //we filter those comments that affects to the region of the replace to keep them available
-      if (comments != null) {
-         Iterator<Comment> it = comments.iterator();
+        //we filter those comments that affects to the region of the replace to keep them available
+        if (comments != null) {
+            Iterator<Comment> it = comments.iterator();
 
-         while (it.hasNext()) {
-            Comment next = it.next();
-            if (oldNode.contains(next) && !(next instanceof JavadocComment)) {
-               acceptedComments.add(next);
-               it.remove();
+            while (it.hasNext()) {
+                Comment next = it.next();
+                if (oldNode.contains(next) && !(next instanceof JavadocComment)) {
+                    acceptedComments.add(next);
+                    it.remove();
+                }
             }
-         }
-      }
+        }
 
-      this.oldNode = oldNode;
-      this.indentationLevel = indentation;
+        this.oldNode = oldNode;
+        this.indentationLevel = indentation;
 
-      oldCode = oldNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
+        oldCode = oldNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments);
 
-      this.indentationSize = indentationSize;
-      this.newNode = newNode;
+        this.indentationSize = indentationSize;
+        this.newNode = newNode;
 
-      getText("", indentationChar);
+        getText("", indentationChar);
 
-      //we infer the new ending line and columns for the new text
-      String[] lines = newCode.split("\n");
-      endLine = getBeginLine() + lines.length - 1;
-      endColumn = lines[lines.length - 1].length();
+        //we infer the new ending line and columns for the new text
+        String[] lines = newCode.split("\n");
+        endLine = getBeginLine() + lines.length - 1;
+        endColumn = lines[lines.length - 1].length();
 
-      if (oldNode.getEndLine() >= endLine) {
-         if (oldNode.getEndLine() == endLine) {
-            if (oldNode.getEndColumn() > endColumn) {
-               endLine = oldNode.getEndLine();
-               endColumn = oldNode.getEndColumn();
+        if (oldNode.getEndLine() >= endLine) {
+            if (oldNode.getEndLine() == endLine) {
+                if (oldNode.getEndColumn() > endColumn) {
+                    endLine = oldNode.getEndLine();
+                    endColumn = oldNode.getEndColumn();
+                }
+            } else {
+                endLine = oldNode.getEndLine();
+                endColumn = oldNode.getEndColumn();
             }
-         } else {
-            endLine = oldNode.getEndLine();
-            endColumn = oldNode.getEndColumn();
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Returns the new text to insert with the appropriate indentation and comments
-    * 
-    * @param indentation
-    *           the existing indentation at the file. It never should be null and it is needed for
-    *           files that mix tabs and spaces in the same line.
-    * @param indentationChar
-    *           the used indentation char (' ', or '\t')
-    * @return the new text that replaces the existing one
-    */
-   public String getText(String indentation, char indentationChar) {
+    /**
+     * Returns the new text to insert with the appropriate indentation and comments
+     * 
+     * @param indentation
+     *            the existing indentation at the file. It never should be null and it is needed for
+     *            files that mix tabs and spaces in the same line.
+     * @param indentationChar
+     *            the used indentation char (' ', or '\t')
+     * @return the new text that replaces the existing one
+     */
+    public String getText(String indentation, char indentationChar) {
 
-      newCode = FormatterHelper.indent(
-            newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments), indentation,
-            indentationChar, indentationLevel, indentationSize, requiresExtraIndentationOnFirstLine(newNode));
+        newCode = FormatterHelper.indent(
+                newNode.getPrettySource(indentationChar, indentationLevel, indentationSize, acceptedComments),
+                indentation, indentationChar, indentationLevel, indentationSize, requiresExtraIndentationOnFirstLine());
 
-      return newCode;
-   }
+        return newCode;
+    }
 
-   @Override
-   public int getEndLine() {
-      return endLine;
-   }
+    @Override
+    public int getEndLine() {
+        return endLine;
+    }
 
-   public int getOldEndLine() {
-      return oldNode.getEndLine();
-   }
+    public int getOldEndLine() {
+        return oldNode.getEndLine();
+    }
 
-   public int getOldEndColumn() {
-      return oldNode.getEndColumn();
-   }
+    public int getOldEndColumn() {
+        return oldNode.getEndColumn();
+    }
 
-   @Override
-   public int getEndColumn() {
-      return endColumn;
-   }
+    @Override
+    public int getEndColumn() {
+        return endColumn;
+    }
 
-   public String getNewText() {
-      return newCode;
-   }
+    public String getNewText() {
+        return newCode;
+    }
 
-   public String getOldText() {
-      return oldCode;
-   }
-   
-   private boolean requiresExtraIndentationOnFirstLine(Node node) {
-      return !((node instanceof Expression) || (node instanceof BlockStmt) || (node instanceof BodyDeclaration));
-   }
+    public String getOldText() {
+        return oldCode;
+    }
+
+    private boolean requiresExtraIndentationOnFirstLine() {
+        if (newNode.getClass().getName().equals(oldNode.getClass().getName())) {
+            return false;
+        }
+        return !((newNode instanceof Expression) || (newNode instanceof BlockStmt)
+                || (newNode instanceof BodyDeclaration));
+    }
 
 }

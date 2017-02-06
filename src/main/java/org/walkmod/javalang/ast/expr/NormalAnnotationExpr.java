@@ -32,134 +32,143 @@ import org.walkmod.merger.MergeEngine;
  */
 public final class NormalAnnotationExpr extends AnnotationExpr {
 
-   private List<MemberValuePair> pairs;
+    private List<MemberValuePair> pairs;
 
-   public NormalAnnotationExpr() {
-   }
+    public NormalAnnotationExpr() {
+    }
 
-   public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
-      setName(name);
-      setPairs(pairs);
-   }
+    public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
+        setName(name);
+        setPairs(pairs);
+    }
 
-   public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name,
-         List<MemberValuePair> pairs) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setName(name);
-      setPairs(pairs);
-   }
+    public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name,
+            List<MemberValuePair> pairs) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setName(name);
+        setPairs(pairs);
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         result = super.removeChild(child);
-         if (!result) {
-            if (pairs != null) {
-               List<MemberValuePair> pairsAux = new LinkedList<MemberValuePair>(pairs);
-               result = pairsAux.remove(child);
-               pairs = pairsAux;
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            result = super.removeChild(child);
+            if (!result) {
+                if (pairs != null) {
+                    List<MemberValuePair> pairsAux = new LinkedList<MemberValuePair>(pairs);
+                    result = pairsAux.remove(child);
+                    pairs = pairsAux;
+                }
             }
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = super.getChildren();
-      if (pairs != null) {
-         children.addAll(pairs);
-      }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = super.getChildren();
+        if (pairs != null) {
+            children.addAll(pairs);
+        }
 
-      return children;
-   }
+        return children;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public List<MemberValuePair> getPairs() {
-      return pairs;
-   }
+    public List<MemberValuePair> getPairs() {
+        return pairs;
+    }
 
-   public void setPairs(List<MemberValuePair> pairs) {
-      this.pairs = pairs;
-      setAsParentNodeOf(pairs);
-   }
+    public void setPairs(List<MemberValuePair> pairs) {
+        this.pairs = pairs;
+        setAsParentNodeOf(pairs);
+    }
 
-   @Override
-   public void merge(AnnotationExpr t1, MergeEngine configuration) {
+    @Override
+    public void merge(AnnotationExpr t1, MergeEngine configuration) {
 
-      List<MemberValuePair> pairsList = new LinkedList<MemberValuePair>();
-      configuration.apply(getPairs(), ((NormalAnnotationExpr) t1).getPairs(), pairsList, MemberValuePair.class);
-      if (!pairsList.isEmpty()) {
-         setPairs(pairsList);
-      } else {
-         setPairs(null);
-      }
+        List<MemberValuePair> pairsList = new LinkedList<MemberValuePair>();
+        configuration.apply(getPairs(), ((NormalAnnotationExpr) t1).getPairs(), pairsList, MemberValuePair.class);
+        if (!pairsList.isEmpty()) {
+            setPairs(pairsList);
+        } else {
+            setPairs(null);
+        }
 
-   }
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      return replaceChildNodeInList(oldChild, newChild, pairs);
-   }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
+        if (pairs != null) {
+            List<MemberValuePair> auxPairs = new LinkedList<MemberValuePair>(pairs);
+            updated = replaceChildNodeInList(oldChild, newChild, auxPairs);
+            if (updated) {
+                pairs = auxPairs;
+            }
+        }
 
-   @Override
-   public NormalAnnotationExpr clone() throws CloneNotSupportedException {
+        return updated;
+    }
 
-      return new NormalAnnotationExpr(clone(name), clone(pairs));
-   }
-   
-   @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getVariableDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
-   
-   @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getMethodDefinitions();
-      }
-      return new HashMap<String, List<SymbolDefinition>>();
-   }
+    @Override
+    public NormalAnnotationExpr clone() throws CloneNotSupportedException {
 
-   @Override
-   public Map<String, SymbolDefinition> getTypeDefinitions() {
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getTypeDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
+        return new NormalAnnotationExpr(clone(name), clone(pairs));
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getVariableDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getVariableDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
+
+    @Override
+    public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getMethodDefinitions();
+        }
+        return new HashMap<String, List<SymbolDefinition>>();
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getTypeDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getTypeDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 
 }

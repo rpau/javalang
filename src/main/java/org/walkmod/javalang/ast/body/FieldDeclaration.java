@@ -37,243 +37,249 @@ import org.walkmod.merger.Mergeable;
  */
 public final class FieldDeclaration extends BodyDeclaration implements Mergeable<FieldDeclaration>, SymbolDefinition {
 
-   private int modifiers;
+    private int modifiers;
 
-   private Type type;
+    private Type type;
 
-   private List<VariableDeclarator> variables;
+    private List<VariableDeclarator> variables;
 
-   private List<FieldSymbolData> symbolData;
+    private List<FieldSymbolData> symbolData;
 
-   private int scopeLevel = 0;
+    private int scopeLevel = 0;
 
-   public FieldDeclaration() {
-   }
+    public FieldDeclaration() {
+    }
 
-   public FieldDeclaration(int modifiers, Type type, VariableDeclarator variable) {
-      this.modifiers = modifiers;
-      setType(type);
-      this.variables = new ArrayList<VariableDeclarator>();
-      setAsParentNodeOf(variable);
-      this.variables.add(variable);
-   }
+    public FieldDeclaration(int modifiers, Type type, VariableDeclarator variable) {
+        this.modifiers = modifiers;
+        setType(type);
+        this.variables = new ArrayList<VariableDeclarator>();
+        setAsParentNodeOf(variable);
+        this.variables.add(variable);
+    }
 
-   public FieldDeclaration(int modifiers, Type type, List<VariableDeclarator> variables) {
-      this.modifiers = modifiers;
-      setType(type);
-      setVariables(variables);
-   }
+    public FieldDeclaration(int modifiers, Type type, List<VariableDeclarator> variables) {
+        this.modifiers = modifiers;
+        setType(type);
+        setVariables(variables);
+    }
 
-   public FieldDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, Type type,
-         List<VariableDeclarator> variables) {
-      super(annotations, javaDoc);
-      this.modifiers = modifiers;
-      setType(type);
-      setVariables(variables);
-   }
+    public FieldDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, Type type,
+            List<VariableDeclarator> variables) {
+        super(annotations, javaDoc);
+        this.modifiers = modifiers;
+        setType(type);
+        setVariables(variables);
+    }
 
-   public FieldDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
-         int modifiers, List<AnnotationExpr> annotations, Type type, List<VariableDeclarator> variables) {
-      super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
-      this.modifiers = modifiers;
-      setType(type);
-      setVariables(variables);
-   }
+    public FieldDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc,
+            int modifiers, List<AnnotationExpr> annotations, Type type, List<VariableDeclarator> variables) {
+        super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
+        this.modifiers = modifiers;
+        setType(type);
+        setVariables(variables);
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         result = super.removeChild(child);
-         if (!result) {
-            if (child == type && type != null) {
-               type = null;
-               result = true;
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            result = super.removeChild(child);
+            if (!result) {
+                if (child == type && type != null) {
+                    type = null;
+                    result = true;
+                }
             }
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = super.getChildren();
-      if (type != null) {
-         children.add(type);
-      }
-      if (variables != null) {
-         children.addAll(variables);
-      }
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = super.getChildren();
+        if (type != null) {
+            children.add(type);
+        }
+        if (variables != null) {
+            children.addAll(variables);
+        }
+        return children;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   /**
-    * Return the modifiers of this member declaration.
-    * 
-    * @see ModifierSet
-    * @return modifiers
-    */
-   public int getModifiers() {
-      return modifiers;
-   }
+    /**
+     * Return the modifiers of this member declaration.
+     * 
+     * @see ModifierSet
+     * @return modifiers
+     */
+    public int getModifiers() {
+        return modifiers;
+    }
 
-   public Type getType() {
-      return type;
-   }
+    public Type getType() {
+        return type;
+    }
 
-   public List<VariableDeclarator> getVariables() {
-      return variables;
-   }
+    public List<VariableDeclarator> getVariables() {
+        return variables;
+    }
 
-   public void setModifiers(int modifiers) {
-      this.modifiers = modifiers;
-   }
+    public void setModifiers(int modifiers) {
+        this.modifiers = modifiers;
+    }
 
-   public void setType(Type type) {
-      if (this.type != null) {
-         updateReferences(this.type);
-      }
-      this.type = type;
-      setAsParentNodeOf(type);
-   }
+    public void setType(Type type) {
+        if (this.type != null) {
+            updateReferences(this.type);
+        }
+        this.type = type;
+        setAsParentNodeOf(type);
+    }
 
-   public void setVariables(List<VariableDeclarator> variables) {
-      this.variables = variables;
-      setAsParentNodeOf(variables);
-   }
+    public void setVariables(List<VariableDeclarator> variables) {
+        this.variables = variables;
+        setAsParentNodeOf(variables);
+    }
 
-   @Override
-   public Comparator<?> getIdentityComparator() {
-      return new FieldDeclarationComparator();
-   }
+    @Override
+    public Comparator<?> getIdentityComparator() {
+        return new FieldDeclarationComparator();
+    }
 
-   @Override
-   public void merge(FieldDeclaration remote, MergeEngine configuration) {
-      super.merge(remote, configuration);
-      setType((Type) configuration.apply(getType(), remote.getType(), Type.class));
-      List<VariableDeclarator> resultList = new LinkedList<VariableDeclarator>();
-      configuration.apply(getVariables(), remote.getVariables(), resultList, VariableDeclarator.class);
-      setVariables(resultList);
-   }
+    @Override
+    public void merge(FieldDeclaration remote, MergeEngine configuration) {
+        super.merge(remote, configuration);
+        setType((Type) configuration.apply(getType(), remote.getType(), Type.class));
+        List<VariableDeclarator> resultList = new LinkedList<VariableDeclarator>();
+        configuration.apply(getVariables(), remote.getVariables(), resultList, VariableDeclarator.class);
+        setVariables(resultList);
+    }
 
-   public List<FieldSymbolData> getFieldsSymbolData() {
-      return symbolData;
-   }
+    public List<FieldSymbolData> getFieldsSymbolData() {
+        return symbolData;
+    }
 
-   public void setFieldsSymbolData(List<FieldSymbolData> symbolData) {
-      this.symbolData = symbolData;
-   }
+    public void setFieldsSymbolData(List<FieldSymbolData> symbolData) {
+        this.symbolData = symbolData;
+    }
 
-   @Override
-   public List<SymbolReference> getUsages() {
-      List<SymbolReference> result = null;
-      if (variables != null) {
-         result = new LinkedList<SymbolReference>();
-         for (VariableDeclarator vd : variables) {
-            List<SymbolReference> usages = vd.getUsages();
-            if (usages != null) {
-               result.addAll(usages);
+    @Override
+    public List<SymbolReference> getUsages() {
+        List<SymbolReference> result = null;
+        if (variables != null) {
+            result = new LinkedList<SymbolReference>();
+            for (VariableDeclarator vd : variables) {
+                List<SymbolReference> usages = vd.getUsages();
+                if (usages != null) {
+                    result.addAll(usages);
+                }
             }
-         }
-         if (result.isEmpty()) {
-            result = null;
-         }
-      }
-
-      return result;
-   }
-
-   @Override
-   public void setUsages(List<SymbolReference> usages) {
-   }
-
-   @Override
-   public List<SymbolReference> getBodyReferences() {
-      List<SymbolReference> result = null;
-      if (variables != null) {
-         result = new LinkedList<SymbolReference>();
-         for (VariableDeclarator vd : variables) {
-            List<SymbolReference> bodyReferences = vd.getBodyReferences();
-            if (bodyReferences != null) {
-               result.addAll(bodyReferences);
+            if (result.isEmpty()) {
+                result = null;
             }
-         }
-         if (result.isEmpty()) {
-            result = null;
-         }
-      }
-      return result;
-   }
+        }
 
-   @Override
-   public void setBodyReferences(List<SymbolReference> bodyReferences) {
-   }
+        return result;
+    }
 
-   @Override
-   public int getScopeLevel() {
-      return scopeLevel;
-   }
+    @Override
+    public void setUsages(List<SymbolReference> usages) {
+    }
 
-   @Override
-   public void setScopeLevel(int scopeLevel) {
-      this.scopeLevel = scopeLevel;
-   }
+    @Override
+    public List<SymbolReference> getBodyReferences() {
+        List<SymbolReference> result = null;
+        if (variables != null) {
+            result = new LinkedList<SymbolReference>();
+            for (VariableDeclarator vd : variables) {
+                List<SymbolReference> bodyReferences = vd.getBodyReferences();
+                if (bodyReferences != null) {
+                    result.addAll(bodyReferences);
+                }
+            }
+            if (result.isEmpty()) {
+                result = null;
+            }
+        }
+        return result;
+    }
 
-   @Override
-   public boolean addBodyReference(SymbolReference bodyReference) {
-      return false;
-   }
+    @Override
+    public void setBodyReferences(List<SymbolReference> bodyReferences) {
+    }
 
-   @Override
-   public boolean addUsage(SymbolReference usage) {
-      return false;
-   }
+    @Override
+    public int getScopeLevel() {
+        return scopeLevel;
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean update = super.replaceChildNode(oldChild, newChild);
+    @Override
+    public void setScopeLevel(int scopeLevel) {
+        this.scopeLevel = scopeLevel;
+    }
 
-      if (!update) {
-         if (oldChild == type) {
-            setType((Type) newChild);
-            update = true;
-         } else {
-            update = replaceChildNodeInList(oldChild, newChild, variables);
-         }
-      }
-      return update;
-   }
+    @Override
+    public boolean addBodyReference(SymbolReference bodyReference) {
+        return false;
+    }
 
-   @Override
-   public FieldDeclaration clone() throws CloneNotSupportedException {
-      return new FieldDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()), clone(getType()),
-            clone(getVariables()));
-   }
+    @Override
+    public boolean addUsage(SymbolReference usage) {
+        return false;
+    }
 
-   @Override
-   public String getSymbolName() {
-      if(variables != null && variables.size() == 1){
-         return variables.get(0).getId().getName();
-      }
-      return null;
-   }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean update = super.replaceChildNode(oldChild, newChild);
+
+        if (!update) {
+            if (oldChild == type) {
+                setType((Type) newChild);
+                update = true;
+            } else {
+                if (variables != null) {
+                    List<VariableDeclarator> auxVars = new LinkedList<VariableDeclarator>(variables);
+                    update = replaceChildNodeInList(oldChild, newChild, auxVars);
+                    if (update) {
+                        variables = auxVars;
+                    }
+                }
+            }
+        }
+        return update;
+    }
+
+    @Override
+    public FieldDeclaration clone() throws CloneNotSupportedException {
+        return new FieldDeclaration(clone(getJavaDoc()), getModifiers(), clone(getAnnotations()), clone(getType()),
+                clone(getVariables()));
+    }
+
+    @Override
+    public String getSymbolName() {
+        if (variables != null && variables.size() == 1) {
+            return variables.get(0).getId().getName();
+        }
+        return null;
+    }
 
 }

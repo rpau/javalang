@@ -43,204 +43,208 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public class MethodReferenceExpr extends Expression implements SymbolReference {
 
-   private Expression scope;
+    private Expression scope;
 
-   private List<TypeParameter> typeParameters;
+    private List<TypeParameter> typeParameters;
 
-   private String identifier;
+    private String identifier;
 
-   private MethodSymbolData referencedMethodSymbolData;
+    private MethodSymbolData referencedMethodSymbolData;
 
-   private SymbolData[] referencedArgsSymbolData;
+    private SymbolData[] referencedArgsSymbolData;
 
-   private SymbolDefinition symbolDefinition;
+    private SymbolDefinition symbolDefinition;
 
-   public MethodReferenceExpr() {
-   }
+    public MethodReferenceExpr() {
+    }
 
-   public MethodReferenceExpr(Expression scope, List<TypeParameter> typeParameters, String identifier) {
+    public MethodReferenceExpr(Expression scope, List<TypeParameter> typeParameters, String identifier) {
 
-      setScope(scope);
-      setTypeParameters(typeParameters);
-      this.identifier = identifier;
-   }
+        setScope(scope);
+        setTypeParameters(typeParameters);
+        this.identifier = identifier;
+    }
 
-   public MethodReferenceExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
-         List<TypeParameter> typeParameters, String identifier) {
+    public MethodReferenceExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope,
+            List<TypeParameter> typeParameters, String identifier) {
 
-      super(beginLine, beginColumn, endLine, endColumn);
-      setScope(scope);
-      setTypeParameters(typeParameters);
-      this.identifier = identifier;
-   }
+        super(beginLine, beginColumn, endLine, endColumn);
+        setScope(scope);
+        setTypeParameters(typeParameters);
+        this.identifier = identifier;
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         if (scope == child) {
-            scope = null;
-            result = true;
-         }
-
-         if (!result) {
-            if (typeParameters != null) {
-               if (child instanceof TypeParameter) {
-                  List<TypeParameter> typeParametersAux = new LinkedList<TypeParameter>(typeParameters);
-                  result = typeParametersAux.remove(child);
-                  typeParameters = typeParametersAux;
-               }
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (scope == child) {
+                scope = null;
+                result = true;
             }
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
 
-      return result;
-   }
+            if (!result) {
+                if (typeParameters != null) {
+                    if (child instanceof TypeParameter) {
+                        List<TypeParameter> typeParametersAux = new LinkedList<TypeParameter>(typeParameters);
+                        result = typeParametersAux.remove(child);
+                        typeParameters = typeParametersAux;
+                    }
+                }
+            }
+        }
+        if (result) {
+            updateReferences(child);
+        }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (scope != null) {
-         children.add(scope);
-      }
-      if (typeParameters != null) {
-         children.addAll(typeParameters);
-      }
+        return result;
+    }
 
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (scope != null) {
+            children.add(scope);
+        }
+        if (typeParameters != null) {
+            children.addAll(typeParameters);
+        }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+        return children;
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   public Expression getScope() {
-      return scope;
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public void setScope(Expression scope) {
-      if (this.scope != null) {
-         updateReferences(this.scope);
-      }
-      this.scope = scope;
-      setAsParentNodeOf(scope);
-   }
+    public Expression getScope() {
+        return scope;
+    }
 
-   public List<TypeParameter> getTypeParameters() {
-      return typeParameters;
-   }
+    public void setScope(Expression scope) {
+        if (this.scope != null) {
+            updateReferences(this.scope);
+        }
+        this.scope = scope;
+        setAsParentNodeOf(scope);
+    }
 
-   public void setTypeParameters(List<TypeParameter> typeParameters) {
-      this.typeParameters = typeParameters;
-      setAsParentNodeOf(typeParameters);
-   }
+    public List<TypeParameter> getTypeParameters() {
+        return typeParameters;
+    }
 
-   public String getIdentifier() {
-      return identifier;
-   }
+    public void setTypeParameters(List<TypeParameter> typeParameters) {
+        this.typeParameters = typeParameters;
+        setAsParentNodeOf(typeParameters);
+    }
 
-   public void setIdentifier(String identifier) {
-      this.identifier = identifier;
-   }
+    public String getIdentifier() {
+        return identifier;
+    }
 
-   @Override
-   public SymbolData getSymbolData() {
-      return super.getSymbolData();
-   }
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 
-   public MethodSymbolData getReferencedMethodSymbolData() {
-      return referencedMethodSymbolData;
-   }
+    @Override
+    public SymbolData getSymbolData() {
+        return super.getSymbolData();
+    }
 
-   public void setReferencedMethodSymbolData(MethodSymbolData referencedMethodSymbolData) {
-      this.referencedMethodSymbolData = referencedMethodSymbolData;
-   }
+    public MethodSymbolData getReferencedMethodSymbolData() {
+        return referencedMethodSymbolData;
+    }
 
-   public SymbolData[] getReferencedArgsSymbolData() {
-      return referencedArgsSymbolData;
-   }
+    public void setReferencedMethodSymbolData(MethodSymbolData referencedMethodSymbolData) {
+        this.referencedMethodSymbolData = referencedMethodSymbolData;
+    }
 
-   public void setReferencedArgsSymbolData(SymbolData[] referencedArgsSymbolData) {
-      this.referencedArgsSymbolData = referencedArgsSymbolData;
-   }
+    public SymbolData[] getReferencedArgsSymbolData() {
+        return referencedArgsSymbolData;
+    }
 
-   @Override
-   public SymbolDefinition getSymbolDefinition() {
-      return symbolDefinition;
-   }
+    public void setReferencedArgsSymbolData(SymbolData[] referencedArgsSymbolData) {
+        this.referencedArgsSymbolData = referencedArgsSymbolData;
+    }
 
-   @Override
-   public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
-      this.symbolDefinition = symbolDefinition;
-   }
+    @Override
+    public SymbolDefinition getSymbolDefinition() {
+        return symbolDefinition;
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
-      if (oldChild == scope) {
-         setScope((Expression) newChild);
-         updated = true;
-      }
-      if (!updated) {
-         updated = replaceChildNodeInList(oldChild, newChild, typeParameters);
+    @Override
+    public void setSymbolDefinition(SymbolDefinition symbolDefinition) {
+        this.symbolDefinition = symbolDefinition;
+    }
 
-      }
-      return updated;
-   }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
+        if (oldChild == scope) {
+            setScope((Expression) newChild);
+            updated = true;
+        }
+        if (!updated) {
+            List<TypeParameter> auxTypeParameters = new LinkedList<TypeParameter>(typeParameters);
+            updated = replaceChildNodeInList(oldChild, newChild, auxTypeParameters);
+            if(updated){
+                typeParameters = auxTypeParameters;
+            }
 
-   @Override
-   public MethodReferenceExpr clone() throws CloneNotSupportedException {
+        }
+        return updated;
+    }
 
-      return new MethodReferenceExpr(clone(scope), clone(typeParameters), identifier);
-   }
-   
-   @Override
-   public Map<String, SymbolDefinition> getVariableDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getVariableDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
-   
-   @Override
-   public Map<String, List<SymbolDefinition>> getMethodDefinitions(){
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getMethodDefinitions();
-      }
-      return new HashMap<String, List<SymbolDefinition>>();
-   }
+    @Override
+    public MethodReferenceExpr clone() throws CloneNotSupportedException {
 
-   @Override
-   public Map<String, SymbolDefinition> getTypeDefinitions() {
-      Node parent = getParentNode();
-      while (parent != null && parent instanceof ScopeAware) {
-         parent = parent.getParentNode();
-      }
-      if (parent != null && (parent instanceof ScopeAware)) {
-         return ((ScopeAware) parent).getTypeDefinitions();
-      }
-      return new HashMap<String, SymbolDefinition>();
-   }
+        return new MethodReferenceExpr(clone(scope), clone(typeParameters), identifier);
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getVariableDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getVariableDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
+
+    @Override
+    public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getMethodDefinitions();
+        }
+        return new HashMap<String, List<SymbolDefinition>>();
+    }
+
+    @Override
+    public Map<String, SymbolDefinition> getTypeDefinitions() {
+        Node parent = getParentNode();
+        while (parent != null && parent instanceof ScopeAware) {
+            parent = parent.getParentNode();
+        }
+        if (parent != null && (parent instanceof ScopeAware)) {
+            return ((ScopeAware) parent).getTypeDefinitions();
+        }
+        return new HashMap<String, SymbolDefinition>();
+    }
 }

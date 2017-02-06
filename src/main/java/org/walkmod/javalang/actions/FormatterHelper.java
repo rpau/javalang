@@ -17,17 +17,8 @@ public class FormatterHelper {
             sb.append(indentationChar);
          }
       }
-      //if (startWithoutWhiteSpaces) {
-         //sb.append(lines[0].replaceFirst(theoricalIndentationText, indentation));
-         sb.append(lines[0].substring(indentationSize * indentationLevel));
-      /*} else {
-         if (indentation.length() > 0) {
-            //we replace the supposed indentation chars at indentation level for the existing ones.
-            sb.append(lines[0].replaceFirst(theoricalIndentationText, indentation));
-         } else {
-            sb.append(lines[0]);
-         }
-      }*/
+      sb.append(lines[0].substring(indentationSize * indentationLevel));
+     
 
       for (int i = 1; i < lines.length; i++) {
          String line = lines[i];
