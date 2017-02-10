@@ -67,6 +67,8 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
 
     private URI uri;
 
+    private boolean withSymbols = false;
+
     public CompilationUnit() {
     }
 
@@ -286,14 +288,14 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
         if (!updated && imports != null) {
             List<ImportDeclaration> auxImports = new LinkedList<ImportDeclaration>(imports);
             updated = replaceChildNodeInList(oldChild, newChild, auxImports);
-            if(updated){
+            if (updated) {
                 imports = auxImports;
             }
         }
-        if(!updated && types != null){
+        if (!updated && types != null) {
             List<TypeDeclaration> auxTypes = new LinkedList<TypeDeclaration>(types);
             updated = replaceChildNodeInList(oldChild, newChild, auxTypes);
-            if(updated){
+            if (updated) {
                 types = auxTypes;
             }
         }
@@ -301,7 +303,7 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
             List<Comment> auxComments = new LinkedList<Comment>(comments);
             updated = replaceChildNodeInList(oldChild, newChild, auxComments);
             if (updated) {
-               comments = auxComments;
+                comments = auxComments;
             }
         }
 
@@ -359,4 +361,13 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     public CompilationUnit clone() throws CloneNotSupportedException {
         return new CompilationUnit(clone(pakage), clone(imports), clone(types), clone(comments));
     }
+
+    public boolean withSymbols() {
+        return withSymbols;
+    }
+
+    public void withSymbols(boolean isCompilable) {
+        this.withSymbols = isCompilable;
+    }
+
 }
