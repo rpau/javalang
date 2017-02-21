@@ -90,6 +90,11 @@ public final class FieldDeclaration extends BodyDeclaration implements Mergeable
                     type = null;
                     result = true;
                 }
+                if(variables != null){
+                    List<VariableDeclarator> auxVars = new LinkedList<VariableDeclarator>(variables);
+                    auxVars.remove(child);
+                    variables = auxVars;
+                }
             }
         }
         if (result) {

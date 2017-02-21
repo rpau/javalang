@@ -267,10 +267,10 @@ public abstract class TypeDeclaration extends BodyDeclaration
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
         Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
+        while (parent != null && !(parent instanceof ScopeAware)) {
             parent = parent.getParentNode();
         }
-        if (parent != null) {
+        if (parent != null && parent instanceof ScopeAware) {
             Map<String, SymbolDefinition> aux = ((ScopeAware) parent).getVariableDefinitions();
             List<BodyDeclaration> children = getMembers();
             if (children != null) {
