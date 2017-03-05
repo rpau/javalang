@@ -104,7 +104,7 @@ public interface SymbolData {
    /**
     * Java Generics allows expressions like <? super A & B & C>. These lower boundary 
     * classes corresponds to A, B and C. 
-    * @return the upper bound classes
+    * @return the lower bound classes
     */
    public List<Class<?>> getLowerBoundClasses();
 }
