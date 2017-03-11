@@ -61,7 +61,7 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
     String methodName = "";
     String aux = "";
     List<String> params = new LinkedList<String>();
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    switch (jj_ntk==-1 ?jj_ntk():jj_ntk) {
     case IDENTIFIER:
       className = type();
       break;
@@ -73,13 +73,13 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
     jj_consume_token(IDENTIFIER);
                                                     methodName = token.image;
     jj_consume_token(OPENPAR);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    switch (jj_ntk==-1 ?jj_ntk():jj_ntk) {
     case IDENTIFIER:
       aux = type();
                                                                                                        params.add(aux);
       label_1:
       while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        switch (jj_ntk==-1 ?jj_ntk():jj_ntk) {
         case COMMA:
           ;
           break;
@@ -105,7 +105,7 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
   final public FieldLink fieldlink() throws ParseException {
     String className = "";
     String fieldName = "";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    switch (jj_ntk==-1 ?jj_ntk():jj_ntk) {
     case IDENTIFIER:
       className = type();
       break;
@@ -127,7 +127,7 @@ public class JavadocLinkParser implements JavadocLinkParserConstants {
                   typeName = token.image;
     label_2:
     while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      switch (jj_ntk==-1 ?jj_ntk():jj_ntk) {
       case DOT:
         ;
         break;

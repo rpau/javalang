@@ -67,11 +67,11 @@ public abstract class Action {
 
    public boolean contains(Action action) {
 
-      if ((getBeginLine() < action.getBeginLine())
-            || ((getBeginLine() == action.getBeginLine()) && getBeginColumn() <= action.getBeginColumn())) {
+      if (getBeginLine() < action.getBeginLine()
+            || getBeginLine() == action.getBeginLine() && getBeginColumn() <= action.getBeginColumn()) {
          if (getEndLine() > action.getEndLine()) {
             return true;
-         } else if ((getEndLine() == action.getEndLine()) && getEndColumn() >= action.getEndColumn()) {
+         } else if (getEndLine() == action.getEndLine() && getEndColumn() >= action.getEndColumn()) {
             return true;
          }
          else if (getEndLine() > action.getBeginLine()){

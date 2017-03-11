@@ -201,7 +201,7 @@ final class ASTParser implements ASTParserConstants {
    }
 
    public int addModifier(int modifiers, int mod, Token token) throws ParseException {
-      if ((ModifierSet.hasModifier(modifiers, mod))) {
+      if (ModifierSet.hasModifier(modifiers, mod)) {
          throwParseException(token, "Duplicated modifier");
       }
       return ModifierSet.addModifier(modifiers, mod);
@@ -270,7 +270,7 @@ final class ASTParser implements ASTParserConstants {
          ;
       }
       label_1: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case IMPORT:
             ;
             break;
@@ -286,7 +286,7 @@ final class ASTParser implements ASTParserConstants {
          imports = add(imports, in);
       }
       label_2: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case CLASS:
          case ENUM:
@@ -316,7 +316,7 @@ final class ASTParser implements ASTParserConstants {
          }
          types = add(types, tn);
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case 0:
          jj_consume_token(0);
          break;
@@ -343,7 +343,7 @@ final class ASTParser implements ASTParserConstants {
       int line;
       int column;
       label_3: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -375,7 +375,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(IMPORT);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case STATIC:
          jj_consume_token(STATIC);
          isStatic = true;
@@ -385,7 +385,7 @@ final class ASTParser implements ASTParserConstants {
          ;
       }
       name = Name();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case DOT:
          jj_consume_token(DOT);
          jj_consume_token(STAR);
@@ -420,7 +420,7 @@ final class ASTParser implements ASTParserConstants {
          } else {
             break label_4;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PUBLIC:
             jj_consume_token(PUBLIC);
             modifiers = addModifier(modifiers, ModifierSet.PUBLIC, token);
@@ -537,7 +537,7 @@ final class ASTParser implements ASTParserConstants {
       Modifier modifier;
       TypeDeclaration ret;
       pushJavadoc();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case SEMICOLON:
          jj_consume_token(SEMICOLON);
          ret = new EmptyTypeDeclaration(token.beginLine, token.beginColumn, token.endLine, token.endColumn,
@@ -559,7 +559,7 @@ final class ASTParser implements ASTParserConstants {
       case VOLATILE:
       case AT:
          modifier = Modifiers();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case CLASS:
          case INTERFACE:
             ret = ClassOrInterfaceDeclaration(modifier);
@@ -597,7 +597,7 @@ final class ASTParser implements ASTParserConstants {
       List members;
       int line = modifier.beginLine;
       int column = modifier.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case CLASS:
          jj_consume_token(CLASS);
          break;
@@ -616,7 +616,7 @@ final class ASTParser implements ASTParserConstants {
       }
       jj_consume_token(IDENTIFIER);
       name = token.image;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LT:
          typePar = TypeParameters();
          typePar.remove(0);
@@ -625,7 +625,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[10] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case EXTENDS:
          extList = ExtendsList(isInterface);
          break;
@@ -633,7 +633,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[11] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IMPLEMENTS:
          impList = ImplementsList(isInterface);
          break;
@@ -658,7 +658,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       jj_consume_token(EXTENDS);
       label_5: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -673,7 +673,7 @@ final class ASTParser implements ASTParserConstants {
       cit.setAnnotations(annotations);
       ret.add(cit);
       label_6: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -702,7 +702,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       jj_consume_token(IMPLEMENTS);
       label_7: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -717,7 +717,7 @@ final class ASTParser implements ASTParserConstants {
       cit.setAnnotations(annotations);
       ret.add(cit);
       label_8: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -754,7 +754,7 @@ final class ASTParser implements ASTParserConstants {
       }
       jj_consume_token(IDENTIFIER);
       name = token.image;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IMPLEMENTS:
          impList = ImplementsList(false);
          break;
@@ -763,7 +763,7 @@ final class ASTParser implements ASTParserConstants {
          ;
       }
       jj_consume_token(LBRACE);
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IDENTIFIER:
       case AT:
          entries = new LinkedList();
@@ -784,7 +784,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[18] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case COMMA:
          jj_consume_token(COMMA);
          break;
@@ -792,11 +792,11 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[19] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case SEMICOLON:
          jj_consume_token(SEMICOLON);
          label_10: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case ABSTRACT:
             case BOOLEAN:
             case BYTE:
@@ -859,7 +859,7 @@ final class ASTParser implements ASTParserConstants {
       int column = -1;
       pushJavadoc();
       label_11: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -880,7 +880,7 @@ final class ASTParser implements ASTParserConstants {
          line = token.beginLine;
          column = token.beginColumn;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LPAREN:
          args = Arguments();
          break;
@@ -888,7 +888,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[23] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LBRACE:
          classBody = ClassOrInterfaceBody(false);
          break;
@@ -912,7 +912,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(LT);
       ret.add(new int[] { token.beginLine, token.beginColumn });
       label_12: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -928,7 +928,7 @@ final class ASTParser implements ASTParserConstants {
       tp.setAnnotations(annotations);
       annotations = null;
       label_13: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -938,7 +938,7 @@ final class ASTParser implements ASTParserConstants {
          }
          jj_consume_token(COMMA);
          label_14: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case AT:
                ;
                break;
@@ -971,7 +971,7 @@ final class ASTParser implements ASTParserConstants {
       name = token.image;
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case EXTENDS:
          typeBound = TypeBound();
          break;
@@ -993,7 +993,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       jj_consume_token(EXTENDS);
       label_15: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -1009,7 +1009,7 @@ final class ASTParser implements ASTParserConstants {
       ret.add(cit);
       annotations = null;
       label_16: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BIT_AND:
             ;
             break;
@@ -1019,7 +1019,7 @@ final class ASTParser implements ASTParserConstants {
          }
          jj_consume_token(BIT_AND);
          label_17: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case AT:
                ;
                break;
@@ -1047,7 +1047,7 @@ final class ASTParser implements ASTParserConstants {
       BodyDeclaration member;
       jj_consume_token(LBRACE);
       label_18: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case BOOLEAN:
          case BYTE:
@@ -1107,7 +1107,7 @@ final class ASTParser implements ASTParserConstants {
          if (isInterface)
             throwParseException(token, "An interface cannot have initializers");
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case BOOLEAN:
          case BYTE:
@@ -1136,7 +1136,7 @@ final class ASTParser implements ASTParserConstants {
          case AT:
          case LT:
             modifier = Modifiers();
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case _DEFAULT:
                jj_consume_token(_DEFAULT);
                modifier2 = Modifiers();
@@ -1149,7 +1149,7 @@ final class ASTParser implements ASTParserConstants {
                jj_la1[33] = jj_gen;
                ;
             }
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case CLASS:
             case INTERFACE:
                ret = ClassOrInterfaceDeclaration(modifier);
@@ -1167,7 +1167,7 @@ final class ASTParser implements ASTParserConstants {
                } else if (jj_2_5(2147483647)) {
                   ret = FieldDeclaration(modifier);
                } else {
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case BOOLEAN:
                   case BYTE:
                   case CHAR:
@@ -1227,7 +1227,7 @@ final class ASTParser implements ASTParserConstants {
       val = VariableDeclarator();
       variables.add(val);
       label_19: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -1258,7 +1258,7 @@ final class ASTParser implements ASTParserConstants {
       VariableDeclaratorId id;
       Expression init = null;
       id = VariableDeclaratorId();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ASSIGN:
          jj_consume_token(ASSIGN);
          init = VariableInitializer();
@@ -1285,7 +1285,7 @@ final class ASTParser implements ASTParserConstants {
       line = token.beginLine;
       column = token.beginColumn;
       label_20: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LBRACKET:
             ;
             break;
@@ -1306,7 +1306,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Expression VariableInitializer() throws ParseException {
       Expression ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LBRACE:
          ret = ArrayInitializer();
          break;
@@ -1360,7 +1360,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(LBRACE);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -1407,7 +1407,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[41] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case COMMA:
          jj_consume_token(COMMA);
          break;
@@ -1433,7 +1433,7 @@ final class ASTParser implements ASTParserConstants {
       BlockStmt block = null;
       int line = modifier.beginLine;
       int column = modifier.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LT:
          typeParameters = TypeParameters();
          int[] lineCol = (int[]) typeParameters.remove(0);
@@ -1455,7 +1455,7 @@ final class ASTParser implements ASTParserConstants {
       name = token.image;
       parameters = FormalParameters();
       label_22: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LBRACKET:
             ;
             break;
@@ -1467,7 +1467,7 @@ final class ASTParser implements ASTParserConstants {
          jj_consume_token(RBRACKET);
          arrayCount++;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case THROWS:
          jj_consume_token(THROWS);
          throws_ = ClassOrInterfaceTypeList();
@@ -1476,7 +1476,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[45] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LBRACE:
          block = Block();
          break;
@@ -1501,7 +1501,7 @@ final class ASTParser implements ASTParserConstants {
       List ret = null;
       Parameter par;
       jj_consume_token(LPAREN);
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ABSTRACT:
       case BOOLEAN:
       case BYTE:
@@ -1526,7 +1526,7 @@ final class ASTParser implements ASTParserConstants {
          par = FormalParameter();
          ret = add(ret, par);
          label_23: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case COMMA:
                ;
                break;
@@ -1558,7 +1558,7 @@ final class ASTParser implements ASTParserConstants {
       par = FormalParameter();
       ret = add(ret, par);
       label_24: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -1585,7 +1585,7 @@ final class ASTParser implements ASTParserConstants {
       ret = add(ret, new Parameter(id.getBeginLine(), id.getBeginColumn(), id.getEndLine(), id.getEndColumn(), 0, null,
             null, false, id));
       label_25: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -1612,7 +1612,7 @@ final class ASTParser implements ASTParserConstants {
       VariableDeclaratorId id;
       modifier = Modifiers();
       type = Type();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ELLIPSIS:
          jj_consume_token(ELLIPSIS);
          isVarArg = true;
@@ -1649,7 +1649,7 @@ final class ASTParser implements ASTParserConstants {
       int bbColumn = 0;
       int beLine = 0;
       int beColumn = 0;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LT:
          typeParameters = TypeParameters();
          int[] lineCol = (int[]) typeParameters.remove(0);
@@ -1669,7 +1669,7 @@ final class ASTParser implements ASTParserConstants {
          column = token.beginColumn;
       }
       parameters = FormalParameters();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case THROWS:
          jj_consume_token(THROWS);
          throws_ = ClassOrInterfaceTypeList();
@@ -1708,7 +1708,7 @@ final class ASTParser implements ASTParserConstants {
       int line = -1;
       int column = 0;
       if (jj_2_10(2147483647)) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LT:
          case 132:
             typeArgs = TypeArguments();
@@ -1729,7 +1729,7 @@ final class ASTParser implements ASTParserConstants {
          args = Arguments();
          jj_consume_token(SEMICOLON);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BOOLEAN:
          case BYTE:
          case CHAR:
@@ -1762,7 +1762,7 @@ final class ASTParser implements ASTParserConstants {
             } else {
                ;
             }
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case LT:
             case 132:
                typeArgs = TypeArguments();
@@ -1802,7 +1802,7 @@ final class ASTParser implements ASTParserConstants {
       List ret = null;
       Statement stmt;
       label_26: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case ASSERT:
          case BOOLEAN:
@@ -1875,7 +1875,7 @@ final class ASTParser implements ASTParserConstants {
       int line = -1;
       int column = 0;
       boolean isStatic = false;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case STATIC:
          jj_consume_token(STATIC);
          isStatic = true;
@@ -1907,7 +1907,7 @@ final class ASTParser implements ASTParserConstants {
       if (jj_2_11(2)) {
          ret = ReferenceType();
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BOOLEAN:
          case BYTE:
          case CHAR:
@@ -1937,7 +1937,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       List accum = null;
       AnnotationExpr ann;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -1949,7 +1949,7 @@ final class ASTParser implements ASTParserConstants {
          type = PrimitiveType();
          label_27: while (true) {
             label_28: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -1981,7 +1981,7 @@ final class ASTParser implements ASTParserConstants {
                break label_29;
             }
             label_30: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -2040,7 +2040,7 @@ final class ASTParser implements ASTParserConstants {
          }
          jj_consume_token(DOT);
          label_32: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case AT:
                ;
                break;
@@ -2074,14 +2074,14 @@ final class ASTParser implements ASTParserConstants {
    final public List TypeArguments() throws ParseException {
       List ret = new LinkedList();
       Type type;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LT:
          jj_consume_token(LT);
          ret.add(new int[] { token.beginLine, token.beginColumn });
          type = TypeArgument();
          ret.add(type);
          label_33: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case COMMA:
                ;
                break;
@@ -2120,7 +2120,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       AnnotationExpr ann;
       label_34: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -2131,7 +2131,7 @@ final class ASTParser implements ASTParserConstants {
          ann = Annotation();
          annotations = add(annotations, ann);
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -2169,14 +2169,14 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(HOOK);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case EXTENDS:
       case SUPER:
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case EXTENDS:
             jj_consume_token(EXTENDS);
             label_35: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -2193,7 +2193,7 @@ final class ASTParser implements ASTParserConstants {
          case SUPER:
             jj_consume_token(SUPER);
             label_36: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -2226,7 +2226,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public PrimitiveType PrimitiveType() throws ParseException {
       PrimitiveType ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
          jj_consume_token(BOOLEAN);
          ret = new PrimitiveType(token.beginLine, token.beginColumn, token.endLine, token.endColumn,
@@ -2281,7 +2281,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Type ResultType() throws ParseException {
       Type ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case VOID:
          jj_consume_token(VOID);
          ret = new VoidType(token.beginLine, token.beginColumn, token.endLine, token.endColumn);
@@ -2337,7 +2337,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       AnnotationExpr ann;
       label_38: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -2353,7 +2353,7 @@ final class ASTParser implements ASTParserConstants {
       ret.add(type);
       annotations = null;
       label_39: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -2363,7 +2363,7 @@ final class ASTParser implements ASTParserConstants {
          }
          jj_consume_token(COMMA);
          label_40: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case AT:
                ;
                break;
@@ -2399,7 +2399,7 @@ final class ASTParser implements ASTParserConstants {
       VariableDeclaratorId id = null;
       Expression inner = null;
       ret = ConditionalExpression();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ASSIGN:
       case PLUSASSIGN:
       case MINUSASSIGN:
@@ -2420,7 +2420,7 @@ final class ASTParser implements ASTParserConstants {
             ret = new AssignExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn, ret, value,
                   op);
          } else {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case ARROW:
                jj_consume_token(ARROW);
                lambdaBody = LambdaBody();
@@ -2438,7 +2438,7 @@ final class ASTParser implements ASTParserConstants {
                break;
             case DOUBLECOLON:
                jj_consume_token(DOUBLECOLON);
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LT:
                   typeArgs = TypeParameters();
                   typeArgs.remove(0);
@@ -2447,7 +2447,7 @@ final class ASTParser implements ASTParserConstants {
                   jj_la1[77] = jj_gen;
                   ;
                }
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case IDENTIFIER:
                   jj_consume_token(IDENTIFIER);
                   break;
@@ -2482,7 +2482,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public AssignExpr.Operator AssignmentOperator() throws ParseException {
       AssignExpr.Operator ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ASSIGN:
          jj_consume_token(ASSIGN);
          ret = AssignExpr.Operator.assign;
@@ -2548,7 +2548,7 @@ final class ASTParser implements ASTParserConstants {
       Expression left;
       Expression right;
       ret = ConditionalOrExpression();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case HOOK:
          jj_consume_token(HOOK);
          left = Expression();
@@ -2573,7 +2573,7 @@ final class ASTParser implements ASTParserConstants {
       Expression right;
       ret = ConditionalAndExpression();
       label_41: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case SC_OR:
             ;
             break;
@@ -2598,7 +2598,7 @@ final class ASTParser implements ASTParserConstants {
       Expression right;
       ret = InclusiveOrExpression();
       label_42: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case SC_AND:
             ;
             break;
@@ -2623,7 +2623,7 @@ final class ASTParser implements ASTParserConstants {
       Expression right;
       ret = ExclusiveOrExpression();
       label_43: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BIT_OR:
             ;
             break;
@@ -2648,7 +2648,7 @@ final class ASTParser implements ASTParserConstants {
       Expression right;
       ret = AndExpression();
       label_44: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case XOR:
             ;
             break;
@@ -2673,7 +2673,7 @@ final class ASTParser implements ASTParserConstants {
       Expression right;
       ret = EqualityExpression();
       label_45: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BIT_AND:
             ;
             break;
@@ -2699,7 +2699,7 @@ final class ASTParser implements ASTParserConstants {
       BinaryExpr.Operator op;
       ret = InstanceOfExpression();
       label_46: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case EQ:
          case NE:
             ;
@@ -2708,7 +2708,7 @@ final class ASTParser implements ASTParserConstants {
             jj_la1[88] = jj_gen;
             break label_46;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case EQ:
             jj_consume_token(EQ);
             op = BinaryExpr.Operator.equals;
@@ -2736,7 +2736,7 @@ final class ASTParser implements ASTParserConstants {
       Expression ret;
       Type type;
       ret = RelationalExpression();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case INSTANCEOF:
          jj_consume_token(INSTANCEOF);
          type = Type();
@@ -2759,7 +2759,7 @@ final class ASTParser implements ASTParserConstants {
       BinaryExpr.Operator op;
       ret = ShiftExpression();
       label_47: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LT:
          case LE:
          case GE:
@@ -2770,7 +2770,7 @@ final class ASTParser implements ASTParserConstants {
             jj_la1[91] = jj_gen;
             break label_47;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LT:
             jj_consume_token(LT);
             op = BinaryExpr.Operator.less;
@@ -2813,7 +2813,7 @@ final class ASTParser implements ASTParserConstants {
          } else {
             break label_48;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LSHIFT:
             jj_consume_token(LSHIFT);
             op = BinaryExpr.Operator.lShift;
@@ -2847,7 +2847,7 @@ final class ASTParser implements ASTParserConstants {
       BinaryExpr.Operator op;
       ret = MultiplicativeExpression();
       label_49: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PLUS:
          case MINUS:
             ;
@@ -2856,7 +2856,7 @@ final class ASTParser implements ASTParserConstants {
             jj_la1[94] = jj_gen;
             break label_49;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PLUS:
             jj_consume_token(PLUS);
             op = BinaryExpr.Operator.plus;
@@ -2886,7 +2886,7 @@ final class ASTParser implements ASTParserConstants {
       BinaryExpr.Operator op;
       ret = UnaryExpression();
       label_50: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case STAR:
          case SLASH:
          case REM:
@@ -2896,7 +2896,7 @@ final class ASTParser implements ASTParserConstants {
             jj_la1[96] = jj_gen;
             break label_50;
          }
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case STAR:
             jj_consume_token(STAR);
             op = BinaryExpr.Operator.times;
@@ -2929,7 +2929,7 @@ final class ASTParser implements ASTParserConstants {
       UnaryExpr.Operator op;
       int line = 0;
       int column = 0;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case INCR:
          ret = PreIncrementExpression();
          break;
@@ -2938,7 +2938,7 @@ final class ASTParser implements ASTParserConstants {
          break;
       case PLUS:
       case MINUS:
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case PLUS:
             jj_consume_token(PLUS);
             op = UnaryExpr.Operator.positive;
@@ -3044,10 +3044,10 @@ final class ASTParser implements ASTParserConstants {
       UnaryExpr.Operator op;
       int line = 0;
       int column = 0;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BANG:
       case TILDE:
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case TILDE:
             jj_consume_token(TILDE);
             op = UnaryExpr.Operator.inverse;
@@ -3073,7 +3073,7 @@ final class ASTParser implements ASTParserConstants {
          if (jj_2_22(2147483647)) {
             ret = CastExpression();
          } else {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case BOOLEAN:
             case BYTE:
             case CHAR:
@@ -3117,7 +3117,7 @@ final class ASTParser implements ASTParserConstants {
       UnaryExpr.Operator op;
       ret = PrimaryExpression();
       if (jj_2_23(2)) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case INCR:
             jj_consume_token(INCR);
             op = UnaryExpr.Operator.posIncrement;
@@ -3155,7 +3155,7 @@ final class ASTParser implements ASTParserConstants {
       line = token.beginLine;
       column = token.beginColumn;
       label_51: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -3173,7 +3173,7 @@ final class ASTParser implements ASTParserConstants {
          type.setAnnotations(annotations);
          ret = new CastExpr(line, column, token.endLine, token.endColumn, type, ret);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BOOLEAN:
          case BYTE:
          case CHAR:
@@ -3186,7 +3186,7 @@ final class ASTParser implements ASTParserConstants {
             type = ReferenceType();
             secondaryTypes = add(secondaryTypes, type);
             label_52: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case BIT_AND:
                   ;
                   break;
@@ -3270,7 +3270,7 @@ final class ASTParser implements ASTParserConstants {
       int column;
       Parameter p = null;
       VariableDeclaratorId id = null;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case FALSE:
       case NULL:
       case TRUE:
@@ -3288,10 +3288,10 @@ final class ASTParser implements ASTParserConstants {
       case SUPER:
          jj_consume_token(SUPER);
          ret = new SuperExpr(token.beginLine, token.beginColumn, token.endLine, token.endColumn, null);
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case DOT:
             jj_consume_token(DOT);
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case LT:
             case 132:
                typeArgs = TypeArguments();
@@ -3303,7 +3303,7 @@ final class ASTParser implements ASTParserConstants {
             }
             jj_consume_token(IDENTIFIER);
             name = token.image;
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case LPAREN:
                args = Arguments();
                hasArgs = true;
@@ -3318,7 +3318,7 @@ final class ASTParser implements ASTParserConstants {
             break;
          case DOUBLECOLON:
             jj_consume_token(DOUBLECOLON);
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case LT:
                typeArgs = TypeParameters();
                typeArgs.remove(0);
@@ -3327,7 +3327,7 @@ final class ASTParser implements ASTParserConstants {
                jj_la1[109] = jj_gen;
                ;
             }
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
                jj_consume_token(IDENTIFIER);
                break;
@@ -3357,7 +3357,7 @@ final class ASTParser implements ASTParserConstants {
          jj_consume_token(LPAREN);
          line = token.beginLine;
          column = token.beginColumn;
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case BOOLEAN:
          case BYTE:
@@ -3401,7 +3401,7 @@ final class ASTParser implements ASTParserConstants {
             if (jj_2_27(2147483647)) {
                p = FormalParameter();
                isLambda = true;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case COMMA:
                   args = FormalLambdaParameters();
                   break;
@@ -3410,7 +3410,7 @@ final class ASTParser implements ASTParserConstants {
                   ;
                }
             } else {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case BOOLEAN:
                case BYTE:
                case CHAR:
@@ -3440,7 +3440,7 @@ final class ASTParser implements ASTParserConstants {
                case PLUS:
                case MINUS:
                   ret = Expression();
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case COMMA:
                      args = InferredLambdaParameters();
                      isLambda = true;
@@ -3491,7 +3491,7 @@ final class ASTParser implements ASTParserConstants {
          } else if (jj_2_29(2147483647)) {
             type = ResultType();
             jj_consume_token(DOUBLECOLON);
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case LT:
                typeArgs = TypeParameters();
                typeArgs.remove(0);
@@ -3500,7 +3500,7 @@ final class ASTParser implements ASTParserConstants {
                jj_la1[116] = jj_gen;
                ;
             }
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
                jj_consume_token(IDENTIFIER);
                break;
@@ -3516,13 +3516,13 @@ final class ASTParser implements ASTParserConstants {
             ret = new MethodReferenceExpr(ret.getBeginLine(), ret.getBeginColumn(), token.endLine, token.endColumn,
                   ret, typeArgs, token.image);
          } else {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case IDENTIFIER:
                jj_consume_token(IDENTIFIER);
                name = token.image;
                line = token.beginLine;
                column = token.beginColumn;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LPAREN:
                   args = Arguments();
                   ret = new MethodCallExpr(line, column, token.endLine, token.endColumn, null, null, name, args);
@@ -3554,7 +3554,7 @@ final class ASTParser implements ASTParserConstants {
       if (jj_2_30(2)) {
          ret = PrimarySuffixWithoutSuper(scope);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case DOT:
             jj_consume_token(DOT);
             jj_consume_token(SUPER);
@@ -3579,10 +3579,10 @@ final class ASTParser implements ASTParserConstants {
       List args = null;
       boolean hasArgs = false;
       String name;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case DOT:
          jj_consume_token(DOT);
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case THIS:
             jj_consume_token(THIS);
             ret = new ThisExpr(scope.getBeginLine(), scope.getBeginColumn(), token.endLine, token.endColumn, scope);
@@ -3593,7 +3593,7 @@ final class ASTParser implements ASTParserConstants {
          default:
             jj_la1[124] = jj_gen;
             if (jj_2_31(2147483647)) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LT:
                case 132:
                   typeArgs = TypeArguments();
@@ -3605,7 +3605,7 @@ final class ASTParser implements ASTParserConstants {
                }
                jj_consume_token(IDENTIFIER);
                name = token.image;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LPAREN:
                   args = Arguments();
                   hasArgs = true;
@@ -3644,7 +3644,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Expression Literal() throws ParseException {
       Expression ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case INTEGER_LITERAL:
          jj_consume_token(INTEGER_LITERAL);
          ret = new IntegerLiteralExpr(token.beginLine, token.beginColumn, token.endLine, token.endColumn, token.image);
@@ -3688,7 +3688,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Expression BooleanLiteral() throws ParseException {
       Expression ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case TRUE:
          jj_consume_token(TRUE);
          ret = new BooleanLiteralExpr(token.beginLine, token.beginColumn, token.endLine, token.endColumn, true);
@@ -3721,7 +3721,7 @@ final class ASTParser implements ASTParserConstants {
    final public List Arguments() throws ParseException {
       List ret = null;
       jj_consume_token(LPAREN);
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -3770,7 +3770,7 @@ final class ASTParser implements ASTParserConstants {
       expr = Expression();
       ret.add(expr);
       label_55: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -3810,7 +3810,7 @@ final class ASTParser implements ASTParserConstants {
          column = scope.getBeginColumn();
       }
       label_56: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -3821,7 +3821,7 @@ final class ASTParser implements ASTParserConstants {
          ann = Annotation();
          annotations = add(annotations, ann);
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -3847,12 +3847,12 @@ final class ASTParser implements ASTParserConstants {
       case IDENTIFIER:
       case LT:
       case 132:
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LT:
          case 132:
             typeArgs = TypeArguments();
             label_57: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -3870,7 +3870,7 @@ final class ASTParser implements ASTParserConstants {
             ;
          }
          type = ClassOrInterfaceType();
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LBRACKET:
          case AT:
             arr = ArrayDimsAndInits();
@@ -3928,7 +3928,7 @@ final class ASTParser implements ASTParserConstants {
       List annotations = null;
       AnnotationExpr ann;
       label_58: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ;
             break;
@@ -3960,7 +3960,7 @@ final class ASTParser implements ASTParserConstants {
                break label_60;
             }
             label_61: while (true) {
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case AT:
                   ;
                   break;
@@ -3980,13 +3980,13 @@ final class ASTParser implements ASTParserConstants {
          ret[0] = inits;
          ret[1] = new Integer(i);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case LBRACKET:
             label_62: while (true) {
                jj_consume_token(LBRACKET);
                jj_consume_token(RBRACKET);
                i++;
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case LBRACKET:
                   ;
                   break;
@@ -4023,7 +4023,7 @@ final class ASTParser implements ASTParserConstants {
       if (jj_2_36(2)) {
          ret = LabeledStatement();
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ASSERT:
             ret = AssertStatement();
             break;
@@ -4114,7 +4114,7 @@ final class ASTParser implements ASTParserConstants {
       line = token.beginLine;
       column = token.beginColumn;
       check = Expression();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case COLON:
          jj_consume_token(COLON);
          msg = Expression();
@@ -4184,7 +4184,7 @@ final class ASTParser implements ASTParserConstants {
          jj_consume_token(SEMICOLON);
          ret = new ExpressionStmt(expr.getBeginLine(), expr.getBeginColumn(), token.endLine, token.endColumn, expr);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ASSERT:
          case BOOLEAN:
          case BREAK:
@@ -4248,7 +4248,7 @@ final class ASTParser implements ASTParserConstants {
       var = VariableDeclarator();
       vars.add(var);
       label_63: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -4286,7 +4286,7 @@ final class ASTParser implements ASTParserConstants {
    final public Statement LambdaBody() throws ParseException {
       Expression expr;
       Statement n = null;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -4346,7 +4346,7 @@ final class ASTParser implements ASTParserConstants {
       if (jj_2_39(2)) {
          expr = PreIncrementExpression();
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case DECR:
             expr = PreDecrementExpression();
             break;
@@ -4373,7 +4373,7 @@ final class ASTParser implements ASTParserConstants {
          case IDENTIFIER:
          case LPAREN:
             expr = PrimaryExpression();
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case ASSIGN:
             case INCR:
             case DECR:
@@ -4390,7 +4390,7 @@ final class ASTParser implements ASTParserConstants {
             case RUNSIGNEDSHIFTASSIGN:
             case ARROW:
             case DOUBLECOLON:
-               switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+               switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                case INCR:
                   jj_consume_token(INCR);
                   expr = new UnaryExpr(expr.getBeginLine(), expr.getBeginColumn(), token.endLine, token.endColumn,
@@ -4420,7 +4420,7 @@ final class ASTParser implements ASTParserConstants {
                   break;
                case DOUBLECOLON:
                   jj_consume_token(DOUBLECOLON);
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case LT:
                      typeArgs = TypeParameters();
                      typeArgs.remove(0);
@@ -4429,7 +4429,7 @@ final class ASTParser implements ASTParserConstants {
                      jj_la1[144] = jj_gen;
                      ;
                   }
-                  switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+                  switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
                   case IDENTIFIER:
                      jj_consume_token(IDENTIFIER);
                      break;
@@ -4493,7 +4493,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(RPAREN);
       jj_consume_token(LBRACE);
       label_64: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case CASE:
          case _DEFAULT:
             ;
@@ -4518,7 +4518,7 @@ final class ASTParser implements ASTParserConstants {
       List stmts;
       int line;
       int column;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case CASE:
          jj_consume_token(CASE);
          line = token.beginLine;
@@ -4557,7 +4557,7 @@ final class ASTParser implements ASTParserConstants {
       condition = Expression();
       jj_consume_token(RPAREN);
       thenStmt = Statement();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case ELSE:
          jj_consume_token(ELSE);
          elseStmt = Statement();
@@ -4631,7 +4631,7 @@ final class ASTParser implements ASTParserConstants {
          jj_consume_token(COLON);
          expr = Expression();
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case BOOLEAN:
          case BYTE:
@@ -4673,7 +4673,7 @@ final class ASTParser implements ASTParserConstants {
          case DECR:
          case PLUS:
          case MINUS:
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case ABSTRACT:
             case BOOLEAN:
             case BYTE:
@@ -4721,7 +4721,7 @@ final class ASTParser implements ASTParserConstants {
                ;
             }
             jj_consume_token(SEMICOLON);
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case BOOLEAN:
             case BYTE:
             case CHAR:
@@ -4757,7 +4757,7 @@ final class ASTParser implements ASTParserConstants {
                ;
             }
             jj_consume_token(SEMICOLON);
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case BOOLEAN:
             case BYTE:
             case CHAR:
@@ -4822,7 +4822,7 @@ final class ASTParser implements ASTParserConstants {
          ret = new LinkedList();
          ret.add(expr);
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case BOOLEAN:
          case BYTE:
          case CHAR:
@@ -4872,7 +4872,7 @@ final class ASTParser implements ASTParserConstants {
       expr = Expression();
       ret.add(expr);
       label_65: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -4908,7 +4908,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(BREAK);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IDENTIFIER:
          jj_consume_token(IDENTIFIER);
          id = token.image;
@@ -4932,7 +4932,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(CONTINUE);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IDENTIFIER:
          jj_consume_token(IDENTIFIER);
          id = token.image;
@@ -4956,7 +4956,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(RETURN);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -5052,7 +5052,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(TRY);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case LPAREN:
          resources = ResourceSpecification();
          break;
@@ -5062,7 +5062,7 @@ final class ASTParser implements ASTParserConstants {
       }
       tryBlock = Block();
       label_66: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case CATCH:
             ;
             break;
@@ -5078,7 +5078,7 @@ final class ASTParser implements ASTParserConstants {
          exceptType = Type();
          exceptTypes.add(exceptType);
          label_67: while (true) {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case BIT_OR:
                ;
                break;
@@ -5097,7 +5097,7 @@ final class ASTParser implements ASTParserConstants {
                exceptModifier.annotations, exceptTypes, exceptId, catchBlock));
          exceptTypes = new LinkedList();
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case FINALLY:
          jj_consume_token(FINALLY);
          finallyBlock = Block();
@@ -5188,7 +5188,7 @@ final class ASTParser implements ASTParserConstants {
       } else if (jj_2_45(2147483647)) {
          ret = SingleMemberAnnotation();
       } else {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case AT:
             ret = MarkerAnnotation();
             break;
@@ -5215,7 +5215,7 @@ final class ASTParser implements ASTParserConstants {
       column = token.beginColumn;
       name = Name();
       jj_consume_token(LPAREN);
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case IDENTIFIER:
          pairs = MemberValuePairs();
          break;
@@ -5271,7 +5271,7 @@ final class ASTParser implements ASTParserConstants {
       pair = MemberValuePair();
       ret.add(pair);
       label_69: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case COMMA:
             ;
             break;
@@ -5310,7 +5310,7 @@ final class ASTParser implements ASTParserConstants {
 
    final public Expression MemberValue() throws ParseException {
       Expression ret;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case AT:
          ret = Annotation();
          break;
@@ -5367,7 +5367,7 @@ final class ASTParser implements ASTParserConstants {
       jj_consume_token(LBRACE);
       line = token.beginLine;
       column = token.beginColumn;
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case BOOLEAN:
       case BYTE:
       case CHAR:
@@ -5415,7 +5415,7 @@ final class ASTParser implements ASTParserConstants {
          jj_la1[169] = jj_gen;
          ;
       }
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case COMMA:
          jj_consume_token(COMMA);
          break;
@@ -5459,7 +5459,7 @@ final class ASTParser implements ASTParserConstants {
       BodyDeclaration member;
       jj_consume_token(LBRACE);
       label_71: while (true) {
-         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+         switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
          case ABSTRACT:
          case BOOLEAN:
          case BYTE:
@@ -5506,7 +5506,7 @@ final class ASTParser implements ASTParserConstants {
       Modifier modifier;
       BodyDeclaration ret;
       pushJavadoc();
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case SEMICOLON:
          jj_consume_token(SEMICOLON);
          ret = new EmptyTypeDeclaration(token.beginLine, token.beginColumn, token.endLine, token.endColumn,
@@ -5540,7 +5540,7 @@ final class ASTParser implements ASTParserConstants {
          if (jj_2_47(2147483647)) {
             ret = AnnotationTypeMemberDeclaration(modifier);
          } else {
-            switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
             case CLASS:
             case INTERFACE:
                ret = ClassOrInterfaceDeclaration(modifier);
@@ -5590,7 +5590,7 @@ final class ASTParser implements ASTParserConstants {
       name = token.image;
       jj_consume_token(LPAREN);
       jj_consume_token(RPAREN);
-      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      switch (jj_ntk == -1 ? jj_ntk() : jj_ntk) {
       case _DEFAULT:
          defaultVal = DefaultValue();
          break;
@@ -10876,7 +10876,7 @@ final class ASTParser implements ASTParserConstants {
       if ((jj_nt = token.next) == null)
          return (jj_ntk = (token.next = token_source.getNextToken()).kind);
       else
-         return (jj_ntk = jj_nt.kind);
+         return jj_ntk = jj_nt.kind;
    }
 
    private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
@@ -10896,7 +10896,7 @@ final class ASTParser implements ASTParserConstants {
             jj_expentry[i] = jj_lasttokens[i];
          }
          jj_entries_loop: for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext();) {
-            int[] oldentry = (int[]) (it.next());
+            int[] oldentry = (int[]) it.next();
             if (oldentry.length == jj_expentry.length) {
                for (int i = 0; i < jj_expentry.length; i++) {
                   if (oldentry[i] != jj_expentry[i]) {

@@ -291,7 +291,7 @@ public class ASTManager {
 					throw new ParseException("The " + clazz.getSimpleName()
 							+ " cannot be parseable");
 				} catch (InvocationTargetException e) {
-					throw (ParseException) (e.getTargetException());
+					throw (ParseException) e.getTargetException();
 				}
 			} finally {
 				sr.close();
