@@ -1,18 +1,17 @@
-/* 
-  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
- 
- Walkmod is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- Walkmod is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- 
- You should have received a copy of the GNU Lesser General Public License
- along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+/*
+ * Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ * 
+ * Walkmod is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Walkmod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Walkmod. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
 package org.walkmod.javalang.ast;
 
 import java.util.HashMap;
@@ -56,8 +55,7 @@ public final class TypeParameter extends Node implements SymbolDefinition {
 
     private int scopeLevel = 0;
 
-    public TypeParameter() {
-    }
+    public TypeParameter() {}
 
     public TypeParameter(String name, List<ClassOrInterfaceType> typeBound) {
         this.name = name;
@@ -189,8 +187,7 @@ public final class TypeParameter extends Node implements SymbolDefinition {
     }
 
     @Override
-    public void setBodyReferences(List<SymbolReference> bodyReferences) {
-    }
+    public void setBodyReferences(List<SymbolReference> bodyReferences) {}
 
     @Override
     public boolean addBodyReference(SymbolReference bodyReference) {
@@ -213,15 +210,15 @@ public final class TypeParameter extends Node implements SymbolDefinition {
         if (annotations != null) {
             List<AnnotationExpr> auxAnnotations = new LinkedList<AnnotationExpr>(annotations);
             update = replaceChildNodeInList(oldChild, newChild, auxAnnotations);
-            if(update){
+            if (update) {
                 annotations = auxAnnotations;
             }
         }
-        if(!update && typeBound != null){
+        if (!update && typeBound != null) {
             List<ClassOrInterfaceType> auxTypeBound = new LinkedList<ClassOrInterfaceType>(typeBound);
             update = replaceChildNodeInList(oldChild, newChild, auxTypeBound);
         }
-       
+
         return update;
     }
 

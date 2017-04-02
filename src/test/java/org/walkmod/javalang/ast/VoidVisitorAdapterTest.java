@@ -9,19 +9,19 @@ import org.walkmod.javalang.visitors.VoidVisitorAdapter;
 
 public class VoidVisitorAdapterTest {
 
-	class MyVisitor extends VoidVisitorAdapter {
+    class MyVisitor extends VoidVisitorAdapter {
 
-	};
+    };
 
-	@Test
-	public void testVisit() throws Exception {
-		File f = new File("src/test/resources/source1.8.txt");
-		CompilationUnit cu = ASTManager.parse(f);
-		Assert.assertNotNull(cu);
-		VoidVisitorAdapter vva = new MyVisitor();
+    @Test
+    public void testVisit() throws Exception {
+        File f = new File("src/test/resources/source1.8.txt");
+        CompilationUnit cu = ASTManager.parse(f);
+        Assert.assertNotNull(cu);
+        VoidVisitorAdapter vva = new MyVisitor();
 
-		vva.visit(cu, null);
+        vva.visit(cu, null);
 
-		Assert.assertTrue(true);
-	}
+        Assert.assertTrue(true);
+    }
 }

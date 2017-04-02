@@ -1,18 +1,17 @@
-/* 
-  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
- 
- Walkmod is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- Walkmod is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- 
- You should have received a copy of the GNU Lesser General Public License
- along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+/*
+ * Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ * 
+ * Walkmod is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Walkmod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Walkmod. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
 package org.walkmod.javalang.ast;
 
 import java.util.LinkedList;
@@ -28,60 +27,59 @@ import java.util.List;
  */
 public abstract class Comment extends Node {
 
-   private String content;
+    private String content;
 
-   public Comment() {
-   }
+    public Comment() {}
 
-   public Comment(String content) {
-      this.content = content;
-   }
+    public Comment(String content) {
+        this.content = content;
+    }
 
-   public Comment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      this.content = content;
-   }
+    public Comment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        this.content = content;
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      return false;
-   }
+    @Override
+    public boolean removeChild(Node child) {
+        return false;
+    }
 
-   /**
+    /**
     * Return the text of the comment.
     * 
     * @return text of the comment
     */
-   public final String getContent() {
-      return content;
-   }
+    public final String getContent() {
+        return content;
+    }
 
-   /**
+    /**
     * Sets the text of the comment.
     * 
     * @param content
     *           the text of the comment to set
     */
-   public void setContent(String content) {
-      this.content = content;
-   }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-   @Override
-   public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
-      String text = super.getPrettySource(indentationChar, indentationLevel, indentationSize);
-      if (!text.endsWith("\n")) {
-         text += "\n";
-      }
-      return text;
-   }
+    @Override
+    public String getPrettySource(char indentationChar, int indentationLevel, int indentationSize) {
+        String text = super.getPrettySource(indentationChar, indentationLevel, indentationSize);
+        if (!text.endsWith("\n")) {
+            text += "\n";
+        }
+        return text;
+    }
 
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      return false;
-   }
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        return false;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      return new LinkedList<Node>();
-   }
+    @Override
+    public List<Node> getChildren() {
+        return new LinkedList<Node>();
+    }
 
 }

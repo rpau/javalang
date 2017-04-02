@@ -1,18 +1,17 @@
-/* 
-  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
- 
- Walkmod is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- Walkmod is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- 
- You should have received a copy of the GNU Lesser General Public License
- along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+/*
+ * Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ * 
+ * Walkmod is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Walkmod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Walkmod. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
 package org.walkmod.javalang.ast;
 
 import java.util.LinkedList;
@@ -45,128 +44,127 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class PackageDeclaration extends Node {
 
-   private List<AnnotationExpr> annotations;
+    private List<AnnotationExpr> annotations;
 
-   private NameExpr name;
+    private NameExpr name;
 
-   public PackageDeclaration() {
-   }
+    public PackageDeclaration() {}
 
-   public PackageDeclaration(NameExpr name) {
-      setName(name);
-   }
+    public PackageDeclaration(NameExpr name) {
+        setName(name);
+    }
 
-   public PackageDeclaration(List<AnnotationExpr> annotations, NameExpr name) {
-      setAnnotations(annotations);
-      setName(name);
-   }
+    public PackageDeclaration(List<AnnotationExpr> annotations, NameExpr name) {
+        setAnnotations(annotations);
+        setName(name);
+    }
 
-   public PackageDeclaration(int beginLine, int beginColumn, int endLine, int endColumn,
-         List<AnnotationExpr> annotations, NameExpr name) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setAnnotations(annotations);
-      setName(name);
-   }
+    public PackageDeclaration(int beginLine, int beginColumn, int endLine, int endColumn,
+            List<AnnotationExpr> annotations, NameExpr name) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setAnnotations(annotations);
+        setName(name);
+    }
 
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if (child != null) {
-         if (child instanceof AnnotationExpr) {
-            List<AnnotationExpr> annotationAux = new LinkedList<AnnotationExpr>(annotations);
-            result = annotationAux.remove(child);
-            annotations = annotationAux;
-         } else if (child == name && name != null) {
-            name = (NameExpr) child;
-            result = true;
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (child instanceof AnnotationExpr) {
+                List<AnnotationExpr> annotationAux = new LinkedList<AnnotationExpr>(annotations);
+                result = annotationAux.remove(child);
+                annotations = annotationAux;
+            } else if (child == name && name != null) {
+                name = (NameExpr) child;
+                result = true;
+            }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (annotations != null) {
-         children.addAll(annotations);
-      }
-      if (name != null) {
-         children.add(name);
-      }
-      return children;
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (annotations != null) {
+            children.addAll(annotations);
+        }
+        if (name != null) {
+            children.add(name);
+        }
+        return children;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   /**
+    /**
     * Retrieves the list of annotations declared before the package declaration. Return
     * <code>null</code> if there are no annotations.
     * 
     * @return list of annotations or <code>null</code>
     */
-   public List<AnnotationExpr> getAnnotations() {
-      return annotations;
-   }
+    public List<AnnotationExpr> getAnnotations() {
+        return annotations;
+    }
 
-   /**
+    /**
     * Return the name of the package.
     * 
     * @return the name of the package
     */
-   public NameExpr getName() {
-      return name;
-   }
+    public NameExpr getName() {
+        return name;
+    }
 
-   /**
+    /**
     * @param annotations
     *           the annotations to set
     */
-   public void setAnnotations(List<AnnotationExpr> annotations) {
-      this.annotations = annotations;
-      setAsParentNodeOf(annotations);
-   }
+    public void setAnnotations(List<AnnotationExpr> annotations) {
+        this.annotations = annotations;
+        setAsParentNodeOf(annotations);
+    }
 
-   /**
+    /**
     * Sets the name of this package declaration.
     * 
     * @param name
     *           the name to set
     */
-   public void setName(NameExpr name) {
-      if (this.name != null) {
-         updateReferences(this.name);
-      }
-      this.name = name;
-      setAsParentNodeOf(name);
-   }
+    public void setName(NameExpr name) {
+        if (this.name != null) {
+            updateReferences(this.name);
+        }
+        this.name = name;
+        setAsParentNodeOf(name);
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      if (name == oldChild) {
-         setName((NameExpr) newChild);
-         return true;
-      }
-      return false;
-   }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        if (name == oldChild) {
+            setName((NameExpr) newChild);
+            return true;
+        }
+        return false;
+    }
 
-   @Override
-   public PackageDeclaration clone() throws CloneNotSupportedException {
-      return new PackageDeclaration(clone(annotations), clone(name));
-   }
+    @Override
+    public PackageDeclaration clone() throws CloneNotSupportedException {
+        return new PackageDeclaration(clone(annotations), clone(name));
+    }
 }

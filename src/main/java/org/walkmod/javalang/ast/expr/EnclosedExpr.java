@@ -1,18 +1,17 @@
-/* 
-  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
- 
- Walkmod is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- Walkmod is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- 
- You should have received a copy of the GNU Lesser General Public License
- along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+/*
+ * Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ * 
+ * Walkmod is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Walkmod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Walkmod. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
 package org.walkmod.javalang.ast.expr;
 
 import java.util.LinkedList;
@@ -27,87 +26,86 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class EnclosedExpr extends Expression {
 
-   private Expression inner;
+    private Expression inner;
 
-   public EnclosedExpr() {
-   }
+    public EnclosedExpr() {}
 
-   public EnclosedExpr(Expression inner) {
-      setInner(inner);
-   }
+    public EnclosedExpr(Expression inner) {
+        setInner(inner);
+    }
 
-   public EnclosedExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression inner) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setInner(inner);
-   }
-   
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if(child != null){
-         if(inner == child){
-            inner = null;
-            result = true;
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+    public EnclosedExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression inner) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setInner(inner);
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (inner != null) {
-         children.add(inner);
-      }
-      return children;
-   }
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (inner == child) {
+                inner = null;
+                result = true;
+            }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (inner != null) {
+            children.add(inner);
+        }
+        return children;
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   public Expression getInner() {
-      return inner;
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public void setInner(Expression inner) {
-      if (this.inner != null) {
-         updateReferences(this.inner);
-      }
-      this.inner = inner;
-      setAsParentNodeOf(inner);
-   }
+    public Expression getInner() {
+        return inner;
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
+    public void setInner(Expression inner) {
+        if (this.inner != null) {
+            updateReferences(this.inner);
+        }
+        this.inner = inner;
+        setAsParentNodeOf(inner);
+    }
 
-      if (oldChild == inner) {
-         setInner((Expression) newChild);
-         updated = true;
-      }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
 
-      return updated;
-   }
+        if (oldChild == inner) {
+            setInner((Expression) newChild);
+            updated = true;
+        }
 
-   @Override
-   public EnclosedExpr clone() throws CloneNotSupportedException {
+        return updated;
+    }
 
-      return new EnclosedExpr(clone(inner));
-   }
+    @Override
+    public EnclosedExpr clone() throws CloneNotSupportedException {
+
+        return new EnclosedExpr(clone(inner));
+    }
 
 }

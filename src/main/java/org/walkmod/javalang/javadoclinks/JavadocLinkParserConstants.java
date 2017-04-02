@@ -8,42 +8,32 @@ package org.walkmod.javalang.javadoclinks;
  */
 public interface JavadocLinkParserConstants {
 
-  /** End of File. */
-  int EOF = 0;
-  /** RegularExpression Id. */
-  int OPENPAR = 1;
-  /** RegularExpression Id. */
-  int CLOSEPAR = 2;
-  /** RegularExpression Id. */
-  int SEPARATOR = 3;
-  /** RegularExpression Id. */
-  int COMMA = 4;
-  /** RegularExpression Id. */
-  int DOT = 5;
-  /** RegularExpression Id. */
-  int IDENTIFIER = 6;
-  /** RegularExpression Id. */
-  int LETTER = 7;
-  /** RegularExpression Id. */
-  int PART_LETTER = 8;
-  /** RegularExpression Id. */
-  int SPACE = 9;
+    /** End of File. */
+    int EOF = 0;
+    /** RegularExpression Id. */
+    int OPENPAR = 1;
+    /** RegularExpression Id. */
+    int CLOSEPAR = 2;
+    /** RegularExpression Id. */
+    int SEPARATOR = 3;
+    /** RegularExpression Id. */
+    int COMMA = 4;
+    /** RegularExpression Id. */
+    int DOT = 5;
+    /** RegularExpression Id. */
+    int IDENTIFIER = 6;
+    /** RegularExpression Id. */
+    int LETTER = 7;
+    /** RegularExpression Id. */
+    int PART_LETTER = 8;
+    /** RegularExpression Id. */
+    int SPACE = 9;
 
-  /** Lexical state. */
-  int DEFAULT = 0;
+    /** Lexical state. */
+    int DEFAULT = 0;
 
-  /** Literal token values. */
-  String[] tokenImage = {
-    "<EOF>",
-    "\"(\"",
-    "\")\"",
-    "\"#\"",
-    "\",\"",
-    "\".\"",
-    "<IDENTIFIER>",
-    "<LETTER>",
-    "<PART_LETTER>",
-    "<SPACE>",
-  };
+    /** Literal token values. */
+    String[] tokenImage = {"<EOF>", "\"(\"", "\")\"", "\"#\"", "\",\"", "\".\"", "<IDENTIFIER>", "<LETTER>",
+            "<PART_LETTER>", "<SPACE>",};
 
 }

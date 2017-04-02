@@ -1,18 +1,17 @@
-/* 
-  Copyright (C) 2013 Raquel Pau and Albert Coroleu.
- 
- Walkmod is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- Walkmod is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- 
- You should have received a copy of the GNU Lesser General Public License
- along with Walkmod.  If not, see <http://www.gnu.org/licenses/>.*/
+/*
+ * Copyright (C) 2013 Raquel Pau and Albert Coroleu.
+ * 
+ * Walkmod is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Walkmod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Walkmod. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
 package org.walkmod.javalang.ast.expr;
 
 import java.util.LinkedList;
@@ -27,101 +26,100 @@ import org.walkmod.javalang.visitors.VoidVisitor;
  */
 public final class UnaryExpr extends Expression {
 
-   public static enum Operator {
+    public static enum Operator {
 
-      positive, negative, preIncrement, preDecrement, not, inverse, posIncrement, posDecrement
-   }
+        positive, negative, preIncrement, preDecrement, not, inverse, posIncrement, posDecrement
+    }
 
-   private Expression expr;
+    private Expression expr;
 
-   private Operator op;
+    private Operator op;
 
-   public UnaryExpr() {
-   }
+    public UnaryExpr() {}
 
-   public UnaryExpr(Expression expr, Operator op) {
-      setExpr(expr);
-      this.op = op;
-   }
+    public UnaryExpr(Expression expr, Operator op) {
+        setExpr(expr);
+        this.op = op;
+    }
 
-   public UnaryExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Operator op) {
-      super(beginLine, beginColumn, endLine, endColumn);
-      setExpr(expr);
-      this.op = op;
-   }
-   
-   @Override
-   public boolean removeChild(Node child) {
-      boolean result = false;
-      if(child != null){
-         if(expr == child){
-            expr = null;
-            result = true;
-         }
-      }
-      if(result){
-         updateReferences(child);
-      }
-      return result;
-   }
+    public UnaryExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Operator op) {
+        super(beginLine, beginColumn, endLine, endColumn);
+        setExpr(expr);
+        this.op = op;
+    }
 
-   @Override
-   public List<Node> getChildren() {
-      List<Node> children = new LinkedList<Node>();
-      if (expr != null) {
-         children.add(expr);
-      }
-      return children;
-   }
+    @Override
+    public boolean removeChild(Node child) {
+        boolean result = false;
+        if (child != null) {
+            if (expr == child) {
+                expr = null;
+                result = true;
+            }
+        }
+        if (result) {
+            updateReferences(child);
+        }
+        return result;
+    }
 
-   @Override
-   public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-      if (!check()) {
-         return null;
-      }
-      return v.visit(this, arg);
-   }
+    @Override
+    public List<Node> getChildren() {
+        List<Node> children = new LinkedList<Node>();
+        if (expr != null) {
+            children.add(expr);
+        }
+        return children;
+    }
 
-   @Override
-   public <A> void accept(VoidVisitor<A> v, A arg) {
-      if (check()) {
-         v.visit(this, arg);
-      }
-   }
+    @Override
+    public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+        if (!check()) {
+            return null;
+        }
+        return v.visit(this, arg);
+    }
 
-   public Expression getExpr() {
-      return expr;
-   }
+    @Override
+    public <A> void accept(VoidVisitor<A> v, A arg) {
+        if (check()) {
+            v.visit(this, arg);
+        }
+    }
 
-   public Operator getOperator() {
-      return op;
-   }
+    public Expression getExpr() {
+        return expr;
+    }
 
-   public void setExpr(Expression expr) {
-      if (this.expr != null) {
-         updateReferences(this.expr);
-      }
-      this.expr = expr;
-      setAsParentNodeOf(expr);
-   }
+    public Operator getOperator() {
+        return op;
+    }
 
-   public void setOperator(Operator op) {
-      this.op = op;
-   }
+    public void setExpr(Expression expr) {
+        if (this.expr != null) {
+            updateReferences(this.expr);
+        }
+        this.expr = expr;
+        setAsParentNodeOf(expr);
+    }
 
-   @Override
-   public boolean replaceChildNode(Node oldChild, Node newChild) {
-      boolean updated = false;
-      if (oldChild == expr) {
-         setExpr((Expression) newChild);
-         updated = true;
-      }
-      return updated;
-   }
+    public void setOperator(Operator op) {
+        this.op = op;
+    }
 
-   @Override
-   public UnaryExpr clone() throws CloneNotSupportedException {
-      return new UnaryExpr(clone(expr), op);
-   }
+    @Override
+    public boolean replaceChildNode(Node oldChild, Node newChild) {
+        boolean updated = false;
+        if (oldChild == expr) {
+            setExpr((Expression) newChild);
+            updated = true;
+        }
+        return updated;
+    }
+
+    @Override
+    public UnaryExpr clone() throws CloneNotSupportedException {
+        return new UnaryExpr(clone(expr), op);
+    }
 
 }
