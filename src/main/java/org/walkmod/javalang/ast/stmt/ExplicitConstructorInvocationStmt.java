@@ -17,6 +17,7 @@ package org.walkmod.javalang.ast.stmt;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.walkmod.javalang.ast.ConstructorSymbolData;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.expr.Expression;
 import org.walkmod.javalang.ast.type.Type;
@@ -114,6 +115,11 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 
     public Expression getExpr() {
         return expr;
+    }
+
+    @Override
+    public ConstructorSymbolData getSymbolData() {
+        return (ConstructorSymbolData) super.getSymbolData();
     }
 
     public List<Type> getTypeArgs() {
