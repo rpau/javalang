@@ -74,7 +74,7 @@ public final class ConstructorDeclaration extends BodyDeclaration
         this.modifiers = modifiers;
         this.typeParameters = typeParameters;
         this.name = name;
-        this.parameters = parameters;
+        setParameters(parameters);
         this.throws_ = throws_;
         this.block = block;
     }
@@ -86,7 +86,7 @@ public final class ConstructorDeclaration extends BodyDeclaration
         this.modifiers = modifiers;
         this.typeParameters = typeParameters;
         this.name = name;
-        this.parameters = parameters;
+        setParameters(parameters);
         this.throws_ = throws_;
         this.block = block;
     }
@@ -166,7 +166,7 @@ public final class ConstructorDeclaration extends BodyDeclaration
 
     /**
      * Return the modifiers of this member declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */
@@ -204,6 +204,7 @@ public final class ConstructorDeclaration extends BodyDeclaration
 
     public void setParameters(List<Parameter> parameters) {
         this.parameters = parameters;
+        setAsParentNodeOf(parameters);
     }
 
     public void setThrows(List<ClassOrInterfaceType> throws_) {
