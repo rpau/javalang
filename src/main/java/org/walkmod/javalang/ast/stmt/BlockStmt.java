@@ -14,7 +14,6 @@
  */
 package org.walkmod.javalang.ast.stmt;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +116,7 @@ public final class BlockStmt extends Statement implements ScopeAware {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        Map<String, SymbolDefinition> result = ScopeAwareUtil.getVariableDefinitions3(this);
+        Map<String, SymbolDefinition> result = ScopeAwareUtil.getVariableDefinitions(this);
         if (stmts != null) {
             for (Statement stmt : stmts) {
                 if (stmt instanceof ExpressionStmt) {

@@ -15,12 +15,9 @@
 
 package org.walkmod.javalang.ast.expr;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.visitors.GenericVisitor;
@@ -70,7 +67,7 @@ public final class MarkerAnnotationExpr extends AnnotationExpr {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(MarkerAnnotationExpr.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

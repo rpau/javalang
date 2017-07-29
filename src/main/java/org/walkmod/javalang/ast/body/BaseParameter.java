@@ -212,7 +212,7 @@ public abstract class BaseParameter extends Node implements SymbolDataAware<Symb
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(BaseParameter.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

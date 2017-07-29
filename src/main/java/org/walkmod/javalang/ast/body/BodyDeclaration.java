@@ -14,7 +14,6 @@
  */
 package org.walkmod.javalang.ast.body;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +131,7 @@ public abstract class BodyDeclaration extends Node implements ScopeAware {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(BodyDeclaration.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

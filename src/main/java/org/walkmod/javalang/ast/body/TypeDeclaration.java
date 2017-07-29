@@ -238,7 +238,7 @@ public abstract class TypeDeclaration extends BodyDeclaration
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        final ScopeAware scope = ScopeAwareUtil.findParentScope2(this);
+        final ScopeAware scope = ScopeAwareUtil.findParentScope(this);
         if (scope != null) {
             Map<String, List<SymbolDefinition>> aux = scope.getMethodDefinitions();
             List<BodyDeclaration> children = getMembers();
@@ -292,7 +292,7 @@ public abstract class TypeDeclaration extends BodyDeclaration
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        final ScopeAware scope = ScopeAwareUtil.findParentScope2(this);
+        final ScopeAware scope = ScopeAwareUtil.findParentScope(this);
         if (scope != null) {
             Map<String, SymbolDefinition> aux = scope.getVariableDefinitions();
             List<BodyDeclaration> children = getMembers();

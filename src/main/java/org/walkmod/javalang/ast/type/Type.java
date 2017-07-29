@@ -14,13 +14,11 @@
  */
 package org.walkmod.javalang.ast.type;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
@@ -110,7 +108,7 @@ public abstract class Type extends Node implements SymbolDataAware<SymbolData>, 
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(Type.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

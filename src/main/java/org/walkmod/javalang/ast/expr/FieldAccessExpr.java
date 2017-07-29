@@ -14,13 +14,11 @@
  */
 package org.walkmod.javalang.ast.expr;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -179,7 +177,7 @@ public final class FieldAccessExpr extends Expression implements SymbolReference
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(FieldAccessExpr.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

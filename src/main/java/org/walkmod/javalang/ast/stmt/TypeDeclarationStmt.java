@@ -14,12 +14,10 @@
  */
 package org.walkmod.javalang.ast.stmt;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -154,7 +152,7 @@ public final class TypeDeclarationStmt extends Statement implements SymbolDefini
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(TypeDeclarationStmt.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

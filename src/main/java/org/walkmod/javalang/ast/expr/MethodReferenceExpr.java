@@ -14,14 +14,12 @@
  */
 package org.walkmod.javalang.ast.expr;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
@@ -213,7 +211,7 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(MethodReferenceExpr.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override

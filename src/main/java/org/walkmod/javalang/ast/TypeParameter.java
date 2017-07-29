@@ -252,17 +252,17 @@ public final class TypeParameter extends Node implements SymbolDefinition {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions2(this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        return ScopeAwareUtil.getMethodDefinitions2(this);
+        return ScopeAwareUtil.getMethodDefinitions(this);
     }
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        return ScopeAwareUtil.getTypeDefinitions2(this);
+        return ScopeAwareUtil.getTypeDefinitions(this);
     }
 
     @Override

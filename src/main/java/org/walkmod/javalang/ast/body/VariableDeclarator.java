@@ -15,7 +15,6 @@
 package org.walkmod.javalang.ast.body;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,6 @@ import java.util.Map;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.Refactorizable;
 import org.walkmod.javalang.ast.Refactorization;
-import org.walkmod.javalang.ast.ScopeAware;
 import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -238,7 +236,7 @@ public final class VariableDeclarator extends Node
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        return ScopeAwareUtil.getVariableDefinitions(VariableDeclarator.this);
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override
