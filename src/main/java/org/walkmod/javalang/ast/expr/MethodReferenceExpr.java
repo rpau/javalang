@@ -22,6 +22,7 @@ import java.util.Map;
 import org.walkmod.javalang.ast.MethodSymbolData;
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.ScopeAware;
+import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
@@ -212,37 +213,16 @@ public class MethodReferenceExpr extends Expression implements SymbolReference {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getVariableDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getVariableDefinitions(MethodReferenceExpr.this);
     }
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getMethodDefinitions();
-        }
-        return new HashMap<String, List<SymbolDefinition>>();
+        return ScopeAwareUtil.getMethodDefinitions(MethodReferenceExpr.this);
     }
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getTypeDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getTypeDefinitions(MethodReferenceExpr.this);
     }
 }
