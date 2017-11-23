@@ -348,11 +348,11 @@ public final class CompilationUnit extends Node implements Mergeable<Compilation
     }
 
     public String getSimpleName() {
-        String name = "";
         if (getTypes() != null) {
-            name = getTypes().get(0).getName();
+            return getTypes().get(0).getName();
+        } else {
+            return "package-info";
         }
-        return name;
     }
 
     @Override

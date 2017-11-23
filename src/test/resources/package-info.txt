@@ -1,0 +1,7 @@
+/**
+ * Common package comments :)
+ */
+@VisibleForTesting
+package com.example.hello;
+
+import com.google.common.annotations.VisibleForTesting;
