@@ -14,7 +14,6 @@
  */
 package org.walkmod.javalang.ast.expr;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 /*
@@ -36,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
-import org.walkmod.javalang.ast.ScopeAware;
+import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolDefinition;
 import org.walkmod.javalang.ast.SymbolReference;
 import org.walkmod.javalang.ast.body.Parameter;
@@ -208,38 +207,17 @@ public class LambdaExpr extends Expression implements SymbolReference {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getVariableDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getMethodDefinitions();
-        }
-        return new HashMap<String, List<SymbolDefinition>>();
+        return ScopeAwareUtil.getMethodDefinitions(LambdaExpr.this);
     }
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && (parent instanceof ScopeAware)) {
-            return ((ScopeAware) parent).getTypeDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getTypeDefinitions(LambdaExpr.this);
     }
 
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.walkmod.javalang.ast.Node;
 import org.walkmod.javalang.ast.ScopeAware;
+import org.walkmod.javalang.ast.ScopeAwareUtil;
 import org.walkmod.javalang.ast.SymbolData;
 import org.walkmod.javalang.ast.SymbolDataAware;
 import org.walkmod.javalang.ast.SymbolDefinition;
@@ -237,12 +238,9 @@ public abstract class TypeDeclaration extends BodyDeclaration
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null) {
-            Map<String, List<SymbolDefinition>> aux = ((ScopeAware) parent).getMethodDefinitions();
+        final ScopeAware scope = ScopeAwareUtil.findParentScope(this);
+        if (scope != null) {
+            Map<String, List<SymbolDefinition>> aux = scope.getMethodDefinitions();
             List<BodyDeclaration> children = getMembers();
             if (children != null) {
                 for (BodyDeclaration child : children) {
@@ -264,12 +262,9 @@ public abstract class TypeDeclaration extends BodyDeclaration
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && !(parent instanceof ScopeAware)) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null && parent instanceof ScopeAware) {
-            Map<String, SymbolDefinition> aux = ((ScopeAware) parent).getVariableDefinitions();
+        final ScopeAware scope = ScopeAwareUtil.findParentScope(this);
+        if (scope != null) {
+            Map<String, SymbolDefinition> aux = scope.getVariableDefinitions();
             List<BodyDeclaration> children = getMembers();
             if (children != null) {
                 for (BodyDeclaration child : children) {
@@ -297,12 +292,9 @@ public abstract class TypeDeclaration extends BodyDeclaration
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null) {
-            Map<String, SymbolDefinition> aux = ((ScopeAware) parent).getVariableDefinitions();
+        final ScopeAware scope = ScopeAwareUtil.findParentScope(this);
+        if (scope != null) {
+            Map<String, SymbolDefinition> aux = scope.getVariableDefinitions();
             List<BodyDeclaration> children = getMembers();
             if (children != null) {
                 for (BodyDeclaration child : children) {

@@ -14,7 +14,6 @@
  */
 package org.walkmod.javalang.ast;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -253,38 +252,17 @@ public final class TypeParameter extends Node implements SymbolDefinition {
 
     @Override
     public Map<String, SymbolDefinition> getVariableDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null) {
-            return ((ScopeAware) parent).getVariableDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getVariableDefinitions(this);
     }
 
     @Override
     public Map<String, List<SymbolDefinition>> getMethodDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null) {
-            return ((ScopeAware) parent).getMethodDefinitions();
-        }
-        return new HashMap<String, List<SymbolDefinition>>();
+        return ScopeAwareUtil.getMethodDefinitions(this);
     }
 
     @Override
     public Map<String, SymbolDefinition> getTypeDefinitions() {
-        Node parent = getParentNode();
-        while (parent != null && parent instanceof ScopeAware) {
-            parent = parent.getParentNode();
-        }
-        if (parent != null) {
-            return ((ScopeAware) parent).getTypeDefinitions();
-        }
-        return new HashMap<String, SymbolDefinition>();
+        return ScopeAwareUtil.getTypeDefinitions(this);
     }
 
     @Override
