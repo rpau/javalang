@@ -26,7 +26,7 @@ public class AppendAction extends Action {
 
     private int endColumn = -1;
 
-    private int indentationLevel = 0;
+    private int textIndentationLevel = 0;
 
     private int indentationSize = 0;
 
@@ -36,27 +36,26 @@ public class AppendAction extends Action {
 
     private String text = null;
 
-    private int diff = 0;
+    private int positionIndentationLevel = 0;
 
     private int endLines = 0;
 
 
-    public AppendAction(int beginLine, int beginPosition, Node node, int level, int indentationSize) {
-        this(beginLine, beginPosition, node, level, indentationSize, 0);
+    public AppendAction(int beginLine, int beginPosition, Node node, int blockLevel, int indentationSize) {
+        this(beginLine, beginPosition, node, blockLevel, indentationSize, 0);
     }
 
-    public AppendAction(int beginLine, int beginPosition, Node node, int level, int indentationSize, int endLines) {
+    public AppendAction(int beginLine, int beginPosition, Node node, int blockLevel,
+                        int indentationSize, int endLines) {
         super(beginLine, beginPosition, ActionType.APPEND);
-
-        this.indentationLevel = level;
+        this.textIndentationLevel = blockLevel;
         this.indentationSize = indentationSize;
         this.node = node;
         this.beginPosition = beginPosition;
         this.endLines = endLines;
-        if (beginPosition > 1 && indentationSize > 0) {
-            diff = (beginPosition - 1) / indentationSize;
-            indentationLevel = indentationLevel - diff;
-        }
+
+        adjustTextIndentationLevelToNodeIndentation();
+
         getText("", indentationChar);
 
         String[] lines = text.split("\n");
@@ -68,6 +67,18 @@ public class AppendAction extends Action {
         }
     }
 
+    private void adjustTextIndentationLevelToNodeIndentation() {
+        if (beginPosition > 1 && indentationSize > 0) {
+            positionIndentationLevel = (beginPosition - 1) / indentationSize;
+
+            if (positionIndentationLevel <= textIndentationLevel) {
+                textIndentationLevel = textIndentationLevel - positionIndentationLevel;
+            } else {
+                textIndentationLevel = positionIndentationLevel;
+            }
+        }
+    }
+
     public int getEndLines() {
         return endLines;
     }
@@ -75,7 +86,7 @@ public class AppendAction extends Action {
     public String getText(String indentation, char indentationChar) {
 
         this.indentationChar = indentationChar;
-        text = node.getPrettySource(indentationChar, indentationLevel, indentationSize);
+        text = node.getPrettySource(indentationChar, textIndentationLevel, indentationSize);
 
         if (endLines > 0) {
             if (!text.endsWith("\n")) {
@@ -92,7 +103,7 @@ public class AppendAction extends Action {
             if (lines.length > 1) {
                 StringBuffer aux = new StringBuffer();
 
-                aux.append(FormatterHelper.indent(text, indentation, indentationChar, indentationLevel, indentationSize,
+                aux.append(FormatterHelper.indent(text, indentation, indentationChar, textIndentationLevel, indentationSize,
                         requiresExtraIndentationOnFirstLine(node)));
 
                 for (int i = 1; i < endLines; i++) {
@@ -106,7 +117,7 @@ public class AppendAction extends Action {
             } else {
                 StringBuffer extraString = new StringBuffer("");
 
-                for (int i = 0; i < diff * indentationSize; i++) {
+                for (int i = 0; i < positionIndentationLevel * indentationSize; i++) {
                     extraString.append(indentationChar);
                 }
                 text += extraString;
