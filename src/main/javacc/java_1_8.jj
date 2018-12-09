@@ -3043,7 +3043,7 @@ TryStmt TryStatement():
   			")"
   			 
   			catchBlock = Block()
-  			{ catchs = add(catchs, new CatchClause(cLine, cColumn, token.endLine, token.endColumn, exceptModifier.modifiers, exceptModifier.annotations, exceptTypes, exceptId, catchBlock)); exceptTypes = new LinkedList(); }
+  			{ catchs = add(catchs, new CatchClause(cLine, cColumn, token.endLine, token.endColumn, exceptModifier.modifiers, exceptModifier.annotations, exceptModifier.beginLine, exceptModifier.beginColumn, exceptTypes, exceptId, catchBlock)); exceptTypes = new LinkedList(); }
   		)*
   		[ "finally" finallyBlock = Block() ]
   	|
