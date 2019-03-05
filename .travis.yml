@@ -3,3 +3,9 @@ jdk:
   - oraclejdk8
 script:
   - mvn test
+env:
+  global:
+    - secure: DMYXwwHaehOhH9j1082yx3n9CCXgH6Vkm8Nb4A1zYGQNhz9q1d8VsJvjpVThYe6NAxjPKvyUakyXdxGjGELyO4eJ8k7emHEy9ngeQeqluzMnAuTL2IG+UUr4GBNg+13F28lVnsvmTjnDPN8KfVyNe/YqlQ0JWd+RJXjN53F7/AU=
+
+after_script:
+  - ./fixup.sh
