@@ -47,10 +47,10 @@ public final class CatchClause extends Node {
     }
 
     public CatchClause(final int beginLine, final int beginColumn, final int endLine, final int endColumn,
-            final int exceptModifier, final List<AnnotationExpr> exceptAnnotations, final List<Type> exceptTypes,
+            final int exceptModifier, final List<AnnotationExpr> exceptAnnotations, final int modifierBeginLine, final int modifierBeginColumn, final List<Type> exceptTypes,
             final VariableDeclaratorId exceptId, final BlockStmt catchBlock) {
         super(beginLine, beginColumn, endLine, endColumn);
-        setExcept(new MultiTypeParameter(beginLine, beginColumn, endLine, endColumn, exceptModifier, exceptAnnotations,
+        setExcept(new MultiTypeParameter((modifierBeginLine!=-1)?modifierBeginLine:exceptTypes.get(0).getBeginLine(), (modifierBeginColumn!=-1)?modifierBeginColumn:exceptTypes.get(0).getBeginColumn(), exceptId.getEndLine(), exceptId.getEndColumn(), exceptModifier, exceptAnnotations,
                 exceptTypes, exceptId));
         setCatchBlock(catchBlock);
     }

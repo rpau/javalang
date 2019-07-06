@@ -839,7 +839,7 @@ public class CloneVisitor implements GenericVisitor<Node, Object> {
         MultiTypeParameter except = cloneNodes(_n.getExcept(), _arg);
         BlockStmt catchBlock = cloneNodes(_n.getCatchBlock(), _arg);
         CatchClause r = new CatchClause(_n.getBeginLine(), _n.getBeginColumn(), _n.getEndLine(), _n.getEndColumn(),
-                except.getModifiers(), except.getAnnotations(), except.getTypes(), except.getId(), catchBlock);
+                except.getModifiers(), except.getAnnotations(), except.getBeginLine(), except.getBeginColumn(), except.getTypes(), except.getId(), catchBlock);
         return r;
     }
 
