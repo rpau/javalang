@@ -11,7 +11,7 @@ jobs:
   build:
     steps:
       - name: Say hello
-        uses: docker://golang:1.20.3-alpine3.17
+        uses: docker://maven:3.9.5-eclipse-temurin-11
         shell: sh
         run: |
-          echo "hello world"
+          mvn test
