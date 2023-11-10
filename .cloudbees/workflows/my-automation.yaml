@@ -10,7 +10,8 @@ on:
 jobs:
   build:
     steps:
-      - name: Say hello
+      - uses: cloudbees-io/checkout@v1
+      - name: mvn test
         uses: docker://maven:3.9.5-eclipse-temurin-11
         shell: sh
         run: |
