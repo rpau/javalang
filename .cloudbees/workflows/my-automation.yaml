@@ -16,3 +16,5 @@ jobs:
         shell: sh
         run: |
           mvn test
+      - name: Scan with SonarQube bundled action
+        uses: cloudbees-io/sonarqube-bundled-sast-scan-code@v1
